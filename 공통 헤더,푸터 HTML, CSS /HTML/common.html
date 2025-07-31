@@ -1,0 +1,60 @@
+<body>
+  <div class="wrapper">
+    <!-- 헤더 배너 -->
+    <header>
+      <div class="logo">
+        <a href="#"><img src="LastPage로고_투명.png" alt="로고" /></a>
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <a href="#">홈</a>
+            <ul>
+              <li><a href="#">인사말</a></li>
+              <li><a href="#">주요 서비스 소개</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">서비스 안내</a>
+            <ul>
+              <li><a href="#">장례 절차</a></li>
+              <li><a href="#">장례 비용</a></li>
+            </ul>
+          </li>
+          <li><a href="#">장례 예약</a></li>
+          <li><a href="#">추모공간</a></li>
+          <li>
+            <a href="#">심리 상담</a>
+            <ul>
+              <li><a href="#">상담 예약</a></li>
+              <li><a href="#">예약 조회</a></li>
+              <li><a href="#">예약 수정</a></li>
+            </ul>
+          </li>
+          <li><a href="#">마이페이지</a></li>
+          <li><a href="#">고객센터</a></li>
+        </ul>
+      </nav>
+      <!-- 로그인/회원가입 -->
+      <div class="auth">
+        <a href="#">로그인</a>
+        <a href="#">회원가입</a>
+      </div>
+    </header>
+
+<!-- 헤더 및 메인컨텐츠 영역(페이지마다 각자 구현하는 곳 입니다. 자유롭게 활용하기!!)-->
+    
+
+  <script>
+    (function() {
+      const header = document.querySelector('header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 200) {
+          header.style.top = '-120px';
+        } else {
+          header.style.top = '0';
+        }
+      });
+    })();
+  </script>
+</body>
