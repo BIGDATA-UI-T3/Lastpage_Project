@@ -1,3 +1,4 @@
+<!-- 헤더 -->
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -9,6 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
+    
 
   <title>반려동물 장례식장</title>
 
@@ -22,17 +24,19 @@
     }
 
     body {
+      position: relative;
       margin: 0;
     }
 
-    .wrapper {
+
+    /* 헤더 */
+
+    .header-wrapper {
       width: 100%;
       margin: 0 auto;
       padding-top: 120px;
-      /* fixed header 높이만큼 여백 */
     }
 
-    /* 헤더 배너: 스크롤 시 토글 */
     header {
       position: fixed;
       top: 0;
@@ -48,23 +52,22 @@
       z-index: 1000;
     }
 
-    /* 로고 위치 */
     .logo img {
       width: 60px;
       height: 60px;
-      background: transparent;
       display: block;
     }
 
-    /* 네비게이션 */
     nav {
       margin: 0 auto;
+      margin-bottom: 0;
     }
 
     nav ul {
       list-style: none;
       display: flex;
       gap: 30px;
+      margin-bottom: 0 ;
     }
 
     nav ul li {
@@ -78,8 +81,11 @@
       padding: 8px;
       display: inline-block;
     }
+    a:hover {
+      color: #fff;
+    }
 
-    /* 드롭다운 메뉴*/
+    /* 드롭다운 */
     nav ul li>ul {
       display: none;
       position: absolute;
@@ -87,11 +93,10 @@
       left: 50%;
       transform: translateX(-50%);
       background: #3f4f44;
-
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
       list-style: none;
       padding: 10px 0;
-      min-width: 150px;
+      min-width: 100px;
       z-index: 12;
     }
 
@@ -109,10 +114,8 @@
 
     nav ul li>ul li>a:hover {
       color: #a2725c;
-      text-align: center;
     }
 
-    /* 로그인, 회원ㄱ아비*/
     .auth {
       display: flex;
       gap: 15px;
@@ -123,6 +126,8 @@
       text-decoration: none;
       padding: 8px;
     }
+
+    
 
     /* 슬라이더 */
     #slider {
@@ -156,8 +161,6 @@
       animation-delay: 8s;
     }
 
-    
-
     @keyframes fade {
 
       0%,
@@ -171,34 +174,68 @@
       }
     }
 
-    /* 메인 컨텐츠 영역 */
-    .main-content {
-      width: 100%;
-      min-height: 1000px;
-      background-color: #dcd7c9;
-      margin-top: 20px;
-      padding: 20px;
+    /* 메인 */
+
+    main-wrapper {
+      margin-top: 120px;
     }
 
-    #Funeral-wrapper {
-      border: 1px solid orange;
-      min-height: 300px;
-      width: 100%;
-      margin-bottom: 10px;
+    section {
+      height: 700px;
+      padding: 50px;
+      font-size: 24px;
+      border-bottom: 1px solid #ccc;
+
+
     }
 
-    #Psy-counsel-wrapper {
-      border: 1px solid red;
-      min-height: 300px;
-      width: 100%;
-      margin-bottom: 10px;
+
+
+    /* 메인컨텐츠를 스파이하는 사이드 배너 */
+    #list-example {
+      position: fixed;
+      top: 40%;
+      right: 20px;
+      transform: translateY(-50%);
+      z-index: 3;
+      width: 120px;
+      background-color: #2C3930;
+
+
     }
 
-    #Goods-wrapper {
-      border: 1px solid blue;
-      min-height: 300px;
-      width: 100%;
-      margin-bottom: 10px;
+    .list-group-item {
+      position: relative;
+      display: block;
+      padding: .5rem 1rem;
+      color: #212529;
+      text-decoration: none;
+      background-color: #fff;
+      border: 1px solid rgba(0, 0, 0, .125);
+    }
+
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #2C3930;
+    }
+
+    .list-group-item.active {
+      z-index: 2;
+      color: #fff;
+      background-color: #2C3930;
+      border-color: #2C3930;
+    }
+
+    .list-group-item-action:focus,
+    .list-group-item-action:hover {
+
+      z-index: 2;
+      color: #fff;
+      background-color: #2C3930;
+      border-color: #2C3930;
     }
 
     /* 푸터 */
@@ -214,40 +251,30 @@
     @media (max-width : 968px) {
       header {
         justify-content: center;
+      }
 
-        nav,
-        .auth {
-          display: none;
-        }
+      nav,
+      .auth {
+        display: none;
       }
     }
   </style>
 </head>
 
-<body>
+<body data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="100" tabindex="0">
 
-
-
-
-
+  <!-- 사이드 ScrollSpy 배너 -->
   <div id="list-example" class="list-group">
     <a class="list-group-item list-group-item-action" href="#Funeral-wrapper">추모공간</a>
     <a class="list-group-item list-group-item-action" href="#Psy-counsel-wrapper">심리치료</a>
     <a class="list-group-item list-group-item-action" href="#Goods-wrapper">추모물품</a>
-    
   </div>
 
-
-
-
-
-
-
-  <div class="wrapper">
-    <!-- 헤더 배너 -->
+  <div class="header-wrapper">
+    <!-- 헤더 -->
     <header>
       <div class="logo">
-        <a href="#"><img src="../Asset/LastPage로고_투명.png" alt="로고" /></a>
+        <a href="#"><img src="../../공통 헤더,푸터 HTML, CSS /Asset(사진, 동영상 소스)/LastPage로고_투명.png" alt="로고" /></a>
       </div>
       <nav>
         <ul>
@@ -279,14 +306,13 @@
           <li><a href="#">고객센터</a></li>
         </ul>
       </nav>
-      <!-- 로그인/회원가입 -->
       <div class="auth">
         <a href="#">로그인</a>
         <a href="#">회원가입</a>
       </div>
     </header>
 
-    <!-- 슬라이더 배너 -->
+    <!-- 슬라이더 -->
     <section id="slider">
       <div class="slides">
         <img src="../Asset/금동1.jpg" alt="슬라이드1" />
@@ -295,28 +321,21 @@
       </div>
     </section>
 
-    <!-- 메인 컨텐츠 영역 -->
-    <div class="main-content">
-     
-       
+    <!-- 메인 컨텐츠 -->
 
-          <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example"
-            tabindex="0">
-            <div id="Funeral-wrapper">추모공간</div>
-           
-            <div id="Psy-counsel-wrapper">심리치료</div>
-          
-            <div id="Goods-wrapper">추모물품</div>
-       
 
-          </div>
-        </div>
-      
+    <div class="main-wrapper">
+      <!-- ScrollSpy 감지 대상 섹션들 -->
+      <section id="Funeral-wrapper">추모공간 내용</section>
+      <section id="Psy-counsel-wrapper">심리치료 내용</section>
+      <section id="Goods-wrapper">추모물품 내용</section>
+
+
     </div>
 
-    <!-- 푸터 영역 -->
+    <!-- 푸터 -->
     <footer>
-      대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응하는지 볼려고 임의로 높게 잡아둠. 나중에 고치면 됩니다.
+      대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
     </footer>
   </div>
 
@@ -331,6 +350,14 @@
         }
       });
     })();
+
+    // ScrollSpy 강제 초기화
+    document.addEventListener("DOMContentLoaded", function () {
+      new bootstrap.ScrollSpy(document.body, {
+        target: '#list-example',
+        offset: 100
+      });
+    });
   </script>
 </body>
 
