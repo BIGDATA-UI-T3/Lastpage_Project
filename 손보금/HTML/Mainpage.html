@@ -49,7 +49,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      
+
       transition: top 0.3s ease;
       z-index: 1000;
     }
@@ -105,31 +105,33 @@
       min-width: 110px;
       z-index: 12;
       text-align: center;
-     
- 
-  
-      
+
+
+
+
     }
 
     nav ul li:hover>ul {
-       display: block;
- 
-      
-      
+      display: block;
+
+
+
     }
 
     nav ul li>ul li>a {
       color: #dcd7c9;
       text-decoration: none;
-     
+
       padding: 8px 15px;
-      
-      
-      display: block;        /* 블록 레벨로 만들어 가로 전체를 클릭 가능 영역으로 */
-  width: 100%;           /* li 너비만큼 꽉 채움 */
-  text-align: center;
-     
-      
+
+
+      display: block;
+      /* 블록 레벨로 만들어 가로 전체를 클릭 가능 영역으로 */
+      width: 100%;
+      /* li 너비만큼 꽉 채움 */
+      text-align: center;
+
+
     }
 
 
@@ -144,7 +146,7 @@
       color: #dcd7c9;
       text-decoration: none;
       padding: 8px;
-     
+
     }
 
     .auth a:hover {
@@ -160,15 +162,15 @@
       height: 500px;
       overflow: hidden;
       position: relative;
-     padding-top: 20px;
-     padding-bottom: 20px;
-     
+      padding-top: 20px;
+      padding-bottom: 20px;
+
     }
 
     #slider .slides img {
-     
-    position: absolute;
-     
+
+      position: absolute;
+
       width: 50%;
       height: 100%;
       top: 0;
@@ -177,24 +179,24 @@
       opacity: 0;
       animation: fade 13s infinite;
       border-radius: 10px !important;
-      
+
     }
 
     #slider .slides img:nth-child(1) {
       animation-delay: 0s;
-      
-      
-      
+
+
+
     }
 
     #slider .slides img:nth-child(2) {
       animation-delay: 4s;
-     
+
     }
 
     #slider .slides img:nth-child(3) {
       animation-delay: 8s;
-      
+
     }
 
     @keyframes fade {
@@ -214,17 +216,22 @@
 
     /* 메인컨텐츠*/
 
-    main-wrapper {
-      border: 1px solid;
-      margin-top: 120px;
-      background-color: #a27b5c;
+    .main-wrapper {
+
+      margin-top: 50px;
+
+
+
+
     }
 
-    section {
-      height: 700px;
+    .main-wrapper section {
+      display: flex;
+      height: 450px;
       padding: 50px;
       font-size: 24px;
-      
+      flex-direction: column;
+
     }
 
     /* 메인컨텐츠를 스파이하는 사이드 배너 */
@@ -272,53 +279,78 @@
       border-color: #2C3930;
     }
 
-    .Funeral-contents {
+    .Funeral-contents,
+    .Psy-counsel-contents,
+    .Goods-contents {
+      width: 100%;
       border-radius: 10px;
-      height: 500px;
+      height: 350px;
       margin-top: 10px;
       margin-bottom: 10px;
-     background-color: #fff;
+      background-color: #fff;
+      display: flex;
+
+    }
+
+    .Funeral-contents img,
+    .Psy-counsel-contents img,
+    .Goods-contents img {
+      display: flex;
+      justify-items: center;
+      border-radius: 10px;
+      padding: 20px 20px;
+
     }
 
     .Funeral-title {
+      display: flex;
+      flex-direction: row;
       border: 2px solid black;
       text-align: center;
       background-color: #fff;
-      
-     
+
+
 
     }
 
+    .Funeral-text {
+      flex: 2;
+      /* 남은 공간 모두 채우기 */
+      border-left: 1px solid #ccc;
+      padding-left: 20px;
+      color: #333;
+    }
+
     .Psy-counsel-contents {
-      
-       height: 300px;
-       margin-top: 10px;
-       margin-bottom: 10px;
-       background-color: #fff;
-      
+
+      height: 300px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      background-color: #fff;
+
     }
 
     .Psy-counsel-title {
       border: 2px solid black;
       text-align: center;
       background-color: #fff;
-      
+
     }
 
     .Goods-contents {
-      
-       height: 300px;
-       margin-top: 10px;
-       margin-bottom: 10px;
-       background-color: #fff;
-       
+
+      height: 300px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      background-color: #fff;
+
     }
 
     .Goods-title {
       border: 2px solid black;
       text-align: center;
       background-color: #fff;
-      
+
     }
 
     /*메인컨텐츠*/
@@ -344,10 +376,10 @@
       .auth {
         display: none;
       }
-     
-    
-     
-  
+
+
+
+
     }
 
     /* 968px 밑 반응형 영역*/
@@ -375,24 +407,23 @@
             <a href="#">홈</a>
             <ul>
               <li><a href="#">인사말</a></li>
-              <li><a href="#">주요 서비스 소개</a></li>
+              <li><a href="#">주요서비스소개</a></li>
             </ul>
           </li>
           <li>
-            <a href="#">서비스 안내</a>
+            <a href="#">서비스안내</a>
             <ul>
-              <li><a href="#">장례 절차</a></li>
-              <li><a href="#">장례 비용</a></li>
+              <li><a href="#">장례서비스</a></li>
+              <li><a href="#">추모물품<br />제작</a></li>
             </ul>
           </li>
-          <li><a href="#">장례 예약</a></li>
+          <li><a href="#">장례예약</a></li>
           <li><a href="#">추모공간</a></li>
           <li>
-            <a href="#">심리 상담</a>
+            <a href="#">심리상담</a>
             <ul>
-              <li><a href="#">상담 예약</a></li>
-              <li><a href="#">예약 조회</a></li>
-              <li><a href="#">예약 수정</a></li>
+              <li><a href="#">상담예약</a></li>
+              <li><a href="#">예약조회</a></li>
             </ul>
           </li>
           <li><a href="#">마이페이지</a></li>
@@ -421,15 +452,34 @@
       <!-- ScrollSpy 감지 대상 섹션들 -->
       <section id="Funeral-wrapper">
         <div class="Funeral-title">추모공간 title</div>
-        <div class="Funeral-contents">추모공간 contents</div>
+
+        <div class="Funeral-contents">
+          <img src="../Asset/장례지도이미지1.jpg" alt="추모공간메인사진" />
+          <div class="Funeral-text">
+            <p>여기에 첫 번째 단락의 글을 작성합니다. 추모공간에 대한 설명이나 안내를 적어 보세요.</p>
+            <p>두 번째 단락도 이렇게 추가할 수 있습니다. 원하는 만큼 단락을 나누면 됩니다.</p>
+          </div>
+        </div>
       </section>
       <section id="Psy-counsel-wrapper">
         <div class="Psy-counsel-title">심리치료공간 title</div>
-        <div class="Psy-counsel-contents">심리치료공간 contents</div>
+        <div class="Psy-counsel-contents">
+          <img src="../Asset/펫로스증후군2.png" alt="펫로스증후군사진" />
+          <div class="Psy-counsel-text">
+            <p>여기에 첫 번째 단락의 글을 작성합니다. 추모공간에 대한 설명이나 안내를 적어 보세요.</p>
+            <p>두 번째 단락도 이렇게 추가할 수 있습니다. 원하는 만큼 단락을 나누면 됩니다.</p>
+          </div>
+        </div>
       </section>
       <section id="Goods-wrapper">
         <div class="Goods-title">굿즈공간 title</div>
-        <div class="Goods-contents">굿즈공간 contents</div>
+        <div class="Goods-contents">
+          <img src="../Asset/털보관함사진1.webp" alt="털보관함사진" />
+          <div class="Goods-text">
+            <p>여기에 첫 번째 단락의 글을 작성합니다. 추모공간에 대한 설명이나 안내를 적어 보세요.</p>
+            <p>두 번째 단락도 이렇게 추가할 수 있습니다. 원하는 만큼 단락을 나누면 됩니다.</p>
+          </div>
+        </div>
       </section>
 
 
