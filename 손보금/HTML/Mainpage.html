@@ -157,17 +157,22 @@
 
 
     /* 슬라이더 */
-    #slider {
+   
+
+    /* 1) #slider 영역 고정 높이 & overflow 유지 */
+     #slider {
       width: 100%;
       height: 500px;
       overflow: hidden;
       position: relative;
       padding-top: 20px;
       padding-bottom: 20px;
+      object-fit: cover;
 
     }
 
-    #slider .slides img {
+    
+#slider .slides img {
 
       position: absolute;
 
@@ -180,9 +185,10 @@
       animation: fade 13s infinite;
       border-radius: 10px !important;
 
+
     }
 
-    #slider .slides img:nth-child(1) {
+#slider .slides img:nth-child(1) {
       animation-delay: 0s;
 
 
@@ -199,6 +205,14 @@
 
     }
 
+   
+    
+
+
+
+
+
+
     @keyframes fade {
 
       0%,
@@ -211,6 +225,7 @@
         opacity: 0;
       }
     }
+
 
     /* 슬라이더*/
 
@@ -299,31 +314,38 @@
       justify-items: center;
       border-radius: 10px;
       padding: 20px 20px;
+      filter: brightness(60%);
 
     }
 
     .Funeral-title {
-      display: flex;
-      flex-direction: row;
-      border: 2px solid black;
+      border-radius: 10px;
       text-align: center;
       background-color: #fff;
-
-
-
     }
 
     .Funeral-text {
       flex: 2;
       /* 남은 공간 모두 채우기 */
-      border-left: 1px solid #ccc;
+     
       padding-left: 20px;
       color: #333;
+      font-size: 20px;
+    }
+
+    #Psy-counsel-wrapper .Psy-counsel-contents {
+      display: flex;
+      flex-direction: row-reverse;
+      /* 이미지 → 텍스트 순서를 역전 */
+      align-items: flex-start;
+      /* 텍스트와 이미지 상단을 맞춤 */
+      gap: 20px;
+      /* 요소 간 간격 */
     }
 
     .Psy-counsel-contents {
 
-      height: 300px;
+      height: 350px;
       margin-top: 10px;
       margin-bottom: 10px;
       background-color: #fff;
@@ -331,15 +353,26 @@
     }
 
     .Psy-counsel-title {
-      border: 2px solid black;
+      border-radius: 10px;
       text-align: center;
       background-color: #fff;
 
     }
 
+    #Psy-counsel-wrapper .Psy-counsel-contents img,
+    #Goods-wrapper .Goods-contents img {
+      flex: 0 0 auto;
+      width: 500px;
+      /* 원하는 너비로 변경 */
+      height: 100%;
+      border-radius: 10px;
+      
+
+    }
+
     .Goods-contents {
 
-      height: 300px;
+      height: 350px;
       margin-top: 10px;
       margin-bottom: 10px;
       background-color: #fff;
@@ -347,7 +380,7 @@
     }
 
     .Goods-title {
-      border: 2px solid black;
+      border-radius: 10px;
       text-align: center;
       background-color: #fff;
 
@@ -358,7 +391,7 @@
     /* 푸터 */
     footer {
       width: 100%;
-      height: 900px;
+      height: 200px;
       background-color: #2C3930;
       margin-top: 20px;
       padding: 20px;
@@ -437,13 +470,16 @@
     </header>
 
     <!-- 슬라이더 -->
-    <section id="slider">
+     <section id="slider">
       <div class="slides">
         <img src="../Asset/추모배너이미지4.webp" alt="슬라이드1" />
         <img src="../Asset/추모배너이미지5.webp" alt="슬라이드2" />
         <img src="../Asset/추모배너이미지6.jpg" alt="슬라이드3" />
       </div>
     </section>
+
+    
+
 
     <!-- 메인 컨텐츠 -->
 
@@ -456,8 +492,8 @@
         <div class="Funeral-contents">
           <img src="../Asset/장례지도이미지1.jpg" alt="추모공간메인사진" />
           <div class="Funeral-text">
-            <p>여기에 첫 번째 단락의 글을 작성합니다. 추모공간에 대한 설명이나 안내를 적어 보세요.</p>
-            <p>두 번째 단락도 이렇게 추가할 수 있습니다. 원하는 만큼 단락을 나누면 됩니다.</p>
+            <p></p>
+            <p></p>
           </div>
         </div>
       </section>
@@ -466,8 +502,8 @@
         <div class="Psy-counsel-contents">
           <img src="../Asset/펫로스증후군2.png" alt="펫로스증후군사진" />
           <div class="Psy-counsel-text">
-            <p>여기에 첫 번째 단락의 글을 작성합니다. 추모공간에 대한 설명이나 안내를 적어 보세요.</p>
-            <p>두 번째 단락도 이렇게 추가할 수 있습니다. 원하는 만큼 단락을 나누면 됩니다.</p>
+            <p></p>
+            <p></p>
           </div>
         </div>
       </section>
@@ -476,8 +512,8 @@
         <div class="Goods-contents">
           <img src="../Asset/털보관함사진1.webp" alt="털보관함사진" />
           <div class="Goods-text">
-            <p>여기에 첫 번째 단락의 글을 작성합니다. 추모공간에 대한 설명이나 안내를 적어 보세요.</p>
-            <p>두 번째 단락도 이렇게 추가할 수 있습니다. 원하는 만큼 단락을 나누면 됩니다.</p>
+            <p></p>
+            <p></p>
           </div>
         </div>
       </section>
