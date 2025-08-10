@@ -1,0 +1,83 @@
+/* 기본 색상 설정 */
+:root {
+  --green-dark: #2C3930;
+  --green: #3F4F44;
+  --brown: #A27B5C;
+  --beige: #DCD7C9;
+  --text: #fdfdfd;
+}
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: var(--green-dark);
+  color: var(--text);
+}
+
+.hero {
+  padding: 60px 20px;
+  text-align: center;
+  background-color: var(--green);
+}
+
+.hero h1 {
+  font-size: 1.8rem;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.services {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--green);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.card-content h2 {
+  color: var(--beige);
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.card-content p {
+  line-height: 1.6;
+  color: #e8e8e8;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 18px;
+  background-color: var(--brown);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #8b654c;
+}
