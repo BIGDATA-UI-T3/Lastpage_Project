@@ -1,3 +1,5 @@
+ /* 손보금 작업물*/
+ 
  :root{
     --bg:#f7f3ea;
     --card:#ffffff;
@@ -15,7 +17,7 @@
     color:var(--text);
   }
   .wrap{
-    min-height:100svh; display:grid; place-items:center; padding:32px 16px;
+    min-height:80svh; display:grid; place-items:center; padding:32px 16px;
   }
   .card{
     width:min(720px, 92vw);

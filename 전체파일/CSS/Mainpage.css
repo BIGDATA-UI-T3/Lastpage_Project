@@ -1,67 +1,45 @@
 /* 슬라이더 */
+#slider{
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  padding: 20px 0;
+}
    
 
     /* 1) #slider 영역 고정 높이 & overflow 유지 */
-     #slider {
-      display: flex;
-      width: 100%;
-      height: 500px;
-      overflow: hidden;
-      position: relative;
-      padding-top: 20px;
-      padding-bottom: 20px;
-      object-fit: cover;
-
-    }
-
-    
-#slider .slides img {
-
-      display:flex;
-position: relative;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 25%;
-      object-fit: cover;
-      opacity: 0;
-      animation: fade 13s infinite;
-      border-radius: 10px !important;
-
-
-    }
-
-#slider .slides img:nth-child(1) {
-      animation-delay: 0s;
-
-
-
-    }
-
-    #slider .slides img:nth-child(2) {
-      animation-delay: 4s;
-
-    }
-
-    #slider .slides img:nth-child(3) {
-      animation-delay: 8s;
-
-    }
-
+    #slider .slides{
+  position: relative;
+  width: 100%;
+  height: 100%;
   
+}
 
-    @keyframes fade {
+#slider .slides img{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  animation: fade 12s linear infinite;
+  will-change: opacity;
+     
+  pointer-events: none;          
+}
 
-      0%,
-      33% {
-        opacity: 1;
-      }
 
-      45%,
-      100% {
-        opacity: 0;
-      }
-    }
+#slider .slides img:nth-child(1){ animation-delay: 0s; }
+#slider .slides img:nth-child(2){ animation-delay: 4s; }
+#slider .slides img:nth-child(3){ animation-delay: 8s; }
+
+
+@keyframes fade{
+  0%   { opacity: 0; }
+  6%   { opacity: 1; }  /* 짧게 페이드 인 */
+  30%  { opacity: 1; }  /* 머무름 */
+  36%  { opacity: 0; }  /* 페이드 아웃 */
+  100% { opacity: 0; }
+}
 
     .service-section {
       padding: 100px 20px;
@@ -87,7 +65,7 @@ position: relative;
     }
 
     .service-card img {
-      width: 70%;
+      width: 75%;
       height: 450px;
       margin-bottom: 20px;
     }
@@ -112,7 +90,7 @@ position: relative;
     .service-card a.btn:hover{
       background-color: #fff;
       color: #A27b5c;
-      border: 1px solid #fff;
+      border: 1px solid #A27b5c;
     }
     .btn-outline-dark{
         --bs-btn-color: #A27b5c  !important;
