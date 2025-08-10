@@ -3,6 +3,7 @@
 
     /* 1) #slider 영역 고정 높이 & overflow 유지 */
      #slider {
+      display: flex;
       width: 100%;
       height: 500px;
       overflow: hidden;
@@ -16,9 +17,9 @@
     
 #slider .slides img {
 
-      position: absolute;
-
-      width: 50%;
+      display:flex;
+position: relative;
+      width: 100%;
       height: 100%;
       top: 0;
       left: 25%;
@@ -47,13 +48,7 @@
 
     }
 
-   
-    
-
-
-
-
-
+  
 
     @keyframes fade {
 
@@ -72,7 +67,7 @@
       padding: 100px 20px;
       max-width: 1000px;
       margin: 0 auto;
-      background-color: #f4f2ed;
+     
     }
 
     .service-section h2 {
@@ -109,8 +104,16 @@
 
     .service-card a.btn {
       margin-top: 15px;
+       background-color: #A27b5c;
+      color: #fff;
+      border: 1px solid #A27b5c;
     }
 
+    .service-card a.btn:hover{
+      background-color: #fff;
+      color: #A27b5c;
+      border: 1px solid #fff;
+    }
     .btn-outline-dark{
         --bs-btn-color: #A27b5c  !important;
         --bs-btn-border-color: #A27b5c  !important;
