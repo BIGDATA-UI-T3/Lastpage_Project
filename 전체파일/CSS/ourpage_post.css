@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&display=swap');
+
+:root {
+    --primary-color: #8D9B6A;
+    --secondary-color: #f6f1e7;
+    --text-color: #3C4043;
+    --light-gray: #EAEAEA;
+    --white: #FFFFFF;
+    --font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* 배너 */
+.banner {
+    background-image: var(--banner-url);
+    background-size: cover;
+    background-position: center;
+
+    min-height: 48svh;
+    display: grid;
+    place-items: center;
+    position: relative;
+    isolation: isolate;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.post-sum {
+    padding: 40px 20px;
+    border-bottom: 1px solid var(--light-gray);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-sum h1 {
+    font-size: 2em;
+    color: var(--primary-color);
+    font-weight: 500;
+    margin: 0;
+}
+
+.back-link {
+    font-size: 1em;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.memorial-form {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid var(--light-gray);
+    border-radius: 8px;
+    font-family: var(--font-family);
+    font-size: 1em;
+    resize: vertical;
+    min-height: 150px;
+    box-sizing: border-box;
+}
+
+.form-group input[type="file"] {
+    display: none;
+}
+
+.file-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+}
+
+.file-label:hover {
+    background-color: #dcdcdc;
+}
+
+#file-name {
+    margin-left: 10px;
+    font-style: italic;
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #7a8a5a;
+}
