@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../CSS/common.css">
+    <link rel="stylesheet" href="../CSS/lastpage.css">
+    <title>반려동물 추모 공간</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Nanum+Myeongjo:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="bg-gray-200 flex items-center justify-center min-h-screen p-4">
+    
+    <!-- 공통 헤더 -->
+    <!-- <div class="header-wrapper">
+        <header>
+            <div class="logo">
+                <a href="#"><img src="../Asset/LastPage로고_투명.png" alt="로고" /></a>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#">홈</a>
+                        <ul>
+                            <li><a href="#">인사말</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#">장례서비스</a></li>
+                    <li><a href="#">Ourpage</a></li>
+                    <li>
+                        <a href="#">심리상담</a>
+                        <ul>
+                            <li><a href="#">상담예약</a></li>
+                            <li><a href="#">예약조회</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#">추모굿즈</a>
+                        <ul>
+                            <li><a href="#">굿즈소개</a></li>
+                            <li><a href="#">굿즈예약</a></li>
+                            <li><a href="#">예약조회</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">마이페이지</a></li>
+                    <li><a href="#">고객센터</a></li>
+                </ul>
+            </nav>
+            <div class="auth">
+                <a href="#">로그인</a>
+                <a href="#">회원가입</a>
+            </div>
+        </header>
+    </div> -->
+
+    <!-- 배너 -->
+    <!-- <section class="banner" role="img" aria-label="따뜻한 펫로스 심리상담 배너 이미지">
+        <div class="inner">
+            <h1>같은 마음, 같은 기억을 나누는 공간</h1>
+            <p>반려동물과의 마지막 여정을 함께 기억합니다.</p>
+        </div>
+    </section> -->
+
+    <div id="overlay"></div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 p-2 rounded-lg bg-black bg-opacity-10 shadow-inner w-full max-w-6xl">
+        <!-- JavaScript로 동적으로 생성 -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gridContainer = document.querySelector('.grid');
+            const overlay = document.getElementById('overlay');
+            let activeClone = null;
+            let originalItem = null;
+            let isAnimating = false;
+
+            const totalItems = 15;
+            const itemData = [
+                { name: '초코', message: '우리 집 귀염둥이, 별이 되어 반짝여줘.', date: '2010.05.01 ~ 2024.03.15', isOccupied: true, photoSrc: 'https://placehold.co/300x400/d2b48c/ffffff?text=CHOCO' },
+                { name: '나비', message: '따뜻한 햇살 같던 너를 기억해.', date: '2018.07.20 ~ 2023.12.10', isOccupied: true, photoSrc: null },
+                { name: '해피', message: '너와 함께한 모든 날이 행복했어.', date: '2012.01.11 ~ 2024.01.02', isOccupied: true, photoSrc: 'https://placehold.co/300x400/a9a9a9/ffffff?text=HAPPY' },
+                { isOccupied: false },
+                { name: '코코', message: '세상에서 가장 용감했던 작은 천사', date: '2020.02.02 ~ 2024.04.01', isOccupied: true, photoSrc: null },
+                { isOccupied: false },
+                { isOccupied: false },
+            ];
+
+            function expandItem(item) {
+                if (isAnimating) return;
+                isAnimating = true;
+
+                originalItem = item;
+                const rect = item.getBoundingClientRect();
+                
+                activeClone = item.cloneNode(true);
+                activeClone.classList.add('expanded-clone');
+                document.body.appendChild(activeClone);
+
+                activeClone.style.position = 'fixed';
+                activeClone.style.left = `${rect.left}px`;
+                activeClone.style.top = `${rect.top}px`;
+                activeClone.style.width = `${rect.width}px`;
+                activeClone.style.height = `${rect.height}px`;
+
+                originalItem.classList.add('is-expanding');
+                overlay.classList.add('active');
+
+                requestAnimationFrame(() => {
+                    activeClone.style.transform = `translate(-50%, -50%)`;
+                    activeClone.style.left = `50%`;
+                    activeClone.style.top = `50%`;
+                    activeClone.style.width = `90vw`;
+                    activeClone.style.maxWidth = `500px`;
+                    activeClone.style.height = `80vh`;
+                    activeClone.style.maxHeight = `650px`;
+                });
+                
+                activeClone.addEventListener('transitionend', () => { isAnimating = false; }, { once: true });
+
+                activeClone.querySelector('.close-btn').onclick = (e) => {
+                    e.stopPropagation();
+                    collapseItem();
+                };
+            }
+
+            function collapseItem() {
+                if (isAnimating) return;
+                isAnimating = true;
+
+                const rect = originalItem.getBoundingClientRect();
+                
+                activeClone.style.left = `${rect.left}px`;
+                activeClone.style.top = `${rect.top}px`;
+                activeClone.style.width = `${rect.width}px`;
+                activeClone.style.height = `${rect.height}px`;
+                activeClone.style.transform = 'none';
+
+                overlay.classList.remove('active');
+
+                activeClone.addEventListener('transitionend', (e) => {
+                    if (e.propertyName !== 'transform') return;
+                    activeClone.remove();
+                    originalItem.classList.remove('is-expanding');
+                    activeClone = null;
+                    originalItem = null;
+                    isAnimating = false;
+                }, { once: true });
+            }
+
+            for (let i = 0; i < totalItems; i++) {
+                const item = document.createElement('div');
+                item.className = 'grid-item aspect-square';
+                const data = itemData[i] || { isOccupied: false };
+                
+                const glassDoor = document.createElement('div');
+                glassDoor.className = 'glass-door';
+                glassDoor.innerHTML = `<div class="door-handle"></div>`;
+
+                const itemContentPreview = document.createElement('div');
+                itemContentPreview.className = 'item-content-preview';
+
+                const expandedContent = document.createElement('div');
+                expandedContent.className = 'expanded-content';
+                
+                const closeBtn = document.createElement('div');
+                closeBtn.className = 'close-btn';
+                closeBtn.innerHTML = '&times;';
+
+                if (data.isOccupied) {
+                    item.appendChild(Object.assign(document.createElement('span'), { className: 'flower-indicator', textContent: '💮' }));
+                    itemContentPreview.innerHTML = `<div class="w-full h-full flex items-end justify-around opacity-70"><div class="urn-preview"></div><div class="photo-frame-preview"></div></div>`;
+                    expandedContent.innerHTML = `
+                        <div class="top-details">
+                            <h2 class="text-3xl font-bold mb-2 font-nanum flex items-center justify-center gap-2">
+                                <span>${data.name}</span>
+                                <span class="text-2xl" style="line-height: 1;">💮</span>
+                            </h2>
+                            <p class="text-gray-600 mb-2 text-sm">"${data.message}"</p>
+                            <p class="text-xs text-gray-500">${data.date}</p>
+                        </div>
+                        <div class="scene-container">
+                            <div class="scene-background">
+                                <div class="urn"></div>
+                                <div class="photo-frame">
+                                    <div class="photo-display">
+                                        <img class="photo-img ${data.photoSrc ? '' : 'hidden'}" src="${data.photoSrc || ''}" alt="${data.name}의 사진">
+                                        <label class="photo-upload-label ${data.photoSrc ? 'hidden' : 'flex'}">
+                                            <input type="file" accept="image/*" class="hidden photo-input">
+                                            <span>🖼️</span>
+                                            <span>대표 사진 설정하기</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="goods-selector">
+                                <div class="goods-item" title="털실 굿즈"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-7.5 16.5M12 22a10 10 0 0 0 7.5-16.5M2 12h20M12 2a14 14 0 0 0-4 2.5M12 22a14 14 0 0 1 4-2.5M12 2a14 14 0 0 1 4 2.5M12 22a14 14 0 0 0-4-2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                                <div class="goods-item" title="반지 굿즈"><svg viewBox="0 0 24 24"><path d="M12 21a9 9 0 0 0-9-9 9 9 0 0 0 9-9 9 9 0 0 0 9 9 9 9 0 0 0-9 9zM10.5 8.5l3 3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                                <div class="goods-item" title="목걸이 굿즈"><svg viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7V9a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h1M12 22a7 7 0 0 1-7-7V9a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="16" r="3"></circle></svg></div>
+                            </div>
+                        </div>`;
+                } else {
+                    itemContentPreview.classList.add('empty-slot');
+                    itemContentPreview.innerHTML = `<div class="text-gray-600 font-nanum text-lg">빈 자리</div>`;
+                    expandedContent.innerHTML = `<div class="flex flex-col items-center justify-center h-full">
+                        <h2 class="text-3xl font-bold mb-4 font-nanum">빈 자리</h2>
+                        <p class="text-gray-600 text-center">이 자리는 현재 비어있습니다.<br>새로운 안식을 기다립니다.</p>
+                        <button class="reserve-btn">예약하기</button>
+                        </div>`;
+                }
+                expandedContent.prepend(closeBtn);
+                item.append(glassDoor, itemContentPreview, expandedContent);
+                gridContainer.appendChild(item);
+
+                item.addEventListener('click', () => {
+                    if (activeClone) return;
+                    expandItem(item);
+                });
+            }
+
+            overlay.addEventListener('click', () => {
+                if (activeClone) {
+                    collapseItem();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
