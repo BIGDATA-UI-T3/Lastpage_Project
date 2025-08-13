@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../CSS/common.css">
-    <link rel="stylesheet" href="../CSS/lastpage.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>반려동물 추모 공간</title>
+    <!-- Tailwind CSS 및 Google Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Nanum+Myeongjo:wght@400;700&display=swap"
-        rel="stylesheet">
-</head>
-
-<body class="bg-gray-200 flex items-center justify-center min-h-screen p-4">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- 공통 헤더 -->
-    <!-- <div class="header-wrapper">
+    <!-- CSS 파일 분리 -->
+    <link rel="stylesheet" href="../CSS/common.css">
+    <link rel="stylesheet" href="../CSS/lastpagee.css">
+</head>
+<body>
+    <!-- 공통 헤더 (수정하지 않음) -->
+    <div class="header-wrapper">
+        <!-- 헤더 -->
         <header>
             <div class="logo">
                 <a href="#"><img src="../Asset/LastPage로고_투명.png" alt="로고" /></a>
@@ -62,22 +56,30 @@
                 <a href="#">회원가입</a>
             </div>
         </header>
-    </div> -->
-
-    <!-- 배너 -->
-    <!-- <section class="banner" role="img" aria-label="따뜻한 펫로스 심리상담 배너 이미지">
-        <div class="inner">
-            <h1>같은 마음, 같은 기억을 나누는 공간</h1>
-            <p>반려동물과의 마지막 여정을 함께 기억합니다.</p>
-        </div>
-    </section> -->
-
-    <div id="overlay"></div>
-
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 p-2 rounded-lg bg-black bg-opacity-10 shadow-inner w-full max-w-6xl">
-        <!-- JavaScript로 동적으로 생성 -->
     </div>
 
+    <!-- 메인 콘텐츠 -->
+    <main class="main-content-wrapper">
+        <section class="banner" role="img" aria-label="밤하늘의 별을 배경으로 한 추모 배너">
+            <div class="inner">
+                <h1>별이 된 아이들을 기억하는 공간</h1>
+                <p>반려동물과의 마지막 여정을 함께 기억합니다.</p>
+            </div>
+        </section>
+        
+        <section class="grid-section">
+            <div id="overlay"></div>
+            <div class="grid grid-cols-3 gap-8 p-4 rounded-lg w-full max-w-7xl mx-auto">
+                <!-- JavaScript로 동적으로 생성 -->
+            </div>
+        </section>
+    </main>
+
+
+    <footer>
+        대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
+    </footer>
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const gridContainer = document.querySelector('.grid');
@@ -86,7 +88,7 @@
             let originalItem = null;
             let isAnimating = false;
 
-            const totalItems = 15;
+            const totalItems = 12; // 3x4 그리드
             const itemData = [
                 { name: '초코', message: '우리 집 귀염둥이, 별이 되어 반짝여줘.', date: '2010.05.01 ~ 2024.03.15', isOccupied: true, photoSrc: 'https://placehold.co/300x400/d2b48c/ffffff?text=CHOCO' },
                 { name: '나비', message: '따뜻한 햇살 같던 너를 기억해.', date: '2018.07.20 ~ 2023.12.10', isOccupied: true, photoSrc: null },
@@ -94,6 +96,11 @@
                 { isOccupied: false },
                 { name: '코코', message: '세상에서 가장 용감했던 작은 천사', date: '2020.02.02 ~ 2024.04.01', isOccupied: true, photoSrc: null },
                 { isOccupied: false },
+                { isOccupied: false },
+                { name: '루이', message: '장난꾸러기 왕자님, 그곳에선 아프지마.', date: '2015.06.10 ~ 2024.05.20', isOccupied: true, photoSrc: 'https://placehold.co/300x400/778899/ffffff?text=LOUIE' },
+                { isOccupied: false },
+                { isOccupied: false },
+                { name: '보리', message: '보리보리쌀! 너의 노래가 그리워.', date: '2019.11.01 ~ 2024.06.30', isOccupied: true, photoSrc: null },
                 { isOccupied: false },
             ];
 
@@ -113,56 +120,82 @@
                 activeClone.style.top = `${rect.top}px`;
                 activeClone.style.width = `${rect.width}px`;
                 activeClone.style.height = `${rect.height}px`;
+                activeClone.style.transform = 'none';
 
                 originalItem.classList.add('is-expanding');
                 overlay.classList.add('active');
 
                 requestAnimationFrame(() => {
+                    const centerX = window.innerWidth / 2;
+                    const centerY = window.innerHeight / 2;
+                    
+                    activeClone.style.left = `${centerX}px`;
+                    activeClone.style.top = `${centerY}px`;
+                    activeClone.style.width = `min(60vw, 750px)`;
+                    activeClone.style.height = `auto`;
                     activeClone.style.transform = `translate(-50%, -50%)`;
-                    activeClone.style.left = `50%`;
-                    activeClone.style.top = `50%`;
-                    activeClone.style.width = `90vw`;
-                    activeClone.style.maxWidth = `500px`;
-                    activeClone.style.height = `80vh`;
-                    activeClone.style.maxHeight = `650px`;
                 });
                 
-                activeClone.addEventListener('transitionend', () => { isAnimating = false; }, { once: true });
+                setTimeout(() => { isAnimating = false; }, 600);
 
                 activeClone.querySelector('.close-btn').onclick = (e) => {
                     e.stopPropagation();
                     collapseItem();
                 };
+
+                // 1) 사진 업로드 오류 해결: 복제된 요소에 이벤트 리스너를 다시 연결합니다.
+                const photoInput = activeClone.querySelector('.photo-input');
+                if (photoInput) {
+                    photoInput.addEventListener('change', (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                                const img = activeClone.querySelector('.photo-img');
+                                const label = activeClone.querySelector('.photo-upload-label');
+                                img.src = event.target.result;
+                                img.classList.remove('hidden');
+                                label.classList.add('hidden');
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                }
             }
 
             function collapseItem() {
-                if (isAnimating) return;
+                if (isAnimating || !activeClone) return;
                 isAnimating = true;
 
                 const rect = originalItem.getBoundingClientRect();
                 
-                activeClone.style.left = `${rect.left}px`;
-                activeClone.style.top = `${rect.top}px`;
-                activeClone.style.width = `${rect.width}px`;
-                activeClone.style.height = `${rect.height}px`;
-                activeClone.style.transform = 'none';
+                activeClone.querySelector('.expanded-content').style.opacity = 0;
+                activeClone.querySelector('.item-content-preview').style.opacity = 1;
+                activeClone.querySelector('.glass-door').style.transform = 'rotateY(0deg)';
+
+                setTimeout(() => {
+                    activeClone.style.left = `${rect.left}px`;
+                    activeClone.style.top = `${rect.top}px`;
+                    activeClone.style.width = `${rect.width}px`;
+                    activeClone.style.height = `${rect.height}px`;
+                    activeClone.style.transform = 'none';
+                }, 50);
 
                 overlay.classList.remove('active');
 
-                activeClone.addEventListener('transitionend', (e) => {
-                    if (e.propertyName !== 'transform') return;
-                    activeClone.remove();
-                    originalItem.classList.remove('is-expanding');
+                setTimeout(() => {
+                    if(activeClone) activeClone.remove();
+                    if(originalItem) originalItem.classList.remove('is-expanding');
                     activeClone = null;
                     originalItem = null;
                     isAnimating = false;
-                }, { once: true });
+                }, 650);
             }
 
             for (let i = 0; i < totalItems; i++) {
                 const item = document.createElement('div');
-                item.className = 'grid-item aspect-square';
-                const data = itemData[i] || { isOccupied: false };
+                item.className = 'grid-item';
+                const data = itemData[i % itemData.length] || { isOccupied: false };
                 
                 const glassDoor = document.createElement('div');
                 glassDoor.className = 'glass-door';
@@ -187,8 +220,8 @@
                                 <span>${data.name}</span>
                                 <span class="text-2xl" style="line-height: 1;">💮</span>
                             </h2>
-                            <p class="text-gray-600 mb-2 text-sm">"${data.message}"</p>
-                            <p class="text-xs text-gray-500">${data.date}</p>
+                            <p class="text-gray-600 mb-2 text-base">"${data.message}"</p>
+                            <p class="text-sm text-gray-500">${data.date}</p>
                         </div>
                         <div class="scene-container">
                             <div class="scene-background">
@@ -224,7 +257,7 @@
                 gridContainer.appendChild(item);
 
                 item.addEventListener('click', () => {
-                    if (activeClone) return;
+                    if (activeClone || isAnimating) return;
                     expandItem(item);
                 });
             }
