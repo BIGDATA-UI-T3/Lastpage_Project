@@ -1,30 +1,21 @@
-:root {
-    --primary-color: #8D9B6A;
-    /* 차분한 그린 */
-    --secondary-color: #f6f1e7;
-    /* 부드러운 배경색 */
-    --text-color: #3C4043;
-    --light-gray: #EAEAEA;
-    --white: #FFFFFF;
-    --font-family: 'Noto Sans KR', sans-serif;
+/* --- 메인 콘텐츠 및 배너 --- */
+.main-content-wrapper {
+    display: flex;
+    padding-top: 100px;
 }
 
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f0f0f0;
-}
-
-/* 배너 */
 .banner {
     background-image: var(--banner-url);
     background-size: cover;
     background-position: center;
-
-    min-height: 48svh;
+    width: 35%; /* 배너 비율 조정 */
+    height: calc(100vh - 100px);
+    position: sticky;
+    top: 100px;
     display: grid;
     place-items: center;
-    position: relative;
     isolation: isolate;
+    flex-shrink: 0;
 }
 
 .banner::after {
@@ -43,15 +34,22 @@ body {
 
 .banner h1 {
     margin: 0 0 10px;
-    font-size: clamp(26px, 4vw, 40px);
+    font-size: clamp(26px, 4vw, 36px);
+    font-family: 'Nanum Myeongjo', serif;
 }
 
 .banner p {
     margin: 0;
-    opacity: .95
+    opacity: .95;
 }
 
+.grid-section {
+    flex-grow: 1;
+    width: 65%; /* 콘텐츠 비율 조정 */
+    padding: 2rem;
+}
 
+/* --- 추모 공간 CSS --- */
 .font-nanum {
     font-family: 'Nanum Myeongjo', serif;
 }
@@ -66,7 +64,7 @@ body {
     opacity: 0;
     transition: opacity 0.5s ease;
     pointer-events: none;
-    z-index: 40;
+    z-index: 1001;
 }
 
 #overlay.active {
@@ -82,6 +80,7 @@ body {
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     transition: opacity 0.3s ease;
+    aspect-ratio: 5 / 4;
 }
 
 .glass-door {
@@ -90,9 +89,9 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.4);
+    background: linear-gradient(to top right, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.25));
     backdrop-filter: blur(2px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 0.375rem;
     transform-origin: left;
     transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
@@ -100,7 +99,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding-right: 10px;
+    padding-right: 12px;
 }
 
 .grid-item:hover .glass-door {
@@ -108,11 +107,12 @@ body {
 }
 
 .door-handle {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.15);
-    box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.5);
+    background: linear-gradient(45deg, #b0b0b0, #f0f0f0, #b0b0b0);
+    border: 1px solid #909090;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .item-content-preview {
@@ -124,12 +124,15 @@ body {
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 2) 확대되는 복제본 스타일 */
 .expanded-clone {
     position: fixed;
-    z-index: 50;
+    z-index: 1002;
     cursor: default;
-    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    transition: all 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    aspect-ratio: 5 / 4;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translateZ(0);
 }
 
 .expanded-clone .glass-door {
@@ -150,12 +153,10 @@ body {
     opacity: 0;
 }
 
-/* 3) 복제본의 꽃은 숨김 */
 .expanded-clone .flower-indicator {
     opacity: 0;
 }
 
-/* 2) 원래 아이템은 흐리게 처리 */
 .grid-item.is-expanding {
     opacity: 0.3;
 }
@@ -236,39 +237,49 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 1rem;
     padding: 1rem;
     padding-bottom: 5rem;
+    perspective: 1000px;
 }
 
 .urn {
     width: 45%;
     height: 80%;
-    background-color: #e0e0e0;
-    border-top-left-radius: 50%;
-    border-top-right-radius: 50%;
-    border: 2px solid #cccccc;
     position: relative;
+    transform: translateZ(-30px);
+    background: linear-gradient(180deg, #ffffff, #e0e0e0);
+    border-radius: 50% 50% 5px 5px / 60% 60% 5px 5px;
+    box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.8), inset 0 -8px 10px rgba(0, 0, 0, 0.25), 0 10px 20px rgba(0, 0, 0, 0.2);
+    filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.2));
 }
 
 .urn::before {
     content: '';
     position: absolute;
-    bottom: 100%;
-    left: 25%;
-    width: 50%;
+    top: -5%;
+    left: 20%;
+    width: 60%;
     height: 10%;
-    background-color: #d0d0d0;
-    border-radius: 5px 5px 0 0;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 -2px 3px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .photo-frame {
-    width: 40%;
+    width: 45%;
     height: 80%;
     background-color: #ffffff;
     border: 8px solid #d2b48c;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
     position: relative;
+    transform: rotateY(-20deg) rotateX(2deg) translateX(-40px);
+    filter: drop-shadow(10px 15px 15px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
+}
+
+.photo-frame:hover {
+    transform: rotateY(-15deg) rotateX(1deg) translateX(-35px) scale(1.02);
 }
 
 .photo-display {
@@ -368,4 +379,23 @@ body {
 
 .reserve-btn:hover {
     background-color: #4b5563;
+}
+
+@media (max-width : 1280px) {
+    .main-content-wrapper {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .banner {
+        width: 100%;
+        min-height: 300px;
+        height: auto;
+        position: static;
+    }
+
+    .grid-section {
+        padding: 1rem;
+        width: 100%;
+    }
 }
