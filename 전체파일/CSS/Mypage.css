@@ -52,20 +52,31 @@ main>.reserv_yj {
     box-shadow: 0 12px 32px rgb(0, 0, 0, 0.1);
     border-radius: 22px;
     display: flex;
-    text-align: center;
+    /* text-align: center; */
     margin: auto;
     margin-bottom: 100px;
-    /* justify-content: space-between; */
+    justify-content: space-between;
     padding: 30px;
 }
 
-main>.reserv_yj>a {
-    all: unset;
-    text-decoration: none;
+.reserv-left_yj {
+    display: flex;
+}
+
+.reserv_yj>.reserv-left_yj>p {
+    color: black;
     font-size: 30px;
     font-weight: 600;
+    margin-left: 10px;
     line-height: 50px;
-    margin-left: 20px;
+}
+
+main>.reserv_yj>a {
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 50px;
+    margin-right: 10px;
     color: black;
     display: flex;
 }
@@ -76,8 +87,11 @@ main>.reserv_yj>a:hover {
 
 .service_yj {
     display: flex;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     margin-bottom: 100px;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
 .service_yj>a {
@@ -85,14 +99,14 @@ main>.reserv_yj>a:hover {
 }
 
 .direct_yj {
-    width: 700px;
+    width: 730px;
     height: 300px;
     background-color: white;
     box-shadow: 0 12px 32px rgb(0, 0, 0, 0.1);
     border-radius: 22px;
     display: flex;
     flex-direction: column;
-    margin: 10px auto;
+    margin: 10px;
     align-items: center;
     justify-content: center;
 }
