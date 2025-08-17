@@ -1,23 +1,76 @@
-/* CSS: 페이지 스타일링 */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+/* --- 기본 스타일 --- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-:root {
-    --primary-color: #8D9B6A;
-    /* 차분한 그린 */
-    --secondary-color: #f6f1e7;
-    /* 부드러운 배경색 */
-    --text-color: #3C4043;
-    --light-gray: #EAEAEA;
-    --white: #FFFFFF;
-    --font-family: 'Noto Sans KR', sans-serif;
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-    font-family: var(--font-family);
-    background-color: var(--secondary-color);
-    color: var(--text-color);
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f5f0e5;
+    color: #34495e;
+}
+
+/* --- 1. 헤더 스타일 --- */
+.header-wrapper {
+    width: 100%;
+    padding-top: 100px;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: #2C3930;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+/* 배너 */
+.banner {
+    background-image: var(--banner-url);
+    background-size: cover;
+    background-position: center;
+
+    min-height: 48svh;
+    display: grid;
+    place-items: center;
+    position: relative;
+    isolation: isolate;
+}
+
+.banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(34, 53, 41, .35), rgba(34, 53, 41, .55));
+    z-index: -1;
+}
+
+.banner .inner {
+    text-align: center;
+    color: #fff;
+    padding: 36px 16px;
+}
+
+.banner h1 {
+    margin: 0 0 10px;
+    font-size: clamp(26px, 4vw, 40px);
+}
+
+.banner p {
     margin: 0;
-    padding: 0;
+    opacity: .95
 }
 
 /* --- 2. 메인 레이아웃 컨테이너 --- */
@@ -31,20 +84,16 @@ body {
 
 /* --- 3. 좌측 고정 프로필 바 --- */
 .profile-sidebar {
-    width: 220px;
+    width: 240px;
     flex-shrink: 0;
     position: sticky;
-    /* 스크롤해도 고정 */
-    top: 80px;
-    /* 헤더 높이(60px) + 여백(20px) */
+    top: 120px;
     align-self: flex-start;
-    /* 컨테이너 상단에 고정 */
 }
 
 .profile-card {
-    background-color: var(--content-bg);
+    background-color: #ffffff;
     border-radius: 12px;
-    height: 450px;
     padding: 25px;
     text-align: center;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -56,114 +105,379 @@ body {
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 15px;
-    border: 3px solid var(--border-color);
+    border: 3px solid #e0e0e0;
 }
 
 .profile-card h3 {
     margin: 0 0 5px 0;
     font-size: 1.2em;
+    color: #2C3930;
 }
 
-.profile-card p {
-    margin: 0;
-    color: var(--light-text-color);
+.profile-card .user-id {
+    margin: 0 0 15px 0;
+    color: #95a5a6;
     font-size: 0.9em;
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-item .count {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.stat-item .label {
+    font-size: 0.8em;
+    color: #95a5a6;
+}
+
+.profile-bio {
+    font-size: 0.9em;
+    color: #555;
+    line-height: 1.5;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.my-posts-btn {
+    display: block;
+    width: 100%;
+    background-color: #f0f0f0;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.my-posts-btn:hover {
+    background-color: #e0e0e0;
 }
 
 /* --- 4. 메인 콘텐츠 영역 --- */
 .main-content {
     flex-grow: 1;
-    width: calc(100% - 240px);
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-/* 글쓰기/내 글 보기 버튼 */
-.action-buttons {
+/* ▼▼▼ 변경된 부분 ▼▼▼ */
+/* 글쓰기 버튼 (새로운 위치) */
+.main-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
     margin-bottom: 20px;
 }
 
-.action-buttons .btn {
-    background-color: var(--content-bg);
-    border: 1px solid var(--border-color);
-    padding: 8px 16px;
+.write-post-btn {
+    background-color: #a2725c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
     border-radius: 8px;
-    text-decoration: none;
-    color: var(--text-color);
     font-size: 0.9em;
     font-weight: 500;
-    transition: background-color 0.2s, color 0.2s;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-.action-buttons .btn:hover {
-    background-color: #9a6e4b;
-    color: white;
-    border-color: var(--primary-color);
+.write-post-btn:hover {
+    background-color: #8a604c;
 }
 
-.action-buttons .btn.primary {
-    background-color: #9a6e4b;
-    color: white;
-    border-color: var(--primary-color);
+/* ▲▲▲ 변경된 부분 ▲▲▲ */
+
+/* --- 5. 세로형 게시물 피드 스타일 --- */
+.post-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
-/* --- 5. 가로 스크롤 섹션 --- */
-.post-section {
-    margin-bottom: 40px;
+.feed-post-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e0e0;
 }
 
-.post-section h2 {
-    font-size: 1.5em;
-    margin-bottom: 15px;
-    font-weight: 700;
+.post-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
 }
 
-.horizontal-scroll-wrapper {
-    overflow-x: auto;
+.post-header .author-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.post-header .author-name {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.post-image-wrapper img {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+    display: block;
+    border-top: 1px solid #efefef;
+    border-bottom: 1px solid #efefef;
+}
+
+.post-actions {
+    display: flex;
+    gap: 15px;
+    padding: 10px 15px;
+}
+
+.post-actions svg {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.post-actions .bookmark {
+    margin-left: auto;
+}
+
+.post-details {
+    padding: 0 15px 15px 15px;
+}
+
+.like-count {
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-bottom: 8px;
+}
+
+.post-caption {
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.post-caption .author-name {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* --- 6. 글쓰기/내글보기 뷰 상단 스타일 --- */
+.view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
     padding-bottom: 15px;
-    /* 스크롤바 공간 확보 */
+    border-bottom: 1px solid #e0e0e0;
 }
 
-/* 스크롤바 숨기기 (디자인) */
-.horizontal-scroll-wrapper::-webkit-scrollbar {
+.view-header h2 {
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+.back-to-feed-btn {
+    background: none;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+/* --- 7. 글쓰기 폼 스타일 --- */
+.write-form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    resize: vertical;
+}
+
+.form-group input[type="file"] {
     display: none;
 }
 
-.horizontal-scroll-wrapper {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+.file-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
-.post-list {
-    display: flex;
-    gap: 20px;
-    width: max-content;
-    /* 내부 콘텐츠 너비만큼 늘어나도록 */
-}
-
-.post-card {
-    width: 220px;
-    background-color: var(--content-bg);
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-    flex-shrink: 0;
-    /* 카드 크기 줄어들지 않게 */
-    transition: transform 0.2s;
-}
-
-.post-card:hover {
-    transform: translateY(-5px);
-}
-
-.post-card img {
+.submit-btn {
+    display: block;
     width: 100%;
-    height: 150px;
-    object-fit: cover;
+    padding: 15px;
+    background-color: #a2725c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
 }
 
-.post-card .post-content {
-    padding: 15px;
+/* --- 8. 내 글 보기 (프로필 페이지) 스타일 --- */
+.profile-page-wrapper {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    padding: 30px;
+}
+
+.profile-page-header {
+    display: flex;
+    align-items: center;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.profile-page-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-right: 40px;
+    flex-shrink: 0;
+}
+
+.profile-page-info {
+    flex-grow: 1;
+}
+
+.info-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.profile-page-id {
+    font-size: 1.5em;
+    color: #333;
+}
+
+.profile-edit-btn {
+    background-color: #f0f0f0;
+    border: 1px solid #dbdbdb;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.profile-page-stats {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.profile-page-stats .stat-item {
+    font-size: 1em;
+}
+
+.profile-page-bio h3 {
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+.profile-page-bio p {
     font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.post-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.grid-item {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    /* 1:1 비율 */
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.grid-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.2s;
+}
+
+.grid-item:hover img {
+    opacity: 0.8;
+}
+
+
+/* --- 9. 푸터 --- */
+footer {
+    width: 100%;
+    min-height: 150px;
+    background-color: #2C3930;
+    margin-top: 40px;
+    padding: 30px 40px;
+    color: #dcd7c9;
+}
+
+/* --- 10. 맨 위로 가기 버튼 --- */
+#scrollToTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: #2C3930;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0.8;
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 999;
+}
+
+#scrollToTopBtn:hover {
+    opacity: 1;
+    transform: scale(1.05);
 }

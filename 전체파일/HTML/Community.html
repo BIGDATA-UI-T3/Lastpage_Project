@@ -4,19 +4,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../CSS/common.css">
+    <title>Community</title>
     <link rel="stylesheet" href="../CSS/Community.css">
-    <title>Our page</title>
-
+    <link rel="stylesheet" href="../CSS/common.css">
 </head>
 
 <body>
-    <!-- 1. 공통 헤더 -->
+
+    <!-- 헤더 -->
     <div class="header-wrapper">
         <!-- 헤더 -->
         <header>
@@ -61,6 +56,14 @@
         </header>
     </div>
 
+    <!-- 배너 -->
+    <section class="banner" role="img" aria-label="따뜻한 펫로스 심리상담 배너 이미지">
+        <div class="inner">
+            <h1>마음의 무게를 함께 들어드릴게요</h1>
+            <p>반려동물을 떠나보낸 슬픔, 말로 하기 어려운 그 감정들을 전문 상담사가 안전하게 동행합니다.</p>
+        </div>
+    </section>
+
     <!-- 2. 메인 레이아웃 -->
     <div class="page-container">
         <!-- 3. 좌측 고정 프로필 바 -->
@@ -69,84 +72,139 @@
                 <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200" alt="User Avatar"
                     class="avatar">
                 <h3>박준형</h3>
-                <p>기억의 조각을 모으는 중</p>
+                <p class="user-id">@junhyung_park</p>
+                <div class="profile-stats">
+                    <div class="stat-item"><span class="count">12</span><span class="label">내 글</span></div>
+                    <div class="stat-item"><span class="count">152</span><span class="label">팔로워</span></div>
+                    <div class="stat-item"><span class="count">88</span><span class="label">팔로잉</span></div>
+                </div>
+                <p class="profile-bio">
+                    별이 된 나의 작은 친구들을 기억하며, 따뜻한 위로를 나누고 싶어요.
+                </p>
+                <button class="my-posts-btn" id="my-posts-view-btn">내가 쓴 글 보기</button>
             </div>
         </aside>
 
         <!-- 4. 메인 콘텐츠 -->
         <main class="main-content">
-            <div class="action-buttons">
-                <a href="#" class="btn">내 글 보기</a>
-                <a href="#" class="btn primary">글쓰기</a>
+            <!-- 전체 피드 컨테이너 -->
+            <div id="feed-container">
+                <!-- ▼▼▼ 변경된 부분 ▼▼▼ -->
+                <div class="main-actions">
+                    <button class="write-post-btn" id="write-btn">내 글 쓰기</button>
+                </div>
+                <!-- ▲▲▲ 변경된 부분 ▲▲▲ -->
+                <div class="post-feed">
+                    <!-- 샘플 글들... -->
+                    <article class="feed-post-card">
+                        <div class="post-header"><img
+                                src="https://images.unsplash.com/photo-1583337130417-2346a5be24c1?q=80&w=50"
+                                class="author-avatar" alt="뽀삐언니 아바타"><span class="author-name">뽀삐언니</span></div>
+                        <div class="post-image-wrapper"><img
+                                src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=600" alt="강아지1">
+                        </div>
+                        <div class="post-actions"><svg fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">
+                                </path>
+                            </svg><svg fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.65 11.35l-1.79-1.79c-.32-.32-.73-.49-1.18-.49H14V7c0-1.1-.9-2-2-2s-2 .9-2 2v2H6.32c-.45 0-.86.17-1.18.49l-1.79 1.79c-.39.39-.39 1.02 0 1.41l7.65 7.65c.39.39 1.02.39 1.41 0l7.65-7.65c.39-.39.39-1.02 0-1.41zM12 18.59L5.41 12H9v- инфекc-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v6h3.59L12 18.59z">
+                                </path>
+                            </svg><svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                            </svg><svg class="bookmark" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z">
+                                </path>
+                            </svg></div>
+                        <div class="post-details">
+                            <div class="like-count">좋아요 1,023개</div>
+                            <div class="post-caption"><span class="author-name">뽀삐언니</span>하늘에서는 마음껏 뛰어놀아, 우리 뽀삐. 항상
+                                사랑해!</div>
+                        </div>
+                    </article>
+                </div>
             </div>
 
-            <!-- 5. 새로운 글 섹션 -->
-            <section class="post-section">
-                <h2>새로운 글</h2>
-                <div class="horizontal-scroll-wrapper">
-                    <div class="post-list">
-                        <div class="post-card">
-                            <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=400" alt="강아지1">
-                            <div class="post-content">하늘에서는 마음껏 뛰어놀아, 우리 뽀삐. 항상 사랑해!</div>
-                        </div>
-                        <div class="post-card">
-                            <img src="https://images.unsplash.com/photo-1574158622682-e40e6984100d?q=80&w=400"
-                                alt="고양이1">
-                            <div class="post-content">네가 있던 모든 순간이 선물이었어. 고마워, 나비야.</div>
-                        </div>
-                        <div class="post-card">
-                            <img src="https://images.unsplash.com/photo-1583511655826-05700d52f4d9?q=80&w=400"
-                                alt="강아지2">
-                            <div class="post-content">산책길에 피어난 꽃을 볼 때마다 네가 생각나.</div>
-                        </div>
-                        <div class="post-card">
-                            <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?q=80&w=400" alt="고양이2">
-                            <div class="post-content">까칠한 성격마저 사랑스러웠던 우리 집 왕자님.</div>
-                        </div>
-                        <!-- 옆에 더 있다는 것을 보여주기 위한 추가 카드 -->
-                        <div class="post-card">
-                            <img src="https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?q=80&w=400"
-                                alt="고양이3">
-                            <div class="post-content">햇살 좋은 날이면 네가 창가에서 졸던 모습이 아른거려.</div>
+            <!-- 내가 쓴 글 컨테이너 (프로필 레이아웃) -->
+            <div id="my-posts-container" style="display: none;">
+                <div class="profile-page-wrapper">
+                    <div class="view-header">
+                        <h2>내 프로필</h2>
+                        <button class="back-to-feed-btn" id="profile-back-btn">피드로 돌아가기</button>
+                    </div>
+                    <div class="profile-page-header">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200"
+                            alt="User Avatar" class="profile-page-avatar">
+                        <div class="profile-page-info">
+                            <div class="info-top">
+                                <span class="profile-page-id">@junhyung_park</span>
+                                <button class="profile-edit-btn">프로필 편집</button>
+                            </div>
+                            <div class="profile-page-stats">
+                                <div class="stat-item">게시물 <span class="count">12</span></div>
+                                <div class="stat-item">팔로워 <span class="count">152</span></div>
+                                <div class="stat-item">팔로잉 <span class="count">88</span></div>
+                            </div>
+                            <div class="profile-page-bio">
+                                <h3>박준형</h3>
+                                <p>별이 된 나의 작은 친구들을 기억하며, 따뜻한 위로를 나누고 싶어요.</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="post-grid-container">
+                        <div class="grid-item"><img
+                                src="https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?q=80&w=400"
+                                alt="My Post 1"></div>
+                        <div class="grid-item"><img
+                                src="https://images.unsplash.com/photo-1598875706250-21fa76815d24?q=80&w=400"
+                                alt="My Post 2"></div>
+                        <div class="grid-item"><img
+                                src="https://images.unsplash.com/photo-1517423440428-a5a003da8b33?q=80&w=400"
+                                alt="My Post 3"></div>
+                        <div class="grid-item"><img
+                                src="https://images.unsplash.com/photo-1548681528-6a5c45b66b42?q=80&w=400"
+                                alt="My Post 4"></div>
+                        <div class="grid-item"><img
+                                src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?q=80&w=400"
+                                alt="My Post 5"></div>
+                        <div class="grid-item"><img
+                                src="https://images.unsplash.com/photo-1588943211346-0908a1fb0b01?q=80&w=400"
+                                alt="My Post 6"></div>
+                    </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- 인기글 섹션 -->
-            <section class="post-section">
-                <h2>인기글</h2>
-                <div class="horizontal-scroll-wrapper">
-                    <div class="post-list">
-                        <div class="post-card">
-                            <img src="https://images.unsplash.com/photo-1561037404-61cd46aa615b?q=80&w=400"
-                                alt="인기 강아지1">
-                            <div class="post-content">많은 분들이 우리 럭키를 기억해주셔서 감사합니다.</div>
-                        </div>
-                        <div class="post-card">
-                            <img src="https://images.unsplash.com/photo-1529778873920-4da4926a72c2?q=80&w=400"
-                                alt="인기 고양이1">
-                            <div class="post-content">코코가 좋아했던 간식 레시피를 공유합니다.</div>
-                        </div>
-                        <div class="post-card">
-                            <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=400"
-                                alt="인기 강아지2">
-                            <div class="post-content">별이 된 우리 아이들을 위한 작은 모임을 가지려 합니다.</div>
-                        </div>
-                        <div class="post-card">
-                            <img src="https://images.unsplash.com/photo-1519052537078-e6302a4968d4?q=80&w=400"
-                                alt="인기 고양이2">
-                            <div class="post-content">길에서 만난 아이가 꼭 너 같아서 한참을 바라봤어.</div>
-                        </div>
+            <!-- 글쓰기 폼 컨테이너 -->
+            <div id="write-container" style="display: none;">
+                <div class="write-form-container">
+                    <div class="view-header">
+                        <h2>내 추억 기록하기</h2>
+                        <button class="back-to-feed-btn" id="write-form-back-btn">피드로 돌아가기</button>
                     </div>
+                    <form id="post-form">
+                        <div class="form-group">
+                            <textarea id="message" rows="8" placeholder="반려동물과의 소중한 이야기를 들려주세요..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="photo-upload" class="file-label">📸 사진 첨부하기</label>
+                            <input type="file" id="photo-upload" accept="image/*">
+                        </div>
+                        <button type="submit" class="submit-btn">작성 완료</button>
+                    </form>
                 </div>
-            </section>
+            </div>
         </main>
     </div>
 
+    <!-- 8. 푸터 -->
     <footer>
-        대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
+        <!-- 푸터 콘텐츠는 여기에 추가 -->
     </footer>
+
+    <!-- 9. 맨 위로 가기 버튼 -->
+    <button id="scrollToTopBtn" title="맨 위로 가기">↑</button>
 
     <script src="../JS/Community.js"></script>
 </body>
