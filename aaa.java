@@ -1,113 +1,83 @@
-package Ch08;
+package Ch08.ex;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-
-import Ch08.ex.BookDto;
-
-import java.util.ArrayList;
+//java.util 패키지에 있는 여러 유틸리티 클래스들을 사용하기 위해 사용
+import java.util.*;
 
 public class aaa {
 
-	// DB CONN DATA
-	private static String id = "root";
-	private static String pw = "1234";
-	private static String url = "jdbc:mysql://localhost:3306/tmpdb";
+    //  Scanner 객체 생성 - 사용자의 입력을 받기 위해 사용
+    private static Scanner sc = new Scanner(System.in);
 
-	private static Connection conn = null;
-	private static PreparedStatement pstmt = null;
-	private static ResultSet rs = null;
+    // 단어들 저장할 리스트 - 전역에서 공유 가능
+    private static List<String> worldList = new ArrayList<String>();
 
-	public static void conn() throws Exception {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		System.out.println("Driver Loading Success...");
-		conn = DriverManager.getConnection(url, id, pw);
-		System.out.println("DB CONNECTED...");
-	}
+    // 정렬 함수 (오름/내림)
+    // worldList 안에 있는 모든 단어들을 정렬함
+    public static void sort(boolean isAsend) { // true, false를 구별하기 위해 boolean을 사용
+        if (isAsend) { // true
+            Collections.sort(worldList); // isAsend가 오름차순으로 정렬
+        } else { // false
+            Collections.sort(worldList, Collections.reverseOrder()); // isAsend가 내림차순으로 정렬
+        }
+    }
 
-	public static List<BookDto> selectAll() throws SQLException {
-		
-		pstmt = conn.prepareStatement("SELECT * FROM tmpdb");
-		rs = pstmt.executeQuery();
-		
-		List<BookDto> list = new ArrayList();
-		BookDto dto = null;
-		if(rs!=null) {
-			while(rs.next()) {
-				dto = new BookDto();
-				dto.setBookCode(rs.getLong("bookCode"));
-				dto.setBookName(rs.getString("bookName"));
-				dto.setPublisher(rs.getString("publisher"));
-				dto.setIsbn(rs.getString("isbn"));
-				list.add(dto);
-			}
-		}
-		return list;
-	}
+    // 단어 추가 함수
+    public static void add(String word) {
+        worldList.add(word); // 입력받은 단어를 리스트에 추가
+    }
 
-	public static BookDto select(Long bookCode) throws SQLException {
-		pstmt = conn.prepareStatement("SELECT * FROM tmpdb where bookCode = ?");
-		pstmt.setLong(1, bookCode);
-		rs = pstmt.executeQuery();
-		
-		BookDto dto = null;
-		if(rs.next()) {
-			
-		}
-			
-		
-		return null;
-	}
+    // 리스트에 있는 단어들 출력
+    public static void show() {
+    	// 리스트에 있는 단어를 하나씩 출력
+        for (String word : worldList) {
+            System.out.println(word); 
+        }
+    }
 
-	public static int insertBook(BookDto bookDto) throws SQLException {
-		return -1;
-	}
+    public static void main(String[] args) {
 
-	public static int updateBook(BookDto bookDto) throws SQLException {
-		return -1;
-	}
+        int n = 0; // 메뉴 번호 담을 변수
 
-	public static int deleteBook(Long bookCode) throws SQLException {
-		return -1;
-	}
+        while (true) { // 무한루프 - 종료 전까지 반복
+            // 실행 시 보일 메뉴 띄우기
+            System.out.println("------------M E N U------------");
+            System.out.println("1 추가");
+            System.out.println("2 정렬");
+            System.out.println("3 확인");
+            System.out.println("4 종료");
+            System.out.println("------------M E N U------------");
+            System.out.print("번호 : ");
 
-	public static void main(String[] args) {
-		try {
-			// DB CONN
-			conn();
+            n = sc.nextInt(); // 번호 입력
+            sc.nextLine();     // nextInt() 뒤에 남아 있는 엔터(\n) 제거
+            // 엔터를 제거하지 않으면 다음 nextLine() 입력이 즉시 종료
+            
+            switch (n) {
+                case 1: // 단어 추가
+                    System.out.print("단어 입력: ");
+                    String word = sc.nextLine(); // 사용자가 입력한 단어를 word에 저장
+                    add(word); // 리스트에 추가
+                    break; // 선택한 case만 실행 후 switch문 종료
 
-			// TX START
-			insertBook(new BookDto(1L, "도서1", "출판사1", "isbn-1"));
-			insertBook(new BookDto(2L, "도서2", "출판사2", "isbn-2"));
-			insertBook(new BookDto(3L, "도서3", "출판사3", "isbn-3"));
+                case 2: // 리스트 정렬
+                    System.out.print("오름차순 여부(1:오름,0:내림) : ");
+                    int no = sc.nextInt();// 사용자가 1 또는 0 입력
+                    if (no == 1) sort(true); // 1을 입력하면 오름차순으로 정렬
+                    else sort(false); // 0을 입력하면 내림차순으로 정렬
+                    break;
 
-			// SELECTALL
-			List<BookDto> allBook = selectAll();
-			System.out.println("selectAll : ");
-			allBook.forEach(e -> System.out.println(e));
+                case 3: // 리스트 확인
+                    show(); // 현재 리스트 출력
+                    break;
 
-			// SELECT
-			BookDto dto = select(1L);
-			System.out.println("select : " + dto);
+                case 4: // 프로그램 종료
+                    System.out.println("프로그램 종료");
+                    System.exit(-1); // 프로그램 끝
+                    break;
 
-			// UPDATE
-			dto.setBookName("수정도서명-1");
-			int r1 = updateBook(dto);
-			if (r1 > 0)
-				System.out.println("수정완료 : " + r1);
-
-			// DELETE
-			int r2 = deleteBook(2L);
-			if (r2 > 0)
-				System.out.println("삭제완료 : " + r2);
-
-			// END
-		} catch (Exception e) {
-			// TX ROLLBACKALL
-		}
-	}
+                default: // 지정된 번호 이외의 번호 입력 했을 경우
+                    System.out.println("다시입력하세요");
+            }
+        }
+    }
 }
