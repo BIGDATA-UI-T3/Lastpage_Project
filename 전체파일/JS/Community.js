@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // --- 요소 선택 ---
-    const logoBtn = document.getElementById('logo-home-btn');
+    // const logoBtn = document.getElementById('logo-home-btn');
     const writeBtn = document.getElementById('write-btn');
     const myPostsBtn = document.getElementById('my-posts-view-btn');
     const scrollToTopBtn = document.getElementById("scrollToTopBtn");
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- 이벤트 리스너 ---
-    logoBtn.addEventListener('click', () => showView(feedContainer));
+    // logoBtn.addEventListener('click', () => showView(feedContainer));
     writeBtn.addEventListener('click', () => showView(writeContainer));
     myPostsBtn.addEventListener('click', () => showView(myPostsContainer));
     writeFormBackBtn.addEventListener('click', () => showView(feedContainer));

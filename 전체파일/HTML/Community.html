@@ -89,17 +89,16 @@
         <main class="main-content">
             <!-- 전체 피드 컨테이너 -->
             <div id="feed-container">
-                <!-- ▼▼▼ 변경된 부분 ▼▼▼ -->
                 <div class="main-actions">
                     <button class="write-post-btn" id="write-btn">내 글 쓰기</button>
                 </div>
-                <!-- ▲▲▲ 변경된 부분 ▲▲▲ -->
                 <div class="post-feed">
-                    <!-- 샘플 글들... -->
+                    <!-- 첫번째 글 -->
                     <article class="feed-post-card">
                         <div class="post-header"><img
                                 src="https://images.unsplash.com/photo-1583337130417-2346a5be24c1?q=80&w=50"
-                                class="author-avatar" alt="뽀삐언니 아바타"><span class="author-name">뽀삐언니</span></div>
+                                class="author-avatar" alt="뽀삐언니 아바타"><span class="author-name">뽀삐언니</span>
+                        </div>
                         <div class="post-image-wrapper"><img
                                 src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=600" alt="강아지1">
                         </div>
@@ -124,6 +123,67 @@
                                 사랑해!</div>
                         </div>
                     </article>
+                    <!-- 두번째 글 -->
+                    <article class="feed-post-card">
+                        <div class="post-header"><img
+                                src="https://images.unsplash.com/photo-1583337130417-2346a5be24c1?q=80&w=50"
+                                class="author-avatar" alt="뽀삐언니 아바타"><span class="author-name">뽀삐언니</span>
+                        </div>
+                        <div class="post-image-wrapper"><img
+                                src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=600" alt="강아지1">
+                        </div>
+                        <div class="post-actions"><svg fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">
+                                </path>
+                            </svg><svg fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.65 11.35l-1.79-1.79c-.32-.32-.73-.49-1.18-.49H14V7c0-1.1-.9-2-2-2s-2 .9-2 2v2H6.32c-.45 0-.86.17-1.18.49l-1.79 1.79c-.39.39-.39 1.02 0 1.41l7.65 7.65c.39.39 1.02.39 1.41 0l7.65-7.65c.39-.39.39-1.02 0-1.41zM12 18.59L5.41 12H9v- инфекc-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v6h3.59L12 18.59z">
+                                </path>
+                            </svg><svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                            </svg><svg class="bookmark" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z">
+                                </path>
+                            </svg></div>
+                        <div class="post-details">
+                            <div class="like-count">좋아요 1,023개</div>
+                            <div class="post-caption"><span class="author-name">뽀삐언니</span>하늘에서는 마음껏 뛰어놀아, 우리 뽀삐. 항상
+                                사랑해!</div>
+                        </div>
+                    </article>
+                    <!-- 세번째 글 -->
+                    <article class="feed-post-card">
+                        <div class="post-header"><img
+                                src="https://images.unsplash.com/photo-1583337130417-2346a5be24c1?q=80&w=50"
+                                class="author-avatar" alt="뽀삐언니 아바타"><span class="author-name">뽀삐언니</span>
+                        </div>
+                        <div class="post-image-wrapper"><img
+                                src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=600" alt="강아지1">
+                        </div>
+                        <div class="post-actions"><svg fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">
+                                </path>
+                            </svg><svg fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.65 11.35l-1.79-1.79c-.32-.32-.73-.49-1.18-.49H14V7c0-1.1-.9-2-2-2s-2 .9-2 2v2H6.32c-.45 0-.86.17-1.18.49l-1.79 1.79c-.39.39-.39 1.02 0 1.41l7.65 7.65c.39.39 1.02.39 1.41 0l7.65-7.65c.39-.39.39-1.02 0-1.41zM12 18.59L5.41 12H9v- инфекc-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v6h3.59L12 18.59z">
+                                </path>
+                            </svg><svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                            </svg><svg class="bookmark" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z">
+                                </path>
+                            </svg></div>
+                        <div class="post-details">
+                            <div class="like-count">좋아요 1,023개</div>
+                            <div class="post-caption"><span class="author-name">뽀삐언니</span>하늘에서는 마음껏 뛰어놀아, 우리 뽀삐. 항상
+                                사랑해!</div>
+                        </div>
+                    </article>
+                    
                 </div>
             </div>
 
