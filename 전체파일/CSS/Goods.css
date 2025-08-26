@@ -1,0 +1,114 @@
+.banner_yj {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 48vh;
+    background-image: url(/Asset/고양이.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.banner_yj>.overlay_yj {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(87, 66, 11, 0.35), rgba(52, 53, 34, 0.55));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner_yj>.overlay_yj>.banner-text_yj {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: white;
+}
+
+.banner_yj>.overlay_yj>.banner-text_yj p {
+
+}
+
+/* 타이틀 */
+.goods-title_yj {
+    margin: 50px auto;
+    display: flex;
+    justify-content: center;
+    font-size: 45px;
+    font-weight: 800;
+    color: rgb(64, 31, 31);
+}
+
+/* 컨텐츠 */
+.contentbox-wrapper_yj {
+    display: flex;
+    flex-direction: column;
+    margin: 50px auto;
+}
+
+main>.contentbox-wrapper_yj>.contentbox_yj {
+    /* height: 300px; */
+    max-width: 1100px;
+    background-color: white;
+    box-shadow: 0 12px 32px rgb(0, 0, 0, 0.1);
+    display: flex;
+    padding: 20px;
+    border-radius: 22px;
+    margin: 30px auto;
+    text-decoration: none;
+    color: black;
+} 
+
+main>.contentbox-wrapper_yj>.contentbox_yj:hover {
+    background-color: #e4d8d1;
+    /* background-color: rgb(238, 234, 234); 마이페이지 hover 색상*/
+}
+
+main .contentbox-wrapper_yj>.contentbox_yj img {
+    flex-shrink: 0;
+    width: 400px; 
+    height: 300px;
+    border-radius: 22px;
+    object-fit: cover;
+}
+
+.contentbox-wrapper_yj>.contentbox_yj>.contentbox-text_yj {
+    max-width: 800px;
+    padding: 20px 40px;
+}
+
+.contentbox-wrapper_yj>.contentbox_yj>.contentbox-text_yj p {
+    font-size: 20px;
+    margin-top: 30px;
+}
+
+/* 예약 바로가기 */
+
+.goods-reserv_yj {
+    width: 180px;
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    display: flex;
+    margin: 50px auto;
+}
+
+.goods-reserv_yj>.reserv-text_yj {
+    width: 180px;
+    padding: 8px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: rgb(151, 106, 51);
+    border-radius: 8px;
+    /* justify-content: center; */
+    margin-bottom: 120px;
+}
+
+.reserv-text_yj:hover {
+    /* background-color: rgb(170, 125, 67); */
+    background-color: #A27B5C; 
+}
