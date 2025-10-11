@@ -86,15 +86,16 @@
                     <div class="greeting_yj" id="greeting"></div>
                 </div>
             </div>
-            <!-- 예약확인 -->
+
+            <!-- 장례예약 -->
             <p class="subtitle_yj">예약내역</p>
-            <div class="reserv_yj">
+            <div class="reserv_yj effect_yj">
                 <div class="reserv-header_yj">
                     <div class="reserv-left_yj">
                         <span class="material-symbols-outlined">
                             calendar_month
                         </span>
-                        <p>나의예약</p>
+                        <p>장례예약</p>
                     </div>
                     <!-- 예약내역 페이지 추후 이동 -->
                     <a href="">예약변경 | 취소 ></a>
@@ -144,9 +145,82 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 상담예약 -->
+            <div class="reserv_yj effect_yj">
+                <div class="reserv-header_yj">
+                    <div class="reserv-left_yj">
+                        <span class="material-symbols-outlined">
+                            diversity_4
+                        </span>
+                        <p>상담예약</p>
+                    </div>
+                    <!-- 예약내역 페이지 추후 이동 -->
+                    <a href="">예약변경 | 취소 ></a>
+                </div>
+                <!-- 예약내역 테이블 -->
+                <div class="reserv-content_yj">
+                    <!-- 추후 예약내용 연결 -->
+                    <div class="reserv-details_yj">
+                        <div>
+                            <span>상담날짜</span>
+                            <p>2025-10-11</p>
+                        </div>
+                        <div>
+                            <span>상담시간</span>
+                            <p>10:00-11:00</p>
+                        </div>
+                        <div>
+                            <span>상담사</span>
+                            <p>심예진 상담사</p>
+                        </div>
+                        <div>
+                            <span>메모</span>
+                            <p>힘들어요 ㅜㅜ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 굿즈 구매내역 -->
+            <div class="reserv_yj effect_yj">
+                <div class="reserv-header_yj">
+                    <div class="reserv-left_yj">
+                        <span class="material-symbols-outlined">
+                            shoppingmode
+                        </span>
+                        <p>구매내역</p>
+                    </div>
+                    <!-- 예약내역 페이지 추후 이동 -->
+                    <a href=""> 구매취소 ></a>
+                </div>
+                <!-- 예약내역 테이블 -->
+                <div class="reserv-content_yj">
+                    <!-- 추후 예약내용 연결 -->
+                    <div class="reserv-details_yj">
+                        <div>
+                            <span>구매제품</span>
+                            <p>메모리얼 스톤</p>
+                        </div>
+                        <div>
+                            <span>수량</span>
+                            <p>1</p>
+                        </div>
+                        <div>
+                            <span>구매일</span>
+                            <p>2025-11-01</p>
+                        </div>
+                        <div>
+                            <span>배송현황</span>
+                            <button>주문접수(제작중)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- 서비스 바로가기 -->
             <p class="subtitle_yj">서비스 바로가기</p>
-            <div class="service_yj">
+            <div class="service_yj effect_yj">
                 <!-- 회원정보수정 페이지 추후 이동 -->
                 <a href="" class="direct_yj">
                     <span class="material-symbols-outlined">
@@ -208,6 +282,22 @@
                 target: '#list-example',
                 offset: 100
             });
+        });
+
+        // 컨텐츠 박스 스크롤 효과
+        const boxes = document.querySelectorAll('.effect_yj');
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        boxes.forEach(effect_yj => {
+            observer.observe(effect_yj);
         });
     </script>
 

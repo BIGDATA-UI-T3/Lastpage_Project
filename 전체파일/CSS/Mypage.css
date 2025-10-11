@@ -8,11 +8,11 @@
     /* text-align: center; */
     /* align-items: center; */
     justify-content: center;
-    margin-top: 80px;
+    margin-top: 50px;
 }
 
 .mypage_yj>p {
-    font-size: 80px;
+    font-size: 70px;
     font-weight: bold;
     display: flex;
     justify-content: center;
@@ -37,18 +37,18 @@
 }
 
 .subtitle_yj {
-    width: 1500px;
+    width: 1000px;
     padding-left: 30px;
     margin: 20px auto;
     display: flex;
     justify-content: left;
-    font-size: 35px;
+    font-size: 30px;
     font-weight: 800;
     color: rgb(64, 31, 31);
 }
 
 main>.reserv_yj {
-    max-width: 1500px;
+    max-width: 1000px;
     /* height: 700px; */
     background-color: white;
     box-shadow: 0 12px 32px rgb(0, 0, 0, 0.1);
@@ -56,7 +56,7 @@ main>.reserv_yj {
     display: flex;
     flex-direction: column;
     margin: auto;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
     padding: 30px;
 }
 
@@ -72,7 +72,7 @@ main>.reserv_yj {
 
 .reserv_yj>.reserv-header_yj>.reserv-left_yj>p {
     color: black;
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 600;
     margin-left: 10px;
 }
@@ -92,8 +92,6 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
 }
 
 /* 예약내역 테이블 */
-
-
 .reserv-content_yj {
     border: 10px black;
     /* background-color: antiquewhite; */
@@ -108,7 +106,7 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
 .reserv-row_yj {
     display: flex;
     justify-content: space-between;
-    padding: 50px;
+    padding: 30px 50px;
 }
 
 .reserv-row_yj>.time-info_yj {
@@ -147,6 +145,7 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
     display: flex;
     justify-content: space-between;
     margin: 8px;
+    align-items: center;
 }
 
 .reserv-details_yj>div>span {
@@ -156,6 +155,7 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
 
 .reserv-details_yj>div>p {
     font-size: 18px;
+    margin: 0;
 }
 
 .reserv-details_yj>div>button {
@@ -180,8 +180,8 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
 }
 
 .direct_yj {
-    width: 730px;
-    height: 300px;
+    width: 475px;
+    height: 250px;
     background-color: white;
     box-shadow: 0 12px 32px rgb(0, 0, 0, 0.1);
     border-radius: 22px;
@@ -201,4 +201,15 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
 
 .direct_yj:hover {
     background-color: rgb(238, 234, 234);
+}
+
+.effect_yj {
+  opacity: 0;
+  transform: translateY(50px); /* 살짝 아래에서 올라오는 느낌 */
+  transition: all 0.6s ease-out;
+}
+
+.effect_yj.show {
+  opacity: 1;
+  transform: translateY(0);
 }
