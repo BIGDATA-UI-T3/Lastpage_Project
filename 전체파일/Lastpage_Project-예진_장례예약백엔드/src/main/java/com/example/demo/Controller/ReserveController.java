@@ -1,0 +1,39 @@
+package com.example.demo.Controller;
+
+import com.example.demo.Domain.Common.Dto.ReserveDto;
+import com.example.demo.Domain.Common.Entity.FuneralReserve;
+import com.example.demo.Domain.Common.Service.FuneralReserveService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@Slf4j
+@RequestMapping("/reserve")
+@RequiredArgsConstructor
+public class ReserveController {
+
+    private final FuneralReserveService funeralReserveService;
+
+    // 페이지 이동 (GET 요청)
+    @GetMapping("/Funeral_reserve")
+    public String reservePage() {
+        return "reserve/Funeral_reserve";  // templates/reserve/psy_reserve.html
+    }
+
+    // 예약 저장 (AJAX POST)
+    @PostMapping("/save")
+    @ResponseBody
+    public ResponseEntity<?> saveReserve(@RequestBody ReserveDto dto) {
+        try {
+            FuneralReserve saved = funeralReserveService.saveReservation(dto);
+            log.info(" 예약 저장 완료: {}", saved.getOwnerName());
+            return ResponseEntity.ok(saved);
+        } catch (Exception e) {
+            log.error(" 예약 저장 실패", e);
+            return ResponseEntity.internalServerError().body("예약 저장 실패");
+        }
+    }
+}
