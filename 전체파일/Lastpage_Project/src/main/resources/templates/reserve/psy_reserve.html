@@ -27,12 +27,12 @@
                     </ul>
                 </li>
 
-                <li><a href="#">장례예약</a></li>
+                <li><a th:href="@{/reserve/Funeral_reserve}">장례서비스</a></li>
                 <li><a href="#">Ourpage</a></li>
                 <li>
                     <a href="#">심리상담</a>
                     <ul>
-                        <li><a href="#">상담예약</a></li>
+                        <li><a th:href="@{/reserve/psy_reserve}">상담예약</a></li>
                         <li><a href="#">예약조회</a></li>
                     </ul>
                 </li>
@@ -45,7 +45,7 @@
                         <li><a href="#">예약조회</a></li>
                     </ul>
                 </li>
-                <li><a href="#">마이페이지</a></li>
+                <li><a th:href="@{/mypage}">마이페이지</a></li>
                 <li><a href="#">고객센터</a></li>
             </ul>
         </nav>
@@ -177,12 +177,12 @@
                         <strong>예약 요청이 완료되었습니다.</strong>
                     </div>
                     <div class="summary" id="finalSummary"></div>
-                    <small class="muted">※ 실제 제출은 백엔드 API에 연결해 처리하세요.</small>
+                    <small class="muted">.</small>
                 </div>
 
                 <div class="actions">
                     <button class="btn secondary" type="button" id="prev4">이전</button>
-                    <button class="btn" type="button" onclick="alert('제출 처리 예시: 서버로 예약 데이터 전송')">제출하기</button>
+                    <button class="btn" type="button" onclick="alert('DB로 예약정보 전송함... ㅠ')">제출하기</button>
                 </div>
             </section>
         </div>
@@ -324,7 +324,7 @@
 document.querySelector('.btn[onclick]').addEventListener('click', async () => {
   const data = { ...state };
 
-  const response = await fetch('/reserve/save', {
+  const response = await fetch('/reserve/save1', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

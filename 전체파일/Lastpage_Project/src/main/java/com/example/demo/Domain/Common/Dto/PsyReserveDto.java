@@ -3,7 +3,7 @@ package com.example.demo.Domain.Common.Dto;
 import lombok.Data;
 
 @Data
-public class ReserveDto{
+public class PsyReserveDto {
     private String name;
     private String birth;
     private String gender;

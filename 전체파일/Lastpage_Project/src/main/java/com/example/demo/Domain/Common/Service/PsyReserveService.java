@@ -1,19 +1,18 @@
 package com.example.demo.Domain.Common.Service;
 
-import com.example.demo.Domain.Common.Dto.ReserveDto;
+import com.example.demo.Domain.Common.Dto.PsyReserveDto;
 import com.example.demo.Domain.Common.Entity.PsyReserve;
 import com.example.demo.Repository.PsyReserveRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class PsyReserveService {
 
-    private final PsyReserveRepository repository;
+    private  final PsyReserveRepository repository;
 
-    public PsyReserve saveReservation(ReserveDto dto) {
+    public PsyReserve saveReservation(PsyReserveDto dto) {
         PsyReserve entity = PsyReserve.builder()
                 .name(dto.getName())
                 .birth(dto.getBirth())
