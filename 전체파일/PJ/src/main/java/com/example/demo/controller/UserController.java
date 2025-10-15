@@ -15,8 +15,8 @@ public class UserController {
     private UserService userService;
 
     /**
-     * http://localhost:8090/login 주소로 GET 요청이 오면
-     * templates 폴더의 login.html 파일을 찾아서 보여주는 역할
+     * http://localhost:8090/signin 주소로 GET 요청이 오면
+     * templates 폴더의 signin.html 파일을 찾아서 보여주는 역할
      */
     @GetMapping("/login")
     public String showLoginPage() {
@@ -37,6 +37,7 @@ public class UserController {
         // Service 계층에 데이터 처리를 위임
         userService.registerUser(userDto);
 
+        // 수정 필요 - 로그인 이후 가는 페이지
         return "redirect:/login-success";
     }
 
