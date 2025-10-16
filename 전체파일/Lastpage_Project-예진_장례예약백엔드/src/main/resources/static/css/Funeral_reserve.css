@@ -1,0 +1,107 @@
+:root{
+    --bg:#f6f1e7;
+    --panel:#ffffff;
+    --ink:#2b2b2b;
+    --muted:#6d6d6d;
+    --brand:#2C3930;
+    --accent:#A27B5C;
+    --border:#ece3d7;
+    --shadow:0 12px 32px rgba(0,0,0,.10);
+    --radius:22px;
+    --banner-url:url('../Asset/장례예약.png'); /* 교체 */
+}
+*{box-sizing:border-box}
+.banner{
+    background-image: var(--banner-url);
+    background-size:cover; background-position:center;
+
+    min-height:48svh; display:grid; place-items:center;
+    position:relative; isolation:isolate;
+}
+.banner::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(34,53,41,.35), rgba(34,53,41,.55));
+    z-index:-1;
+}
+.banner .inner{
+    text-align:center; color:#fff; padding:36px 16px;
+}
+.banner h1{ margin:0 0 10px; font-size:clamp(26px, 4vw, 40px); }
+.banner p{ margin:0; opacity:.95 }
+
+body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;
+    background:linear-gradient(180deg,#f4efe6,var(--bg));
+    color:var(--ink);
+}
+.wrap{ min-height:60svh; display:grid; place-items:start center; padding:32px 12px }
+.card{
+    width:min(880px, 92vw);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:24px;
+    margin:18px 0;
+}
+h1.title{ margin:6px 0 18px; color:#666; font-size:24px; text-align:center }
+
+/* 스텝 인디케이터 */
+.steps{display:flex; gap:8px; justify-content:center; margin-bottom:10px}
+.step-dot{ width:10px; height:10px; border-radius:999px; background:#d7cbbb; opacity:.6 }
+.step-dot.active{ background:var(--accent); opacity:1 }
+
+/* 레이아웃/필드 */
+.grid{ display:grid; gap:12px; grid-template-columns:1fr 1fr }
+.grid-1{ display:grid; gap:12px }
+@media (max-width:680px){ .grid{ grid-template-columns:1fr } }
+
+label.small{ font-size:13px; color:#555 }
+.field{
+    display:flex; align-items:center; gap:8px;
+    background:#faf9f7; border:1px solid var(--border); border-radius:12px;
+    padding:12px 12px;
+}
+.field input, .field select, .field textarea{
+    width:100%; border:0; outline:none; background:transparent; font-size:15px; color:var(--ink);
+}
+.muted{ color:var(--muted) }
+
+/* 슬롯/세그먼트 */
+.seg{display:flex; gap:8px; margin:6px 0}
+.seg-btn{
+    flex:1; height:36px; border:1px solid #e4d7c8; background:#fffaf4; color:#444; cursor:pointer;
+}
+.seg-btn.is-active{ background:#222; color:#fff; border-color:#222 }
+.slots{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+@media (max-width:480px){ .slots{ grid-template-columns:repeat(3,1fr); } }
+.slot{
+    height:36px; border:1px solid #e4d7c8; background:#fff; color:#333; border-radius:10px; cursor:pointer;
+}
+.slot.active{ background:#222; color:#fff; border-color:#222 }
+.slot.is-disabled{ background:#f2f2f2; color:#b7b7b7; pointer-events:none }
+
+/* 버튼 */
+.actions{ display:flex; gap:8px; justify-content:space-between; margin-top:14px }
+.btn{
+    flex:1; padding:14px; border-radius:12px; border:1px solid transparent;
+    background:#1f1f1f; color:#fff; font-weight:700; cursor:pointer; transition:all .18s
+}
+.btn:hover{ background:#fff; color:#A27B5C; }
+.btn.secondary{ background:#e9e1d6; color:#4d463f; }
+.btn.secondary:hover{ background:#fff; color:#4d463f; border-color:#c9b7a0 }
+.btn.primary{ background:var(--accent) }
+.btn[disabled]{ opacity:.45; cursor:not-allowed }
+.btn[disabled]:hover{ background:inherit; color:inherit; border-color:transparent }
+
+/* 단계 표시/숨김 */
+.step{ display:none }
+.step.active{ display:block }
+
+/* 요약 */
+.summary{ border-top:1px dashed #e3d7c6; margin-top:10px; padding-top:12px; line-height:1.8 }
+.count{ font-size:12px; color:#8c7a68; text-align:right }
+
+/* 작은 안내 */
+.note{ display:block; color:#8b7d6c; font-size:12px; margin-top:4px }
+ 
