@@ -13,31 +13,6 @@ import java.io.FileNotFoundException;
 @Slf4j
 @RequestMapping("/except")
 public class ExceptionTestController {
-//
-//@ExceptionHandler(FileNotFoundException.class)
-//public String exception_handler1(Exception e, Model model){
-//    log.error("Error :"+e);
-//    model.addAttribute("ex",e);
-//    return "except/error";
-//
-//
-//}
-//@ExceptionHandler(ArithmeticException.class)
-//public String exception_handler2(Exception e){
-//    log.error("Error :" +e);
-//    return "except/ex2";
-//
-//}
-
-//    @ExceptionHandler(Exception.class)
-//    public String exception_handler1(Exception e, Model model) {
-//        log.error("Error :" + e);
-//        model.addAttribute("ex", e);
-//        return "except/error";
-//
-//
-//    }
-
 
     @GetMapping("/ex1")
     public void ex1() throws FileNotFoundException {
@@ -59,6 +34,5 @@ public class ExceptionTestController {
     public void ex3() {
         log.info("GET /except/ex3...");
     }
-
 
 }

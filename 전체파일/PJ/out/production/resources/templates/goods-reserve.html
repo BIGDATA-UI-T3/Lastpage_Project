@@ -18,8 +18,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 
     <!-- CSS: 공통 먼저, 페이지 전용 나중 -->
-    <link rel="stylesheet" th:href="@{/css/common.css}">
-    <link rel="stylesheet" th:href="@{/css/Goods_reserve.css}">
+    <link rel="stylesheet" href="../static/css/common.css">
+    <link rel="stylesheet" href="../static/css/Goods-reserve.css">
 </head>
 <body>
 
@@ -27,7 +27,7 @@
 <div class="header-wrapper">
     <header>
         <div class="logo">
-            <a href="#"><img th:src="@{/asset/LastPage로고_투명.png}" alt="로고" /></a>
+            <a href="#"><img src="../static/asset/LastPage로고_투명.png" alt="로고" /></a>
         </div>
         <nav>
             <ul>
@@ -627,7 +627,7 @@
     $('#submitBtn').addEventListener('click', ()=>{
       alert('제출 처리 예시: 서버로 예약 데이터 전송');
       // 실제로는 ST 객체를 JSON으로 변환하여 백엔드 API로 POST
-      fetch('/reserve/save', {method:'POST',headers:{'Content-Type':'application/json'},body: JSON.stringify(ST)})
+      // fetch('/api/goods/reserve', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(ST) })
     });
 
     // 초기 포커스
