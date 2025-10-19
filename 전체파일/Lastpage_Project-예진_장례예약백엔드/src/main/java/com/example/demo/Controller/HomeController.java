@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class HomeController {
 
-    @GetMapping("/")//http://localhost:8099/
+    @GetMapping("/")
     public String home(){
         System.out.println("GET /");
         log.info("GET /....");

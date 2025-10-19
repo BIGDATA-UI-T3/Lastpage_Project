@@ -17,7 +17,9 @@ public class FuneralReserve {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "owner_name")
     private String ownerName;
+
     private String ownerPhone;
     private String ownerEmail;
     private String ownerAddr;
@@ -38,4 +40,6 @@ public class FuneralReserve {
 
     @Column(length = 500)
     private String memo;
+
+
 }

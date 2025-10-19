@@ -6,6 +6,8 @@ import com.example.demo.Repository.FuneralReserveRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class FuneralReserveService {
@@ -37,5 +39,9 @@ public class FuneralReserveService {
                 .build();
 
         return repository.save(entity);
+    }
+
+    public List<FuneralReserve> getReserveByOwnerName(String ownerName) {
+        return repository.findByOwnerName(ownerName);
     }
 }
