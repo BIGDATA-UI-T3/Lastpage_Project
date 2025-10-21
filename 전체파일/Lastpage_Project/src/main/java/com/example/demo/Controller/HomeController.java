@@ -17,9 +17,5 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/mypage")
-    public String Mypage(){
-        System.out.println("GET /mypage/Mypage");
-        return "mypage/Mypage";
-    }
+
 }

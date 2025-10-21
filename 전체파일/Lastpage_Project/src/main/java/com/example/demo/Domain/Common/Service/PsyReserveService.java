@@ -12,6 +12,7 @@ public class PsyReserveService {
 
     private  final PsyReserveRepository repository;
 
+
     public PsyReserve saveReservation(PsyReserveDto dto) {
         PsyReserve entity = PsyReserve.builder()
                 .name(dto.getName())
@@ -27,5 +28,8 @@ public class PsyReserveService {
                 .build();
 
         return repository.save(entity);
+    }
+    public PsyReserve findByEmail(String email) {
+        return repository.findByEmail(email).orElse(null);
     }
 }

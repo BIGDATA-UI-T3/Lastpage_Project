@@ -321,6 +321,7 @@
         qs('#name').focus();
 
         /* STEP 4 : 제출하기 버튼 동작 */
+/* STEP 4 : 제출하기 버튼 동작 */
 document.querySelector('.btn[onclick]').addEventListener('click', async () => {
   const data = { ...state };
 
@@ -333,11 +334,14 @@ document.querySelector('.btn[onclick]').addEventListener('click', async () => {
   });
 
   if (response.ok) {
+    const email = await response.text(); // 서버에서 이메일을 응답으로 받음
     alert('예약이 성공적으로 저장되었습니다!');
+    window.location.href = `/mypage/Mypage?email=${email}`;
   } else {
     alert('저장 중 오류가 발생했습니다.');
   }
 });
+
     </script>
 </body>
 </html>
