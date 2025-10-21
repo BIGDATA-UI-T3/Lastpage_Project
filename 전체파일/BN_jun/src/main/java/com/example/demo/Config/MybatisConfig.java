@@ -31,8 +31,6 @@ public class MybatisConfig {
 		return sessionFactory.getObject();
 	}
 	
-//    @Autowired
-//    private SqlSessionFactory sqlSessionFactory;
 
     @Bean
     public SqlSessionTemplate sqlSessionTemplate() throws Exception {
