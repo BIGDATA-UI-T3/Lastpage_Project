@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,19 +8,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
+
     <link rel="stylesheet" th:href="@{/css/common.css}">
-    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" th:href="@{/css/signin.css}">
 
     <title>로그인</title>
 </head>
 
 <body>
 <main>
-    <!-- 헤더(메인과 동일) -->
     <div class="header-wrapper">
         <header>
             <div class="logo">
-                <a href="#"><img th:src="@{/asset/LastPage로고_투명.png}" alt="로고" /></a>
+                <a th:href="@{/}"><img th:src="@{/asset/LastPage로고_투명.png}" alt="로고"  src=""/></a>
             </div>
             <nav>
                 <ul>
@@ -49,13 +49,12 @@
                     <li><a href="#">고객센터</a></li>
                 </ul>
             </nav>
-            <div class="auth">
-                <a href="#">로그인</a>
-                <a href="#">회원가입</a>
-            </div>
+<!--            <div class="auth">-->
+<!--                <a th:href="@{/signin}">로그인</a>-->
+<!--                <a th:href="@{/signup}">회원가입</a>-->
+<!--            </div>-->
         </header>
 
-        <!-- 배너 -->
         <section class="banner" role="img" aria-label="추모 굿즈 간편예약 배너">
             <div class="inner">
                 <h1>사랑을 형태로 남기는 맞춤 제작</h1>
@@ -65,10 +64,21 @@
     </div>
 
     <div class="wrap">
-        <form class="card" id="loginForm" action="/register" method="post" autocomplete="on" novalidate>
+        <form class="card" id="loginForm" th:action="@{/login-process}" method="post" autocomplete="on">
+
+            <!-- CSRF 토큰 -->
 <!--            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
 
             <h1 style="text-align: center;">로그인</h1>
+
+            <!-- 로그인 에러 메시지 -->
+            <div th:if="${param.error}" class="alert alert-danger" role="alert" style="text-align:center;">
+                아이디 또는 비밀번호가 올바르지 않습니다.
+            </div>
+            <div th:if="${param.logout}" class="alert alert-success" role="alert" style="text-align:center;">
+                로그아웃되었습니다.
+            </div>
+
             <label class="field" aria-label="아이디">
                 <input id="username" name="username" type="text" inputmode="email"
                        placeholder="아이디(이메일 또는 사용자명)" required />
@@ -83,13 +93,16 @@
                         <svg id="eyeClosed" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17.94 17.94C16.14 19.24 14.19 20 12 20 5 20 1 12 1 12a20.1 20.1 0 0 1 6.06-6.06M22.99 12s-1.13 2.16-3.18 4.16M3 3l18 18"/></svg>
                     </button>
                 </label>
-                <div id="capsHint" class="hint" role="alert" aria-live="polite" style="display:none;">Caps Lock이 켜져 있습니다.</div>
+                <div id="capsHint" class="hint" role="alert" aria-live="polite" style="display:none;">
+                    Caps Lock이 켜져 있습니다.
+                </div>
                 <hr style="border: none; border-top: 2px solid var(--border); margin-top: 12px; margin-bottom: 0;" />
             </div>
+
             <div class="actions">
                 <button class="btn" type="submit">로그인</button>
                 <div class="links" aria-label="바로가기">
-                    <a href="#" id="link-signup">회원가입하기</a><span>·</span>
+                    <a th:href="@{/signup}" id="link-signup">회원가입하기</a><span>·</span>
                     <a href="#" id="link-find-id">아이디 찾기</a><span>·</span>
                     <a href="#" id="link-find-pw">비밀번호 찾기</a>
                 </div>
@@ -99,8 +112,6 @@
 </main>
 
 <script>
-    const pw=document.getElementById('password'),toggle=document.getElementById('togglePw'),eyeOpen=document.getElementById('eyeOpen'),eyeClosed=document.getElementById('eyeClosed');toggle.addEventListener('click',()=>{const e="password"===pw.type;pw.type=e?"text":"password",eyeOpen.style.display=e?"none":"block",eyeClosed.style.display=e?"block":"none",pw.focus({preventScroll:!0});const t=pw.value;pw.value="",pw.value=t});const capsHint=document.getElementById('capsHint'),updateCaps=e=>{const t=e.getModifierState&&e.getModifierState("CapsLock");capsHint.style.display=t?"block":"none"};pw.addEventListener('keydown',updateCaps),pw.addEventListener('keyup',updateCaps),pw.addEventListener('focus',e=>updateCaps(e)),pw.addEventListener('blur',()=>capsHint.style.display="none");
-
     // 비밀번호 보기/숨기기
     const pw = document.getElementById('password');
     const toggle = document.getElementById('togglePw');
@@ -126,7 +137,6 @@
     pw.addEventListener('keyup', updateCaps);
     pw.addEventListener('focus', (e)=>updateCaps(e));
     pw.addEventListener('blur', ()=> capsHint.style.display='none');
-
 </script>
 </body>
 </html>

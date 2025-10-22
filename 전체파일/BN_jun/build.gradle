@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'war'
+    // id 'war' // [수정] Thymeleaf는 'jar'가 기본이므로 'war' 플러그인 삭제 또는 주석 처리
     id 'org.springframework.boot' version '3.5.5'
     id 'io.spring.dependency-management' version '1.1.7'
 }
@@ -14,7 +14,6 @@ java {
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
-
 
 configurations {
     compileOnly {
@@ -30,21 +29,22 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-//	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    // --- [수정] JSP 관련 의존성 모두 주석 처리 ---
+    // (Thymeleaf와 충돌을 일으킵니다)
     // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:11.0.10'
-
+//    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:11.0.10'
 
     //JSTL
-    implementation 'jakarta.servlet:jakarta.servlet-api' //스프링부트 3.0 이상
-  //  implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' //스프링부트 3.0 이상
- //   implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
+//    implementation 'jakarta.servlet:jakarta.servlet-api' //스프링부트 3.0 이상
+    //  implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' //스프링부트 3.0 이상
+    //   implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
     // https://mvnrepository.com/artifact/jakarta.el/jakarta.el-api
-    implementation 'jakarta.el:jakarta.el-api:6.0.1' //JSP EL PARSE
-    implementation 'javax.servlet:jstl:1.2'
+//    implementation 'jakarta.el:jakarta.el-api:6.0.1' //JSP EL PARSE
+//    implementation 'javax.servlet:jstl:1.2'
+    // --- JSP 주석 처리 끝 ---
 
 
     //Validation
@@ -64,10 +64,18 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.5'
 
-    //Thymeleaf
+    //Thymeleaf (우리가 사용할 템플릿 엔진)
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
 
+    // 1. Spring Security (보안 총괄)
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // 2. OAuth2 Client (나중에 네이버/카카오 로그인에 필요)
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    // 3. Thymeleaf에서 Security 정보를 사용하기 위한 도우미
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
 }
 
