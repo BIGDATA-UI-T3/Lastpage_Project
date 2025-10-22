@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 
 @Slf4j
-public class HomeController {
+public class SigninController {
 
-    @GetMapping("/")//http://localhost:8099/
+    @GetMapping("/signin")//http://localhost:8099/signin
     public String home(){
         System.out.println("GET /");
         log.info("GET /....");
-        return "mainpage/Mainpage";
+        return "signin/Signin";
     }
 
 
