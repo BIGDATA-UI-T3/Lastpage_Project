@@ -141,6 +141,42 @@
             offset: 100
           });
         });
+
+         document.querySelector('.signup-btn.big').addEventListener('click', async (event) => {
+  event.preventDefault(); // 폼 기본 제출 막기
+
+  const data = {
+    name: document.querySelector('input[placeholder="이름"]').value,
+    id: document.querySelector('input[placeholder="아이디"]').value,
+    password: document.querySelector('input[placeholder="비밀번호 (8~16자 영문 대소문자/숫자/특수문자를 사용하세요.)"]').value,
+    confirm_password: document.querySelector('input[placeholder="비밀번호 확인"]').value,
+    email_id: document.querySelector('.email-id').value,
+    email_domain: document.querySelector('.email-domain').value,
+    year: document.querySelector('input[placeholder="생년(4자)"]').value,
+    month: document.querySelector('input[placeholder="월"]').value,
+    day: document.querySelector('input[placeholder="일"]').value,
+    gender: document.querySelector('input[name="gender"]:checked')?.value === 'male' ? 'M' :
+            document.querySelector('input[name="gender"]:checked')?.value === 'female' ? 'F' : 'N',
+    phone_num: document.querySelector('.phone-input').value,
+    sms_auth_number: document.querySelector('.sms-input').value,
+  };
+
+  const response = await fetch('/userinfoSave', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (response.ok) {
+    const id = await response.text();
+    alert('회원가입 성공!');
+    window.location.href = `/signin/Signin?id=${id}`;
+  } else {
+    alert('저장 중 오류가 발생했습니다.');
+  }
+});
       </script>
 </body>
 

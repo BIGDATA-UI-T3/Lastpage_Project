@@ -43,7 +43,7 @@ public class ReserveController {
             // JS에서 redirect할 수 있도록 email을 응답에 담아줌
             return ResponseEntity.ok(saved.getEmail());
         } catch (Exception e) {
-            log.error("❌ 예약 저장 실패", e);
+            log.error(" 예약 저장 실패", e);
             return ResponseEntity.internalServerError().body("예약 저장 실패");
         }
     }
@@ -54,10 +54,10 @@ public class ReserveController {
     public ResponseEntity<?> saveFuneralReserve(@RequestBody FuneralReserveDto dto) {
         try {
             FuneralReserve saved = funeralReserveService.saveReservation(dto);
-            log.info("✅ 장례 예약 저장 완료: {}", saved.getOwnerName());
+            log.info("장례 예약 저장 완료: {}", saved.getOwnerName());
             return ResponseEntity.ok(saved.getOwnerName());
         } catch (Exception e) {
-            log.error("❌ 장례 예약 저장 실패", e);
+            log.error(" 장례 예약 저장 실패", e);
             return ResponseEntity.internalServerError().body("예약 저장 실패");
         }
     }
