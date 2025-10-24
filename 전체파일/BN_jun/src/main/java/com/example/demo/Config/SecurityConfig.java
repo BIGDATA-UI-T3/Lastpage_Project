@@ -22,24 +22,25 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        // [핵심] 이 부분이 없으면 무한 리디렉션 발생
                         .requestMatchers(
-                                "/",
-                                "/signin", // 로그인 페이지
-                                "/signup", // 회원가입 페이지
-                                "/css/**", // CSS 폴더 전체
-                                "/asset/**", // asset 폴더 전체
-                                "/js/**"   // js 폴더 전체 (필요시)
+                                "/", "/signin", "/signup", "/css/**", "/asset/**", "/js/**"
                         ).permitAll()
                         .requestMatchers("/mypage").authenticated()
                         .anyRequest().authenticated()
                 )
+                // [1. 자체 로그인]
                 .formLogin(form -> form
-                        .loginPage("/signin") // 로그인 페이지 URL
+                        .loginPage("/signin")
                         .loginProcessingUrl("/login-process")
-                        .defaultSuccessUrl("/mypage", true) // 로그인 성공 시 /mypage로
+                        .defaultSuccessUrl("/mypage", true)
                         .permitAll()
                 )
+
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/signin") // 👈 소셜 로그인을 눌러도 우리 로그인 페이지(/signin)에서 시작
+                        .defaultSuccessUrl("/mypage", true) // 👈 소셜 로그인 성공 시 /mypage로 이동
+                )
+
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")

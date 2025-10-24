@@ -49,10 +49,6 @@
                     <li><a href="#">고객센터</a></li>
                 </ul>
             </nav>
-<!--            <div class="auth">-->
-<!--                <a th:href="@{/signin}">로그인</a>-->
-<!--                <a th:href="@{/signup}">회원가입</a>-->
-<!--            </div>-->
         </header>
 
         <section class="banner" role="img" aria-label="추모 굿즈 간편예약 배너">
@@ -66,12 +62,8 @@
     <div class="wrap">
         <form class="card" id="loginForm" th:action="@{/login-process}" method="post" autocomplete="on">
 
-            <!-- CSRF 토큰 -->
-<!--            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
-
             <h1 style="text-align: center;">로그인</h1>
 
-            <!-- 로그인 에러 메시지 -->
             <div th:if="${param.error}" class="alert alert-danger" role="alert" style="text-align:center;">
                 아이디 또는 비밀번호가 올바르지 않습니다.
             </div>
@@ -100,13 +92,40 @@
             </div>
 
             <div class="actions">
+
                 <button class="btn" type="submit">로그인</button>
-                <div class="links" aria-label="바로가기">
-                    <a th:href="@{/signup}" id="link-signup">회원가입하기</a><span>·</span>
-                    <a href="#" id="link-find-id">아이디 찾기</a><span>·</span>
-                    <a href="#" id="link-find-pw">비밀번호 찾기</a>
+
+                <div class="social-login-buttons">
+                    <a th:href="@{/oauth2/authorization/kakao}" class="btn kakao-btn">
+                        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px; margin-right: 8px;">
+                            <path d="M16 4.66666C9.17933 4.66666 3.66602 8.84132 3.66602 14.04C3.66602 17.6533 6.13002 20.8193 9.61335 22.518L8.10602 27.026C7.99068 27.3887 8.35668 27.696 8.68735 27.52L13.79 24.834C14.502 24.938 15.236 24.992 16 24.992C22.8207 24.992 28.334 20.8173 28.334 15.618C28.334 10.4187 22.8207 6.24399 16 6.24399C16 4.66666 16 4.66666 16 4.66666Z" fill="#191919"/>
+                        </svg>
+                        카카오 로그인
+                    </a>
+
+                    <a th:href="@{/oauth2/authorization/naver}" class="btn naver-btn">
+                        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px; margin-right: 8px;">
+                            <path d="M16.278 18.156V25.667H9.5V6.33301H16.278V13.844H22.5V6.33301H22.501V25.667H22.5V18.156H16.278Z" fill="white"/>
+                        </svg>
+                        네이버 로그인
+                    </a>
+
+                    <a th:href="@{/oauth2/authorization/google}" class="btn google-btn">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px; margin-right: 8px;">
+                            <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
+                            <path fill="#FF3D00" d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"/>
+                            <path fill="#4CAF50" d="m24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
+                            <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-0.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C42.612 34.627 44 30.032 44 24c0-1.341-.138-2.65-.389-3.917z"/>
+                        </svg>
+                        구글 로그인
+                    </a>
                 </div>
-            </div>
+            </div> <div class="links" aria-label="바로가기">
+            <a th:href="@{/signup}" id="link-signup">회원가입하기</a><span>·</span>
+            <a href="#" id="link-find-id">아이디 찾기</a><span>·</span>
+            <a href="#" id="link-find-pw">비밀번호 찾기</a>
+        </div>
+
         </form>
     </div>
 </main>

@@ -1,4 +1,4 @@
- :root{
+:root{
       --bg:#f6f1e7;
       --panel:#ffffff;
       --ink:#2b2b2b;
@@ -8,7 +8,8 @@
       --border:#ece3d7;
       --shadow:0 12px 32px rgba(0,0,0,.10);
       --radius:22px;
-      --banner-url:url('../static/asset/굿즈예약.png'); /* 교체 */
+      /* [경로 수정] static 폴더 기준이므로 /asset으로 시작해야 합니다 */
+      --banner-url:url('/asset/굿즈예약.png');
     }
     *{box-sizing:border-box}
      .banner{
@@ -34,14 +35,14 @@
 body{
     margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", Arial, "Apple SD Gothic Neo", sans-serif;
     background:linear-gradient(180deg, #faf7f1, #efe9dd);
-    color:var(--text);
+    color:var(--ink); /* [수정] --text -> --ink */
 }
 .wrap{
     min-height:80svh; display:grid; place-items:center; padding:32px 16px;
 }
 .card{
     width:min(720px, 92vw);
-    background:var(--card);
+    background:var(--panel); /* [수정] --card -> --panel */
     border:1px solid var(--border);
     border-radius:var(--radius);
     box-shadow:var(--shadow);
@@ -61,7 +62,7 @@ body{
 }
 .field input{
     border:0; outline:none; width:100%;
-    background:transparent; font-size:16px; color:var(--text);
+    background:transparent; font-size:16px; color:var(--ink); /* [수정] --text -> --ink */
 }
 .field input::placeholder{color:#bbb}
 .eye-btn{
@@ -74,32 +75,98 @@ body{
     font-size:13px; color:var(--muted); margin-top:4px; padding:0 2px;
 }
 .hint.warn{color:#c0392b}
+
+/* ▼▼▼ [수정] 버튼 및 링크 CSS ▼▼▼ */
+
 .actions{
-    margin-top:18px;
+    margin-top: 24px; /* 입력창과 버튼 사이 간격 */
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* 버튼과 버튼 사이 간격 */
 }
+
 .btn{
-    width:100%; padding:14px 16px;
-    border-radius:10px;  cursor:pointer;
-    background:#A27B5c; color:#fff; font-size:16px; font-weight:700;
-    border: 1px solid transparent;
-}
-
-.btn:hover {
-    width: 100%;
+    width:100%;
     padding: 14px 16px;
-    background: #fff; color: #A27B5c; font-size: 16px; font-weight: 700;
+    border-radius: 10px;
+    cursor:pointer;
+    font-size: 16px;
+    font-weight: 700;
+    border: 1px solid transparent;
 
-    border: 1px solid #fff;
-    border-radius: 10px; cursor: pointer;
+    /* [추가] 텍스트/아이콘 정렬을 위해 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none; /* a태그의 밑줄 제거 */
 }
+
+/* 1. 자체 로그인 버튼 (기존 스타일) */
+.btn {
+    background: var(--accent); /* #A27B5C */
+    color: #fff;
+}
+.btn:hover {
+    background: #fff;
+    color: var(--accent); /* #A27B5C */
+    border: 1px solid var(--accent); /* [수정] 테두리 색상 명확히 */
+    /* [추가] flex 유지 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 2. 소셜 로그인 버튼 그룹 */
+.social-login-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 3. 개별 소셜 버튼 스타일 */
+
+/* 카카오 버튼 */
+.btn.kakao-btn {
+    background-color: #FEE500;
+    color: #191919; /* 카카오 공식 검정색 */
+    border-color: #FEE500;
+}
+.btn.kakao-btn:hover {
+    background-color: #FEE500;
+    border-color: #FEE500;
+    opacity: 0.9;
+    color: #191919;
+}
+
+/* (참고) 나중을 위한 네이버/구글 스타일 */
+.btn.naver-btn {
+    background-color: #03C75A;
+    color: #FFFFFF;
+    border-color: #03C75A;
+}
+.btn.google-btn {
+    background-color: #FFFFFF;
+    color: #444444;
+    border-color: #DDDDDD;
+}
+
+/* 4. 하단 링크 (맨 밑으로 이동됨) */
 .links{
     display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
-    margin-top:14px; font-size:14px;
+    margin-top: 24px; /* 버튼 그룹과 링크 사이 간격 */
+    font-size: 14px;
 }
-.links a{ color:#666; text-decoration:none; border-bottom:1px solid transparent }
-.links a:hover{ border-bottom-color:#999 ;
-    color:#666;
+.links a{ color: var(--muted); text-decoration:none; border-bottom:1px solid transparent }
+.links a:hover{ border-bottom-color: var(--muted);
+    color: var(--muted);
 }
+
+/* [삭제] "또는" 구분선 삭제 */
+/* .social-login-divider { ... } */
+/* .social-login-divider::before { ... } */
+/* .social-login-divider span { ... } */
+
+
 /* 작은 화면 */
 @media (max-width:480px){
     .card{ padding:22px }
