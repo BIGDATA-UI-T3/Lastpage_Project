@@ -21,7 +21,7 @@ public class GoodsReserveService {
 
         Integer quantityToSave = dto.getQuantity();
         if (quantityToSave == null || quantityToSave < 1) {
-            quantityToSave = 1; // 널(null)이거나 1보다 작으면 1로 강제 설정
+            quantityToSave = 1; // 널이거나 1보다 작으면 1로 강제 설정
         }
 
         GoodsReserve entity = GoodsReserve.builder()
@@ -60,10 +60,7 @@ public class GoodsReserveService {
         return repository.save(entity);
     }
 
-    /**
-     * 데이터베이스에 저장된 모든 굿즈 예약 목록을 조회하는 기능
-     * @return GoodsReserve 객체들이 담긴 List
-     */
+    // 데이터베이스에 저장된 모든 굿즈 예약 목록을 조회하는 기능, @return GoodsReserve 객체들이 담긴 List임
     @Transactional(readOnly = true) // 데이터를 읽기만 하므로 readOnly = true 옵션 추가 (성능 향상)
     public List<GoodsReserve> getAllGoodsReservations() {
         return repository.findAll(); // JpaRepository가 기본으로 제공하는 '전체 조회' 기능

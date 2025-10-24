@@ -20,27 +20,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // [수정] CSRF 비활성화 (이전 JS 코드와 맞추기 위해)
                 .csrf(csrf -> csrf.disable())
+
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
-                                "/", "/signin", "/signup", "/css/**", "/asset/**", "/js/**"
+                                "/", "/signin",
+                                "/signup",
+                                "/signup/send-email-code",
+                                "/css/**", "/asset/**", "/js/**"
                         ).permitAll()
-                        .requestMatchers("/mypage").authenticated()
-                        .anyRequest().authenticated()
+
+                        .requestMatchers("/mypage").authenticated() // 로그인한 사람만
+                        .anyRequest().authenticated() // 그 외는 로그인 필수
                 )
-                // [1. 자체 로그인]
+                // 자체 로그인
                 .formLogin(form -> form
                         .loginPage("/signin")
                         .loginProcessingUrl("/login-process")
                         .defaultSuccessUrl("/mypage", true)
                         .permitAll()
                 )
-
+                // 소셜 로그인
                 .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/signin") // 👈 소셜 로그인을 눌러도 우리 로그인 페이지(/signin)에서 시작
-                        .defaultSuccessUrl("/mypage", true) // 👈 소셜 로그인 성공 시 /mypage로 이동
+                        .loginPage("/signin")
+                        .defaultSuccessUrl("/mypage", true)
                 )
-
+                // 로그아웃
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")

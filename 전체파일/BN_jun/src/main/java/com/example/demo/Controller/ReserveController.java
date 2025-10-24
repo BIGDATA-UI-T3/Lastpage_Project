@@ -17,13 +17,11 @@ public class ReserveController {
 
     private final GoodsReserveService goodsReserveService;
 
-    // 페이지 이동 (GET 요청)
     @GetMapping("/Goods_reserve")
     public String reservePage() {
-        return "reserve/Goods_reserve";  // templates/reserve/psy_reserve.html
+        return "reserve/Goods_reserve";
     }
 
-    // 예약 저장 (AJAX POST)
     @PostMapping("/save")
     @ResponseBody
     public ResponseEntity<?> saveReserve(@RequestBody ReserveDto dto) {

@@ -1,6 +1,5 @@
 package com.example.demo.Controller;
 
-// ▼▼▼ Validation, Session, Lombok 등 모든 import ▼▼▼
 import com.example.demo.Domain.Common.Dto.RegisterFormDto;
 import com.example.demo.Domain.Common.Service.GoodsReserveService;
 import com.example.demo.Domain.Common.Service.UserService;
@@ -15,29 +14,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-// ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
 @Controller
-@RequiredArgsConstructor // @Autowired 대신 final 필드를 주입합니다.
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-    private final GoodsReserveService goodsReserveService; // (mypage 등에서 사용)
+    private final GoodsReserveService goodsReserveService;
 
-    /**
-     * [GET] 회원가입 페이지 (비어있는 폼 DTO 전달)
-     */
+ 
     @GetMapping("/signup")
     public String showRegisterPage(Model model) {
-        // 1. 유효성 검사(Validation)를 위해 비어있는 DTO 객체를 모델에 담아서
-        // 2. signup.html의 th:object="${registerFormDto}"로 전달합니다.
         model.addAttribute("registerFormDto", new RegisterFormDto());
         return "signup";
     }
 
-    /**
-     * [POST] 회원가입 처리 (유효성 검사 + 이메일 인증)
-     */
+    // 회원가입 처리 (유효성 검사 + 이메일 인증)
     @PostMapping("/signup")
     public String processRegister(
             // 1. @Valid: DTO의 유효성 검사(예: @NotBlank)를 실행
@@ -50,24 +42,23 @@ public class UserController {
             // 5. HttpSession: 이메일 인증 코드를 검증하기 위해 세션 사용
             HttpSession session) {
 
-        // [검사 1] DTO에 정의된 유효성 검사 (@NotBlank, @Size, @Pattern 등)
+        // 검사1) DTO에 정의된 유효성 검사하기 (@NotBlank, @Size, @Pattern...)
         if (bindingResult.hasErrors()) {
-            // 검사 실패 시, 입력했던 데이터와 오류 메시지를 가지고
-            // signup.html 페이지로 "돌아갑니다" (redirect 아님!)
+            // 검사 실패 시 입력했던 데이터와 오류 메시지를 가지고 signup.html 페이지로 돌아가게
             return "signup";
         }
 
-        // [검사 2] 비밀번호와 비밀번호 확인이 일치하는지 (수동 검사)
+        // 검사2) 비밀번호와 비밀번호 확인이 일치하는지
         if (!dto.getPassword().equals(dto.getPasswordCheck())) {
             // bindingResult에 "passwordCheck" 필드 오류를 수동으로 추가
             bindingResult.addError(new FieldError("registerFormDto", "passwordCheck", "비밀번호가 일치하지 않습니다."));
             return "signup";
         }
 
-        // [검사 3] 이메일 인증 코드가 일치하는지 (세션 검사)
+        // 검사 3) 이메일 인증 코드가 일치하는지
         String sessionCode = (String) session.getAttribute("emailVerificationCode");
         String sessionEmail = (String) session.getAttribute("emailForVerification");
-        String userCode = dto.getSmsCode(); // (HTML의 name="smsCode" 필드)
+        String userCode = dto.getSmsCode();
         String userEmail = dto.getEmailId() + "@" + dto.getEmailDomain();
 
         // [오류 3-1] 인증을 아예 안 한 경우
@@ -88,12 +79,12 @@ public class UserController {
             return "signup";
         }
 
-        // [검사 4] 모든 검증 통과 -> 실제 회원가입 로직 실행
+        // 검사 4) 모든 검증 통과
         try {
             // DTO를 UserService로 넘겨서 DB에 저장
             userService.registerUser(dto);
 
-            // [중요] 인증 성공 시, 세션에 저장된 코드 정보 즉시 삭제
+            // 인증 성공 시, 세션에 저장된 코드 정보 즉시 삭제
             session.invalidate();
 
         } catch (IllegalStateException e) {
@@ -106,20 +97,14 @@ public class UserController {
             return "redirect:/signup";
         }
 
-        // [성공] 회원가입 완료
+        // 회원가입 완료
         redirectAttributes.addFlashAttribute("successMessage", "회원가입이 완료되었습니다! 로그인해주세요.");
-        return "redirect:/signin"; // 로그인 페이지로 리다이렉트
+        return "redirect:/signin";
     }
 
-    /**
-     * [GET] 마이페이지 (로그인한 사용자만 접근 가능)
-     * (SecurityConfig에 의해 로그인되지 않은 사용자는 /signin으로 튕겨냄)
-     */
+   // SecurityConfig에 의해 로그인되지 않은 사용자는 /signin으로 튕겨냄
     @GetMapping("/mypage")
     public String showMyPage(Model model) {
-        // (예시: GoodsReserveService를 사용해 예약 내역을 가져오는 로직)
-        // List<GoodsReserve> reserves = goodsReserveService.findMyReserves();
-        // model.addAttribute("reserves", reserves);
 
         return "mypage";
     }

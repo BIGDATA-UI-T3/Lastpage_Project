@@ -46,26 +46,26 @@ public class ReserveDto{
     private String memo;
 
     // === Step 1 추가 ===
-    private List<String> materials; // JS에서 배열로 오므로 List로 받는 것이 편리
+    private List<String> materials;
 
     // === Step 2 추가 ===
     private String product;
-    private String metalColor; // 'metal' -> 'metalColor'로 변경 추천
+    private String metalColor;
     private String chainLength;
     private String ringSize;
-    private Integer quantity;   // 'qty' -> 'quantity'로 변경 추천, 숫자는 Integer로
-    private String engravingText; // 'engrave' -> 'engravingText'로 변경 추천
-    private String engravingFont; // 'font' -> 'engravingFont'로 변경 추천
-    private String optionsMemo;   // 'optMemo' -> 'optionsMemo'로 변경 추천
+    private Integer quantity;
+    private String engravingText;
+    private String engravingFont;
+    private String optionsMemo;
 
     // === Step 3 추가 ===
     private String shipMethod;
     private String targetDate;
-    private Boolean isExpress;    // 'express' -> 'isExpress'로 변경 추천, 참/거짓은 Boolean으로
+    private Boolean isExpress;
     private String kitAddr;
     private String kitDate;
-    private String kitTime;       // 'time' -> 'kitTime'으로 변경 추천 (수거 시간)
+    private String kitTime;
     private String visitDate;
     private String visitTime;
-    private String trackingInfo;  // 'tracking' -> 'trackingInfo'로 변경 추천
+    private String trackingInfo;
 }

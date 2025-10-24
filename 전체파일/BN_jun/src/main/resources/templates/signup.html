@@ -4,28 +4,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" ...>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ...></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
     <link rel="stylesheet" th:href="@{/css/signup.css}">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <title>회원가입하기</title>
 
-    <style>
-        .error-message {
-            color: #dc3545; /* 부트스트랩 danger 색상 */
-            font-size: 0.875em;
-            margin-top: -8px; /* 입력창과의 간격 조절 */
-            margin-bottom: 12px; /* 다음 입력창과의 간격 */
-            text-align: left;
-            padding-left: 5px;
-        }
-        /* 이메일/생년월일 등 .signup-row 밑의 에러는 간격을 다르게 줌 */
-        .signup-row + .error-message {
-            margin-top: 4px;
-            margin-bottom: 8px;
-        }
-    </style>
 </head>
 
 <body>
@@ -63,14 +51,17 @@
             <p class="error-message" th:if="${#fields.hasErrors('emailId')}" th:errors="*{emailId}"></p>
             <p class="error-message" th:if="${#fields.hasErrors('emailDomain')}" th:errors="*{emailDomain}"></p>
 
-            <div class="signup-row sms-row"> <input type="text" th:field="*{smsCode}" class="sms-input" placeholder="이메일 인증 번호 입력" required>
+            <div class="signup-row sms-row">
+                <input type="text" th:field="*{smsCode}" class="sms-input" placeholder="이메일 인증 번호 입력" required>
             </div>
             <p class="error-message" th:if="${#fields.hasErrors('smsCode')}" th:errors="*{smsCode}"></p>
+
             <div class="signup-row birth-row">
                 <input type="text" th:field="*{birthYear}" maxlength="4" placeholder="생년(4자)" required>
                 <input type="text" th:field="*{birthMonth}" maxlength="2" placeholder="월" required>
                 <input type="text" th:field="*{birthDay}" maxlength="2" placeholder="일" required>
             </div>
+
             <div class="signup-row gender-row">
                 <label><input type="radio" th:field="*{gender}" value="none" required> 선택안함</label>
                 <label><input type="radio" th:field="*{gender}" value="male"> 남</label>
@@ -89,85 +80,92 @@
 </main>
 
 <script>
-    // (기존 스크롤 스크립트)
     (function () {
-      const header = document.querySelector('header');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 200) {
-          header.style.top = '-120px';
-        } else {
-          header.style.top = '0';
-        }
-      });
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                header.style.top = '-120px';
+            } else {
+                header.style.top = '0';
+            }
+        });
     })();
 
     document.addEventListener("DOMContentLoaded", function () {
-      // (기존 ScrollSpy)
-      new bootstrap.ScrollSpy(document.body, {
-        target: '#list-example',
-        offset: 100
-      });
 
-      // (기존 이메일 도메인 스크립트)
-      const emailDomainInput = document.querySelector('.email-domain');
-      const emailDomainSelect = document.querySelector('.domain-select');
-      emailDomainSelect.addEventListener('change', function() {
-        if (this.value === '직접입력') {
-          emailDomainInput.value = '';
-          emailDomainInput.readOnly = false;
-          emailDomainInput.focus();
-        } else {
-          emailDomainInput.value = this.value;
-          emailDomainInput.readOnly = true;
+        const emailDomainInput = document.querySelector('.email-domain');
+        const emailDomainSelect = document.querySelector('.domain-select');
+
+        emailDomainSelect.addEventListener('change', function() {
+            if (this.value === '직접입력') {
+                emailDomainInput.value = '';
+                emailDomainInput.readOnly = false;
+                emailDomainInput.focus();
+            } else {
+                emailDomainInput.value = this.value;
+                emailDomainInput.readOnly = true;
+            }
+        });
+
+        const emailVerifyBtn = document.getElementById('emailVerifyBtn');
+        emailVerifyBtn.addEventListener('click', async () => {
+            const emailId = document.querySelector('input[name="emailId"]').value;
+            const emailDomain = document.querySelector('input[name="emailDomain"]').value;
+            if (!emailId || !emailDomain) {
+                alert('이메일 주소를 모두 입력해주세요.'); return;
+            }
+
+            emailVerifyBtn.disabled = true;
+            emailVerifyBtn.textContent = '발송 중...';
+
+            const formData = new FormData();
+            formData.append('emailId', emailId);
+            formData.append('emailDomain', emailDomain);
+
+            try {
+                // MailApiController 호출
+                const response = await fetch('/signup/send-email-code', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message); // "인증 코드가 발송되었습니다."
+                    emailVerifyBtn.textContent = '재발송';
+                    startTimer(180, emailVerifyBtn); // 3분 타이머
+                } else {
+                    // (500 오류 등 서버가 실패 응답을 준 경우)
+                    alert(result.message); // "이메일 발송에 실패했습니다."
+                    emailVerifyBtn.textContent = '인증하기';
+                    emailVerifyBtn.disabled = false;
+                }
+            } catch (error) {
+                // (네트워크 오류, 서버 다운 등)
+                alert('인증 코드 발송 중 오류가 발생했습니다.');
+                emailVerifyBtn.textContent = '인증하기';
+                emailVerifyBtn.disabled = false;
+            }
+        });
+
+        // 3분 타이머 함수
+        function startTimer(duration, button) {
+            let timer = duration, minutes, seconds;
+            button.disabled = true;
+            const interval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                button.textContent = minutes + ":" + seconds;
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    button.textContent = '인증하기';
+                    button.disabled = false;
+                }
+            }, 1000);
         }
-      });
-
-      // (이메일 인증 코드 발송 JS, 타이머 JS는 이전과 100% 동일)
-      const emailVerifyBtn = document.getElementById('emailVerifyBtn');
-      emailVerifyBtn.addEventListener('click', async () => {
-          const emailId = document.querySelector('input[name="emailId"]').value;
-          const emailDomain = document.querySelector('input[name="emailDomain"]').value;
-          if (!emailId || !emailDomain) {
-              alert('이메일 주소를 모두 입력해주세요.'); return;
-          }
-          emailVerifyBtn.disabled = true;
-          emailVerifyBtn.textContent = '발송 중...';
-          const formData = new FormData();
-          formData.append('emailId', emailId);
-          formData.append('emailDomain', emailDomain);
-          try {
-              const response = await fetch('/signup/send-email-code', { method: 'POST', body: formData });
-              const result = await response.json();
-              alert(result.message);
-              if (response.ok) {
-                  emailVerifyBtn.textContent = '재발송';
-                  startTimer(180, emailVerifyBtn); // 3분 타이머
-              } else {
-                  emailVerifyBtn.textContent = '인증하기';
-                  emailVerifyBtn.disabled = false;
-              }
-          } catch (error) {
-              alert('인증 코드 발송 중 오류가 발생했습니다.');
-              emailVerifyBtn.textContent = '인증하기';
-              emailVerifyBtn.disabled = false;
-          }
-      });
-      function startTimer(duration, button) {
-          let timer = duration, minutes, seconds;
-          button.disabled = true;
-          const interval = setInterval(function () {
-              minutes = parseInt(timer / 60, 10);
-              seconds = parseInt(timer % 60, 10);
-              minutes = minutes < 10 ? "0" + minutes : minutes;
-              seconds = seconds < 10 ? "0" + seconds : seconds;
-              button.textContent = minutes + ":" + seconds;
-              if (--timer < 0) {
-                  clearInterval(interval);
-                  button.textContent = '인증하기';
-                  button.disabled = false;
-              }
-          }, 1000);
-      }
     });
 </script>
 </body>

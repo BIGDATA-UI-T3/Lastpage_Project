@@ -12,7 +12,7 @@ public class PersonComponent {
     private String addr;
 
     PersonComponent(){
-        this.name = "심예진";
+        this.name = "박준형";
         this.age=25;
         this.addr="대구";
     }

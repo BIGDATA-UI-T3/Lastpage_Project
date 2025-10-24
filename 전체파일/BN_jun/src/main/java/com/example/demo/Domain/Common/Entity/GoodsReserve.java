@@ -72,7 +72,7 @@ public class GoodsReserve {
     private String memo;
 
     // === Step 1 추가 ===
-    private String materials; // DB에는 "ash,hair" 처럼 문자열로 저장
+    private String materials;
 
     // === Step 2 추가 ===
     private String product;

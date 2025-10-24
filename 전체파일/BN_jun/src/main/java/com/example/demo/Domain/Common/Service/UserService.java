@@ -1,6 +1,5 @@
 package com.example.demo.Domain.Common.Service; // 👈 1. 패키지 선언
 
-// ▼▼▼ 2. 누락된 import문 모두 추가 ▼▼▼
 import com.example.demo.Domain.Common.Dto.RegisterFormDto;
 import com.example.demo.Domain.Common.Entity.User; // 👈 [수정] 'User' 엔티티 import
 import com.example.demo.Repository.UserRepository;
@@ -24,11 +23,10 @@ import java.util.ArrayList; // 👈 [수정]
 import java.util.List; // 👈 [수정]
 import java.util.Map; // 👈 [수정]
 import java.util.Optional; // 👈 [수정]
-// ▲▲▲ import문 끝 ▲▲▲
 
 @Service
 @RequiredArgsConstructor
-@Transactional // 👈 이제 이 어노테이션을 인식함
+@Transactional
 public class UserService implements UserDetailsService, OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final UserRepository userRepository;
@@ -40,22 +38,18 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
             throw new IllegalStateException("이미 존재하는 아이디입니다.");
         }
 
-        User user = new User(); // 👈 이제 'User' 엔티티를 인식함
+        User user = new User();
         user.setName(dto.getName());
         user.setUsername(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setEmail(dto.getEmailId() + "@" + dto.getEmailDomain());
         user.setPhone(dto.getPhone());
 
-        // (DTO의 생년월일, 성별 등도 User 엔티티에 필드가 있다면 여기서 set 해줘야 함)
-        // user.setBirthdate(dto.getBirthYear() + ...);
-        // user.setGender(dto.getGender());
-
         user.setRole("ROLE_USER");
         return userRepository.save(user);
     }
 
-    // [기능 2] 자체 로그인 (수정 없음)
+    // [기능 2] 자체 로그인
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -72,7 +66,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         );
     }
 
-    // [기능 3] 소셜 로그인 (카카오 + 네이버 + 구글) (수정 없음)
+    // [기능 3] 소셜 로그인 (카카오 + 네이버 + 구글)
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
@@ -114,7 +108,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         } else {
             user = new User();
             user.setUsername(username);
-            user.setPassword(passwordEncoder.encode("")); // 비밀번호 없음
+            user.setPassword(passwordEncoder.encode(""));
             user.setName(name);
             user.setEmail(email);
             user.setRole("ROLE_USER");

@@ -8,6 +8,6 @@ public class LoginController {
 
     @GetMapping("/signin")
     public String signinPage() {
-        return "signin"; // ✅ templates/signin.html 을 찾음
+        return "signin";
     }
 }

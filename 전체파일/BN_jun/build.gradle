@@ -77,6 +77,8 @@ dependencies {
     // 3. Thymeleaf에서 Security 정보를 사용하기 위한 도우미
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
+    // 이메일 인증
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {
