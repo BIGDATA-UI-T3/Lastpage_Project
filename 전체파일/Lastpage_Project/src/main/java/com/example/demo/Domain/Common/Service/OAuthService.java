@@ -1,6 +1,7 @@
 package com.example.demo.Domain.Common.Service;
 
 import com.example.demo.Domain.Common.Dto.SignupDto;
+import com.example.demo.Domain.Common.Entity.Signup;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Slf4j
@@ -18,6 +20,13 @@ import java.util.Map;
 public class OAuthService {
 
     private final RestTemplate restTemplate = new RestTemplate();
+    private final SignupService signupService;
+    private String kakao_client_id="e5923ec597bc30b05ac13d8e57e0d18a";
+    private String kakao_client_secret="AiGd2ZsH9J5mMhv4eLqc3yydHPLPtwoA";
+    private String naver_client_id="JpAxufwm7yy8tFcT2Rmz";
+    private String naver_client_secret="kyqlYdOKZd";
+    private String google_client_id ="";
+    private String google_client_secret="";
 
     /** ✅ 카카오 로그인 */
     public SignupDto loginWithKakao(String code) {
@@ -35,7 +44,7 @@ public class OAuthService {
         ResponseEntity<Map> tokenResponse = restTemplate.postForEntity(tokenUrl, params, Map.class);
         String accessToken = (String) tokenResponse.getBody().get("access_token");
 
-        // 2️⃣ 사용자 정보 요청
+        // 사용자 정보 요청
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
         HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -43,17 +52,30 @@ public class OAuthService {
         ResponseEntity<Map> userResponse =
                 restTemplate.exchange(userUrl, HttpMethod.GET, entity, Map.class);
         Map<String, Object> kakaoAccount = (Map<String, Object>) userResponse.getBody().get("kakao_account");
+        Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 
-        return SignupDto.builder()
+        SignupDto dto = SignupDto.builder()
                 .provider("kakao")
-                .id(String.valueOf(userResponse.getBody().get("id")))
-                .name((String) ((Map<String, Object>) kakaoAccount.get("profile")).get("nickname"))
-                .oauthEmail((String) kakaoAccount.get("oauthEmail"))
-                .profileImage((String) ((Map<String, Object>) kakaoAccount.get("profile")).get("profile_image_url"))
+                .providerId(String.valueOf(userResponse.getBody().get("id")))
+                .name((String) profile.get("nickname"))
+                .oauthEmail((String) kakaoAccount.get("email"))
+                .profileImage((String) profile.get("profile_image_url"))
+                .created_at(LocalDateTime.now())
+                .updated_at(LocalDateTime.now())
                 .build();
+
+        // DB 저장
+        Signup existing = signupService.findByProviderAndProviderId("kakao", dto.getProviderId());
+        Signup saved = (existing == null)
+                ? signupService.saveUserInfo(dto)
+                : existing;
+
+        log.info("1.카카오 로그인 DB 저장 완료: {}", saved.getUser_seq());
+        return dto;
+
     }
 
-    /** ✅ 네이버 로그인 */
+    /** 네이버 로그인 */
     public SignupDto loginWithNaver(String code, String state) {
         String tokenUrl = "https://nid.naver.com/oauth2.0/token";
         String userUrl = "https://openapi.naver.com/v1/nid/me";
@@ -75,16 +97,27 @@ public class OAuthService {
         ResponseEntity<Map> userResponse = restTemplate.exchange(userUrl, HttpMethod.GET, entity, Map.class);
         Map<String, Object> response = (Map<String, Object>) userResponse.getBody().get("response");
 
-        return SignupDto.builder()
+        SignupDto dto = SignupDto.builder()
                 .provider("naver")
-                .id((String) response.get("id"))
+                .providerId((String) response.get("id"))
                 .name((String) response.get("name"))
-                .oauthEmail((String) response.get("oauthEmail"))
+                .oauthEmail((String) response.get("email"))
                 .profileImage((String) response.get("profile_image"))
+                .created_at(LocalDateTime.now())
+                .updated_at(LocalDateTime.now())
                 .build();
+
+        Signup existing = signupService.findByProviderAndProviderId("naver", dto.getProviderId());
+        Signup saved = (existing == null)
+                ? signupService.saveUserInfo(dto)
+                : existing;
+
+        log.info(" 2.네이버 로그인 DB 저장 완료: {}", saved.getUser_seq());
+        return dto;
+
     }
 
-    /** ✅ 구글 로그인 */
+    /** 구글 로그인 */
     public SignupDto loginWithGoogle(String code) {
         String tokenUrl = "https://oauth2.googleapis.com/token";
         String userUrl = "https://www.googleapis.com/oauth2/v2/userinfo";
@@ -106,12 +139,23 @@ public class OAuthService {
         ResponseEntity<Map> userResponse = restTemplate.exchange(userUrl, HttpMethod.GET, entity, Map.class);
         Map<String, Object> body = userResponse.getBody();
 
-        return SignupDto.builder()
+        SignupDto dto = SignupDto.builder()
                 .provider("google")
-                .id((String) body.get("id"))
+                .providerId((String) body.get("id"))
                 .name((String) body.get("name"))
-                .oauthEmail((String) body.get("oauthEmail"))
+                .oauthEmail((String) body.get("email"))
                 .profileImage((String) body.get("picture"))
+                .created_at(LocalDateTime.now())
+                .updated_at(LocalDateTime.now())
                 .build();
+
+        Signup existing = signupService.findByProviderAndProviderId("google", dto.getProviderId());
+        Signup saved = (existing == null)
+                ? signupService.saveUserInfo(dto)
+                : existing;
+
+        log.info("3.구글 로그인 DB 저장 완료: {}", saved.getUser_seq());
+        return dto;
     }
 }
+

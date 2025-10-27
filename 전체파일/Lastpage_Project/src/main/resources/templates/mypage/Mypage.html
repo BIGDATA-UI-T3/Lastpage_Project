@@ -237,14 +237,16 @@
         });
     })();
 
-    const greetingEl = document.getElementById("greeting");
-    const userName = "가나다";
-    const hours = new Date().getHours();
-    let timeMessage;
-    if (hours < 12) timeMessage = "오늘도 함께 걸어가겠습니다 ☀️";
-    else if (hours < 18) timeMessage = "따뜻한 오후 보내세요 🌼";
-    else timeMessage = "편안한 저녁 되세요 🌙";
-    greetingEl.textContent = `${userName}님, ${timeMessage}`;
+    const params = new URLSearchParams(window.location.search);
+  const userName = params.get("user") || "고객";
+
+  const hours = new Date().getHours();
+  let timeMessage;
+  if (hours < 12) timeMessage = "오늘도 함께 걸어가겠습니다 ☀️";
+  else if (hours < 18) timeMessage = "따뜻한 오후 보내세요 🌼";
+  else timeMessage = "편안한 저녁 되세요 🌙";
+
+  document.getElementById("greeting").textContent = `${userName}님, ${timeMessage}`;
 
     document.addEventListener("DOMContentLoaded", function () {
         new bootstrap.ScrollSpy(document.body, {

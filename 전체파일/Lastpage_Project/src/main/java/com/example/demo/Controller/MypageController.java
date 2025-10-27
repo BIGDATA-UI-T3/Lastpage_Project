@@ -17,13 +17,13 @@ public class MypageController {
     private final PsyReserveService psyReserveService;
 
     @GetMapping("/mypage/Mypage")
-    public String mypage(@RequestParam(required = false) String email, Model model) {
+    public String mypage(@RequestParam(required = false) String email, String oauthEmail, Model model) {
         if (email != null && !email.isEmpty()) {
             PsyReserve reserve = psyReserveService.findByEmail(email);
             model.addAttribute("reserve", reserve);
-            log.info("📄 MyPage 예약 정보 로드 완료: {}", reserve);
+            log.info("MyPage 예약 정보 로드 완료: {}", reserve);
         } else {
-            log.warn("⚠️ 이메일 파라미터가 비어있습니다.");
+            log.warn("이메일 파라미터가 비어있습니다.");
         }
         return "mypage/Mypage"; // templates/mypage/Mypage.html
     }

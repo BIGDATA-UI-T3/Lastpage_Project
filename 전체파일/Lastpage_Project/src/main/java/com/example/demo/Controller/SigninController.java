@@ -40,8 +40,8 @@ public class SigninController {
             // JS에서 redirect할 수 있도록 email을 응답에 담아줌
             return ResponseEntity.ok(saved.getId());
         } catch (Exception e) {
-            log.error(" 유저 정보 저장 실패!!", e);
-            return ResponseEntity.internalServerError().body("유저 정보 저장 실패!!");
+            log.error(" 유저 정보 저장 실패!! 그만 실패해 진짜 짜증나게 하지마", e);
+            return ResponseEntity.internalServerError().body("유저 정보 저장 실패!! 그만 실패해 제발진짜그만");
         }
     }
 

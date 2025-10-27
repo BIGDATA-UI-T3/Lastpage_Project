@@ -386,7 +386,11 @@ body {
 .signup-btn:hover {
   background: #444;
 }
+.valid-msg { color: green; font-size: 0.7em; margin-left: 5px; }
 
+.invalid-msg { color: red; font-size: 0.7em; margin-left: 5px; }
+
+.signup-row { display: flex; gap: 8px; align-items: center; }
 @media (max-width: 600px) {
   .signup-wrap {
     padding: 20px 4px 20px 4px;

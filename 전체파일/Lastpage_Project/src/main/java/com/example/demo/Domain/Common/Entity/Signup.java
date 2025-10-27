@@ -20,7 +20,7 @@ public class Signup {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(length = 36)
+    @Column(length = 36, updatable = false, nullable = false)
     private String user_seq; // 내부 식별용 (UUID)
 
     /** 🔹 일반 회원가입 및 공통 정보 */
@@ -48,6 +48,6 @@ public class Signup {
     private String provider;
     @Column(name = "provider_id")// kakao, naver, google
     private String providerId;    // 각 플랫폼의 고유 사용자 ID
-    private String profile_image;  // 프로필 이미지 URL
-    private String oauth_email;    // 소셜 로그인에서 받은 이메일
+    private String profileImage;  // 프로필 이미지 URL
+    private String oauthEmail;    // 소셜 로그인에서 받은 이메일
 }

@@ -1,183 +1,212 @@
-<!-- 헤더 -->
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
-
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/Signup.css}">
-  <title>반려동물 장례식장</title>
- 
+    <title>회원가입</title>
 </head>
 
-
-
-  <div class="header-wrapper">
-    <!-- 헤더 -->
+<body>
+<div class="header-wrapper">
     <header>
-      <div class="logo">
-        <a href="#"><img src="../Asset/LastPage로고_투명.png" alt="로고" /></a>
-      </div>
-      <nav>
-        <ul>
-          <li>
-            <a href="#">홈</a>
+        <div class="logo">
+            <a href="#"><img src="../Asset/LastPage로고_투명.png" alt="로고" /></a>
+        </div>
+        <nav>
             <ul>
-              <li><a href="#">인사말</a></li>
+                <li><a href="#">홈</a></li>
+                <li><a href="#">장례서비스</a></li>
+                <li><a href="#">Ourpage</a></li>
+                <li><a href="#">심리상담</a></li>
+                <li><a href="#">추모굿즈</a></li>
+                <li><a href="#">마이페이지</a></li>
+                <li><a href="#">고객센터</a></li>
             </ul>
-          </li>
-          
-          <li><a href="#">장례서비스</a></li>
-          <li><a href="#">Ourpage</a></li>
-          <li>
-            <a href="#">심리상담</a>
-            <ul>
-              <li><a href="#">상담예약</a></li>
-              <li><a href="#">예약조회</a></li>
-            </ul>
-          </li>
-
-          <li>
-            <a href="#">추모굿즈</a>
-            <ul>
-               <li><a href="#">굿즈소개</a></li>
-              <li><a href="#">굿즈예약</a></li>
-              <li><a href="#">예약조회</a></li>
-            </ul>
-          </li>
-          <li><a href="#">마이페이지</a></li>
-          <li><a href="#">고객센터</a></li>
-        </ul>
-      </nav>
-      <div class="auth">
-        <a href="#">로그인</a>
-        <a href="#">회원가입</a>
-      </div>
-    
-
+        </nav>
+        <div class="auth">
+            <a href="#">로그인</a>
+            <a href="#">회원가입</a>
+        </div>
     </header>
 </div>
 
-
-
-    <!-- 메인 컨텐츠 각자 맡은 컨텐츠 내용 여기에 작성합시다-->
-
-    <!-- 최지원 작업물https://www.neweracapkorea.com/shop/idinfo.html?type=new&first= -->
-    <div class="temp" style="width: 100%; height: 100px;"> </div>
- <main class="signup-bg">
+<main class="signup-bg">
     <div class="signup-wrap">
-      <h2 class="signup-title">회원가입하기</h2>
-      <form class="signup-form-box" autocomplete="off">
-        <input type="text" placeholder="이름" required>
-        <input type="text" placeholder="아이디" required>
-        <input type="password" placeholder="비밀번호 (8~16자 영문 대소문자/숫자/특수문자를 사용하세요.)" required>
-        <input type="password" placeholder="비밀번호 확인" required>
-        <div class="signup-row email-row">
-          <input type="text" class="email-id" placeholder="이메일" required>
-          <span class="at">@</span>
-          <input type="text" class="email-domain" placeholder="이메일 도메인" required>
-          <select class="domain-select">
-            <option>직접입력</option>
-            <option>naver.com</option>
-            <option>gmail.com</option>
-            <option>daum.net</option>
-          </select>
-        </div>
-        <div class="signup-row birth-row">
-          <input type="text" maxlength="4" placeholder="생년(4자)" required>
-          <input type="text" maxlength="2" placeholder="월" required>
-          <input type="text" maxlength="2" placeholder="일" required>
-        </div>
-        <div class="signup-row gender-row">
-          <label><input type="radio" name="gender" value="none" required> 선택안함</label>
-          <label><input type="radio" name="gender" value="male"> 남</label>
-          <label><input type="radio" name="gender" value="female"> 여</label>
-        </div>
-        <div class="signup-row phone-row">
-          <input type="text" class="phone-input" placeholder="휴대폰(본인명의 필수)" required>
-          <button type="button" class="signup-btn">인증하기</button>
-        </div>
-        <div class="signup-row sms-row">
-          <input type="text" class="sms-input" placeholder="SMS 인증 번호 입력" required>
-          <button type="button" class="signup-btn">확인</button>
-        </div>
-        <button type="submit" class="signup-btn big">회원가입하기</button>
-      </form>
+        <h2 class="signup-title">회원가입하기</h2>
+        <form id="signupForm" class="signup-form-box" autocomplete="off">
+
+            <input type="text" id="name" placeholder="이름" required>
+
+            <div class="signup-row">
+                <input type="text" id="userid" placeholder="아이디" required>
+                <button type="button" id="checkIdBtn" class="btn btn-outline-secondary btn-sm">중복확인</button>
+                <span id="idCheckMsg"></span>
+            </div>
+
+            <input type="password" id="password" placeholder="비밀번호 (9자 이상, 대문자/특수문자 포함)" required>
+            <input type="password" id="confirmPassword" placeholder="비밀번호 확인" required>
+            <span id="pwMsg"></span>
+
+            <div class="signup-row email-row mt-3">
+                <input type="text" id="emailId" class="email-id" placeholder="이메일" required>
+                <span class="at">@</span>
+                <input type="text" id="emailDomain" class="email-domain" placeholder="도메인" required>
+                <select class="domain-select">
+                    <option>직접입력</option>
+                    <option>naver.com</option>
+                    <option>gmail.com</option>
+                    <option>daum.net</option>
+                </select>
+            </div>
+
+            <div class="signup-row mt-2">
+                <button type="button" id="sendEmailBtn" class="btn btn-outline-secondary btn-sm">인증메일 보내기</button>
+            </div>
+            <div class="signup-row email-verify mt-2" style="display:none;">
+                <input type="text" id="emailCode" placeholder="이메일 인증번호 입력">
+                <button type="button" id="verifyEmailBtn" class="btn btn-outline-secondary btn-sm">확인</button>
+            </div>
+
+            <div class="signup-row birth-row mt-3">
+                <input type="text" id="year" maxlength="4" placeholder="생년(4자)" required>
+                <input type="text" id="month" maxlength="2" placeholder="월(2자)" required>
+                <input type="text" id="day" maxlength="2" placeholder="일(2자)" required>
+            </div>
+
+            <div class="signup-row gender-row mt-2">
+                <label><input type="radio" name="gender" value="N" required> 선택안함</label>
+                <label><input type="radio" name="gender" value="M"> 남</label>
+                <label><input type="radio" name="gender" value="F"> 여</label>
+            </div>
+
+            <div class="signup-row phone-row mt-2">
+                <input type="text" id="phone" maxlength="11" placeholder="휴대폰 번호 (숫자만)" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-3">회원가입하기</button>
+        </form>
     </div>
-  </main>
+</main>
 
+<footer>© Last Page Project</footer>
 
+<script>
+    let isIdChecked = false;
+    let isEmailVerified = false;
+    let tempEmail = "";
 
+    // 도메인 선택
+    document.querySelector('.domain-select').addEventListener('change', e => {
+      const domainInput = document.getElementById('emailDomain');
+      domainInput.value = e.target.value === '직접입력' ? '' : e.target.value;
+    });
 
+    // 아이디 중복검사
+    document.getElementById('checkIdBtn').addEventListener('click', async () => {
+      const id = document.getElementById('userid').value.trim();
+      if (!id) return alert("아이디를 입력하세요.");
 
-      <!-- 푸터 -->
-      <footer>
-        대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
-      </footer>
-      </div>
+      const res = await fetch(`/signup/checkDuplicateId?id=${id}`);
+      const text = await res.text();
 
-      <script>
-        (function () {
-          const header = document.querySelector('header');
-          window.addEventListener('scroll', () => {
-            if (window.scrollY > 200) {
-              header.style.top = '-120px';
-            } else {
-              header.style.top = '0';
-            }
-          });
-        })();
+      const msg = document.getElementById('idCheckMsg');
+      if (text === 'duplicate') {
+        msg.textContent = "이미 사용 중인 아이디입니다.";
+        msg.className = 'invalid-msg';
+        isIdChecked = false;
+      } else {
+        msg.textContent = "사용 가능한 아이디입니다.";
+        msg.className = 'valid-msg';
+        isIdChecked = true;
+      }
+    });
 
-        // ScrollSpy 강제 초기화
-        document.addEventListener("DOMContentLoaded", function () {
-          new bootstrap.ScrollSpy(document.body, {
-            target: '#list-example',
-            offset: 100
-          });
-        });
+    // 비밀번호 유효성 검사
+    const pw = document.getElementById('password');
+    const cpw = document.getElementById('confirmPassword');
+    const pwMsg = document.getElementById('pwMsg');
 
-         document.querySelector('.signup-btn.big').addEventListener('click', async (event) => {
-  event.preventDefault(); // 폼 기본 제출 막기
+    cpw.addEventListener('input', () => {
+      const valid = pw.value.length >= 9 && /[A-Z]/.test(pw.value) && /[!@#$%^&*]/.test(pw.value);
+      if (!valid) {
+        pwMsg.textContent = '대문자·특수문자 포함 9자 이상이어야 합니다.';
+        pwMsg.className = 'invalid-msg';
+      } else if (pw.value === cpw.value) {
+        pwMsg.textContent = '비밀번호가 일치합니다.';
+        pwMsg.className = 'valid-msg';
+      } else {
+        pwMsg.textContent = '비밀번호가 일치하지 않습니다.';
+        pwMsg.className = 'invalid-msg';
+      }
+    });
 
-  const data = {
-    name: document.querySelector('input[placeholder="이름"]').value,
-    id: document.querySelector('input[placeholder="아이디"]').value,
-    password: document.querySelector('input[placeholder="비밀번호 (8~16자 영문 대소문자/숫자/특수문자를 사용하세요.)"]').value,
-    confirm_password: document.querySelector('input[placeholder="비밀번호 확인"]').value,
-    emailId: document.querySelector('.email-id').value,
-    emailDomain: document.querySelector('.email-domain').value,
-    year: document.querySelector('input[placeholder="생년(4자)"]').value,
-    month: document.querySelector('input[placeholder="월"]').value,
-    day: document.querySelector('input[placeholder="일"]').value,
-    gender: document.querySelector('input[name="gender"]:checked')?.value === 'male' ? 'M' :
-            document.querySelector('input[name="gender"]:checked')?.value === 'female' ? 'F' : 'N',
-    phone_num: document.querySelector('.phone-input').value,
-    sms_auth_number: document.querySelector('.sms-input').value,
-  };
+    // 이메일 인증
+    document.getElementById('sendEmailBtn').addEventListener('click', async () => {
+      const email = document.getElementById('emailId').value + '@' + document.getElementById('emailDomain').value;
+      if (!email.includes('@')) return alert('이메일 주소를 올바르게 입력해주세요.');
 
-  const response = await fetch('/userinfoSave', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  });
+      const res = await fetch('/signup/sendEmailCode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      if (res.ok) {
+        alert('인증메일이 발송되었습니다.');
+        tempEmail = email;
+        document.querySelector('.email-verify').style.display = 'flex';
+      }
+    });
 
-  if (response.ok) {
-    const id = await response.text();
-    alert('회원가입 성공!');
-    window.location.href = `/signin/Signin?id=${id}`;
-  } else {
-    alert('저장 중 오류가 발생했습니다.');
-  }
-});
-      </script>
+    document.getElementById('verifyEmailBtn').addEventListener('click', async () => {
+      const code = document.getElementById('emailCode').value.trim();
+      const res = await fetch('/signup/verifyEmailCode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: tempEmail, code })
+      });
+      const text = await res.text();
+      if (text === 'success') {
+        alert('이메일 인증 완료!');
+        isEmailVerified = true;
+      } else alert('인증번호가 일치하지 않습니다.');
+    });
+
+    // 회원가입
+    document.getElementById('signupForm').addEventListener('submit', async e => {
+      e.preventDefault();
+
+      if (!isIdChecked) return alert('아이디 중복확인을 해주세요.');
+      if (!isEmailVerified) return alert('이메일 인증을 완료해주세요.');
+
+      const data = {
+        name: document.getElementById('name').value,
+        id: document.getElementById('userid').value,
+        password: document.getElementById('password').value,
+        confirm_password: document.getElementById('confirmPassword').value,
+        emailId: document.getElementById('emailId').value,
+        emailDomain: document.getElementById('emailDomain').value,
+        year: document.getElementById('year').value,
+        month: document.getElementById('month').value,
+        day: document.getElementById('day').value,
+        gender: document.querySelector('input[name="gender"]:checked').value,
+        phone_num: document.getElementById('phone').value
+      };
+
+      const res = await fetch('/signup/userinfoSave', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        alert('회원가입 성공!');
+        window.location.href = `/signin/Signin?id=${data.id}`;
+      } else alert('회원가입 실패!');
+    });
+</script>
 </body>
-
 </html>

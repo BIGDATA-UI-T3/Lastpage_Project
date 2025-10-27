@@ -65,6 +65,8 @@ dependencies {
     //Thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
+    //Jakarta
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 
 }
