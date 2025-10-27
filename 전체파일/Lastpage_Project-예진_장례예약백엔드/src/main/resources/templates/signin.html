@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{css/common.css}">
+    <link rel="stylesheet" th:href="@{css/Signin.css}">
+
+    <title>로그인</title>
+
+</head>
+
+
+<div class="header-wrapper">
+    <!-- 헤더 -->
+    <header>
+        <div class="logo">
+            <a href="#"><img src="../Asset/LastPage로고_투명.png" alt="로고" /></a>
+        </div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="#">홈</a>
+                    <ul>
+                        <li><a href="#">인사말</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#">장례서비스</a></li>
+                <li><a href="#">Ourpage</a></li>
+                <li>
+                    <a href="#">심리상담</a>
+                    <ul>
+                        <li><a href="#">상담예약</a></li>
+                        <li><a href="#">예약조회</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#">추모굿즈</a>
+                    <ul>
+                        <li><a href="#">굿즈소개</a></li>
+                        <li><a href="#">굿즈예약</a></li>
+                        <li><a href="#">예약조회</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">마이페이지</a></li>
+                <li><a href="#">고객센터</a></li>
+            </ul>
+        </nav>
+        <div class="auth">
+            <a href="/signin">로그인</a>
+            <a href="/signup">회원가입</a>
+        </div>
+    </header>
+</div>
+
+
+
+<body>
+<main>
+    <div class="wrap">
+        <form class="card" id="loginForm" autocomplete="on" novalidate action="/signin">
+            <h1 style="text-align: center;">로그인</h1>
+
+            <!-- 아이디 -->
+            <label class="field" aria-label="아이디">
+                <input id="userid" name="userid" type="text" inputmode="email"
+                       placeholder="아이디(이메일 또는 사용자명)" required />
+            </label>
+
+            <!-- 비밀번호 -->
+            <div>
+                <label class="field" aria-label="비밀번호">
+                    <input id="password" name="password" type="password"
+                           placeholder="비밀번호" required
+                           autocomplete="current-password" />
+                    <button type="button" class="eye-btn" id="togglePw" aria-label="비밀번호 표시 전환">
+                        <!-- 눈 아이콘 (보임/숨김 두 상태를 CSS 없이 교체) -->
+                        <svg id="eyeOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/>
+                            <circle cx="12" cy="12" r="3.5"/>
+                        </svg>
+                        <svg id="eyeClosed" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M17.94 17.94C16.14 19.24 14.19 20 12 20 5 20 1 12 1 12a20.1 20.1 0 0 1 6.06-6.06M22.99 12s-1.13 2.16-3.18 4.16M3 3l18 18"/>
+                        </svg>
+                    </button>
+                </label>
+                <div id="capsHint" class="hint" role="alert" aria-live="polite" style="display:none;">
+                    Caps Lock이 켜져 있습니다.
+                </div>
+                <hr style="border: none; border-top: 2px solid var(--border); margin-top: 12px; margin-bottom: 0;" />
+            </div>
+
+            <div class="actions">
+                <a href="/oauth2/authorization/kakao">
+                    <img src="/asset/kakao_login_medium_wide.png" alt="카카오 로그인">
+                </a>
+                <button class="btn" type="submit">로그인</button>
+                <div class="links" aria-label="바로가기">
+                    <a href="/signup" id="link-signup">회원가입하기</a>
+                    <span>·</span>
+                    <a href="#" id="link-find-id">아이디 찾기</a>
+                    <span>·</span>
+                    <a href="#" id="link-find-pw">비밀번호 찾기</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+
+<footer>
+    대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
+</footer>
+
+<!--<script>-->
+<!--    // 비밀번호 보기/숨기기-->
+<!--    const pw = document.getElementById('password');-->
+<!--    const toggle = document.getElementById('togglePw');-->
+<!--    const eyeOpen = document.getElementById('eyeOpen');-->
+<!--    const eyeClosed = document.getElementById('eyeClosed');-->
+
+<!--    toggle.addEventListener('click', () => {-->
+<!--        const show = pw.type === 'password';-->
+<!--        pw.type = show ? 'text' : 'password';-->
+<!--        eyeOpen.style.display = show ? 'none' : 'block';-->
+<!--        eyeClosed.style.display = show ? 'block' : 'none';-->
+<!--        pw.focus({ preventScroll:true });-->
+<!--        // 커서를 끝으로-->
+<!--        const v = pw.value; pw.value = ''; pw.value = v;-->
+<!--    });-->
+
+<!--    // Caps Lock 감지-->
+<!--    const capsHint = document.getElementById('capsHint');-->
+<!--    const updateCaps = (e) => {-->
+<!--        const isCaps = e.getModifierState && e.getModifierState('CapsLock');-->
+<!--        capsHint.style.display = isCaps ? 'block' : 'none';-->
+<!--    };-->
+<!--    pw.addEventListener('keydown', updateCaps);-->
+<!--    pw.addEventListener('keyup', updateCaps);-->
+<!--    pw.addEventListener('focus', (e)=>updateCaps(e)); // 포커스 시 상태 반영-->
+<!--    pw.addEventListener('blur', ()=> capsHint.style.display='none');-->
+
+<!--    // 간단한 제출 처리 (데모)-->
+<!--    const form = document.getElementById('loginForm');-->
+<!--    form.addEventListener('submit', (e) => {-->
+<!--        e.preventDefault();-->
+<!--        const id = document.getElementById('userid').value.trim();-->
+<!--        const pwd = pw.value;-->
+<!--        if(!id){ alert('아이디를 입력해 주세요.'); return; }-->
+<!--        if(!pwd){ alert('비밀번호를 입력해 주세요.'); return; }-->
+<!--        // TODO: 실제 로그인 API 호출로 교체-->
+<!--        alert('로그인 시도: ' + id);-->
+<!--    });-->
+
+<!--    // 접근성: Enter로 제출 가능 (기본 동작)-->
+
+<!--    document.getElementById('loginForm').addEventListener('submit', async (e) => {-->
+<!--        e.preventDefault();-->
+<!--        const username = document.getElementById('userid').value;-->
+<!--        const password = document.getElementById('password').value;-->
+
+<!--        try {-->
+<!--            const res = await fetch(`/api/signin?username=${username}&password=${password}`, {-->
+<!--                method: 'POST'-->
+<!--            });-->
+<!--            const text = await res.text();-->
+<!--            alert(text);-->
+<!--            if (res.ok) window.location.href = '/'; // 로그인 성공 시 메인 페이지 이동-->
+<!--        } catch (err) { alert(err); }-->
+<!--    });-->
+
+<!--</script>-->
+
+<script>
+    // 비밀번호 보기/숨기기
+    const pw = document.getElementById('password');
+    const toggle = document.getElementById('togglePw');
+    const eyeOpen = document.getElementById('eyeOpen');
+    const eyeClosed = document.getElementById('eyeClosed');
+
+    toggle.addEventListener('click', () => {
+        const show = pw.type === 'password';
+        pw.type = show ? 'text' : 'password';
+        eyeOpen.style.display = show ? 'none' : 'block';
+        eyeClosed.style.display = show ? 'block' : 'none';
+        pw.focus({ preventScroll:true });
+        const v = pw.value; pw.value = ''; pw.value = v; // 커서 끝으로
+    });
+
+    // Caps Lock 감지
+    const capsHint = document.getElementById('capsHint');
+    const updateCaps = (e) => {
+        const isCaps = e.getModifierState && e.getModifierState('CapsLock');
+        capsHint.style.display = isCaps ? 'block' : 'none';
+    };
+    pw.addEventListener('keydown', updateCaps);
+    pw.addEventListener('keyup', updateCaps);
+    pw.addEventListener('focus', updateCaps);
+    pw.addEventListener('blur', () => capsHint.style.display = 'none');
+
+    // 로그인 폼 제출
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById('userid').value.trim();
+        const password = pw.value;
+
+        if(!username){ alert('아이디를 입력해 주세요.'); return; }
+        if(!password){ alert('비밀번호를 입력해 주세요.'); return; }
+
+        const dto = { username, password };
+        console.log('보낼 DTO:', dto);
+
+        try {
+            const res = await fetch('/member/signin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dto)
+            });
+
+            const result = await res.json();
+
+            if(res.ok && result.success) {
+                // 로그인 성공 시
+                window.location.href = result.redirect || '/';
+            } else {
+                // 실패 시
+                alert(result.message || '로그인 실패');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('서버와 통신 중 오류가 발생했습니다.');
+        }
+    });
+</script>
+
+</main>
+</html>

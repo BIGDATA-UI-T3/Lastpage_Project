@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>반려동물 장례식장 - 회원가입</title>
+
+    <!-- Bootstrap (기존 유지) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../CSS/Signup.css">
+    <link rel="stylesheet" href="../CSS/common.css">
+
+    <style>
+        /*.error { display:block; color: #d00; font-size: 0.9em; margin-top: 6px; min-height:1.1em; }*/
+        .hint { color: #666; font-size:0.85em; margin-top:4px; }
+    </style>
+</head>
+
+<body>
+<div class="header-wrapper">
+    <header>
+        <div class="logo">
+            <a href="#"><img src="../Asset/LastPage로고_투명.png" alt="로고" /></a>
+        </div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="#">홈</a>
+                    <ul>
+                        <li><a href="#">인사말</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">장례서비스</a></li>
+                <li><a href="#">Ourpage</a></li>
+                <li>
+                    <a href="#">심리상담</a>
+                    <ul>
+                        <li><a href="#">상담예약</a></li>
+                        <li><a href="#">예약조회</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">추모굿즈</a>
+                    <ul>
+                        <li><a href="#">굿즈소개</a></li>
+                        <li><a href="#">굿즈예약</a></li>
+                        <li><a href="#">예약조회</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">마이페이지</a></li>
+                <li><a href="#">고객센터</a></li>
+            </ul>
+        </nav>
+        <div class="auth">
+            <a href="/signin">로그인</a>
+            <a href="/signup">회원가입</a>
+        </div>
+    </header>
+</div>
+
+<!-- 배너 -->
+<section class="banner" role="img" aria-label="따뜻한 펫로스 심리상담 배너 이미지">
+    <div class="inner">
+        <h1>슬픔을 혼자 두지 말아요</h1>
+        <p>상담 예약과 기록, 필요한 순간에 곁에 두세요.</p>
+    </div>
+</section>
+
+<main>
+    <div class="wrap">
+        <!-- IMPORTANT: id는 'signupForm' 유지 -->
+        <form class="card" id="signupForm" autocomplete="off" method="post" novalidate>
+            <h1>회원가입하기</h1>
+
+            <!-- 이름 -->
+            <label class="field" aria-label="이름">
+                <input type="text" id="name" name="name" placeholder="이름">
+                <span class="error" id="errorName"></span>
+            </label>
+
+            <!-- 아이디 -->
+            <label class="field" aria-label="아이디">
+                <input type="text" id="username" name="username" placeholder="아이디">
+                <span class="error" id="errorUsername"></span>
+            </label>
+
+            <!-- 비밀번호 -->
+            <div>
+                <label class="field" aria-label="비밀번호" style="margin-bottom:6px">
+                    <input type="password" id="password" name="password"
+                           placeholder="비밀번호 (8~16자 영문 대소문자/숫자/특수문자를 사용하세요.)">
+                    <button type="button" class="eye-btn" id="togglePw" aria-label="비밀번호 표시 전환">
+                        <!-- icons -->
+                        <svg id="eyeOpenPw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
+                            <circle cx="12" cy="12" r="3.5" />
+                        </svg>
+                        <svg id="eyeClosedPw" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="1.8">
+                            <path
+                                    d="M17.94 17.94C16.14 19.24 14.19 20 12 20 5 20 1 12 1 12a20.1 20.1 0 0 1 6.06-6.06M22.99 12s-1.13 2.16-3.18 4.16M3 3l18 18" />
+                        </svg>
+                    </button>
+                    <span class="error" id="errorPassword"></span>
+                </label>
+                <div id="capsHint" class="hint" role="alert" aria-live="polite" style="display:none;">Caps Lock이 켜져 있습니다.</div>
+            </div>
+
+            <!-- 비밀번호 확인 -->
+            <label class="field" aria-label="비밀번호 확인">
+                <input type="password" id="passwordConfirm" name="confirmPassword" placeholder="비밀번호 확인">
+                <button type="button" class="eye-btn" id="togglePw2" aria-label="비밀번호 확인 표시 전환">
+                    <!-- icons -->
+                    <svg id="eyeOpenPw2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
+                        <circle cx="12" cy="12" r="3.5" />
+                    </svg>
+                    <svg id="eyeClosedPw2" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.8">
+                        <path
+                                d="M17.94 17.94C16.14 19.24 14.19 20 12 20 5 20 1 12 1 12a20.1 20.1 0 0 1 6.06-6.06M22.99 12s-1.13 2.16-3.18 4.16M3 3l18 18" />
+                    </svg>
+                </button>
+                <span class="error" id="errorPasswordConfirm"></span>
+            </label>
+
+            <!-- 이메일 -->
+            <label class="field compact" aria-label="이메일">
+                <input type="text" id="emailId" placeholder="이메일" style="min-width:160px;">
+                <span class="at">@</span>
+                <input type="text" id="emailDomain" placeholder="이메일 도메인" style="min-width:160px;">
+                <select id="domainSelect" aria-label="이메일 도메인 선택" style="min-width:140px;">
+                    <option value="">직접입력</option>
+                    <option value="naver.com">naver.com</option>
+                    <option value="gmail.com">gmail.com</option>
+                    <option value="daum.net">daum.net</option>
+                </select>
+                <span class="error" id="errorEmail"></span>
+            </label>
+
+            <!-- 생년월일 -->
+            <label class="field" aria-label="생년월일">
+                <input type="text" id="birthY" name="birthY" class="w-33" inputmode="numeric" maxlength="4" placeholder="연도(4자)">
+                <input type="text" id="birthM" name="birthM" class="w-33" inputmode="numeric" maxlength="2" placeholder="월">
+                <input type="text" id="birthD" name="birthD" class="w-33" inputmode="numeric" maxlength="2" placeholder="일">
+                <span class="error" id="errorBirth"></span>
+            </label>
+
+            <!-- 성별 -->
+            <div class="field" aria-label="성별" style="gap:18px;">
+                <label><input type="radio" name="gender" value="none"> 선택안함</label>
+                <label><input type="radio" name="gender" value="male"> 남</label>
+                <label><input type="radio" name="gender" value="female"> 여</label>
+                <span class="error" id="errorGender"></span>
+            </div>
+
+            <!-- 휴대폰 인증 -->
+            <div class="field" aria-label="휴대폰">
+                <input type="text" id="phone" name="phone" class="phone-input" placeholder="휴대폰(본인명의 필수)">
+                <button type="button" class="btn" id="btnSms">인증하기</button>
+                <span class="error" id="errorPhone"></span>
+            </div>
+
+            <!-- SMS 코드 -->
+            <div class="field" aria-label="SMS 인증번호">
+                <input type="text" id="authCode" name="authCode" class="sms-input" placeholder="SMS 인증 번호 입력">
+                <button type="button" class="btn" id="btnSmsVerify">확인</button>
+                <span class="error" id="errorSms"></span>
+            </div>
+
+            <hr style="border:none; border-top:2px solid var(--border); margin:6px 0 0;" />
+
+            <!-- 제출 -->
+            <div class="actions">
+                <button type="submit" class="btn">회원가입하기</button>
+            </div>
+
+            <!-- 링크 -->
+            <div class="links" aria-label="바로가기">
+                <a href="/signin">로그인</a><span>·</span>
+                <a href="#">고객센터</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer>
+    대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
+</footer>
+
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const signupForm = document.getElementById('signupForm');
+
+        const nameInput = document.getElementById('name');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const passwordConfirmInput = document.getElementById('passwordConfirm');
+        const emailIdInput = document.getElementById('emailId');
+        const emailDomainInput = document.getElementById('emailDomain');
+        const domainSelect = document.getElementById('domainSelect');
+        const birthY = document.getElementById('birthY');
+        const birthM = document.getElementById('birthM');
+        const birthD = document.getElementById('birthD');
+        const phoneInput = document.getElementById('phone');
+        const authCodeInput = document.getElementById('authCode');
+        const btnSms = document.getElementById('btnSms');
+        const btnSmsVerify = document.getElementById('btnSmsVerify');
+
+        const togglePw = document.getElementById('togglePw');
+        const togglePw2 = document.getElementById('togglePw2');
+        const eyeOpen = document.getElementById('eyeOpenPw');
+        const eyeClosed = document.getElementById('eyeClosedPw');
+        const eyeOpen2 = document.getElementById('eyeOpenPw2');
+        const eyeClosed2 = document.getElementById('eyeClosedPw2');
+
+        const err = {
+        name: document.getElementById('errorName'),
+        username: document.getElementById('errorUsername'),
+        password: document.getElementById('errorPassword'),
+        passwordConfirm: document.getElementById('errorPasswordConfirm'),
+        email: document.getElementById('errorEmail'),
+        birth: document.getElementById('errorBirth'),
+        gender: document.getElementById('errorGender'),
+        phone: document.getElementById('errorPhone'),
+        sms: document.getElementById('errorSms')
+    };
+
+        // 이메일 도메인 선택
+        domainSelect.addEventListener('change', () => {
+        if (domainSelect.value) {
+        emailDomainInput.value = domainSelect.value;
+        emailDomainInput.readOnly = true;
+    } else {
+        emailDomainInput.value = '';
+        emailDomainInput.readOnly = false;
+        emailDomainInput.focus();
+    }
+    });
+
+        // 비밀번호 토글
+        togglePw.addEventListener('click', () => {
+        if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeOpen.style.display = 'none';
+        eyeClosed.style.display = 'block';
+    } else {
+        passwordInput.type = 'password';
+        eyeOpen.style.display = 'block';
+        eyeClosed.style.display = 'none';
+    }
+    });
+
+        togglePw2.addEventListener('click', () => {
+        if (passwordConfirmInput.type === 'password') {
+        passwordConfirmInput.type = 'text';
+        eyeOpen2.style.display = 'none';
+        eyeClosed2.style.display = 'block';
+    } else {
+        passwordConfirmInput.type = 'password';
+        eyeOpen2.style.display = 'block';
+        eyeClosed2.style.display = 'none';
+    }
+    });
+
+        // SMS 인증
+        let sentCode = '';
+        let verified = false;
+
+        btnSms.addEventListener('click', (e) => {
+        e.preventDefault();
+        clearErrors();
+        err.phone.textContent = '';
+        const phone = phoneInput.value.trim();
+        if (!phone) {
+        err.phone.textContent = '휴대폰 번호를 입력해 주세요.';
+        return;
+    }
+        sentCode = Math.floor(100000 + Math.random() * 900000).toString();
+        alert('데모 인증번호: ' + sentCode);
+        authCodeInput.disabled = false;
+        btnSmsVerify.disabled = false;
+        authCodeInput.value = '';
+        verified = false;
+        authCodeInput.focus();
+    });
+
+        btnSmsVerify.addEventListener('click', (e) => {
+        e.preventDefault();
+        clearErrors();
+        const code = authCodeInput.value.trim();
+        if (!code) {
+        err.sms.textContent = '인증번호를 입력해 주세요.';
+        return;
+    }
+        if (code === sentCode) {
+        verified = true;
+        authCodeInput.disabled = true;
+        btnSmsVerify.disabled = true;
+        err.sms.style.color = 'green';
+        err.sms.textContent = '인증 완료';
+    } else {
+        verified = false;
+        err.sms.style.color = 'red';
+        err.sms.textContent = '인증번호가 틀립니다.';
+    }
+    });
+
+        // 에러 초기화
+        function clearErrors() {
+        Object.values(err).forEach(el => {
+        el.textContent = '';
+        el.style.color = '#d00';
+    });
+    }
+
+        // 폼 유효성 검사
+        function validateAll() {
+        clearErrors();
+        let valid = true;
+
+        if (!nameInput.value.trim()) {
+        err.name.textContent = '이름을 입력해 주세요.';
+        valid = false;
+    }
+
+        if (!usernameInput.value.trim()) {
+        err.username.textContent = '아이디를 입력해 주세요.';
+        valid = false;
+    }
+
+        const pw = passwordInput.value;
+        const pwConfirm = passwordConfirmInput.value;
+        if (!pw) {
+        err.password.textContent = '비밀번호를 입력해 주세요.';
+        valid = false;
+    } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,16}$/.test(pw)) {
+        err.password.textContent = '8~16자, 영문 대소문자/숫자/특수문자 포함.';
+        valid = false;
+    }
+        if (pw !== pwConfirm) {
+        err.passwordConfirm.textContent = '비밀번호가 일치하지 않습니다.';
+        valid = false;
+    }
+
+        const id = emailIdInput.value.trim();
+        const domain = emailDomainInput.value.trim();
+        if (!id || !domain || !/^[^\s@]+$/.test(id) || !/^[^\s@]+\.[^\s@]+$/.test(domain)) {
+        err.email.textContent = '이메일을 정확히 입력해 주세요.';
+        valid = false;
+    }
+
+        const y = birthY.value.trim(), m = birthM.value.trim(), d = birthD.value.trim();
+        if (!/^\d{4}$/.test(y) || !/^\d{1,2}$/.test(m) || !/^\d{1,2}$/.test(d)) {
+        err.birth.textContent = '생년월일을 올바르게 입력해 주세요.';
+        valid = false;
+    } else {
+        if (!(parseInt(m,10) >=1 && parseInt(m,10) <=12 && parseInt(d,10) >=1 && parseInt(d,10) <=31)) {
+        err.birth.textContent = '생년월일(월/일)이 올바르지 않습니다.';
+        valid = false;
+    }
+    }
+
+        const gender = document.querySelector('input[name="gender"]:checked');
+        if (!gender) {
+        err.gender.textContent = '성별을 선택해 주세요.';
+        valid = false;
+    }
+
+        if (!phoneInput.value.trim()) {
+        err.phone.textContent = '휴대전화 번호를 입력해 주세요.';
+        valid = false;
+    }
+
+        if (!verified) {
+        err.sms.textContent = '휴대폰 인증을 먼저 완료해 주세요.';
+        valid = false;
+    }
+
+        return valid;
+    }
+
+        // 폼 제출
+        signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearErrors();
+
+        if (!validateAll()) return;
+
+        const dto = {
+        name: nameInput.value.trim(),
+        username: usernameInput.value.trim(),
+        password: passwordInput.value,
+        confirmPassword: passwordConfirmInput.value,
+        email: `${emailIdInput.value.trim()}@${emailDomainInput.value.trim()}`,
+        birth: `${birthY.value.trim().padStart(4,'0')}-${birthM.value.trim().padStart(2,'0')}-${birthD.value.trim().padStart(2,'0')}`,
+        gender: document.querySelector('input[name="gender"]:checked').value,
+        phone: phoneInput.value.trim(),
+        authCode: authCodeInput.value.trim()
+    };
+            console.log('보낼 DTO:', dto); // ✅ 여기에 로그 찍기
+
+        try {
+        const res = await fetch('/member/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dto),
+    });
+
+        const text = await res.text();
+        let parsed = null;
+        try { parsed = text ? JSON.parse(text) : null; } catch(_) { parsed = null; }
+
+        if (!res.ok) {
+        if (parsed && parsed.errors) {
+        const mapping = {
+        name: 'errorName',
+        username: 'errorUsername',
+        password: 'errorPassword',
+        confirmPassword: 'errorPasswordConfirm',
+        email: 'errorEmail',
+        birth: 'errorBirth',
+        gender: 'errorGender',
+        phone: 'errorPhone',
+        authCode: 'errorSms'
+    };
+        for (const [field, message] of Object.entries(parsed.errors)) {
+        const elId = mapping[field] || ('error' + field.charAt(0).toUpperCase() + field.slice(1));
+        const el = document.getElementById(elId);
+        if (el) el.textContent = message;
+    }
+    } else {
+        alert(parsed && parsed.message ? parsed.message : '회원가입에 실패했습니다.');
+    }
+        return;
+    }
+
+        if (parsed) {
+        if (parsed.success === true) {
+        window.location.href = parsed.redirect || '/signin';
+        return;
+    }
+        if (parsed.errors) {
+        const mapping = {
+        name: 'errorName',
+        username: 'errorUsername',
+        password: 'errorPassword',
+        confirmPassword: 'errorPasswordConfirm',
+        email: 'errorEmail',
+        birth: 'errorBirth',
+        gender: 'errorGender',
+        phone: 'errorPhone',
+        authCode: 'errorSms'
+    };
+        for (const [field, message] of Object.entries(parsed.errors)) {
+        const elId = mapping[field] || ('error' + field.charAt(0).toUpperCase() + field.slice(1));
+        const el = document.getElementById(elId);
+        if (el) el.textContent = message;
+    }
+        return;
+    }
+    }
+
+        if (typeof text === 'string' && text.startsWith('redirect:')) {
+        const location = text.replace('redirect:', '').trim();
+        window.location.href = location;
+        return;
+    }
+
+        window.location.href = '/signin';
+    } catch (err) {
+        console.error('회원가입 중 오류:', err);
+        alert('서버 오류가 발생했습니다. 콘솔을 확인하세요.');
+    }
+    });
+
+    });
+
+</script>
+</body>
+</html>

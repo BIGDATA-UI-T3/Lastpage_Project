@@ -27,9 +27,9 @@ public class MypageController {
     @GetMapping("/mypage")
     public String myPage(@RequestParam("ownerName") String ownerName, Model model) {
         System.out.println("========== /mypage 요청 ===========");
-        System.out.println("ownerName 파라미터 값: " + ownerName);  // ← 여기가 핵심
+        System.out.println("ownerName 파라미터 값: " + ownerName);
         List<FuneralReserve> reserves = reserveService.getReserveByOwnerName(ownerName);
-        System.out.println("조회된 예약 건수: " + reserves.size());   // ← 실제 DB에서 가져온 사이즈 확인
+        System.out.println("조회된 예약 건수: " + reserves.size());
         model.addAttribute("reserves", reserves);
         model.addAttribute("ownerName", ownerName);
         return "mypage";
