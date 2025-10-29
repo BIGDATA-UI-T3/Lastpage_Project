@@ -1,5 +1,7 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Domain.Common.Dto.PsyReserveDto;
+import com.example.demo.Domain.Common.Dto.SignupDto;
 import com.example.demo.Domain.Common.Entity.PsyReserve;
 import com.example.demo.Domain.Common.Service.PsyReserveService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -16,15 +21,34 @@ public class MypageController {
 
     private final PsyReserveService psyReserveService;
 
+    /** 세션 로그인 사용자 + 예약 정보 로드 */
     @GetMapping("/mypage/Mypage")
-    public String mypage(@RequestParam(required = false) String email, String oauthEmail, Model model) {
-        if (email != null && !email.isEmpty()) {
-            PsyReserve reserve = psyReserveService.findByEmail(email);
-            model.addAttribute("reserve", reserve);
-            log.info("MyPage 예약 정보 로드 완료: {}", reserve);
+    public String mypage(@SessionAttribute(value = "loginUser", required = false) SignupDto user,
+                         @RequestParam(required = false) String email,
+                         Model model) {
+
+        // 세션 사용자 확인
+        if (user != null) {
+            model.addAttribute("user", user.getName());
+            log.info("세션 로그인 사용자: {} / 이메일: {}", user.getName(), user.getOauthEmail());
         } else {
-            log.warn("이메일 파라미터가 비어있습니다.");
+            log.warn("세션에 로그인 정보가 없습니다. (비로그인 상태)");
+            return "redirect:/login"; // 세션 없으면 로그인 페이지로
         }
-        return "mypage/Mypage"; // templates/mypage/Mypage.html
+
+        // PsyReserve 테이블에서 예약정보 조회
+        if (email != null && !email.isEmpty()) {
+            PsyReserveDto reserve = psyReserveService.findByEmail(email);
+            if (reserve != null) {
+                log.info("예약 정보 로드 완료: {}", reserve);
+                model.addAttribute("reserve", reserve);
+            } else {
+                log.info("해당 이메일로 예약 정보 없음: {}", email);
+            }
+        } else {
+            log.info("예약 조회용 이메일 파라미터가 전달되지 않음.");
+        }
+
+        return "mypage/Mypage";
     }
 }
