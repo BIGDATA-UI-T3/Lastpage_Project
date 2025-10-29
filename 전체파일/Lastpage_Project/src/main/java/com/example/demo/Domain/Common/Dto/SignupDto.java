@@ -1,6 +1,7 @@
 package com.example.demo.Domain.Common.Dto;
 
 import com.example.demo.Domain.Common.Entity.Gender;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 public class SignupDto {
 
-    /** 🔹 일반 회원가입 공통 정보 */
+    /**  일반 회원가입 공통 정보 */
     private String name;
     private String id;  // 일반 회원의 로그인 ID
     private String password;
@@ -30,8 +31,10 @@ public class SignupDto {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 
-    // ✅ 소셜 로그인용 필드
+    // 소셜 로그인용 필드
+    @Column(nullable = false, length = 20)
     private String provider;
+    @Column(nullable = false, unique = true)
     private String providerId;
     private String oauthEmail;
     private String profileImage;
