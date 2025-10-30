@@ -68,6 +68,10 @@ dependencies {
     //Jakarta
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+    //Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+
 
 }
 

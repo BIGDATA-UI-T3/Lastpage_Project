@@ -110,9 +110,11 @@
           <li><a href="#">고객센터</a></li>
         </ul>
       </nav>
-      <div class="auth">
-        <a href="#">로그인</a>
-        <a href="#">회원가입</a>
+        <div class="auth"
+             th:data-login="${session.loginUser != null ? 'true' : 'false'}"
+             th:data-username="${session.loginUser != null ? session.loginUser.name : ''}">
+            <a href="/signin" class="login-link">로그인</a>
+            <a href="/signup" class="signup-link">회원가입</a>
       </div>
     </header>
 
@@ -188,36 +190,55 @@
   </div>
 
   <script>
-    (function () {
-      const header = document.querySelector('header');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 200) {
-          header.style.top = '-120px';
-        } else {
-          header.style.top = '0';
-        }
-      });
-    })();
+      document.addEventListener("DOMContentLoaded", () => {
+      const authDiv = document.querySelector(".auth");
+      const isLoggedIn = authDiv.dataset.login === "true";
+      const username = authDiv.dataset.username;
+      const loginLink = authDiv.querySelector(".login-link");
+      const signupLink = authDiv.querySelector(".signup-link");
 
-    // ScrollSpy 강제 초기화
-    document.addEventListener("DOMContentLoaded", function () {
-      new bootstrap.ScrollSpy(document.body, {
-        target: '#list-example',
-        offset: 100
-      });
+
+
+   if (isLoggedIn) {
+   // 로그인 상태 → "누구누구님 반갑습니다"로 교체
+      loginLink.textContent = `${username}님 반갑습니다.`;
+      signupLink.textContent = "로그아웃";
+            loginLink.href = "/mypage/Mypage";
+            signupLink.href = "/logout";
+
+
+    }
+});
+  (function () {
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 200) {
+        header.style.top = '-120px';
+      } else {
+        header.style.top = '0';
+      }
     });
+  })();
 
-    const hamburger = document.getElementById('hamburger');
-    const sideMenu = document.getElementById('sideMenu');
-
-    hamburger.addEventListener('mouseenter', () => {
-      
-      sideMenu.classList.add('open');
+  // ScrollSpy 강제 초기화
+  document.addEventListener("DOMContentLoaded", function () {
+    new bootstrap.ScrollSpy(document.body, {
+      target: '#list-example',
+      offset: 100
     });
+  });
 
-    sideMenu.addEventListener('mouseleave', () => {
-      sideMenu.classList.remove('open');
-    });
+  const hamburger = document.getElementById('hamburger');
+  const sideMenu = document.getElementById('sideMenu');
+
+  hamburger.addEventListener('mouseenter', () => {
+
+    sideMenu.classList.add('open');
+  });
+
+  sideMenu.addEventListener('mouseleave', () => {
+    sideMenu.classList.remove('open');
+  });
   </script>
 </body>
 

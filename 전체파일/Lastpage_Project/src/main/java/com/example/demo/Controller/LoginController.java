@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
@@ -22,6 +23,8 @@ public class LoginController {
 
     private final OAuthService oAuthService;
 
+
+
     /**  카카오 로그인 콜백 */
     @GetMapping("/code/kakao")
     public RedirectView kakaoCallback(@RequestParam String code, HttpSession session) {
@@ -35,7 +38,7 @@ public class LoginController {
 
         //  리디렉트 URL
         String name = user.getName() != null ? user.getName() : "사용자";
-        String redirectUrl = "/mypage/Mypage?login=success&user=" +
+        String redirectUrl = "/?login=success&user=" +
                 URLEncoder.encode(name, StandardCharsets.UTF_8);
         log.info("카카오 로그인 성공 → 세션 저장 완료 / 리디렉트: {}", redirectUrl);
 
@@ -57,7 +60,7 @@ public class LoginController {
 
         //  리디렉트 URL
         String name = user.getName() != null ? user.getName() : "사용자";
-        String redirectUrl = "/mypage/Mypage?login=success&user=" +
+        String redirectUrl = "/?login=success&user=" +
                 URLEncoder.encode(name, StandardCharsets.UTF_8);
         log.info("네이버 로그인 성공 → 세션 저장 완료 / 리디렉트: {}", redirectUrl);
 
@@ -77,7 +80,7 @@ public class LoginController {
 
         //  리디렉트 URL
         String name = user.getName() != null ? user.getName() : "사용자";
-        String redirectUrl = "/mypage/Mypage?login=success&user=" +
+        String redirectUrl = "/?login=success&user=" +
                 URLEncoder.encode(name, StandardCharsets.UTF_8);
         log.info("구글 로그인 성공 → 세션 저장 완료 / 리디렉트: {}", redirectUrl);
 
