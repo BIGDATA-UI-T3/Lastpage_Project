@@ -37,6 +37,7 @@ public class SigninController {
                         HttpSession session,
                         RedirectAttributes redirectAttributes) {
         try {
+
             Signup user = signupService.authenticate(id, password);
             session.setAttribute("loginUser", user);
             session.setAttribute("loginEmail", user.getEmailId());
