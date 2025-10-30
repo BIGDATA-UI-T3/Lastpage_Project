@@ -1,5 +1,8 @@
 package com.example.demo.Domain.Common.Entity;
 
+import lombok.Getter;
+
+@Getter
 public enum Gender{
     M("남자"),
     F("여자"),
@@ -10,8 +13,5 @@ public enum Gender{
     Gender(String description){
         this.description = description;
     }
-    
-    public String getDescription(){
-        return description;
-    }
+
 }

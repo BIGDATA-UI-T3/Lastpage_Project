@@ -30,7 +30,7 @@ public class SignupDto {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 
-    //  소셜 로그인용 필드
+    // ✅ 소셜 로그인용 필드
     private String provider;
     private String providerId;
     private String oauthEmail;
