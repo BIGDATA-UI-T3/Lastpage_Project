@@ -1,6 +1,4 @@
-
-  
-    /* 전체*/
+/* 전체*/
     *,
     *::before,
     *::after {
@@ -21,7 +19,7 @@
     .header-wrapper {
       width: 100%;
       margin: 0 auto;
-      padding-top: 80px;
+      padding-top: 60px;
     }
 
     header {
@@ -141,14 +139,102 @@
       padding: 8px;
      }
 
+      .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      z-index: 2050;
+      margin-left: 20px;   /* 왼쪽 여백 */
+  position: absolute;  /* 위치 고정 */
+  left: 20px;          /* 헤더 왼쪽에서 20px 떨어짐 */
+  top: 48%;
+  transform: translateY(-50%); /* 세로 중앙 정렬 */
+  
+    }
+
+    .hamburger span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background: #dcd7c9;
+      border-radius: 2px;
+      transition: 0.3s;
+      
+    }
+    
+    .hamburger:hover{
+
+    }
+
+   
+
+    /* 사이드 메뉴 */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 260px;
+      height: 100vh;
+      background: #2C3930;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      transition: 0.3s ease-in-out;
+      z-index: 999;
+    }
+
+    .side-menu.open {
+      left: 0;
+    }
+
+    .side-menu ul {
+  
+      list-style: none;
+      padding: 10px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .side-menu ul li a {
+    
+    border-bottom: 0.5px solid #dcd7c9;
+      color: #dcd7c9;
+      text-decoration: none;
+      padding: 10px 0;
+      display: block;
+    }
+
+    .side-menu ul li ul {
+      
+      display: none;
+      background: #3f4f44;
+      
+    }
+
+    .side-menu ul li:hover ul {
+      display: block;
+    }
+
+    /* 반응형 */
+    @media (max-width: 968px) {
+      nav,
+      .auth {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
 
     /* 메인컨텐츠*/
 
     .main-wrapper {
 
       margin-top: 50px;
-
-
 
 
     }
@@ -237,6 +323,3 @@
       }
 
     }
-
-    /* 968px 밑 반응형 영역*/
- 

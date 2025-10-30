@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class PsyReserveDto {
+    private Long id;
     private String name;
     private String birth;
     private String gender;
