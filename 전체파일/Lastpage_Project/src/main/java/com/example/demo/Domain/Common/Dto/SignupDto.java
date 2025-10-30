@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class SignupDto {
 
-    /** 🔹 일반 회원가입 공통 정보 */
+    /**  일반 회원가입 공통 정보 */
     private String name;
     private String id;  // 일반 회원의 로그인 ID
     private String password;
@@ -30,7 +30,7 @@ public class SignupDto {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 
-    // ✅ 소셜 로그인용 필드
+    //  소셜 로그인용 필드
     private String provider;
     private String providerId;
     private String oauthEmail;
