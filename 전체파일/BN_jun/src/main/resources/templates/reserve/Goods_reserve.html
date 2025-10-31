@@ -365,6 +365,7 @@
     const $  = s => document.querySelector(s);
     const $$ = s => Array.from(document.querySelectorAll(s));
 
+    // 🎯 [수정] DTO 필드명과 일치시켰습니다.
     const ST = {
       // step1
       ownerName:"", ownerPhone:"", ownerEmail:"", ownerAddr:"",
@@ -372,13 +373,13 @@
       materials: [],
 
       // step2
-      product:"", metal:"", chainLength:"", ringSize:"", qty:1,
-      engrave:"", font:"", optMemo:"",
+      product:"", metalColor:"", chainLength:"", ringSize:"", quantity:1,
+      engravingText:"", engravingFont:"", optionsMemo:"",
 
       // step3
-      shipMethod:"", targetDate:"", express:false,
-      kitAddr:"", kitDate:"", time:"", // 수거 시간(슬롯)
-      visitDate:"", visitTime:"", tracking:"",
+      shipMethod:"", targetDate:"", isExpress:false,
+      kitAddr:"", kitDate:"", kitTime:"", // 수거 시간(슬롯)
+      visitDate:"", visitTime:"", trackingInfo:"",
       memo:""
     };
 
@@ -456,7 +457,7 @@
       });
     });
 
-    // STEP1 검증
+    // STEP1 검증 (이 로직은 원래 문제가 없었습니다)
     function v1(){
       const name = $('#ownerName').value.trim();
       const phone = $('#ownerPhone').value.replace(/\D/g,'');
@@ -490,17 +491,19 @@
       ringRow.style.display  = (ST.product==='ring') ? '' : 'none';
       v2();
     });
-    $('#metal').addEventListener('change', e=>{ ST.metal=e.target.value; v2(); });
+
+    // 🎯 [수정] DTO 필드명과 일치시켰습니다.
+    $('#metal').addEventListener('change', e=>{ ST.metalColor=e.target.value; v2(); });
     $('#chainLength').addEventListener('change', e=>{ ST.chainLength=e.target.value; v2(); });
     $('#ringSize').addEventListener('input', e=>{ ST.ringSize=e.target.value.trim(); v2(); });
-    $('#qty').addEventListener('input', e=>{ ST.qty = Math.max(1, parseInt(e.target.value||'1',10)); v2(); });
-    $('#engrave').addEventListener('input', e=>{ ST.engrave=e.target.value; v2(); });
-    $('#font').addEventListener('change', e=>{ ST.font=e.target.value; v2(); });
-    $('#optMemo').addEventListener('input', e=>{ ST.optMemo=e.target.value; $('#optCount').textContent = e.target.value.length; });
+    $('#qty').addEventListener('input', e=>{ ST.quantity = Math.max(1, parseInt(e.target.value||'1',10)); v2(); });
+    $('#engrave').addEventListener('input', e=>{ ST.engravingText=e.target.value; v2(); });
+    $('#font').addEventListener('change', e=>{ ST.engravingFont=e.target.value; v2(); });
+    $('#optMemo').addEventListener('input', e=>{ ST.optionsMemo=e.target.value; $('#optCount').textContent = e.target.value.length; });
 
     function v2(){
-      // 필수: product, qty>=1
-      let ok = !!ST.product && (+ST.qty>=1);
+      // 🎯 [수정] ST.quantity로 검사
+      let ok = !!ST.product && (+ST.quantity>=1);
 
       // 세부 옵션 필수 조건
       if(ST.product==='necklace'){ ok = ok && !!ST.chainLength; }
@@ -519,14 +522,17 @@
     function buildSlots(){
       const list = currentSeg==='am' ? AM : PM;
       const box = $('#timeSlots'); box.innerHTML='';
-      selectedBtn=null; ST.time='';
+
+      // 🎯 [수정] DTO 필드명과 일치
+      selectedBtn=null; ST.kitTime='';
       list.forEach(t=>{
         const b=document.createElement('button');
         b.type='button'; b.className='slot'; b.textContent=t; b.dataset.value=t;
         b.addEventListener('click', ()=>{
           selectedBtn?.classList.remove('active');
           b.classList.add('active'); selectedBtn=b;
-          ST.time=t; v3();
+          // 🎯 [수정] DTO 필드명과 일치
+          ST.kitTime=t; v3();
         });
         box.appendChild(b);
       });
@@ -552,9 +558,11 @@
     // 타깃 날짜/익스프레스
     $('#targetDate').addEventListener('change', e=>{ ST.targetDate=e.target.value; v3(); });
     $('#express').addEventListener('change', e=>{
-      ST.express=e.target.checked;
-      // 익스프레스 체크 시 최소일 완화(+3일) 표시만; 실제 가능 여부는 운영자가 확인
-      const t=new Date(), add=ST.express?3:7; t.setDate(t.getDate()+add);
+      // 🎯 [수정] DTO 필드명과 일치
+      ST.isExpress=e.target.checked;
+
+      // 🎯 [수정] DTO 필드명과 일치
+      const t=new Date(), add=ST.isExpress?3:7; t.setDate(t.getDate()+add);
       const y=t.getFullYear(), m=String(t.getMonth()+1).padStart(2,'0'), d=String(t.getDate()).padStart(2,'0');
       $('#targetDate').min = `${y}-${m}-${d}`;
       if(ST.targetDate && ST.targetDate < $('#targetDate').min){ ST.targetDate=''; $('#targetDate').value=''; }
@@ -568,7 +576,8 @@
     $('#visitDate').addEventListener('change', e=>{ ST.visitDate=e.target.value; v3(); });
     $('#visitTime').addEventListener('change', e=>{ ST.visitTime=e.target.value; v3(); });
 
-    $('#tracking').addEventListener('input', e=>{ ST.tracking=e.target.value.trim(); });
+    // 🎯 [수정] DTO 필드명과 일치
+    $('#tracking').addEventListener('input', e=>{ ST.trackingInfo=e.target.value.trim(); });
 
     $('#memo').addEventListener('input', e=>{ ST.memo=e.target.value; $('#memoCount').textContent = e.target.value.length; });
 
@@ -578,13 +587,12 @@
       let ok = !!ST.shipMethod && !!ST.targetDate && $('#consent').checked;
 
       if(ST.shipMethod==='kit'){
-        ok = ok && !!ST.kitAddr && !!ST.kitDate && !!ST.time;
+        // 🎯 [수정] DTO 필드명과 일치
+        ok = ok && !!ST.kitAddr && !!ST.kitDate && !!ST.kitTime;
       }
       if(ST.shipMethod==='visit'){
         ok = ok && !!ST.visitDate && !!ST.visitTime;
       }
-      // post는 tracking 선택 입력(선택)이므로 추가 조건 없음
-
       $('#next3').disabled = !ok;
     }
 
@@ -596,6 +604,7 @@
       const matMap = {ash:'유골', hair:'모발', paw:'발자국', item:'유품'};
       const mats = ST.materials.map(m=>matMap[m]||m).join(', ');
 
+      // 🎯 [수정] DTO 필드명과 모두 일치시켰습니다.
       const lines = [
         `<div><strong>신청자</strong> : ${ST.ownerName} / ${ST.ownerPhone} / ${ST.ownerEmail}</div>`,
         `<div><strong>수령/반송 주소</strong> : ${ST.ownerAddr}</div>`,
@@ -603,18 +612,18 @@
         `<div><strong>보유 흔적</strong> : ${mats||'-'}</div>`,
         `<hr style="border:none;border-top:1px solid #eee;margin:10px 0">`,
         `<div><strong>품목</strong> : ${ST.product}</div>`,
-        `<div><strong>메탈/색상</strong> : ${ST.metal||'-'}</div>`,
+        `<div><strong>메탈/색상</strong> : ${ST.metalColor||'-'}</div>`,
         (ST.product==='necklace') ? `<div><strong>체인 길이</strong> : ${ST.chainLength}</div>` : '',
         (ST.product==='ring')     ? `<div><strong>반지 호수</strong> : ${ST.ringSize}</div>`   : '',
-        `<div><strong>수량</strong> : ${ST.qty}</div>`,
-        `<div><strong>각인</strong> : ${ST.engrave||'-'} ${ST.font?`(폰트: ${ST.font})`:''}</div>`,
-        ST.optMemo ? `<div><strong>옵션 설명</strong> : ${ST.optMemo.replace(/\n/g,'<br>')}</div>` : '',
+        `<div><strong>수량</strong> : ${ST.quantity}</div>`,
+        `<div><strong>각인</strong> : ${ST.engravingText||'-'} ${ST.engravingFont?`(폰트: ${ST.engravingFont})`:''}</div>`,
+        ST.optionsMemo ? `<div><strong>옵션 설명</strong> : ${ST.optionsMemo.replace(/\n/g,'<br>')}</div>` : '',
         `<hr style="border:none;border-top:1px solid #eee;margin:10px 0">`,
         `<div><strong>재료 전달</strong> : ${ST.shipMethod}</div>`,
-        (ST.shipMethod==='kit')   ? `<div><strong>수거</strong> : ${ST.kitAddr} / ${ST.kitDate} ${ST.time||''}</div>` : '',
+        (ST.shipMethod==='kit')   ? `<div><strong>수거</strong> : ${ST.kitAddr} / ${ST.kitDate} ${ST.kitTime||''}</div>` : '',
         (ST.shipMethod==='visit') ? `<div><strong>방문</strong> : ${ST.visitDate} ${ST.visitTime}</div>` : '',
-        (ST.shipMethod==='post')  ? `<div><strong>자가 발송</strong> : ${ST.tracking||'-'}</div>` : '',
-        `<div><strong>완성 희망일</strong> : ${ST.targetDate} ${ST.express?'(익스프레스 요청)':''}</div>`,
+        (ST.shipMethod==='post')  ? `<div><strong>자가 발송</strong> : ${ST.trackingInfo||'-'}</div>` : '',
+        `<div><strong>완성 희망일</strong> : ${ST.targetDate} ${ST.isExpress?'(익스프레스 요청)':''}</div>`,
         ST.memo ? `<div><strong>요청사항</strong> : ${ST.memo.replace(/\n/g,'<br>')}</div>` : ''
       ].filter(Boolean).join('');
 
@@ -625,9 +634,28 @@
     $('#prev4').addEventListener('click', ()=> gotoStep(3));
 
     $('#submitBtn').addEventListener('click', ()=>{
-      alert('제출 처리 예시: 서버로 예약 데이터 전송');
-      // 실제로는 ST 객체를 JSON으로 변환하여 백엔드 API로 POST
-      fetch('/reserve/save', {method:'POST',headers:{'Content-Type':'application/json'},body: JSON.stringify(ST)})
+
+      // fetch로 전송
+      fetch('/reserve/save', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(ST) // 🎯 수정된 ST 객체를 전송
+      })
+      .then(response => {
+          if (response.ok) {
+              // 성공 시 (예: 마이페이지로 이동)
+              alert('예약이 성공적으로 제출되었습니다. 마이페이지로 이동합니다.');
+              window.location.href = '/mypage'; // 👈 성공 시 이동할 URL
+          } else {
+              // 서버에서 오류 응답 시
+              alert('예약 제출에 실패했습니다. 입력 내용을 다시 확인해주세요.');
+          }
+      })
+      .catch(error => {
+          // 네트워크 오류 등
+          console.error('Error:', error);
+          alert('예약 중 오류가 발생했습니다.');
+      });
     });
 
     // 초기 포커스

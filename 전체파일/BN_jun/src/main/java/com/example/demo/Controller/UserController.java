@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Domain.Common.Dto.RegisterFormDto;
+import com.example.demo.Domain.Common.Entity.GoodsReserve;
 import com.example.demo.Domain.Common.Service.GoodsReserveService;
 import com.example.demo.Domain.Common.Service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class UserController {
@@ -22,7 +25,7 @@ public class UserController {
     private final UserService userService;
     private final GoodsReserveService goodsReserveService;
 
- 
+
     @GetMapping("/signup")
     public String showRegisterPage(Model model) {
         model.addAttribute("registerFormDto", new RegisterFormDto());
@@ -102,9 +105,13 @@ public class UserController {
         return "redirect:/signin";
     }
 
-   // SecurityConfig에 의해 로그인되지 않은 사용자는 /signin으로 튕겨냄
+    // SecurityConfig에 의해 로그인되지 않은 사용자는 /signin으로 튕겨냄
     @GetMapping("/mypage")
     public String showMyPage(Model model) {
+
+        List<GoodsReserve> reservationList = goodsReserveService.getAllGoodsReservations();
+
+        model.addAttribute("goodsReservationList", reservationList);
 
         return "mypage";
     }

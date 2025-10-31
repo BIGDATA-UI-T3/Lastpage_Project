@@ -183,6 +183,17 @@
 
         <!-- 굿즈 구매내역 -->
         <div class="reserv_yj effect_yj">
+
+            <div class="reserv-header_yj">
+                <div class="reserv-left_yj">
+                    <span class="material-symbols-outlined">inventory_2 </span>
+                    <p>굿즈 구매내역</p>
+                </div>
+                <!--                <div class="reserv-right_yj">-->
+                <!--                    <a href="#" style="margin-right: 5px; opacity: 0.5; cursor: default;">예약 변경 ></a>-->
+                <!--                    <a href="#" style="opacity: 0.5; cursor: default;">예약 취소 ></a>-->
+                <!--                </div>-->
+            </div>
             <div class="reserv-content_yj" th:each="item : ${goodsReservationList}">
 
                 <div class="reserv-details_yj">
@@ -202,35 +213,26 @@
                         <span>요청사항</span>
                         <p th:text="${item.memo}"></p>
                     </div>
+
+                    <div>
+                        <span>예약 관리</span>
+                        <p>
+                            <a th:href="@{/goods/edit/{id}(id=${item.id})}"
+                               class="btn btn-sm btn-outline-primary">예약 변경</a>
+
+                        <form th:action="@{/goods/delete/{id}(id=${item.id})}" method="post"
+                              style="display:inline; margin-left: 5px;">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('이 예약을 정말 삭제(취소)하시겠습니까?');">예약 취소</button>
+                        </form>
+                        </p>
+                    </div>
                 </div>
             </div>
-
             <div class="reserv-content_yj" th:if="${#lists.isEmpty(goodsReservationList)}">
                 <p style="text-align: center; padding: 20px;">구매 내역이 없습니다.</p>
             </div>
         </div>
-
-        <!-- 서비스 바로가기 -->
-        <p class="subtitle_yj">서비스 바로가기</p>
-        <div class="service_yj effect_yj">
-            <!-- 회원정보수정 페이지 추후 이동 -->
-            <a href="" class="direct_yj">
-                    <span class="material-symbols-outlined">
-                        id_card
-                    </span>
-                <div class="text_yj">회원정보수정</div>
-            </a>
-            <!-- 1:1문의 페이지 추후 이동 -->
-            <a href="" class="direct_yj">
-                    <span class="material-symbols-outlined">
-                        contact_support
-                    </span>
-                <div class="text_yj">1:1문의</div>
-            </a>
-        </div>
-
-
-
     </main>
 
 
