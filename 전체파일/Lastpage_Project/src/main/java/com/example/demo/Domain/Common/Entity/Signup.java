@@ -43,7 +43,7 @@ public class Signup {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 
-    /** 🔹 소셜 로그인(OAuth) 전용 필드 */
+    /**  소셜 로그인(OAuth) 전용 필드 */
     @Column(name = "provider")
     private String provider;
     @Column(name = "provider_id")// kakao, naver, google

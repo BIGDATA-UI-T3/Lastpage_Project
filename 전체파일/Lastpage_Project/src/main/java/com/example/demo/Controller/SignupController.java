@@ -63,15 +63,44 @@ public class SignupController {
     @ResponseBody
     @PostMapping("/userinfoSave")
     public ResponseEntity<String> userinfoSave(@RequestBody SignupDto dto) {
+        log.info("📩 받은 회원가입 요청: {}", dto);
         try {
+            if (dto.getProvider() == null) {
+                log.info("[일반 회원가입 요청] ID: {}", dto.getId());
+
+                String pw = dto.getPassword() != null ? dto.getPassword().trim() : "";
+                String cpw = dto.getConfirm_password() != null ? dto.getConfirm_password().trim() : "";
+
+                // 비밀번호 입력 확인
+                if (pw.isEmpty()) {
+                    return ResponseEntity.badRequest().body("비밀번호는 필수 입력값입니다.");
+                }
+
+                // 비밀번호 형식 검증
+                boolean valid = pw.length() >= 9 && pw.matches(".*[A-Z].*") && pw.matches(".*[!@#$%^&*].*");
+                if (!valid) {
+                    return ResponseEntity.badRequest().body("비밀번호는 대문자 1개 이상, 특수문자 1개 이상 포함, 최소 9자 이상이어야 합니다.");
+                }
+
+                // 비밀번호 일치 확인 (인코딩 전)
+                if (!pw.equals(cpw)) {
+                    return ResponseEntity.badRequest().body("비밀번호 확인이 일치하지 않습니다.");
+                }
+            } else {
+                log.info("[소셜 회원가입 요청] Provider: {} / ProviderId: {}", dto.getProvider(), dto.getProviderId());
+            }
+
+            //서비스로 전달 (여기서 인코딩 및 DB 저장)
             Signup saved = signupService.saveUserInfo(dto);
             log.info("회원가입 완료! user_seq={}", saved.getUser_seq());
             return ResponseEntity.ok(saved.getUser_seq());
+
         } catch (IllegalArgumentException e) {
             log.warn("회원가입 검증 실패: {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
+
         } catch (Exception e) {
-            log.error("회원가입 처리 중 오류 발생: {}", e.getMessage());
+            log.error("회원가입 처리 중 오류 발생", e);
             return ResponseEntity.internalServerError().body("회원가입 실패");
         }
     }

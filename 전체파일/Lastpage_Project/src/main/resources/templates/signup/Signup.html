@@ -48,7 +48,7 @@
             </div>
 
             <input type="password" id="password" placeholder="비밀번호 (9자 이상, 대문자/특수문자 포함)" required>
-            <input type="password" id="confirmPassword" placeholder="비밀번호 확인" required>
+            <input type="password" id="confirm_password" placeholder="비밀번호 확인" required>
             <span id="pwMsg"></span>
 
             <div class="signup-row email-row mt-3">
@@ -127,7 +127,7 @@
 
     // 비밀번호 유효성 검사
     const pw = document.getElementById('password');
-    const cpw = document.getElementById('confirmPassword');
+    const cpw = document.getElementById('confirm_password');
     const pwMsg = document.getElementById('pwMsg');
 
     cpw.addEventListener('input', () => {
@@ -182,11 +182,11 @@
       if (!isIdChecked) return alert('아이디 중복확인을 해주세요.');
       if (!isEmailVerified) return alert('이메일 인증을 완료해주세요.');
 
-      const data = {
+     const data = {
         name: document.getElementById('name').value,
         id: document.getElementById('userid').value,
         password: document.getElementById('password').value,
-        confirm_password: document.getElementById('confirmPassword').value,
+        confirm_password: document.getElementById('confirm_password').value,
         emailId: document.getElementById('emailId').value,
         emailDomain: document.getElementById('emailDomain').value,
         year: document.getElementById('year').value,

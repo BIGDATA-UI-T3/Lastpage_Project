@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +25,8 @@ public class ReserveController {
 
     // 페이지 이동
     @GetMapping("/psy_reserve")
-    public String psy_reservePage() {
+    public String psy_reservePage(Model model) {
+        model.addAttribute("mode", "create");
         return "reserve/psy_reserve";
     }
 
@@ -48,7 +50,26 @@ public class ReserveController {
         }
     }
 
-    //  상담예약 수정
+    /** ------------------------------
+     *  상담예약 수정 페이지 이동 (edit 모드)
+     * ------------------------------ */
+    @GetMapping("/psy_reserve/edit/{id}")
+    public String editPsyReserve(@PathVariable Long id, Model model) {
+        PsyReserveDto dto = psyReserveService.findById(id);
+        if (dto == null) {
+            log.warn("[수정 페이지 진입 실패] 존재하지 않는 ID={}", id);
+            return "redirect:/mypage/Mypage";
+        }
+        model.addAttribute("reserve", dto);
+        model.addAttribute("mode", "edit");  // HTML 내에서 edit모드 분기 가능
+        log.info("[수정 페이지 진입] ID={}, Email={}", dto.getId(), dto.getEmail());
+        return "reserve/psy_reserve";  // 기존 예약 폼 그대로 사용
+    }
+
+
+    /** ------------------------------
+     *  상담예약 수정 (PUT 요청)
+     * ------------------------------ */
     @PutMapping("/psy_reserve/{id}")
     @ResponseBody
     public ResponseEntity<?> updatePsyReserve(@PathVariable Long id,
@@ -57,9 +78,10 @@ public class ReserveController {
             PsyReserveDto updated = psyReserveService.updateReserve(id, dto);
             return ResponseEntity.ok(updated);
         } catch (IllegalStateException e) {
+            log.warn("[예약 수정 실패] {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            log.error("상담 예약 수정 실패", e);
+            log.error("[상담 예약 수정 중 오류]", e);
             return ResponseEntity.internalServerError().body("예약 수정 실패");
         }
     }

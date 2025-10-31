@@ -1,48 +1,48 @@
 package com.example.demo.Controller;
 
-
-import com.example.demo.Domain.Common.Dto.PsyReserveDto;
-import com.example.demo.Domain.Common.Dto.SignupDto;
-import com.example.demo.Domain.Common.Entity.PsyReserve;
 import com.example.demo.Domain.Common.Entity.Signup;
-import com.example.demo.Domain.Common.Service.FuneralReserveService;
-import com.example.demo.Domain.Common.Service.SignupService;
+import com.example.demo.Domain.Common.Service.AuthService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-
 @Slf4j
-@RequestMapping
 @RequiredArgsConstructor
 public class SigninController {
 
-    private final SignupService signupService;
+    private final AuthService authService;
 
-
-    @GetMapping("/signin")//http://localhost:8099/signin
-    public String home(){
-        System.out.println("GET /");
+    /** 로그인 페이지 이동 */
+    @GetMapping("/signin")
+    public String signinPage() {
+        log.info("로그인 페이지로 이동합니다.");
         return "signin/Signin";
     }
 
+    /** 자체 로그인 처리 */
     @PostMapping("/loginProc")
     public String login(@RequestParam String id,
                         @RequestParam String password,
                         HttpSession session,
                         RedirectAttributes redirectAttributes) {
         try {
+            Signup user = authService.authenticate(id, password);
 
-            Signup user = signupService.authenticate(id, password);
+            // 세션 저장 (mypage 접근용)
             session.setAttribute("loginUser", user);
             session.setAttribute("loginEmail", user.getEmailId());
+            session.setAttribute("loginName", user.getName());
             log.info("[로그인 성공] Id={}, Email={}", user.getId(), user.getEmailId());
-            return "redirect:/"; // 로그인 성공 시 메인 페이지로
+
+            //  로그인 성공 시 마이페이지로 이동
+            return "redirect:/";
+
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             log.warn("[로그인 실패] {}", e.getMessage());
@@ -50,27 +50,11 @@ public class SigninController {
         }
     }
 
+    /** 로그아웃 처리 */
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
+        log.info("로그아웃 완료");
         return "redirect:/";
     }
-
-// 이거는 회원가입 하면서 이제 필요 없잖아
-//    @PostMapping("/userinfoSave")
-//    @ResponseBody
-//    public ResponseEntity<?> saveUserInfo(@RequestBody SignupDto dto) {
-//        try {
-//            Signup saved = signupService.saveUserInfo(dto);
-//            log.info("유저 정보 저장 완료!! 굳굳: {}", saved.getId());
-//
-//            // JS에서 redirect할 수 있도록 email을 응답에 담아줌
-//            return ResponseEntity.ok(saved.getId());
-//        } catch (Exception e) {
-//            log.error(" 유저 정보 저장 실패!! 그만 실패해 진짜 짜증나게 하지마", e);
-//            return ResponseEntity.internalServerError().body("유저 정보 저장 실패!! 그만 실패해 제발진짜그만");
-//        }
-//    }
-
-
 }

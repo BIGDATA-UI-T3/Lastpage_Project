@@ -21,9 +21,7 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#">홈</a>
-                    <ul><li><a href="#">인사말</a></li></ul>
-                </li>
+                <li><a href="#">홈</a><ul><li><a href="#">인사말</a></li></ul></li>
                 <li><a href="#">장례서비스</a></li>
                 <li><a href="#">Ourpage</a></li>
                 <li><a href="#">심리상담</a>
@@ -52,12 +50,13 @@
 
 <main>
     <div class="wrap">
-        <form class="card" id="loginForm" autocomplete="on" novalidate>
+        <!--  서버 연동을 위한 form 수정 -->
+        <form class="card" id="loginForm" action="/loginProc" method="post" autocomplete="on" novalidate>
             <h1 style="text-align:center;">로그인</h1>
 
             <!-- 아이디 -->
             <label class="field" aria-label="아이디">
-                <input id="userid" name="userid" type="text"
+                <input id="userid" name="id" type="text"
                        placeholder="아이디(이메일 또는 사용자명)" required />
             </label>
 
@@ -77,6 +76,10 @@
                     </button>
                 </label>
                 <div id="capsHint" class="hint" role="alert" aria-live="polite" style="display:none;">Caps Lock이 켜져 있습니다.</div>
+
+                <!--  로그인 실패 시 표시 -->
+                <div th:if="${error}" class="text-danger text-center mt-2" th:text="${error}"></div>
+
                 <hr style="border:none; border-top:2px solid var(--border); margin-top:12px; margin-bottom:0;" />
             </div>
 
@@ -102,7 +105,7 @@
                 </div>
 
                 <div class="links" aria-label="바로가기">
-                    <a href="#" id="link-signup">회원가입하기</a><span>·</span>
+                    <a href="/signup" id="link-signup">회원가입하기</a><span>·</span>
                     <a href="#" id="link-find-id">아이디 찾기</a><span>·</span>
                     <a href="#" id="link-find-pw">비밀번호 찾기</a>
                 </div>
@@ -123,35 +126,40 @@
     const eyeClosed = document.getElementById('eyeClosed');
 
     toggle.addEventListener('click', () => {
-      const show = pw.type === 'password';
-      pw.type = show ? 'text' : 'password';
-      eyeOpen.style.display = show ? 'none' : 'block';
-      eyeClosed.style.display = show ? 'block' : 'none';
+        const show = pw.type === 'password';
+        pw.type = show ? 'text' : 'password';
+        eyeOpen.style.display = show ? 'none' : 'block';
+        eyeClosed.style.display = show ? 'block' : 'none';
+    });
+
+    // CapsLock 감지
+    pw.addEventListener('keyup', (e) => {
+        const caps = e.getModifierState && e.getModifierState('CapsLock');
+        document.getElementById('capsHint').style.display = caps ? 'block' : 'none';
     });
 
     // 소셜 로그인 리디렉션
     document.getElementById('kakaoLoginBtn').addEventListener('click', () => {
-      const clientId = 'e5923ec597bc30b05ac13d8e57e0d18a';
-      const redirectUri = 'http://localhost:8090/login/oauth2/code/kakao';
-      const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
-      window.location.href = kakaoUrl;
+        const clientId = 'e5923ec597bc30b05ac13d8e57e0d18a';
+        const redirectUri = 'http://localhost:8090/login/oauth2/code/kakao';
+        const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+        window.location.href = kakaoUrl;
     });
 
     document.getElementById('naverLoginBtn').addEventListener('click', () => {
-      const clientId = 'JpAxufwm7yy8tFcT2Rmz';
-      const redirectUri = 'http://localhost:8090/login/oauth2/code/naver';
-      const state = Math.random().toString(36).substring(2, 15); // CSRF 방지용
-      const naverUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
-      window.location.href = naverUrl;
+        const clientId = 'JpAxufwm7yy8tFcT2Rmz';
+        const redirectUri = 'http://localhost:8090/login/oauth2/code/naver';
+        const state = Math.random().toString(36).substring(2, 15);
+        const naverUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
+        window.location.href = naverUrl;
     });
 
     document.getElementById('googleLoginBtn').addEventListener('click', () => {
-
-      const redirectUri = 'http://localhost:8090/login/oauth2/code/google';
-      const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`;
-      window.location.href = googleUrl;
+        
+        const redirectUri = 'http://localhost:8090/login/oauth2/code/google';
+        const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`;
+        window.location.href = googleUrl;
     });
 </script>
 </body>
 </html>
-

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface SignupRepository extends JpaRepository<Signup,String> {
+    Optional<Signup> findByIdAndProviderIsNull(String id); // 이거 우리 웹 로그인 한 id 의미하는거
     Optional<Signup> findById(String id);
     boolean existsById(String id);
     Optional<Signup> findByProviderAndProviderId(String provider, String providerId);

@@ -2,7 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Domain.Common.Dto.PsyReserveDto;
 import com.example.demo.Domain.Common.Dto.SignupDto;
-import com.example.demo.Domain.Common.Entity.PsyReserve;
+import com.example.demo.Domain.Common.Entity.Signup;
 import com.example.demo.Domain.Common.Service.PsyReserveService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
-
-import java.util.List;
 
 @Controller
 @Slf4j
@@ -23,20 +21,36 @@ public class MypageController {
 
     /** 세션 로그인 사용자 + 예약 정보 로드 */
     @GetMapping("/mypage/Mypage")
-    public String mypage(@SessionAttribute(value = "loginUser", required = false) SignupDto user,
+    public String mypage(@SessionAttribute(value = "loginUser", required = false) Object loginUser,
                          @RequestParam(required = false) String email,
                          Model model) {
 
-        // 세션 사용자 확인
-        if (user != null) {
-            model.addAttribute("user", user.getName());
-            log.info("세션 로그인 사용자: {} / 이메일: {}", user.getName(), user.getOauthEmail());
+        //  세션 사용자 확인 (자체 로그인 / 소셜 로그인 둘 다 대응)
+        String name = null;
+        String userEmail = null;
+
+        if (loginUser instanceof SignupDto user) { // 소셜 로그인 세션
+            name = user.getName();
+            userEmail = user.getOauthEmail();
+            model.addAttribute("userType", "social");
+            log.info("소셜 로그인 사용자: {} / 이메일: {}", name, userEmail);
+
+
+        } else if (loginUser instanceof Signup user) { // 자체 로그인 세션
+            name = user.getName();
+            userEmail = user.getEmailId() + "@" + user.getEmailDomain();
+            model.addAttribute("userType", "native");
+            log.info("자체 로그인 사용자: {} / 이메일: {}", name, userEmail);
+
         } else {
             log.warn("세션에 로그인 정보가 없습니다. (비로그인 상태)");
-            return "redirect:/login"; // 세션 없으면 로그인 페이지로
+            return "redirect:/signin"; // 세션 없으면 로그인 페이지로
         }
 
-        // PsyReserve 테이블에서 예약정보 조회
+        model.addAttribute("user", name);
+        model.addAttribute("email", userEmail);
+
+        // 심리 예약 정보 조회
         if (email != null && !email.isEmpty()) {
             PsyReserveDto reserve = psyReserveService.findByEmail(email);
             if (reserve != null) {
