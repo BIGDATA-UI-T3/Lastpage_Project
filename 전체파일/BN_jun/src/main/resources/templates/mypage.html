@@ -75,6 +75,17 @@
 
     <!-- 메인 -->
     <main>
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert"
+             style="margin: 20px 10%;"> <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert"
+             style="margin: 20px 10%;">
+            <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <!-- 인삿말 -->
         <div class="hello_yj">
             <div class="logo_yj">

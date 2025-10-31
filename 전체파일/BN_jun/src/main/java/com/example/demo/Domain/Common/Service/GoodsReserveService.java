@@ -65,4 +65,20 @@ public class GoodsReserveService {
     public List<GoodsReserve> getAllGoodsReservations() {
         return repository.findAll(); // JpaRepository가 기본으로 제공하는 '전체 조회' 기능
     }
+
+    /**
+     * ID를 기반으로 예약을 삭제합니다.
+     * @param id 삭제할 예약의 ID
+     */
+    @Transactional // 데이터를 삭제(변경)하므로 @Transactional 추가
+    public void deleteReservation(Long id) {
+        // ID로 예약을 찾습니다.
+        GoodsReserve reservation = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 예약을 찾을 수 없습니다. id=" + id));
+
+        // 찾은 예약을 삭제합니다.
+        repository.delete(reservation);
+
+        // 또는 repository.deleteById(id); 를 바로 사용해도 됩니다.
+    }
 }
