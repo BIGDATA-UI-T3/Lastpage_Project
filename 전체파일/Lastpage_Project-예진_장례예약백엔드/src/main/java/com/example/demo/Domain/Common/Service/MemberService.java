@@ -53,18 +53,15 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public MemberDto signin(MemberDto dto) {
+    public Member signin(MemberDto dto) {
         Member member = memberRepository.findByUsername(dto.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 올바르지 않습니다."));
-
-        // 입력 비밀번호와 DB 해시 비교
+                .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
         if (!passwordEncoder.matches(dto.getPassword(), member.getPassword())) {
-            throw new IllegalArgumentException("아이디 또는 비밀번호가 올바르지 않습니다.");
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
-
-        // 로그인 성공 시 DTO 반환
-        return new MemberDto(member);
+        return member;
     }
+
 
 
 }

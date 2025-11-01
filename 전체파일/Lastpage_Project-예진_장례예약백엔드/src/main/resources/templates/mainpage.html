@@ -12,7 +12,6 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{css/common.css}">
     <link rel="stylesheet" th:href="@{css/Mainpage.css}">
-    <link rel="stylesheet" href="./common.html">
 
 
     <title>반려동물 장례식장</title>
@@ -61,17 +60,23 @@
                         <li><a href="#">예약조회</a></li>
                     </ul>
                 </li>
-                <li><a href="#">마이페이지</a></li>
+                <li>
+                    <a th:if="${loginUser != null}" th:href="@{/mypage}">마이페이지</a>
+                </li>
+
                 <li><a href="#">고객센터</a></li>
             </ul>
         </nav>
-        <div class="auth">
+
+        <!-- 로그인 상태에 따라 전환 -->
+        <div th:if="${loginUser != null}" class="auth">
+            <a href="/logout" th:onclick="|logout()|">로그아웃</a>
+        </div>
+        <div th:if="${loginUser == null}" class="auth">
             <a href="/signin">로그인</a>
             <a href="/signup">회원가입</a>
         </div>
     </header>
-
-
 
     <!-- 슬라이더 -->
     <section id="slider">
@@ -81,9 +86,6 @@
             <img src="../Asset/추모배너이미지6.jpg" alt="슬라이드3" />
         </div>
     </section>
-
-
-
 
     <!-- 메인 컨텐츠 -->
     <main>
@@ -128,10 +130,7 @@
             </div>
         </section>
 
-
     </main>
-
-
 
 </div>
 
@@ -152,6 +151,12 @@
             }
         });
     })();
+
+    // 로그아웃
+    function logout() {
+        fetch("/logout", { method: "POST" })
+            .then(() => window.location.href = "/");
+    }
 
     // ScrollSpy 강제 초기화
     document.addEventListener("DOMContentLoaded", function () {

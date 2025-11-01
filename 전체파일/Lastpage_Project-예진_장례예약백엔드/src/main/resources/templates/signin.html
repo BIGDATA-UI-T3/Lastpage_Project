@@ -49,11 +49,27 @@
                         <li><a href="#">예약조회</a></li>
                     </ul>
                 </li>
-                <li><a href="#">마이페이지</a></li>
+                <li>
+                    <!-- 로그인 여부에 따라 다르게 동작 -->
+                    <a href="#"
+                       th:if="${loginUser != null}"
+                       th:href="@{/mypage(ownerName=${loginUser.ownerName})}">
+                        마이페이지
+                    </a>
+                    <a href="javascript:void(0);"
+                       th:if="${loginUser == null}"
+                       onclick="alert('로그인 후 이용 가능합니다.'); window.location.href='/signin';">
+                        마이페이지
+                    </a>
+                </li>
                 <li><a href="#">고객센터</a></li>
             </ul>
         </nav>
-        <div class="auth">
+        <!-- 로그인 상태에 따라 전환 -->
+        <div th:if="${loginUser != null}" class="auth">
+            <a href="#" th:onclick="|logout()|">로그아웃</a>
+        </div>
+        <div th:if="${loginUser == null}" class="auth">
             <a href="/signin">로그인</a>
             <a href="/signup">회원가입</a>
         </div>
@@ -119,68 +135,47 @@
     대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
 </footer>
 
-<!--<script>-->
-<!--    // 비밀번호 보기/숨기기-->
-<!--    const pw = document.getElementById('password');-->
-<!--    const toggle = document.getElementById('togglePw');-->
-<!--    const eyeOpen = document.getElementById('eyeOpen');-->
-<!--    const eyeClosed = document.getElementById('eyeClosed');-->
-
-<!--    toggle.addEventListener('click', () => {-->
-<!--        const show = pw.type === 'password';-->
-<!--        pw.type = show ? 'text' : 'password';-->
-<!--        eyeOpen.style.display = show ? 'none' : 'block';-->
-<!--        eyeClosed.style.display = show ? 'block' : 'none';-->
-<!--        pw.focus({ preventScroll:true });-->
-<!--        // 커서를 끝으로-->
-<!--        const v = pw.value; pw.value = ''; pw.value = v;-->
-<!--    });-->
-
-<!--    // Caps Lock 감지-->
-<!--    const capsHint = document.getElementById('capsHint');-->
-<!--    const updateCaps = (e) => {-->
-<!--        const isCaps = e.getModifierState && e.getModifierState('CapsLock');-->
-<!--        capsHint.style.display = isCaps ? 'block' : 'none';-->
-<!--    };-->
-<!--    pw.addEventListener('keydown', updateCaps);-->
-<!--    pw.addEventListener('keyup', updateCaps);-->
-<!--    pw.addEventListener('focus', (e)=>updateCaps(e)); // 포커스 시 상태 반영-->
-<!--    pw.addEventListener('blur', ()=> capsHint.style.display='none');-->
-
-<!--    // 간단한 제출 처리 (데모)-->
-<!--    const form = document.getElementById('loginForm');-->
-<!--    form.addEventListener('submit', (e) => {-->
-<!--        e.preventDefault();-->
-<!--        const id = document.getElementById('userid').value.trim();-->
-<!--        const pwd = pw.value;-->
-<!--        if(!id){ alert('아이디를 입력해 주세요.'); return; }-->
-<!--        if(!pwd){ alert('비밀번호를 입력해 주세요.'); return; }-->
-<!--        // TODO: 실제 로그인 API 호출로 교체-->
-<!--        alert('로그인 시도: ' + id);-->
-<!--    });-->
-
-<!--    // 접근성: Enter로 제출 가능 (기본 동작)-->
-
-<!--    document.getElementById('loginForm').addEventListener('submit', async (e) => {-->
-<!--        e.preventDefault();-->
-<!--        const username = document.getElementById('userid').value;-->
-<!--        const password = document.getElementById('password').value;-->
-
-<!--        try {-->
-<!--            const res = await fetch(`/api/signin?username=${username}&password=${password}`, {-->
-<!--                method: 'POST'-->
-<!--            });-->
-<!--            const text = await res.text();-->
-<!--            alert(text);-->
-<!--            if (res.ok) window.location.href = '/'; // 로그인 성공 시 메인 페이지 이동-->
-<!--        } catch (err) { alert(err); }-->
-<!--    });-->
-
-<!--</script>-->
-
 <script>
-    // 비밀번호 보기/숨기기
+    const form = document.getElementById('loginForm');
     const pw = document.getElementById('password');
+
+    if(form) { // signin.html에서만 존재
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('userid').value.trim();
+            const password = document.getElementById('password').value;
+            const dto = { username, password };
+
+            try {
+                const res = await fetch('/member/signin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dto),
+                    credentials: 'same-origin' // 세션 유지
+                });
+                const result = await res.json();
+
+                if(result.success) {
+                    // 서버에서 Thymeleaf로 렌더링 → 헤더 자동 반영
+                    window.location.href = result.redirect || '/';
+                } else {
+                    alert(result.message || '로그인 실패');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('서버 통신 오류');
+            }
+        });
+    }
+
+    // 로그아웃
+    function logout() {
+        fetch("/logout", { method: "POST" })
+            .then(() => window.location.href = "/");
+    }
+
+    // 비밀번호 보기/숨기기
     const toggle = document.getElementById('togglePw');
     const eyeOpen = document.getElementById('eyeOpen');
     const eyeClosed = document.getElementById('eyeClosed');
@@ -204,43 +199,5 @@
     pw.addEventListener('keyup', updateCaps);
     pw.addEventListener('focus', updateCaps);
     pw.addEventListener('blur', () => capsHint.style.display = 'none');
-
-    // 로그인 폼 제출
-    const form = document.getElementById('loginForm');
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const username = document.getElementById('userid').value.trim();
-        const password = pw.value;
-
-        if(!username){ alert('아이디를 입력해 주세요.'); return; }
-        if(!password){ alert('비밀번호를 입력해 주세요.'); return; }
-
-        const dto = { username, password };
-        console.log('보낼 DTO:', dto);
-
-        try {
-            const res = await fetch('/member/signin', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dto)
-            });
-
-            const result = await res.json();
-
-            if(res.ok && result.success) {
-                // 로그인 성공 시
-                window.location.href = result.redirect || '/';
-            } else {
-                // 실패 시
-                alert(result.message || '로그인 실패');
-            }
-        } catch (err) {
-            console.error(err);
-            alert('서버와 통신 중 오류가 발생했습니다.');
-        }
-    });
 </script>
-
-</main>
 </html>

@@ -48,11 +48,27 @@
                         <li><a href="#">예약조회</a></li>
                     </ul>
                 </li>
-                <li><a href="#">마이페이지</a></li>
+                <li>
+                    <!-- 로그인 여부에 따라 다르게 동작 -->
+                    <a href="#"
+                       th:if="${loginUser != null}"
+                       th:href="@{/mypage(ownerName=${loginUser.ownerName})}">
+                        마이페이지
+                    </a>
+                    <a href="javascript:void(0);"
+                       th:if="${loginUser == null}"
+                       onclick="alert('로그인 후 이용 가능합니다.'); window.location.href='/signin';">
+                        마이페이지
+                    </a>
+                </li>
                 <li><a href="#">고객센터</a></li>
             </ul>
         </nav>
-        <div class="auth">
+        <!-- 로그인 상태에 따라 전환 -->
+        <div th:if="${loginUser != null}" class="auth">
+            <a href="#" th:onclick="|logout()|">로그아웃</a>
+        </div>
+        <div th:if="${loginUser == null}" class="auth">
             <a href="/signin">로그인</a>
             <a href="/signup">회원가입</a>
         </div>
@@ -190,6 +206,13 @@
 </footer>
 
 <script>
+
+        // 로그아웃
+        function logout() {
+        fetch("/logout", { method: "POST" })
+            .then(() => window.location.href = "/");
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
         const signupForm = document.getElementById('signupForm');
 
