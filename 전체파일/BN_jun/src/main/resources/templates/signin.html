@@ -65,10 +65,11 @@
             <h1 style="text-align: center;">로그인</h1>
 
             <div th:if="${param.error}" class="alert alert-danger" role="alert" style="text-align:center;">
-                아이디 또는 비밀번호가 올바르지 않습니다.
+                <span th:if="${param.message}" th:text="${param.message}"></span>
+                <span th:unless="${param.message}">아이디 또는 비밀번호가 올바르지 않습니다.</span>
             </div>
-            <div th:if="${param.logout}" class="alert alert-success" role="alert" style="text-align:center;">
-                로그아웃되었습니다.
+            <div th:if="${successMessage}" class="alert alert-success" role="alert" style="text-align:center;">
+                <span th:text="${successMessage}"></span>
             </div>
 
             <label class="field" aria-label="아이디">

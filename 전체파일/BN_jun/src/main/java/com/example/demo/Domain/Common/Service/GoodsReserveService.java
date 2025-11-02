@@ -2,7 +2,9 @@ package com.example.demo.Domain.Common.Service;
 
 import com.example.demo.Domain.Common.Dto.ReserveDto;
 import com.example.demo.Domain.Common.Entity.GoodsReserve;
+import com.example.demo.Domain.Common.Entity.User; // [추가]
 import com.example.demo.Repository.GoodsReserveRepository;
+import com.example.demo.Repository.UserRepository; // [추가]
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,18 +12,24 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@AllArgsConstructor // [수정] final 필드 모두 주입
 public class GoodsReserveService {
 
     private final GoodsReserveRepository repository;
+    private final UserRepository userRepository; // [추가] 예약을 한 사용자를 찾기 위해
 
-    public GoodsReserve saveReservation(ReserveDto dto) {
-        // JS의 배열(materials)을 DB에 저장하기 위해 문자열로 변환
+    @Transactional // [수정] saveReservation 메서드에 @Transactional 추가
+    public GoodsReserve saveReservation(ReserveDto dto, String username) { // [수정] username 파라미터 추가
+
+        // [추가] username으로 User 엔티티를 찾습니다.
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("예약 중 사용자를 찾을 수 없습니다: " + username));
+
+        // ... (기존 materialsStr, quantityToSave 로직 동일) ...
         String materialsStr = String.join(",", dto.getMaterials());
-
         Integer quantityToSave = dto.getQuantity();
         if (quantityToSave == null || quantityToSave < 1) {
-            quantityToSave = 1; // 널이거나 1보다 작으면 1로 강제 설정
+            quantityToSave = 1;
         }
 
         GoodsReserve entity = GoodsReserve.builder()
@@ -60,25 +68,27 @@ public class GoodsReserveService {
         return repository.save(entity);
     }
 
-    // 데이터베이스에 저장된 모든 굿즈 예약 목록을 조회하는 기능, @return GoodsReserve 객체들이 담긴 List임
-    @Transactional(readOnly = true) // 데이터를 읽기만 하므로 readOnly = true 옵션 추가 (성능 향상)
+    @Transactional(readOnly = true)
     public List<GoodsReserve> getAllGoodsReservations() {
-        return repository.findAll(); // JpaRepository가 기본으로 제공하는 '전체 조회' 기능
+        return repository.findAll();
+    }
+
+    // [추가] '특정 사용자'의 예약 목록만 가져오는 메서드
+    @Transactional(readOnly = true)
+    public List<GoodsReserve> getAllGoodsReservationsByUsername(String username) {
+        return repository.findByUserUsername(username);
     }
 
     /**
-     * ID를 기반으로 예약을 삭제합니다.
-     * @param id 삭제할 예약의 ID
+     * ID를 기반으로 예약을 삭제합니다. (수정 필요 없음)
      */
-    @Transactional // 데이터를 삭제(변경)하므로 @Transactional 추가
+    @Transactional
     public void deleteReservation(Long id) {
-        // ID로 예약을 찾습니다.
         GoodsReserve reservation = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 예약을 찾을 수 없습니다. id=" + id));
 
-        // 찾은 예약을 삭제합니다.
-        repository.delete(reservation);
+        // [추정] TODO: 여기에 예약 삭제 전, 본인 확인 로직 추가 필요 (보안 강화)
 
-        // 또는 repository.deleteById(id); 를 바로 사용해도 됩니다.
+        repository.delete(reservation);
     }
 }

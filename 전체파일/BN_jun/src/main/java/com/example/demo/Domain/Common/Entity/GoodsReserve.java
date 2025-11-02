@@ -59,6 +59,10 @@ public class GoodsReserve {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id") // DB에는 user_id 컬럼으로 저장됩니다.
+    private User user;
+
     // === 기존 필드 ===
     private String ownerName;
     private String ownerPhone;
