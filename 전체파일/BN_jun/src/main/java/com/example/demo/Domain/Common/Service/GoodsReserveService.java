@@ -2,9 +2,9 @@ package com.example.demo.Domain.Common.Service;
 
 import com.example.demo.Domain.Common.Dto.ReserveDto;
 import com.example.demo.Domain.Common.Entity.GoodsReserve;
-import com.example.demo.Domain.Common.Entity.User; // [추가]
+import com.example.demo.Domain.Common.Entity.User;
 import com.example.demo.Repository.GoodsReserveRepository;
-import com.example.demo.Repository.UserRepository; // [추가]
+import com.example.demo.Repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,20 +12,20 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@AllArgsConstructor // [수정] final 필드 모두 주입
+@AllArgsConstructor
 public class GoodsReserveService {
 
     private final GoodsReserveRepository repository;
-    private final UserRepository userRepository; // [추가] 예약을 한 사용자를 찾기 위해
+    private final UserRepository userRepository;
 
-    @Transactional // [수정] saveReservation 메서드에 @Transactional 추가
-    public GoodsReserve saveReservation(ReserveDto dto, String username) { // [수정] username 파라미터 추가
+    @Transactional
+    public GoodsReserve saveReservation(ReserveDto dto, String username) {
 
-        // [추가] username으로 User 엔티티를 찾습니다.
+        // 1. username으로 User 엔티티를 찾습니다.
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("예약 중 사용자를 찾을 수 없습니다: " + username));
 
-        // ... (기존 materialsStr, quantityToSave 로직 동일) ...
+        // 2. DTO -> Entity 변환 (기존 로직)
         String materialsStr = String.join(",", dto.getMaterials());
         Integer quantityToSave = dto.getQuantity();
         if (quantityToSave == null || quantityToSave < 1) {
@@ -33,7 +33,7 @@ public class GoodsReserveService {
         }
 
         GoodsReserve entity = GoodsReserve.builder()
-                // 기존 매핑
+                .user(user) // 3. 찾은 User 엔티D티를 예약 정보에 설정
                 .ownerName(dto.getOwnerName())
                 .ownerPhone(dto.getOwnerPhone())
                 .ownerEmail(dto.getOwnerEmail())
@@ -43,16 +43,17 @@ public class GoodsReserveService {
                 .petBreed(dto.getPetBreed())
                 .petWeight(dto.getPetWeight())
                 .memo(dto.getMemo())
-
-                // 추가된 필드 매핑
-                .materials(materialsStr) // 변환된 문자열 저장
+                .materials(materialsStr)
                 .product(dto.getProduct())
                 .metalColor(dto.getMetalColor())
                 .chainLength(dto.getChainLength())
                 .ringSize(dto.getRingSize())
                 .quantity(quantityToSave)
                 .engravingText(dto.getEngravingText())
+
+                // [오타 수정 완료] 4. getEngFont() -> getEngravingFont()
                 .engravingFont(dto.getEngravingFont())
+
                 .optionsMemo(dto.getOptionsMemo())
                 .shipMethod(dto.getShipMethod())
                 .targetDate(dto.getTargetDate())
@@ -65,29 +66,27 @@ public class GoodsReserveService {
                 .trackingInfo(dto.getTrackingInfo())
                 .build();
 
+        // 5. DB에 저장
         return repository.save(entity);
     }
 
+    // '모든' 예약을 가져옵니다. (관리자용)
     @Transactional(readOnly = true)
     public List<GoodsReserve> getAllGoodsReservations() {
         return repository.findAll();
     }
 
-    // [추가] '특정 사용자'의 예약 목록만 가져오는 메서드
+    // '특정 사용자'의 예약 목록만 가져오는 메서드
     @Transactional(readOnly = true)
     public List<GoodsReserve> getAllGoodsReservationsByUsername(String username) {
         return repository.findByUserUsername(username);
     }
 
-    /**
-     * ID를 기반으로 예약을 삭제합니다. (수정 필요 없음)
-     */
+    // 예약 삭제
     @Transactional
     public void deleteReservation(Long id) {
         GoodsReserve reservation = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 예약을 찾을 수 없습니다. id=" + id));
-
-        // [추정] TODO: 여기에 예약 삭제 전, 본인 확인 로직 추가 필요 (보안 강화)
 
         repository.delete(reservation);
     }

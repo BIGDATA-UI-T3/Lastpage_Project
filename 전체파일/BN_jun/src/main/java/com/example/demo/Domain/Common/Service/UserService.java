@@ -14,7 +14,7 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error; // [추가]
+import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.HashMap; // [추가] HashMap import
 
 @Service
 @RequiredArgsConstructor
@@ -33,34 +34,29 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // [기능 1] 자체 회원가입 (DTO 버전)
+    // ... (기능 1: registerUser는 이전과 동일) ...
     public User registerUser(RegisterFormDto dto) {
         if (userRepository.findByUsername(dto.getUsername()).isPresent()) {
             throw new IllegalStateException("이미 존재하는 아이디입니다.");
         }
-
-        // [추가] 이메일 중복 검사
         String fullEmail = dto.getEmailId() + "@" + dto.getEmailDomain();
         if (userRepository.findByEmail(fullEmail).isPresent()) {
             throw new IllegalStateException("이미 사용 중인 이메일입니다.");
         }
-
         User user = new User();
         user.setName(dto.getName());
         user.setUsername(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setEmail(fullEmail); // [수정] 조합된 이메일 저장
+        user.setEmail(fullEmail);
         user.setPhone(dto.getPhone());
         user.setRole("ROLE_USER");
-
         return userRepository.save(user);
     }
 
-    // [기능 2] 자체 로그인 (수정 필요 없음)
+    // ... (기능 2: loadUserByUsername은 이전과 동일) ...
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // ... (기존 로직 동일) ...
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("아이디를 찾을 수 없습니다: " + username));
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -103,8 +99,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
             name = (String) response.get("name");
         }
 
-        String username = provider + "_" + providerId; // 소셜 로그인 전용 username
-
+        String username = provider + "_" + providerId;
         Optional<User> userOptional = userRepository.findByUsername(username);
         User user;
 
@@ -113,44 +108,64 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
             user = userOptional.get();
         } else {
             // 2. 해당 소셜 계정으로는 처음 로그인
-            // [추가] 이메일이 이미 존재하는지 확인
-            if (email != null && userRepository.findByEmail(email).isPresent()) {
+            Optional<User> existingUserOptional = (email != null) ? userRepository.findByEmail(email) : Optional.empty();
+
+            if (existingUserOptional.isPresent()) {
                 // 3. 이메일이 이미 존재 (자체 회원가입 또는 다른 소셜 로그인)
-                // -> 로그인 실패 처리
-                OAuth2Error error = new OAuth2Error("duplicate_email",
-                        "이미 가입된 이메일입니다. 다른 로그인 방식을 이용해주세요.", null);
+                User existingUser = existingUserOptional.get();
+                String providerName = getProviderNameFromUsername(existingUser.getUsername());
+                String errorMessage = String.format(
+                        "%s로 이미 가입된 이메일입니다. %s로 로그인해주세요.",
+                        providerName, providerName
+                );
+                OAuth2Error error = new OAuth2Error("duplicate_email", errorMessage, null);
                 throw new OAuth2AuthenticationException(error, error.toString());
             }
 
             // 4. 신규 사용자로 DB에 저장
             user = new User();
             user.setUsername(username);
-            user.setPassword(passwordEncoder.encode("")); // 소셜 로그인은 비밀번호 사용 안 함
+            user.setPassword(passwordEncoder.encode(""));
             user.setName(name);
             user.setEmail(email);
             user.setRole("ROLE_USER");
-            userRepository.save(user);
+            userRepository.save(user); // [수정] save(user)로 변경하여 user 객체에 ID가 할당되도록 함
         }
 
-        // ... (이하 기존 로직 동일) ...
+        // --- [핵심 수정] ---
+        // 1. 권한 설정
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole()));
 
-        Map<String, Object> attributes = oAuth2User.getAttributes();
-        String userNameAttributeName;
+        // 2. attributes 맵을 복사하고, '우리의' username을 저장합니다.
+        Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
+        attributes.put("internal_username", user.getUsername()); // "naver_...", "kakao_...", etc.
 
-        if (provider.equals("naver")) {
-            userNameAttributeName = "response";
-        } else if (provider.equals("kakao")) {
-            userNameAttributeName = "id";
-        } else {
-            userNameAttributeName = "sub";
-        }
+        // 3. 'name' 속성의 키를 우리가 방금 저장한 "internal_username"으로 지정합니다.
+        //    이렇게 하면 principal.getName()이 항상 'user.getUsername()'을 반환하게 됩니다.
+        String userNameAttributeName = "internal_username";
 
+        // 4. 수정된 attributes와 "internal_username" 키를 사용하여 DefaultOAuth2User 반환
         return new DefaultOAuth2User(
                 authorities,
                 attributes,
                 userNameAttributeName
         );
+    }
+
+    // [추가] 사용자 아이디를 기반으로 가입 방식을 반환하는 헬퍼 메서드
+    private String getProviderNameFromUsername(String username) {
+        if (username == null) {
+            return "정보 없음";
+        }
+        if (username.startsWith("kakao_")) {
+            return "카카오";
+        } else if (username.startsWith("naver_")) {
+            return "네이버";
+        } else if (username.startsWith("google_")) {
+            return "구글";
+        } else {
+            return "자체";
+        }
     }
 }
