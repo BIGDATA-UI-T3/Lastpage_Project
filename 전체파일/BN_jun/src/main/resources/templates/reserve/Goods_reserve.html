@@ -23,6 +23,48 @@
 </head>
 <body>
 
+<script th:if="${existingData}" th:inline="javascript">
+    /*[CDATA[*/
+    // 1-1. 서버에서 전달된 'GoodsReserve' 엔티티
+    const serverData = /*[[${existingData}]]*/ null;
+
+    // 1-2. 이 예약의 고유 ID를 전역 변수로 저장
+    window.RESERVATION_ID = serverData.id;
+
+    // 1-3. 엔티티 데이터를 JS 폼 객체(ST) 구조로 변환
+    //      [수정] 모든 필드에 '||(or)' 연산자를 추가하여 null 안정성 확보
+    window.initialST = {
+        ownerName: serverData.ownerName || '',
+        ownerPhone: serverData.ownerPhone || '',
+        ownerEmail: serverData.ownerEmail || '',
+        ownerAddr: serverData.ownerAddr || '',
+        petName: serverData.petName || '',
+        petType: serverData.petType || '',
+        petBreed: serverData.petBreed || '',
+        petWeight: serverData.petWeight || '',
+        memo: serverData.memo || '',
+        materials: serverData.materials ? serverData.materials.split(',') : [],
+        product: serverData.product || '',
+        metalColor: serverData.metalColor || '',
+        chainLength: serverData.chainLength || '',
+        ringSize: serverData.ringSize || '',
+        quantity: serverData.quantity || 1, // 수량은 null이면 1로
+        engravingText: serverData.engravingText || '',
+        engravingFont: serverData.engravingFont || '',
+        optionsMemo: serverData.optionsMemo || '',
+        shipMethod: serverData.shipMethod || '',
+        targetDate: serverData.targetDate || '',
+        isExpress: serverData.isExpress || false, // boolean은 false로
+        kitAddr: serverData.kitAddr || '',
+        kitDate: serverData.kitDate || '',
+        kitTime: serverData.kitTime || '',
+        visitDate: serverData.visitDate || '',
+        visitTime: serverData.visitTime || '',
+        trackingInfo: serverData.trackingInfo || ''
+    };
+    /*]]>*/
+</script>
+
 <!-- 헤더(메인과 동일) -->
 <div class="header-wrapper">
     <header>
@@ -362,25 +404,27 @@
 
 <!-- 예약 폼 스크립트 -->
 <script>
-    const $  = s => document.querySelector(s);
+    const $  = s => document.querySelector(s);
     const $$ = s => Array.from(document.querySelectorAll(s));
 
-    // 🎯 [수정] DTO 필드명과 일치시켰습니다.
-    const ST = {
-      // step1
-      ownerName:"", ownerPhone:"", ownerEmail:"", ownerAddr:"",
-      petName:"", petType:"", petBreed:"", petWeight:"",
-      materials: [],
+    // [수정] 2. ST 객체 초기화 로직 수정
+    // window.initialST (수정 모드 데이터)가 있으면 그것을 사용하고,
+    // 없으면 (신규 예약 모드) 기존의 빈 객체를 사용합니다.
+    const ST = window.initialST || {
+        // step1
+        ownerName:"", ownerPhone:"", ownerEmail:"", ownerAddr:"",
+        petName:"", petType:"", petBreed:"", petWeight:"",
+        materials: [],
 
-      // step2
-      product:"", metalColor:"", chainLength:"", ringSize:"", quantity:1,
-      engravingText:"", engravingFont:"", optionsMemo:"",
+        // step2
+        product:"", metalColor:"", chainLength:"", ringSize:"", quantity:1,
+        engravingText:"", engravingFont:"", optionsMemo:"",
 
-      // step3
-      shipMethod:"", targetDate:"", isExpress:false,
-      kitAddr:"", kitDate:"", kitTime:"", // 수거 시간(슬롯)
-      visitDate:"", visitTime:"", trackingInfo:"",
-      memo:""
+        // step3
+        shipMethod:"", targetDate:"", isExpress:false,
+        kitAddr:"", kitDate:"", kitTime:"",
+        visitDate:"", visitTime:"", trackingInfo:"",
+        memo:""
     };
 
     // 품종 데이터
@@ -502,7 +546,7 @@
     $('#optMemo').addEventListener('input', e=>{ ST.optionsMemo=e.target.value; $('#optCount').textContent = e.target.value.length; });
 
     function v2(){
-      // 🎯 [수정] ST.quantity로 검사
+      //  ST.quantity로 검사
       let ok = !!ST.product && (+ST.quantity>=1);
 
       // 세부 옵션 필수 조건
@@ -523,7 +567,7 @@
       const list = currentSeg==='am' ? AM : PM;
       const box = $('#timeSlots'); box.innerHTML='';
 
-      // 🎯 [수정] DTO 필드명과 일치
+      //  DTO 필드명과 일치
       selectedBtn=null; ST.kitTime='';
       list.forEach(t=>{
         const b=document.createElement('button');
@@ -558,10 +602,10 @@
     // 타깃 날짜/익스프레스
     $('#targetDate').addEventListener('change', e=>{ ST.targetDate=e.target.value; v3(); });
     $('#express').addEventListener('change', e=>{
-      // 🎯 [수정] DTO 필드명과 일치
+      // DTO 필드명과 일치
       ST.isExpress=e.target.checked;
 
-      // 🎯 [수정] DTO 필드명과 일치
+      // DTO 필드명과 일치
       const t=new Date(), add=ST.isExpress?3:7; t.setDate(t.getDate()+add);
       const y=t.getFullYear(), m=String(t.getMonth()+1).padStart(2,'0'), d=String(t.getDate()).padStart(2,'0');
       $('#targetDate').min = `${y}-${m}-${d}`;
@@ -576,7 +620,7 @@
     $('#visitDate').addEventListener('change', e=>{ ST.visitDate=e.target.value; v3(); });
     $('#visitTime').addEventListener('change', e=>{ ST.visitTime=e.target.value; v3(); });
 
-    // 🎯 [수정] DTO 필드명과 일치
+    // DTO 필드명과 일치
     $('#tracking').addEventListener('input', e=>{ ST.trackingInfo=e.target.value.trim(); });
 
     $('#memo').addEventListener('input', e=>{ ST.memo=e.target.value; $('#memoCount').textContent = e.target.value.length; });
@@ -587,7 +631,7 @@
       let ok = !!ST.shipMethod && !!ST.targetDate && $('#consent').checked;
 
       if(ST.shipMethod==='kit'){
-        // 🎯 [수정] DTO 필드명과 일치
+        // DTO 필드명과 일치
         ok = ok && !!ST.kitAddr && !!ST.kitDate && !!ST.kitTime;
       }
       if(ST.shipMethod==='visit'){
@@ -604,7 +648,7 @@
       const matMap = {ash:'유골', hair:'모발', paw:'발자국', item:'유품'};
       const mats = ST.materials.map(m=>matMap[m]||m).join(', ');
 
-      // 🎯 [수정] DTO 필드명과 모두 일치시켰습니다.
+      // DTO 필드명과 모두 일치시켰습니다.
       const lines = [
         `<div><strong>신청자</strong> : ${ST.ownerName} / ${ST.ownerPhone} / ${ST.ownerEmail}</div>`,
         `<div><strong>수령/반송 주소</strong> : ${ST.ownerAddr}</div>`,
@@ -635,28 +679,84 @@
 
     $('#submitBtn').addEventListener('click', ()=>{
 
-      // fetch로 전송
-      fetch('/reserve/save', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify(ST) // 🎯 수정된 ST 객체를 전송
-      })
-      .then(response => {
-          if (response.ok) {
-              // 성공 시 (예: 마이페이지로 이동)
-              alert('예약이 성공적으로 제출되었습니다. 마이페이지로 이동합니다.');
-              window.location.href = '/mypage'; // 👈 성공 시 이동할 URL
-          } else {
-              // 서버에서 오류 응답 시
-              alert('예약 제출에 실패했습니다. 입력 내용을 다시 확인해주세요.');
-          }
-      })
-      .catch(error => {
-          // 네트워크 오류 등
-          console.error('Error:', error);
-          alert('예약 중 오류가 발생했습니다.');
-      });
+        // 3-1. 수정 모드인지 (ID가 있는지) 확인
+        const isUpdate = !!window.RESERVATION_ID;
+
+        // 3-2. 모드에 따라 URL 분기
+        const url = isUpdate ? `/goods/update/${window.RESERVATION_ID}` : '/reserve/save';
+        const method = 'POST'; // HTTP 메서드는 POST로 동일하게 사용
+
+        // fetch로 전송
+        fetch(url, {
+            method: method,
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify(ST) // ST 객체 전송
+        })
+            .then(response => {
+                if (response.ok) {
+                    // 3-3. 모드에 따라 성공 메시지 분기
+                    alert(isUpdate ? '예약이 성공적으로 수정되었습니다.' : '예약이 성공적으로 제출되었습니다.');
+                    window.location.href = '/mypage'; // 마이페이지로 복귀
+                } else {
+                    alert(isUpdate ? '예약 수정에 실패했습니다.' : '예약 제출에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('예약 중 오류가 발생했습니다.');
+            });
     });
+
+    // [추가] 4. 수정 모드일 때 폼에 기존 데이터를 채워넣는 함수
+    function populateFormFromST() {
+        if (!window.initialST) return; // 수정 모드가 아니면 실행 안 함
+
+        // Step 1
+        $('#ownerName').value = ST.ownerName;
+        $('#ownerPhone').value = ST.ownerPhone;
+        $('#ownerEmail').value = ST.ownerEmail;
+        $('#ownerAddr').value = ST.ownerAddr;
+        $('#petName').value = ST.petName;
+        $('#petType').value = ST.petType;
+        petTypeEl.dispatchEvent(new Event('change')); // 품종 selectbox 갱신
+        if (ST.petType === 'other') {
+            $('#petBreedText').value = ST.petBreed;
+        } else {
+            $('#petBreed').value = ST.petBreed;
+        }
+        $('#petWeight').value = ST.petWeight;
+        ST.materials.forEach(mat => {
+            $(`#materialsBox .slot[data-mat="${mat}"]`)?.classList.add('active');
+        });
+
+        // Step 2
+        $('#product').value = ST.product;
+        productEl.dispatchEvent(new Event('change')); // 옵션 갱신
+        $('#metal').value = ST.metalColor;
+        $('#chainLength').value = ST.chainLength;
+        $('#ringSize').value = ST.ringSize;
+        $('#qty').value = ST.quantity;
+        $('#engrave').value = ST.engravingText;
+        $('#font').value = ST.engravingFont;
+        $('#optMemo').value = ST.optionsMemo;
+
+        // Step 3
+        $('#shipMethod').value = ST.shipMethod;
+        $('#shipMethod').dispatchEvent(new Event('change')); // 수거/배송 폼 갱신
+        $('#targetDate').value = ST.targetDate;
+        $('#express').checked = ST.isExpress;
+        $('#kitAddr').value = ST.kitAddr;
+        $('#kitDate').value = ST.kitDate;
+        // (kitTime, visitTime 등 시간 관련 폼도 필요시 동일하게 채워줍니다)
+        $('#tracking').value = ST.trackingInfo;
+        $('#memo').value = ST.memo;
+
+        // 모든 검증 함수를 실행하여 '다음' 버튼 활성화
+        v1(); v2(); v3();
+    }
+
+    // 5. 페이지 로드 시 폼 채우는 함수 실행
+    populateFormFromST();
 
     // 초기 포커스
     $('#ownerName').focus();

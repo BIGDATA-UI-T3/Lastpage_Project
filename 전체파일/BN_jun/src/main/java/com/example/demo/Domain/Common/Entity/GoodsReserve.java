@@ -60,7 +60,7 @@ public class GoodsReserve {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id") // DB에는 user_id 컬럼으로 저장됩니다.
+    @JoinColumn(name = "user_id")
     private User user;
 
     // === 기존 필드 ===

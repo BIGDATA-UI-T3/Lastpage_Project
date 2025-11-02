@@ -41,7 +41,6 @@ public class MailApiController {
         } catch (Exception e) {
 
             response.put("message", "이메일 발송에 실패했습니다: " + e.getMessage());
-            // 500 Internal Server Error 응답을 반환
             return ResponseEntity.status(500).body(response);
         }
     }

@@ -34,7 +34,6 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // ... (기능 1: registerUser는 이전과 동일) ...
     public User registerUser(RegisterFormDto dto) {
         if (userRepository.findByUsername(dto.getUsername()).isPresent()) {
             throw new IllegalStateException("이미 존재하는 아이디입니다.");
@@ -53,7 +52,6 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         return userRepository.save(user);
     }
 
-    // ... (기능 2: loadUserByUsername은 이전과 동일) ...
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -70,7 +68,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         );
     }
 
-    // [기능 3] 소셜 로그인 (카카오 + 네이버 + 구글)
+    // 소셜 로그인 (카카오 + 네이버 + 구글)
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
@@ -129,10 +127,9 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
             user.setName(name);
             user.setEmail(email);
             user.setRole("ROLE_USER");
-            userRepository.save(user); // [수정] save(user)로 변경하여 user 객체에 ID가 할당되도록 함
+            userRepository.save(user); // save(user)로 변경하여 user 객체에 ID가 할당되도록 함
         }
 
-        // --- [핵심 수정] ---
         // 1. 권한 설정
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole()));
@@ -153,7 +150,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         );
     }
 
-    // [추가] 사용자 아이디를 기반으로 가입 방식을 반환하는 헬퍼 메서드
+    // 사용자 아이디를 기반으로 가입 방식을 반환하는 헬퍼 메서드
     private String getProviderNameFromUsername(String username) {
         if (username == null) {
             return "정보 없음";

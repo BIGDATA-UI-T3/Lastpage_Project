@@ -26,7 +26,6 @@ public class UserController {
     private final UserService userService;
     private final GoodsReserveService goodsReserveService;
 
-    // ... (회원가입 관련 /signup GET, POST 메서드는 동일) ...
     @GetMapping("/signup")
     public String showRegisterPage(Model model) {
         model.addAttribute("registerFormDto", new RegisterFormDto());
@@ -40,7 +39,6 @@ public class UserController {
             RedirectAttributes redirectAttributes,
             HttpSession session) {
 
-        // ... (기존 회원가입 검증 로직 동일) ...
         if (bindingResult.hasErrors()) {
             return "signup";
         }
@@ -48,7 +46,7 @@ public class UserController {
             bindingResult.addError(new FieldError("registerFormDto", "passwordCheck", "비밀번호가 일치하지 않습니다."));
             return "signup";
         }
-        // ... (이메일 인증 코드 검증 로직) ...
+        // 이메일 인증 코드 검증 로직
         String sessionCode = (String) session.getAttribute("emailVerificationCode");
         String sessionEmail = (String) session.getAttribute("emailForVerification");
         String userCode = dto.getSmsCode();
@@ -70,7 +68,7 @@ public class UserController {
         try {
             userService.registerUser(dto);
             session.invalidate();
-        } catch (IllegalStateException e) { // [수정] 아이디/이메일 중복 오류 처리
+        } catch (IllegalStateException e) {
 
             String field = e.getMessage().contains("아이디") ? "username" : "emailId";
             bindingResult.addError(new FieldError("registerFormDto", field, e.getMessage()));
@@ -85,22 +83,17 @@ public class UserController {
         return "redirect:/signin";
     }
 
-
-    // [수정] 마이페이지 로직
+    // 마이페이지 로직
     @GetMapping("/mypage")
-    public String showMyPage(Model model, Principal principal) { // [수정] Principal 추가
+    public String showMyPage(Model model, Principal principal) {
 
-        // [수정] 1. principal.getName()으로 현재 로그인한 사용자의 username을 가져옵니다.
+        // [principal.getName()으로 현재 로그인한 사용자의 username을 가져옴
         String username = principal.getName();
 
-        // [수정] 2. 모든 예약을 가져오는 대신, '해당 사용자의 예약'만 가져옵니다.
+        // 모든 예약을 가져오는 대신, '해당 사용자의 예약'만 가져옴
         List<GoodsReserve> reservationList = goodsReserveService.getAllGoodsReservationsByUsername(username);
 
         model.addAttribute("goodsReservationList", reservationList);
-
-        // TODO: [추가] 마이페이지 상단에 보여줄 사용자 이름(name)을 전달하면 좋습니다.
-        // User user = userRepository.findByUsername(username).orElse(null);
-        // model.addAttribute("userName", user != null ? user.getName() : "고객");
 
         return "mypage";
     }

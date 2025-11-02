@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.net.URLEncoder; // [추가]
+import java.net.URLEncoder;
 
 @Component
 public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
@@ -21,7 +21,6 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 
         String errorMessage;
 
-        // 1. 예외 종류에 따라 한글 메시지를 설정합니다.
         if (exception instanceof BadCredentialsException) {
             errorMessage = "비밀번호가 일치하지 않습니다.";
         } else if (exception instanceof UsernameNotFoundException) {
@@ -30,7 +29,7 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
             errorMessage = "로그인 중 알 수 없는 오류가 발생했습니다.";
         }
 
-        // 2. /signin 페이지로 리다이렉트할 때, message 파라미터에 오류 메시지를 담아 보냅니다.
+        // /signin 페이지로 리다이렉트할 때, message 파라미터에 오류 메시지를 담아 보냅니다.
         String encodedMessage = URLEncoder.encode(errorMessage, "UTF-8");
         setDefaultFailureUrl("/signin?error=true&message=" + encodedMessage);
 
