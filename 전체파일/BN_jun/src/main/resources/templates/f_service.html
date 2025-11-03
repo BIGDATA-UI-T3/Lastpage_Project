@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>반려동물 장례식장 - 장례안내</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Naver Maps SDK -->
+    <script th:src="@{'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=' + ${ncpMapClientId} + '&submodules=geocoder'}"></script>
+
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/f_service.css}">
+</head>
+
+<body>
+<div class="header-wrapper">
+    <header>
+        <div class="logo">
+            <!-- Thymeleaf 경로로 수정 -->
+            <a href="#"><img th:src="@{/asset/LastPage로고_투명.png}" alt="로고" /></a>
+        </div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="#">홈</a>
+                    <ul><li><a href="#">인사말</a></li></ul>
+                </li>
+                <li><a href="#">장례서비스</a></li>
+                <li><a href="#">Ourpage</a></li>
+                <li>
+                    <a href="#">심리상담</a>
+                    <ul>
+                        <li><a href="#">상담예약</a></li>
+                        <li><a href="#">예약조회</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">추모굿즈</a>
+                    <ul>
+                        <li><a href="#">굿즈소개</a></li>
+                        <li><a href="#">굿즈예약</a></li>
+                        <li><a href="#">예약조회</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">마이페이지</a></li>
+                <li><a href="#">고객센터</a></li>
+            </ul>
+        </nav>
+        <div class="auth">
+            <a href="#">로그아웃</a>
+        </div>
+    </header>
+</div>
+
+<!-- 배너 (기존과 동일) -->
+<section class="banner" role="img" aria-label="따뜻한 펫로스 심리상담 배너 이미지">
+    <div class="inner">
+        <h1>작별의 순간, 혼자 두지 않겠습니다</h1>
+        <p>그리움이 아프지 않도록, 기억을 천천히 다독입니다.</p>
+    </div>
+</section>
+
+<!-- 본문: 지도 및 장소 목록 -->
+<main>
+    <div class="wrap">
+        <h1 class="title">협력 장례식장 안내</h1>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="장례식장 이름으로 검색...">
+            <button id="searchButton">검색</button>
+        </div>
+
+        <div class="grid">
+            <div id="map" aria-label="장례식장 위치 지도"></div>
+
+            <div class="list-container" id="placeList">
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
+</footer>
+
+<!-- 공통 스크립트: 헤더 숨김 -->
+<script>
+    (function () {
+      const header = document.querySelector('header');
+      window.addEventListener('scroll', () => {
+        // common.css의 헤더 높이(80px)보다 넉넉하게 120px 스크롤 시 숨김
+        header.style.top = (window.scrollY > 120) ? '-80px' : '0';
+      });
+    })();
+</script>
+
+<!-- 지도 스크립트 -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // --- 1. 임시 데이터 ---
+        // (참고) DB 연동 시 이 데이터는 빈 배열 [] 로 시작합니다.
+        const PLACES = [
+            {
+                id: 1,
+                name: "라스트페이지 대구점",
+                address: "대구광역시 중구 달구벌대로 2077",
+                phone: "053-123-4567",
+                services: ["기본 장례", "스톤 제작", "24시간"]
+            },
+            {
+                id: 2,
+                name: "라스트페이지 서울점",
+                address: "서울특별시 강남구 테헤란로 146",
+                phone: "02-987-6543",
+                services: ["기본 장례", "VIP 장례", "24시간"]
+            },
+            {
+                id: 3,
+                name: "라스트페이지 부산점",
+                address: "부산광역시 해운대구 우동 1418",
+                phone: "051-456-7890",
+                services: ["기본 장례", "해양 산골"]
+            },
+            {
+                id: 4,
+                name: "라스트페이지 광주점",
+                address: "광주광역시 서구 상무대로 773",
+                phone: "062-789-0123",
+                services: ["기본 장례", "스톤 제작"]
+            }
+        ];
+
+        // --- 2. 전역 변수 및 지도 초기화 ---
+        const mapEl = document.getElementById("map");
+        const placeListEl = document.getElementById("placeList");
+        const searchInput = document.getElementById("searchInput");
+        const searchButton = document.getElementById("searchButton");
+
+        const $ = s => document.querySelector(s);
+        const $$ = s => Array.from(document.querySelectorAll(s));
+
+        if (!naver || !naver.maps) {
+            console.error("Naver Maps SDK가 로드되지 않았습니다.");
+            mapEl.innerHTML = "<div style='text-align:center; padding: 20px;'>지도를 불러오는 데 실패했습니다.<br>NCP 클라이언트 ID를 확인해주세요.</div>";
+            return;
+        }
+
+        const mapOptions = {
+            center: new naver.maps.LatLng(36.8714, 127.6014), // 지도의 초기 중심 (대한민국 중앙 부근)
+            zoom: 7, // 줌 레벨 조정
+            minZoom: 7,
+        };
+        const map = new naver.maps.Map("map", mapOptions);
+
+        // 마커와 정보창을 저장할 객체
+        const markers = {}; // { 1: Marker, 2: Marker, ... }
+        const placeCards = {}; // { 1: HTMLElement, 2: HTMLElement, ... }
+
+        // 정보창(InfoWindow)은 하나만 생성해서 재사용
+        const infoWindow = new naver.maps.InfoWindow({
+            content: '',
+            maxWidth: 300,
+            backgroundColor: "#fff",
+            borderColor: "#e0d8cc",
+            borderWidth: 1,
+            anchorSize: new naver.maps.Size(10, 10),
+            anchorSkew: true,
+            pixelOffset: new naver.maps.Point(20, -20)
+        });
+
+        // --- 3. 핵심 함수 ---
+
+        // 1. 목록 카드 HTML 생성 (DOM 요소로 반환)
+        function createPlaceCardElement(place) {
+            const servicesHTML = place.services.map(s => `<span class="chip">${s}</span>`).join('');
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'place-card';
+            cardDiv.dataset.id = place.id;
+            cardDiv.innerHTML = `
+                <h3>${place.name}</h3>
+                <p class="addr">${place.address}</p>
+                <p class="phone">${place.phone}</p>
+                <div class="chips">${servicesHTML}</div>
+                <div class="links">
+                    <a href="#">상세보기</a>
+                </div>
+            `;
+
+            // (상호작용) 목록 카드 클릭 시 이벤트 추가
+            cardDiv.addEventListener("click", function () {
+                const id = cardDiv.dataset.id;
+                const marker = markers[id];
+
+                if (marker) {
+                    map.panTo(marker.getPosition(), { duration: 300 });
+                    naver.maps.Event.trigger(marker, 'click');
+                    highlightActiveCard(id);
+                }
+            });
+            return cardDiv;
+        }
+
+        // 2. 정보창 내용 HTML 생성
+        function createInfoWindowContent(place) {
+            return `
+                <div style="padding:10px; min-width:200px; line-height:1.6;">
+                    <h5 style="margin:0 0 5px; font-weight:600; color: #2C3930;">${place.name}</h5>
+                    <p style="font-size:13px; margin:0;">${place.address}</p>
+                    <p style="font-size:13px; margin:0; color:#a2725c; font-weight: 500;">${place.phone}</p>
+                </div>
+            `;
+        }
+
+        // 3. (Promise) 주소 -> 좌표 변환
+        function geocodeAddress(place) {
+            return new Promise((resolve, reject) => {
+                naver.maps.Service.geocode({ query: place.address }, (status, response) => {
+                    if (status !== naver.maps.Service.Status.OK || !response.v2.addresses.length) {
+                        console.warn(`[${place.name}] 지오코딩 실패: ${place.address}`);
+                        reject(new Error("Geocoding failed"));
+                        return;
+                    }
+                    const coords = response.v2.addresses[0];
+                    place.coords = new naver.maps.LatLng(coords.y, coords.x); // place 객체에 좌표 저장
+                    resolve(place);
+                });
+            });
+        }
+
+        // 4. 활성 카드 표시
+        function highlightActiveCard(id) {
+            $$(".place-card").forEach(card => card.classList.remove("active"));
+            const activeCard = $(`.place-card[data-id="${id}"]`);
+            if (activeCard) {
+                activeCard.classList.add("active");
+                activeCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // 5. [기능 2] 지도 이동 시 마커/목록 필터링
+        function updateVisiblePlaces() {
+            const bounds = map.getBounds(); // 현재 보이는 지도 영역
+            let hasVisiblePlace = false;
+
+            PLACES.forEach(place => {
+                const id = place.id;
+                const card = placeCards[id];
+                const marker = markers[id];
+
+                if (card && marker) {
+                    // 장소의 좌표가 현재 보이는 영역(bounds) 안에 포함되는지 확인
+                    const isVisible = bounds.contains(place.coords);
+
+                    // 보이면(true) 마커와 카드를 보여주고, 안 보이면(false) 숨김
+                    marker.setMap(isVisible ? map : null);
+                    card.style.display = isVisible ? 'block' : 'none';
+
+                    if (isVisible) {
+                        hasVisiblePlace = true;
+                    }
+                }
+            });
+
+            // TODO: 보이는 장소가 하나도 없을 때 "표시할 장소가 없습니다" 메시지 처리
+        }
+
+        // 6. [기능 1] 검색 기능 핸들러
+        function handleSearch() {
+            const query = searchInput.value.trim().toLowerCase();
+            if (!query) {
+                alert('검색어를 입력해주세요.');
+                return;
+            }
+
+            // PLACES 배열에서 이름이 일치하는 장소를 찾음
+            const foundPlace = PLACES.find(place =>
+                place.name.toLowerCase().includes(query)
+            );
+
+            if (foundPlace) {
+                const marker = markers[foundPlace.id];
+                if (marker) {
+                    // 해당 마커 위치로 지도 이동
+                    map.panTo(marker.getPosition(), { duration: 500 });
+                    // 정보창 열기
+                    naver.maps.Event.trigger(marker, 'click');
+                    // 카드 활성화
+                    highlightActiveCard(foundPlace.id);
+                }
+            } else {
+                alert('"' + query + '"와(과) 일치하는 장례식장을 찾을 수 없습니다.');
+            }
+        }
+
+        // --- 4. 지도 실행 (async/await) ---
+        async function initMap() {
+            // 1. 모든 장소의 좌표 변환이 끝날 때까지 기다림
+            const geocodedPlaces = await Promise.all(
+                PLACES.map(place => geocodeAddress(place).catch(e => null)) // 실패 시 null 반환
+            );
+
+            geocodedPlaces.forEach(place => {
+                if (place) { // null이 아닌 (성공한) 장소만 처리
+                    // 2. 마커 생성
+                    const marker = new naver.maps.Marker({
+                        position: place.coords,
+                        map: null, // [수정] 처음에는 지도에 추가하지 않음 (필터링 위해)
+                        title: place.name
+                    });
+
+                    // 마커 클릭 이벤트
+                    naver.maps.Event.addListener(marker, 'click', function() {
+                        infoWindow.setContent(createInfoWindowContent(place));
+                        infoWindow.open(map, marker);
+                        highlightActiveCard(place.id);
+                    });
+
+                    // 3. 카드 생성
+                    const card = createPlaceCardElement(place);
+                    card.style.display = 'none'; // [수정] 처음에는 숨김
+                    placeListEl.appendChild(card);
+
+                    // 생성된 마커와 카드 저장
+                    markers[place.id] = marker;
+                    placeCards[place.id] = card;
+                }
+            });
+
+            // 4. 지도 이동이 멈출 때마다(idle) 필터링 함수 실행
+            naver.maps.Event.addListener(map, 'idle', updateVisiblePlaces);
+
+            // 5. (최초 실행) 현재 위치 기준으로 한 번 실행
+            updateVisiblePlaces();
+
+            // 6. [기능 1] 검색 버튼 이벤트 바인딩
+            searchButton.addEventListener('click', handleSearch);
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+
+            // (보너스) 지도를 클릭하면 정보창 닫기
+            naver.maps.Event.addListener(map, 'click', function() {
+                infoWindow.close();
+                $$(".place-card").forEach(card => card.classList.remove("active"));
+            });
+        }
+
+        // 지도 초기화 실행!
+        initMap();
+    });
+</script>
+</body>
+</html>
+

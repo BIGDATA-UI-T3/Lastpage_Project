@@ -79,6 +79,21 @@ dependencies {
 
     // 이메일 인증
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // 네이버 지도
+
+    // JPA (Hibernate) 의존성 추가 - 데이터베이스 관리를 담당합니다.
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // H2 Database 의존성 추가 - 개발 단계에서 사용하기 쉬운 인메모리 데이터베이스입니다.
+    runtimeOnly 'com.h2database:h2'
+
+    // Lombok (필요하다면)
+    // compileOnly 'org.projectlombok:lombok'
+    // annotationProcessor 'org.projectlombok:lombok'
+
 }
 
 tasks.named('test') {
