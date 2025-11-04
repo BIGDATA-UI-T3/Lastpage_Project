@@ -25,10 +25,13 @@ public class OAuthService {
     private String kakao_client_secret="AiGd2ZsH9J5mMhv4eLqc3yydHPLPtwoA";
     private String naver_client_id="JpAxufwm7yy8tFcT2Rmz";
     private String naver_client_secret="kyqlYdOKZd";
+   
 
 
 
-    /** ✅ 카카오 로그인 */
+
+
+    /**  카카오 로그인 */
     public SignupDto loginWithKakao(String code) {
         String tokenUrl = "https://kauth.kakao.com/oauth/token";
         String userUrl = "https://kapi.kakao.com/v2/user/me";

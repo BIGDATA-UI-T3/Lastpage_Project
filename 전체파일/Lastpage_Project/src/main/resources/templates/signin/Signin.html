@@ -155,7 +155,7 @@
     });
 
     document.getElementById('googleLoginBtn').addEventListener('click', () => {
-        
+
         const redirectUri = 'http://localhost:8090/login/oauth2/code/google';
         const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`;
         window.location.href = googleUrl;
