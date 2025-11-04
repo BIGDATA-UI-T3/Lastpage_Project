@@ -50,49 +50,31 @@ dependencies {
     //Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    //DB Connection
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    runtimeOnly 'com.mysql:mysql-connector-j:8.3.0'
-
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2
-    implementation 'org.apache.commons:commons-dbcp2:2.13.0'
-
-    //JPA
+    // --- [수정] DB 의존성 정리 ---
+    // 1. JPA (중복 제거, 1개만 남김)
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // 2. H2 Database (지도 테스트용)
+    runtimeOnly 'com.h2database:h2'
 
-    //Mybatis
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
-    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.5'
+    // 3. MySQL (기존 설정 - 나중에 H2 대신 사용할 때 주석 해제)
+     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+     runtimeOnly 'com.mysql:mysql-connector-j:8.3.0'
+     implementation 'org.apache.commons:commons-dbcp2:2.13.0'
 
-    //Thymeleaf (우리가 사용할 템플릿 엔진)
+    // 4. Mybatis (지금은 사용 안 함)
+     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
+     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.5'
+
+    //Thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
-
-    // 1. Spring Security (보안 총괄)
+    // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
-
-    // 2. OAuth2 Client (나중에 네이버/카카오 로그인에 필요)
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-
-    // 3. Thymeleaf에서 Security 정보를 사용하기 위한 도우미
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
     // 이메일 인증
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-    // 네이버 지도
-
-    // JPA (Hibernate) 의존성 추가 - 데이터베이스 관리를 담당합니다.
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-    // H2 Database 의존성 추가 - 개발 단계에서 사용하기 쉬운 인메모리 데이터베이스입니다.
-    runtimeOnly 'com.h2database:h2'
-
-    // Lombok (필요하다면)
-    // compileOnly 'org.projectlombok:lombok'
-    // annotationProcessor 'org.projectlombok:lombok'
 
 }
 
