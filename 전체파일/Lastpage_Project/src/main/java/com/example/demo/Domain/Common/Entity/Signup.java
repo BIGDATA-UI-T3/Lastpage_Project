@@ -16,14 +16,14 @@ import java.time.LocalDateTime;
 @Builder
 public class Signup {
 
-    /** 🔹 기본키 */
+    /** 기본키 */
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(length = 36, updatable = false, nullable = false)
     private String user_seq; // 내부 식별용 (UUID)
 
-    /** 🔹 일반 회원가입 및 공통 정보 */
+    /**  일반 회원가입 및 공통 정보 */
     private String name;
     private String id; // 일반 회원 ID (소셜 회원은 null 가능)
     private String password;

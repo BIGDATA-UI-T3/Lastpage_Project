@@ -25,7 +25,7 @@ public class OAuthService {
     private String kakao_client_secret="AiGd2ZsH9J5mMhv4eLqc3yydHPLPtwoA";
     private String naver_client_id="JpAxufwm7yy8tFcT2Rmz";
     private String naver_client_secret="kyqlYdOKZd";
-   
+
 
 
 
@@ -36,7 +36,7 @@ public class OAuthService {
         String tokenUrl = "https://kauth.kakao.com/oauth/token";
         String userUrl = "https://kapi.kakao.com/v2/user/me";
 
-        // 1️⃣ Access Token 요청
+        // Access Token 요청
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", kakao_client_id);
