@@ -1,9 +1,15 @@
 package com.example.demo.Domain.Common.Dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReserveDto{
+    private Long id;
+
     private String ownerName;
     private String ownerPhone;
     private String ownerEmail;
@@ -25,4 +31,8 @@ public class ReserveDto{
 
     private String memo;
 
+    private String username;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 }

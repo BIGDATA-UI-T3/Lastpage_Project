@@ -16,17 +16,6 @@ public class SignupController {
 
     private final MemberService memberService;
 
-//    @PostMapping("/signup")
-//    public String signup(@RequestBody MemberDto memberDto) {
-//        try {
-//            memberService.signup(memberDto);
-//            return "redirect:/signin"; // 회원가입 후 로그인 페이지로 이동
-//        } catch (IllegalArgumentException e) {
-//            // 예외 발생 시 다시 회원가입 페이지로 이동
-//            return "redirect:/signup?error=" + e.getMessage();
-//        }
-//    }
-
     @PostMapping("/signup")
     @ResponseBody
     public ResponseEntity<?> signup(@RequestBody MemberDto memberDto) {

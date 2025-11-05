@@ -36,13 +36,13 @@
         <nav>
             <ul>
                 <li>
-                    <a href="#">홈</a>
+                    <a th:href="@{/}">홈</a>
                     <ul>
                         <li><a href="#">인사말</a></li>
                     </ul>
                 </li>
 
-                <li><a href="#">장례서비스</a></li>
+                <li><a id="reserveBtn_yj" href="javascript:void(0)">장례서비스</a></li>
                 <li><a href="#">Ourpage</a></li>
                 <li>
                     <a href="#">심리상담</a>
@@ -166,6 +166,23 @@
         });
     });
 </script>
+
+<script th:inline="javascript">
+    /* Thymeleaf가 true/false를 문자열로 넣도록 처리 */
+    var isLoggedIn = /*[[${loginUser != null}]]*/ false;
+
+    document.getElementById('reserveBtn_yj').addEventListener('click', function() {
+        if (!isLoggedIn) {
+            alert("로그인 후 이용 가능합니다.");
+            window.location.href = "/signin";
+        } else {
+            window.location.href = "/reserve/";
+        }
+    });
+</script>
+
+
+
 </body>
 
 </html>

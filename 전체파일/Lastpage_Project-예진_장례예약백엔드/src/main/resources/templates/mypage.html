@@ -110,7 +110,8 @@
                         <p>장례예약</p>
                     </div>
                     <!-- 예약내역 페이지 추후 이동 -->
-                    <a href="">예약변경 | 취소 ></a>
+                    <a th:href="@{/reserve/form/{id}(id=${reserve.id})}" class="edit-btn" th:attr="data-id=${reserve.id}">예약변경 | ></a>
+                    <a href="javascript:void(0);" class="delete-btn" th:attr="data-id=${reserve.id}"> 취소></a>
                 </div>
                 <!-- 예약내역 테이블 -->
                 <div class="reserv-content_yj">
@@ -345,6 +346,88 @@
             endEl.textContent = `${endHours}:${endMinutes}`;
         }
     });
+</script>
+
+<!-- 장례예약 변경 | 취소 -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        // 수정 버튼 클릭
+        document.querySelectorAll(".edit-btn").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                const id = btn.getAttribute("data-id");
+                const res = await fetch(`/reserve/edit/${id}`);
+                if (!res.ok) return alert("예약 정보를 불러오지 못했습니다.");
+                const data = await res.json();
+
+                // 폼 열기 + 기존 데이터 세팅
+                const form = document.querySelector("#reserveForm"); // 예약폼 id 지정 필요
+                form.ownerName.value = data.ownerName;
+                form.ownerPhone.value = data.ownerPhone;
+                form.ownerEmail.value = data.ownerEmail;
+                form.ownerAddr.value = data.ownerAddr;
+                form.petName.value = data.petName;
+                form.petType.value = data.petType;
+                form.petBreed.value = data.petBreed;
+                form.petWeight.value = data.petWeight;
+                form.funeralDate.value = data.funeralDate;
+                form.place.value = data.place;
+                form.memo.value = data.memo;
+
+                form.dataset.id = id; // update 시 사용할 id
+                form.scrollIntoView({behavior: "smooth"});
+            });
+        });
+
+        // 삭제 버튼 클릭
+        document.querySelectorAll(".delete-btn").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                if (!confirm("정말로 예약을 취소하시겠습니까?")) return;
+                const id = btn.getAttribute("data-id");
+                const res = await fetch(`/reserve/delete/${id}`, { method: "DELETE" });
+                const result = await res.json();
+                if (result.status === "success") {
+                    alert("예약이 취소되었습니다.");
+                    location.reload(); // 마이페이지 새로고침
+                } else {
+                    alert("삭제 실패: " + result.message);
+                }
+            });
+        });
+
+        // 폼 제출 (수정)
+        const form = document.querySelector("#reserveForm");
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const id = form.dataset.id;
+            const payload = {
+                ownerName: form.ownerName.value,
+                ownerPhone: form.ownerPhone.value,
+                ownerEmail: form.ownerEmail.value,
+                ownerAddr: form.ownerAddr.value,
+                petName: form.petName.value,
+                petType: form.petType.value,
+                petBreed: form.petBreed.value,
+                petWeight: form.petWeight.value,
+                funeralDate: form.funeralDate.value,
+                place: form.place.value,
+                memo: form.memo.value
+            };
+            const res = await fetch(`/reserve/update/${id}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            const result = await res.json();
+            if (result.status === "success") {
+                alert("예약이 수정되었습니다.");
+                location.reload();
+            } else {
+                alert("수정 실패: " + result.message);
+            }
+        });
+    });
+
 </script>
 
 

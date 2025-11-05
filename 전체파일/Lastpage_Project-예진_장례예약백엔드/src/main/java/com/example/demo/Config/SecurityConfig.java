@@ -1,8 +1,8 @@
 package com.example.demo.Config;
 
 import com.example.demo.Domain.Common.Service.CustomOAuth2UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.example.demo.Handler.OAuth2LoginSuccessHandler;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,12 +10,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
 
 
 @RequiredArgsConstructor
@@ -24,7 +24,10 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final ClientRegistrationRepository clientRegistrationRepository;
+
     private final String KAKAO_CLIENT_ID = "";
+    private static final String NAVER_CLIENT_ID = "";
+    private static final String NAVER_CLIENT_SECRET = "";
 
 
     @Bean
@@ -36,35 +39,105 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // 테스트용 비활성화
+                // 접근권한
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/", "/signin", "/signup", "/member/**",
                                 "/css/**", "/js/**", "/images/**"
                         ).permitAll()
-                        .requestMatchers("/mypage/**").authenticated()
+                        .requestMatchers("/mypage/**","/reserve/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 // formLogin 비활성화
                 .formLogin(form -> form.disable()
                 )
-                // logot 비활성화
+                // logot
+//                .logout(logout -> logout
+//                                .logoutUrl("/logout")
+//                                .logoutSuccessHandler((request, response, authentication) -> {
+//                                    // Spring 세션 종료
+//                                    if (authentication != null) {
+//                                        request.getSession().invalidate();
+//                                        System.out.println("로그아웃: Spring 세션 종료");
+//                                    }
+//
+//                                    // 현재 로그인한 provider 판별
+//                                    Object principal = (authentication != null) ? authentication.getPrincipal() : null;
+//                                    if (principal instanceof OAuth2User oAuth2User) {
+//                                        Object provider = oAuth2User.getAttributes().get("provider");
+//
+//                                        if ("KAKAO".equals(provider)) {
+//                                            // 카카오 로그아웃
+//                                            String kakaoLogoutUrl = "https://kauth.kakao.com/oauth/logout?client_id="
+//                                                    + KAKAO_CLIENT_ID
+//                                                    + "&logout_redirect_uri=http://localhost:8080/";
+//                                            response.sendRedirect(kakaoLogoutUrl);
+//                                            return;
+//                                        } else if ("NAVER".equals(provider)) {
+//                                            // 네이버 로그아웃 (토큰 만료용)
+//                                            response.sendRedirect("https://nid.naver.com/nidlogin.logout");
+//                                            return;
+//                                        }
+//                                    }
+//
+//                                    // 기본 리다이렉트 (로그인 페이지 or 홈)
+//                                    response.sendRedirect("/");
+//                                })
                 .logout(logout -> logout
-                                .logoutUrl("/logout")
-                                .logoutSuccessHandler((request, response, authentication) -> {
-                                    // Spring 세션 종료
-                                    if (authentication != null) {
-                                        request.getSession().invalidate();
-                                        System.out.println("로그아웃: Spring 세션 종료");
-                                    }
+                        .logoutUrl("/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            HttpSession session = request.getSession(false);
 
-                                    // 카카오 로그아웃 URL (client_id 중복 제거!)
+                            if (authentication != null && authentication.getPrincipal() instanceof OAuth2User oAuth2User) {
+                                Map<String, Object> attrs = oAuth2User.getAttributes();
+                                Object provider = attrs.get("provider");
+
+                                // [카카오 로그아웃 처리]
+                                if ("KAKAO".equals(provider)) {
                                     String kakaoLogoutUrl = "https://kauth.kakao.com/oauth/logout?client_id="
                                             + KAKAO_CLIENT_ID
                                             + "&logout_redirect_uri=http://localhost:8080/";
-
-                                    // 브라우저에서 카카오 로그아웃 호출
                                     response.sendRedirect(kakaoLogoutUrl);
-                                })
+                                    if (session != null) session.invalidate();
+                                    System.out.println("카카오 로그아웃 완료");
+                                    return;
+                                }
+
+                                // [네이버 로그아웃 처리 + access token 만료]
+                                if ("NAVER".equals(provider)) {
+                                    if (session != null) {
+                                        String accessToken = (String) session.getAttribute("NAVER_ACCESS_TOKEN");
+
+                                        if (accessToken != null) {
+                                            try {
+                                                String revokeUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete"
+                                                        + "&client_id=" + NAVER_CLIENT_ID
+                                                        + "&client_secret=" + NAVER_CLIENT_SECRET
+                                                        + "&access_token=" + accessToken
+                                                        + "&service_provider=NAVER";
+
+                                                RestTemplate rt = new RestTemplate();
+                                                String result = rt.getForObject(revokeUrl, String.class);
+                                                System.out.println("네이버 토큰 만료 결과: " + result);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        session.invalidate();
+                                    }
+
+                                    response.sendRedirect("https://nid.naver.com/nidlogin.logout");
+                                    System.out.println("네이버 로그아웃 완료");
+                                    return;
+                                }
+                            }
+
+                            // 기본 로그아웃 처리
+                            if (session != null) session.invalidate();
+                            System.out.println("기본 로그아웃 완료");
+                            response.sendRedirect("/");
+                        })
                                 .permitAll()
                 )
                 .sessionManagement(session -> session
@@ -77,7 +150,6 @@ public class SecurityConfig {
                 // 카카오로그인
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/signin")
-                        // ClientRegistrationRepository 주입된 resolver 사용
 //                        .authorizationEndpoint(authEndpoint -> authEndpoint
 //                                .authorizationRequestResolver(
 //                                        new CustomAuthorizationRequestResolver(
@@ -86,9 +158,12 @@ public class SecurityConfig {
 //                                        )
 //                                )
 //                        )
-                        .defaultSuccessUrl("/", true)
+//                        .defaultSuccessUrl("/", true)
                         .userInfoEndpoint(user -> user.userService(customOAuth2UserService)) //
-        );
+                        .successHandler(new OAuth2LoginSuccessHandler()) // 로그인 성공 시 세션 저장
+
+                );
+
         return http.build();
     }
 

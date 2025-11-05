@@ -17,6 +17,10 @@ public class FuneralReserve {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_username", referencedColumnName = "username")
+    private Member member;
+
     @Column(name = "owner_name")
     private String ownerName;
 
