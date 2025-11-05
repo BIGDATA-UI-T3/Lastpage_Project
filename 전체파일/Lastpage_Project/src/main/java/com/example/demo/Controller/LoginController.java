@@ -32,6 +32,8 @@ public class LoginController {
         SignupDto user = oAuthService.loginWithKakao(code);
 
         //  세션 저장
+        session.setAttribute("userSeq", user.getUserSeq());
+        log.info("userSeq={}", user.getUserSeq());
         session.setAttribute("loginUser", user);
         session.setAttribute("loginEmail", user.getOauthEmail());
         session.setAttribute("loginName", user.getName());
@@ -54,6 +56,7 @@ public class LoginController {
         SignupDto user = oAuthService.loginWithNaver(code, state);
 
         //  세션 저장
+        session.setAttribute("userSeq", user.getUserSeq());
         session.setAttribute("loginUser", user);
         session.setAttribute("loginEmail", user.getOauthEmail());
         session.setAttribute("loginName", user.getName());
@@ -74,6 +77,7 @@ public class LoginController {
         SignupDto user = oAuthService.loginWithGoogle(code);
 
         //  세션 저장
+        session.setAttribute("userSeq", user.getUserSeq());
         session.setAttribute("loginUser", user);
         session.setAttribute("loginEmail", user.getOauthEmail());
         session.setAttribute("loginName", user.getName());

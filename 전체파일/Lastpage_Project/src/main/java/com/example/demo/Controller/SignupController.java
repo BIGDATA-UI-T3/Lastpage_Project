@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -62,8 +63,9 @@ public class SignupController {
     /** 회원정보 저장 (일반 + 소셜 통합) */
     @ResponseBody
     @PostMapping("/userinfoSave")
+
     public ResponseEntity<String> userinfoSave(@RequestBody SignupDto dto) {
-        log.info("📩 받은 회원가입 요청: {}", dto);
+        log.info("받은 회원가입 요청: {}", dto);
         try {
             if (dto.getProvider() == null) {
                 log.info("[일반 회원가입 요청] ID: {}", dto.getId());
@@ -92,8 +94,8 @@ public class SignupController {
 
             //서비스로 전달 (여기서 인코딩 및 DB 저장)
             Signup saved = signupService.saveUserInfo(dto);
-            log.info("회원가입 완료! user_seq={}", saved.getUser_seq());
-            return ResponseEntity.ok(saved.getUser_seq());
+            log.info("회원가입 완료! user_seq={}", saved.getUserSeq());
+            return ResponseEntity.ok(saved.getUserSeq());
 
         } catch (IllegalArgumentException e) {
             log.warn("회원가입 검증 실패: {}", e.getMessage());
@@ -101,6 +103,7 @@ public class SignupController {
 
         } catch (Exception e) {
             log.error("회원가입 처리 중 오류 발생", e);
+
             return ResponseEntity.internalServerError().body("회원가입 실패");
         }
     }

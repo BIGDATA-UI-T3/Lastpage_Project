@@ -154,6 +154,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
       });
+
       if (res.ok) {
         alert('인증메일이 발송되었습니다.');
         tempEmail = email;
@@ -182,7 +183,7 @@
       if (!isIdChecked) return alert('아이디 중복확인을 해주세요.');
       if (!isEmailVerified) return alert('이메일 인증을 완료해주세요.');
 
-     const data = {
+      const data = {
         name: document.getElementById('name').value,
         id: document.getElementById('userid').value,
         password: document.getElementById('password').value,
@@ -203,10 +204,16 @@
       });
 
       if (res.ok) {
+        const userSeq = await res.text();  // 👈 서버 응답 본문
+        console.log('회원가입 성공! userSeq:', userSeq);
         alert('회원가입 성공!');
-        window.location.href = `/signin?id=${data.id}`;
-      } else alert('회원가입 실패!');
+        window.location.href = `/signin?id=${data.id}&userSeq=${userSeq}`;
+      } else {
+        const errorMsg = await res.text();
+        alert('회원가입 실패: ' + errorMsg);
+      }
     });
 </script>
+
 </body>
 </html>

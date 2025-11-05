@@ -20,8 +20,8 @@ public class Signup {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(length = 36, updatable = false, nullable = false)
-    private String user_seq; // 내부 식별용 (UUID)
+    @Column(name = "user_seq", nullable = false, updatable = false, unique = true, length = 36)
+    private String userSeq;
 
     /**  일반 회원가입 및 공통 정보 */
     private String name;

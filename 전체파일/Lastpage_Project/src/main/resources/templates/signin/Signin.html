@@ -142,7 +142,7 @@
     document.getElementById('kakaoLoginBtn').addEventListener('click', () => {
         const clientId = 'e5923ec597bc30b05ac13d8e57e0d18a';
         const redirectUri = 'http://localhost:8090/login/oauth2/code/kakao';
-        const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+        const kakaoUrl = `http://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
         window.location.href = kakaoUrl;
     });
 
@@ -150,14 +150,14 @@
         const clientId = 'JpAxufwm7yy8tFcT2Rmz';
         const redirectUri = 'http://localhost:8090/login/oauth2/code/naver';
         const state = Math.random().toString(36).substring(2, 15);
-        const naverUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
+        const naverUrl = `http://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
         window.location.href = naverUrl;
     });
 
     document.getElementById('googleLoginBtn').addEventListener('click', () => {
 
         const redirectUri = 'http://localhost:8090/login/oauth2/code/google';
-        const googleUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`;
+        const googleUrl = `http://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`;
         window.location.href = googleUrl;
     });
 </script>

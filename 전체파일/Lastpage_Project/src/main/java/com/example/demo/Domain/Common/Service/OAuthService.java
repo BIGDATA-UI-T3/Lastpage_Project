@@ -47,7 +47,7 @@ public class OAuthService {
         ResponseEntity<Map> tokenResponse = restTemplate.postForEntity(tokenUrl, params, Map.class);
         String accessToken = (String) tokenResponse.getBody().get("access_token");
 
-        // 사용자 정보 요청
+// 사용자 정보 요청
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
         HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -67,14 +67,27 @@ public class OAuthService {
                 .updated_at(LocalDateTime.now())
                 .build();
 
-        // DB 저장
+// DB 조회 또는 신규 저장
         Signup existing = signupService.findByProviderAndProviderId("kakao", dto.getProviderId());
         Signup saved = (existing == null)
                 ? signupService.saveUserInfo(dto)
                 : existing;
 
-        log.info("1.카카오 로그인 DB 저장 완료: {}", saved.getUser_seq());
-        return dto;
+//  DB에서 생성된 user_seq를 DTO에 반영
+        SignupDto result = SignupDto.builder()
+                .userSeq(saved.getUserSeq())          //ㅅㅂ.
+                .name(saved.getName())
+                .provider(saved.getProvider())
+                .providerId(saved.getProviderId())
+                .oauthEmail(saved.getOauthEmail())
+                .profileImage(saved.getProfileImage())
+                .created_at(saved.getCreated_at())
+                .updated_at(saved.getUpdated_at())
+                .build();
+
+        log.info("1. 카카오 로그인 DB 저장 완료: {}", result.getUserSeq());
+        return result;
+
 
     }
 
@@ -115,8 +128,19 @@ public class OAuthService {
                 ? signupService.saveUserInfo(dto)
                 : existing;
 
-        log.info(" 2.네이버 로그인 DB 저장 완료: {}", saved.getUser_seq());
-        return dto;
+        SignupDto result = SignupDto.builder()
+                .userSeq(saved.getUserSeq())          //ㅅㅂ.
+                .name(saved.getName())
+                .provider(saved.getProvider())
+                .providerId(saved.getProviderId())
+                .oauthEmail(saved.getOauthEmail())
+                .profileImage(saved.getProfileImage())
+                .created_at(saved.getCreated_at())
+                .updated_at(saved.getUpdated_at())
+                .build();
+
+        log.info(" 2.네이버 로그인 DB 저장 완료: {}", saved.getUserSeq());
+        return result;
 
     }
 
@@ -157,8 +181,19 @@ public class OAuthService {
                 ? signupService.saveUserInfo(dto)
                 : existing;
 
-        log.info("3.구글 로그인 DB 저장 완료: {}", saved.getUser_seq());
-        return dto;
+        SignupDto result = SignupDto.builder()
+                .userSeq(saved.getUserSeq())          //ㅅㅂ.
+                .name(saved.getName())
+                .provider(saved.getProvider())
+                .providerId(saved.getProviderId())
+                .oauthEmail(saved.getOauthEmail())
+                .profileImage(saved.getProfileImage())
+                .created_at(saved.getCreated_at())
+                .updated_at(saved.getUpdated_at())
+                .build();
+
+        log.info("3.구글 로그인 DB 저장 완료: {}", saved.getUserSeq());
+        return result;
     }
 }
 

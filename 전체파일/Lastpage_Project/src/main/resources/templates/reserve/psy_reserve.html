@@ -10,7 +10,10 @@
     <link rel="stylesheet" th:href="@{/css/psy_reserve.css}">
     <title>심리상담 예약</title>
 </head>
-<body th:data-mode="${mode}" th:data-id="${reserve != null ? reserve.id : ''}">
+<body th:data-userseq="${sessionUserSeq}"
+      th:data-mode="${mode}"
+      th:data-id="${reserve != null ? reserve.id : ''}">
+
 <div class="header-wrapper">
     <header>
         <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
@@ -399,27 +402,43 @@
       }
 
       // 2-13) 제출
-      qs('#submitBtn').addEventListener('click', async () => {
-        const data = { ...state };
-        const url = data.id ? `/reserve/psy_reserve/${data.id}` : '/reserve/save1';
-        const method = data.id ? 'PUT' : 'POST';
-        try {
-          const res = await fetch(url, {
-            method,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
-          if (res.ok) {
-            alert(data.id ? '예약이 성공적으로 수정되었습니다!' : '예약이 성공적으로 저장되었습니다!');
-            window.location.href = `/mypage/Mypage?email=${encodeURIComponent(data.email)}`;
-          } else {
-            alert('저장 중 오류가 발생했습니다.');
-          }
-        } catch (err) {
-          console.error('서버 통신 오류:', err);
-          alert('서버 통신 중 오류가 발생했습니다.');
-        }
-      });
+qs('#submitBtn').addEventListener('click', async () => {
+  const data = { ...state };
+
+  //  userSeq 가져오기 (소셜/자체 로그인 모두 대응)
+  let userSeq = document.body.dataset.userseq || localStorage.getItem('userSeq');
+  if (!userSeq) {
+    alert('로그인 정보가 유효하지 않습니다. 다시 로그인해주세요.');
+    window.location.href = '/signin';
+    return;
+  }
+  data.userSeq = userSeq;
+
+  // 예약 저장 or 수정 구분
+  const url = data.id ? `/reserve/psy_reserve/${data.id}` : '/reserve/save1';
+  const method = data.id ? 'PUT' : 'POST';
+
+  try {
+    const res = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (res.ok) {
+      alert(data.id ? '예약이 성공적으로 수정되었습니다!' : '예약이 성공적으로 저장되었습니다!');
+      window.location.href = `/mypage/Mypage?userSeq=${userSeq}`;
+    } else {
+      const errorText = await res.text();
+      console.error('서버 오류 응답:', errorText);
+      alert('저장 중 오류가 발생했습니다.');
+    }
+
+  } catch (err) {
+    console.error('서버 통신 오류:', err);
+    alert('서버 통신 중 오류가 발생했습니다.');
+  }
+});
 
       // 포커스
       qs('#name').focus();

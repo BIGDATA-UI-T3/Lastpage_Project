@@ -1,6 +1,7 @@
 package com.example.demo.Domain.Common.Dto;
 
 import com.example.demo.Domain.Common.Entity.Gender;
+import com.example.demo.Domain.Common.Entity.Signup;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,14 @@ import java.time.LocalDateTime;
 @Builder
 public class SignupDto {
 
-    /**  일반 회원가입 공통 정보 */
+    /**
+     * 내부 고유 식별자 (UUID)
+     */
+    private String userSeq;
+
+    /**
+     * 일반 회원가입 공통 정보
+     */
     private String name;
     private String id;  // 일반 회원의 로그인 ID
     private String password;
@@ -35,4 +43,29 @@ public class SignupDto {
     private String providerId;
     private String oauthEmail;
     private String profileImage;
+
+
+    public static SignupDto fromEntity(Signup entity) {
+        if (entity == null) return null;
+
+        return SignupDto.builder()
+                .userSeq(entity.getUserSeq())
+                .name(entity.getName())
+                .id(entity.getId())
+                .emailId(entity.getEmailId())
+                .emailDomain(entity.getEmailDomain())
+                .year(entity.getYear())
+                .month(entity.getMonth())
+                .day(entity.getDay())
+                .gender(entity.getGender())
+                .phone_num(entity.getPhone_num())
+                .sms_auth_number(entity.getSms_auth_number())
+                .created_at(entity.getCreated_at())
+                .updated_at(entity.getUpdated_at())
+                .provider(entity.getProvider())
+                .providerId(entity.getProviderId())
+                .oauthEmail(entity.getOauthEmail())
+                .profileImage(entity.getProfileImage())
+                .build();
+    }
 }

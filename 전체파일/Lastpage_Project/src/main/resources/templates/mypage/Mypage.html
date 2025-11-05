@@ -44,9 +44,11 @@
                 <li><a href="#">고객센터</a></li>
             </ul>
         </nav>
-        <div class="auth">
-            <a href="#">로그인</a>
-            <a href="#">회원가입</a>
+        <div class="auth"
+             th:data-login="${session.loginUser != null ? 'true' : 'false'}"
+             th:data-username="${session.loginUser != null ? session.loginUser.name : ''}">
+            <a href="/signin" class="login-link">로그인</a>
+            <a href="/signup" class="signup-link">회원가입</a>
         </div>
     </header>
 
@@ -147,7 +149,7 @@
         <p class="subtitle_yj">서비스 바로가기</p>
         <div class="service_yj effect_yj">
             <!-- 회원정보수정 페이지 추후 이동 -->
-            <a href="" class="direct_yj">
+            <a href="/mypage/EditInfo" class="direct_yj">
                     <span class="material-symbols-outlined">
                         id_card
                     </span>
@@ -167,58 +169,97 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      // 인삿말
-      const hours = new Date().getHours();
-      const msg = hours < 12 ? "오늘도 함께 걸어가겠습니다 ☀️"
-                : hours < 18 ? "따뜻한 오후 보내세요 🌼"
-                : "편안한 저녁 되세요 🌙";
-      document.getElementById("timeMessage").textContent = msg;
+    document.addEventListener("DOMContentLoaded", () => {
+      const authDiv = document.querySelector(".auth");
+      const isLoggedIn = authDiv?.dataset.login === "true";
+      const username = authDiv?.dataset.username;
+      const loginLink = authDiv?.querySelector(".login-link");
+      const signupLink = authDiv?.querySelector(".signup-link");
 
-      // 스크롤 애니메이션
-      const boxes = document.querySelectorAll('.effect_yj');
-      const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-            observer.unobserve(entry.target);
-          }
+      // 로그인 상태 표시
+      if (isLoggedIn && loginLink && signupLink) {
+        loginLink.textContent = `${username}님 반갑습니다.`;
+        signupLink.textContent = "로그아웃";
+        loginLink.href = "/mypage/Mypage";
+        signupLink.href = "/logout";
+      }
+
+      // 회원정보 수정 후 이름 갱신 (localStorage 사용)
+      const updatedName = localStorage.getItem("updatedUserName");
+      if (updatedName && loginLink) {
+        loginLink.textContent = `${updatedName}님 반갑습니다.`;
+        localStorage.removeItem("updatedUserName");
+      }
+
+      //  스크롤 시 헤더 애니메이션
+      const header = document.querySelector("header");
+      if (header) {
+        window.addEventListener("scroll", () => {
+          header.style.top = window.scrollY > 200 ? "-120px" : "0";
         });
-      }, { threshold: 0.2 });
-      boxes.forEach(effect_yj => observer.observe(effect_yj));
+      }
 
-      /* === 상담예약 삭제 === */
-      document.querySelectorAll('.psy-delete').forEach(btn => {
-        btn.addEventListener('click', async e => {
+      // 인삿말 메시지
+      const hours = new Date().getHours();
+      const msg =
+        hours < 12
+          ? "오늘도 함께 걸어가겠습니다 ☀️"
+          : hours < 18
+          ? "따뜻한 오후 보내세요 🌼"
+          : "편안한 저녁 되세요 🌙";
+      const msgEl = document.getElementById("timeMessage");
+      if (msgEl) msgEl.textContent = msg;
+
+      // 스크롤 애니메이션 (IntersectionObserver)
+      const boxes = document.querySelectorAll(".effect_yj");
+      if (boxes.length > 0) {
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("show");
+                obs.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.2 }
+        );
+        boxes.forEach(box => observer.observe(box));
+      }
+
+      //상담예약 삭제 기능
+      document.querySelectorAll(".psy-delete").forEach(btn => {
+        btn.addEventListener("click", async e => {
           e.preventDefault();
           if (!confirm("상담 예약을 삭제하시겠습니까?")) return;
           const id = btn.dataset.id;
-          const res = await fetch(`/reserve/psy_reserve/${id}`, { method: 'DELETE' });
+          const res = await fetch(`/reserve/psy_reserve/${id}`, { method: "DELETE" });
           if (res.ok) {
-            alert('상담 예약이 삭제되었습니다.');
+            alert("상담 예약이 삭제되었습니다.");
             location.reload();
           } else {
-            alert(await res.text() || '삭제 중 오류가 발생했습니다.');
+            alert((await res.text()) || "삭제 중 오류가 발생했습니다.");
           }
         });
       });
 
-      /* === 장례예약 삭제 === */
-      document.querySelectorAll('.funeral-delete').forEach(btn => {
-        btn.addEventListener('click', async e => {
+      // 장례예약 삭제 기능
+      document.querySelectorAll(".funeral-delete").forEach(btn => {
+        btn.addEventListener("click", async e => {
           e.preventDefault();
           if (!confirm("장례 예약을 삭제하시겠습니까?")) return;
           const id = btn.dataset.id;
-          const res = await fetch(`/reserve/funeral_reserve/${id}`, { method: 'DELETE' });
+          const res = await fetch(`/reserve/funeral_reserve/${id}`, { method: "DELETE" });
           if (res.ok) {
-            alert('장례 예약이 삭제되었습니다.');
+            alert("장례 예약이 삭제되었습니다.");
             location.reload();
           } else {
-            alert(await res.text() || '삭제 중 오류가 발생했습니다.');
+            alert((await res.text()) || "삭제 중 오류가 발생했습니다.");
           }
         });
       });
     });
 </script>
+
 </body>
 </html>

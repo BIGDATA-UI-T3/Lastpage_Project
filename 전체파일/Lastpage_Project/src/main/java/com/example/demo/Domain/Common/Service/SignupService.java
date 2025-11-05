@@ -5,8 +5,9 @@ import com.example.demo.Domain.Common.Entity.Signup;
 import com.example.demo.Repository.SignupRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -19,56 +20,30 @@ public class SignupService {
     private final PasswordEncoder passwordEncoder;
 
     /**
-     * 회원 저장 (일반 + 소셜 공통)
+     * 회원가입 (일반 + 소셜 공통)
      */
+    @Transactional
     public Signup saveUserInfo(SignupDto dto) {
 
-        // 생성/수정 시각 기본값 설정
         if (dto.getCreated_at() == null) dto.setCreated_at(LocalDateTime.now());
         dto.setUpdated_at(LocalDateTime.now());
 
-        // 아이디 중복 검사 (일반 회원만)
+        // 아이디 중복검사 (일반회원만)
         if (dto.getProvider() == null && existsById(dto.getId())) {
             throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
         }
 
-        // 이메일 중복 검사 (선택 비활성)
-        // String fullEmail = dto.getEmailId() + "@" + dto.getEmailDomain();
-        // if (existsByEmail(fullEmail)) {
-        //     throw new IllegalArgumentException("이미 가입된 이메일입니다.");
-        // }
-
-        // 비밀번호 검증 (인코딩 전에)
+        // 일반회원 비밀번호 검증
         if (dto.getProvider() == null) {
-            String pw = dto.getPassword() != null ? dto.getPassword().trim() : "";
-            String cpw = dto.getConfirm_password() != null ? dto.getConfirm_password().trim() : "";
-
-            if (pw.isEmpty()) {
-                throw new IllegalArgumentException("비밀번호는 필수 입력값입니다.");
-            }
-
-            // 대문자 ≥1, 특수문자 ≥1, 9자 이상
-            boolean valid = pw.length() >= 9 && pw.matches(".*[A-Z].*") && pw.matches(".*[!@#$%^&*].*");
-            if (!valid) {
-                throw new IllegalArgumentException("비밀번호는 대문자 1개 이상, 특수문자 1개 이상 포함, 최소 9자 이상이어야 합니다.");
-            }
-
-            // 비밀번호 확인 비교 (암호화 전)
-            if (!pw.equals(cpw)) {
-                throw new IllegalArgumentException("비밀번호 확인이 일치하지 않습니다.");
-            }
-
-            // 검증 완료 후 암호화 수행
-            dto.setPassword(passwordEncoder.encode(pw));
+            validatePassword(dto.getPassword(), dto.getConfirm_password());
+            dto.setPassword(passwordEncoder.encode(dto.getPassword()));
             dto.setConfirm_password(null);
         }
 
-        // 엔티티 변환
         Signup entity = Signup.builder()
                 .name(dto.getName())
                 .id(dto.getId())
-                .password(dto.getPassword())  // 이제 인코딩된 값이 들어감
-                .confirm_password(null)
+                .password(dto.getPassword())
                 .emailId(dto.getEmailId())
                 .emailDomain(dto.getEmailDomain())
                 .year(dto.getYear())
@@ -76,7 +51,6 @@ public class SignupService {
                 .day(dto.getDay())
                 .gender(dto.getGender())
                 .phone_num(dto.getPhone_num())
-                .sms_auth_number(dto.getSms_auth_number())
                 .created_at(dto.getCreated_at())
                 .updated_at(dto.getUpdated_at())
                 .provider(dto.getProvider())
@@ -85,29 +59,86 @@ public class SignupService {
                 .oauthEmail(dto.getOauthEmail())
                 .build();
 
-        // 일반/소셜 구분 로그
-        if (dto.getProvider() == null) {
-            log.info("[일반 회원가입] ID: {}", dto.getId());
-        } else {
-            log.info("[소셜 회원가입] Provider: {} / ProviderId: {}", dto.getProvider(), dto.getProviderId());
-            entity.setPassword(null);
-            entity.setConfirm_password(null);
-        }
+        if (dto.getProvider() == null)
+            log.info("[일반 회원가입] ID={}, [UserSeq] = {}", dto.getId(),dto.getUserSeq());
 
-        // DB 저장
+
+        else
+            log.info("[소셜 회원가입] Provider={}, ProviderId={}", dto.getProvider(), dto.getProviderId());
+
+        log.info("저장 직전 userSeq={}", entity.getUserSeq());
         Signup saved = repository.save(entity);
-        log.info("회원가입 완료! user_seq = {}", saved.getUser_seq());
+        dto.setUserSeq(saved.getUserSeq());
+        log.info("SERVICE 회원가입 완료! user_seq={}", saved.getUserSeq());
         return saved;
     }
 
-    /** 아이디 중복 검사 */
+    /**
+     * 회원정보 수정 (로그인 사용자 기준)
+     */
+    public Signup updateUserInfo(String userSeq, SignupDto dto) {
+        Signup existing = repository.findById(userSeq)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다. user_seq=" + userSeq));
+
+        log.info("[회원정보 수정 시도] user_seq={}", userSeq);
+
+        // 비밀번호 변경 요청이 있을 경우만 처리
+        if (dto.getPassword() != null && !dto.getPassword().trim().isEmpty()) {
+            validatePassword(dto.getPassword(), dto.getConfirm_password());
+
+            // 기존 비밀번호와 동일한지 확인
+            if (passwordEncoder.matches(dto.getPassword(), existing.getPassword())) {
+                throw new IllegalArgumentException("새 비밀번호는 기존 비밀번호와 달라야 합니다.");
+            }
+
+            existing.setPassword(passwordEncoder.encode(dto.getPassword()));
+            log.info("[비밀번호 변경 완료] user_seq={}", userSeq);
+        }
+
+        // 변경 가능한 필드 업데이트
+        existing.setName(dto.getName());
+        existing.setPhone_num(dto.getPhone_num());
+        existing.setGender(dto.getGender());
+        existing.setYear(dto.getYear());
+        existing.setMonth(dto.getMonth());
+        existing.setDay(dto.getDay());
+        existing.setUpdated_at(LocalDateTime.now());
+
+        Signup saved = repository.save(existing);
+        log.info("[회원정보 수정 완료] user_seq={}", userSeq);
+        return saved;
+    }
+
+    /**
+     * 비밀번호 유효성 검사 (대문자 ≥1, 특수문자 ≥1, 9자 이상)
+     */
+    private void validatePassword(String pw, String confirmPw) {
+        if (pw == null || pw.trim().isEmpty()) {
+            throw new IllegalArgumentException("비밀번호는 필수 입력값입니다.");
+        }
+
+        boolean valid = pw.length() >= 9 && pw.matches(".*[A-Z].*") && pw.matches(".*[!@#$%^&*].*");
+        if (!valid) {
+            throw new IllegalArgumentException("비밀번호는 대문자 1개 이상, 특수문자 1개 이상 포함, 최소 9자 이상이어야 합니다.");
+        }
+
+        if (confirmPw != null && !pw.equals(confirmPw)) {
+            throw new IllegalArgumentException("비밀번호 확인이 일치하지 않습니다.");
+        }
+    }
+
+    /**
+     * 아이디 중복 검사
+     */
     public boolean existsById(String id) {
         if (id == null || id.trim().isEmpty()) return false;
         return repository.findAll().stream()
                 .anyMatch(u -> id.equals(u.getId()));
     }
 
-    /** 소셜 로그인 중복 확인 */
+    /**
+     * 소셜 로그인 중복 확인
+     */
     public Signup findByProviderAndProviderId(String provider, String providerId) {
         return repository.findAll().stream()
                 .filter(u -> provider.equals(u.getProvider()) && providerId.equals(u.getProviderId()))

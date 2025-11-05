@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Controller
@@ -22,45 +21,47 @@ public class MypageController {
     /** 세션 로그인 사용자 + 예약 정보 로드 */
     @GetMapping("/mypage/Mypage")
     public String mypage(@SessionAttribute(value = "loginUser", required = false) Object loginUser,
-                         @RequestParam(required = false) String email,
                          Model model) {
 
-        //  세션 사용자 확인 (자체 로그인 / 소셜 로그인 둘 다 대응)
-        String name = null;
-        String userEmail = null;
-
-        if (loginUser instanceof SignupDto user) { // 소셜 로그인 세션
-            name = user.getName();
-            userEmail = user.getOauthEmail();
-            model.addAttribute("userType", "social");
-            log.info("소셜 로그인 사용자: {} / 이메일: {}", name, userEmail);
-
-
-        } else if (loginUser instanceof Signup user) { // 자체 로그인 세션
-            name = user.getName();
-            userEmail = user.getEmailId() + "@" + user.getEmailDomain();
-            model.addAttribute("userType", "native");
-            log.info("자체 로그인 사용자: {} / 이메일: {}", name, userEmail);
-
-        } else {
+        // 로그인 세션이 없을 경우
+        if (loginUser == null) {
             log.warn("세션에 로그인 정보가 없습니다. (비로그인 상태)");
-            return "redirect:/signin"; // 세션 없으면 로그인 페이지로
+            return "redirect:/signin";
         }
 
-        model.addAttribute("user", name);
-        model.addAttribute("email", userEmail);
+        String name = null;
+        String userSeq = null;
+        String userType = null;
 
-        // 심리 예약 정보 조회
-        if (email != null && !email.isEmpty()) {
-            PsyReserveDto reserve = psyReserveService.findByEmail(email);
-            if (reserve != null) {
-                log.info("예약 정보 로드 완료: {}", reserve);
-                model.addAttribute("reserve", reserve);
-            } else {
-                log.info("해당 이메일로 예약 정보 없음: {}", email);
-            }
+        // 소셜 로그인 세션 (SignupDto)
+        if (loginUser instanceof SignupDto user) {
+            name = user.getName();
+            userSeq = user.getUserSeq(); // DTO에 추가된 UUID
+            userType = "social";
+            model.addAttribute("userType", userType);
+            log.info("소셜 로그인 사용자: {} / user_seq={}", name, userSeq);
+        }
+        //자체 로그인 세션 (Signup)
+        else if (loginUser instanceof Signup user) {
+            name = user.getName();
+            userSeq = user.getUserSeq();
+            userType = "native";
+            model.addAttribute("userType", userType);
+            log.info("자체 로그인 사용자: {} / user_seq={}", name, userSeq);
+        }
+
+        // 공통 모델 데이터
+        model.addAttribute("user", name);
+        model.addAttribute("userSeq", userSeq);
+        model.addAttribute("userType", userType);
+        // 예약 정보 로드 (user_seq 기준)
+        PsyReserveDto reserve = psyReserveService.findByUserSeq(userSeq);
+
+        if (reserve != null) {
+            log.info("예약 정보 로드 완료: {}", reserve);
+            model.addAttribute("reserve", reserve);
         } else {
-            log.info("예약 조회용 이메일 파라미터가 전달되지 않음.");
+            log.info("해당 user_seq로 예약 정보 없음: {}", userSeq);
         }
 
         return "mypage/Mypage";
