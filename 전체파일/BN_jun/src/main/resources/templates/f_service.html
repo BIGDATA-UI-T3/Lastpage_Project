@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>반려동물 장례식장 - 장례안내</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Naver Maps SDK -->
     <script th:src="@{'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=' + ${ncpMapClientId} + '&submodules=geocoder'}"></script>
 
-    <!-- CSS 링크 -->
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/f_service.css}">
 </head>
@@ -56,7 +53,6 @@
     </header>
 </div>
 
-<!-- 배너 -->
 <section class="banner" role="img" aria-label="따뜻한 펫로스 심리상담 배너 이미지">
     <div class="inner">
         <h1>작별의 순간, 혼자 두지 않겠습니다</h1>
@@ -64,12 +60,10 @@
     </div>
 </section>
 
-<!-- 본문: 지도 및 장소 목록 -->
 <main>
     <div class="wrap">
         <h1 class="title">협력 장례식장 안내</h1>
 
-        <!-- 1. 검색창 (로딩 중 비활성화) -->
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="지도 로딩 중..." disabled>
             <button id="searchButton" disabled>검색</button>
@@ -78,7 +72,6 @@
         <div class="grid">
             <div id="map" aria-label="장례식장 위치 지도"></div>
             <div class="list-container" id="placeList">
-                <!-- JS로 생성됨 -->
             </div>
         </div>
     </div>
@@ -88,7 +81,6 @@
     대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
 </footer>
 
-<!-- 공통 스크립트: 헤더 숨김 -->
 <script>
     (function () {
       const header = document.querySelector('header');
@@ -98,7 +90,6 @@
     })();
 </script>
 
-<!-- [수정] 지도 스크립트 (지도 조작 옵션 추가) -->
 <script th:inline="javascript">
     /*<![CDATA[*/
         document.addEventListener("DOMContentLoaded", function () {
@@ -122,10 +113,20 @@
                 return;
             }
 
-                const mapOptions = {
-                center: new naver.maps.LatLng(36.8714, 127.6014), // 지도의 초기 중심 (대한민국 중앙 부근)
-                zoom: 7, // 줌 레벨 조정
+            // [수정] 1. 지도 조작 옵션 명시적으로 활성화 + 초기 줌 레벨 조정
+            const mapOptions = {
+                center: new naver.maps.LatLng(36.8714, 127.6014),
+                zoom: 8, // 7 -> 8 (조금 더 가깝게 시작)
                 minZoom: 7,
+
+                // --- 모든 지도 조작 옵션을 명시적으로 활성화 ---
+                draggable: true,           // 마우스 드래그 이동
+                scrollWheel: true,         // 마우스 휠 줌
+                disableDoubleClickZoom: false, // 더블클릭 줌
+                disableDoubleTapZoom: false,   // 모바일 더블탭 줌
+                pinchZoom: true,           // 모바일 핀치 줌
+                keyboardShortcuts: true,   // 키보드 단축키
+                // --- ------------------------------------ ---
             };
             const map = new naver.maps.Map("map", mapOptions);
 
@@ -141,6 +142,9 @@
                 anchorSkew: true,
                 pixelOffset: new naver.maps.Point(20, -20)
             });
+
+            // [수정] 2. Debounce(지연 실행)를 위한 타이머 변수
+            let debounceTimer;
 
             // --- 3. 핵심 함수 (이전과 동일) ---
 
@@ -219,11 +223,13 @@
                 }
             }
 
-            // 5. [기능 2] 지도 이동 시 마커/목록 필터링
+            // 5. [기능 2] 지도 이동 시 마커/목록 필터링 (오류 수정)
             function updateVisiblePlaces() {
                 const bounds = map.getBounds();
-                if (!bounds) {
-                    return;
+
+                // [오류 수정] bounds 객체와 .contains 함수가 모두 유효한지 확인
+                if (!bounds || typeof bounds.contains !== 'function') {
+                    return; // bounds가 준비되지 않았으면 함수 종료
                 }
 
                 PLACES.forEach(place => {
@@ -299,23 +305,36 @@
                         }
                     }
 
-                    naver.maps.Event.addListener(map, 'idle', updateVisiblePlaces);
+                    // [수정] 3. Debounce(지연 실행) 함수 정의
+                    // 200ms(0.2초) 이내에 추가 이벤트가 없으면 마지막에 한 번만 실행
+                    function debouncedUpdate() {
+                        clearTimeout(debounceTimer);
+                        debounceTimer = setTimeout(updateVisiblePlaces, 200);
+                    }
 
+                    // [수정] 4. 'idle' 대신 'bounds_changed' 이벤트를 Debounce로 연결
+                    // (지도 이동 중에는 계속 호출되지만, 0.2초 멈출 때만 updateVisiblePlaces 실행)
+                    naver.maps.Event.addListener(map, 'bounds_changed', debouncedUpdate);
+
+                    // [수정] 5. 최초 1회 실행은 지도가 완전히 준비된 후
                     naver.maps.Event.once(map, 'tilesloaded', function() {
                         console.log("지도 타일 로드 완료, 최초 필터링 실행.");
                         updateVisiblePlaces();
                     });
 
+                    // 6. 검색 버튼 이벤트 바인딩
                     searchButton.addEventListener('click', handleSearch);
                     searchInput.addEventListener('keydown', (e) => {
                         if (e.key === 'Enter') handleSearch();
                     });
 
+                    // 7. 지도를 클릭하면 정보창 닫기
                     naver.maps.Event.addListener(map, 'click', function() {
                         infoWindow.close();
                         $$(".place-card").forEach(card => card.classList.remove("active"));
                     });
 
+                    // 8. (모든 작업 완료 후) 검색창 활성화
                     searchInput.disabled = false;
                     searchButton.disabled = false;
                     searchInput.placeholder = "장례식장 이름으로 검색...";
@@ -335,4 +354,3 @@
 </script>
 </body>
 </html>
-
