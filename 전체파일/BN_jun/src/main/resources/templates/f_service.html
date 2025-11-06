@@ -92,264 +92,232 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-        document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
 
-            // --- 1. DB 데이터 가져오기 ---
-            const PLACES = /*[[${places}]]*/ [];
+        // --- 1. DB 데이터 가져오기 ---
+        const PLACES = /*[[${places}]]*/ [];
 
-            // --- 2. 전역 변수 및 지도 초기화 ---
-            const mapEl = document.getElementById("map");
-            const placeListEl = document.getElementById("placeList");
-            const searchInput = document.getElementById("searchInput");
-            const searchButton = document.getElementById("searchButton");
+        // --- 2. 전역 변수 및 지도 초기화 ---
+        const mapEl = document.getElementById("map");
+        const placeListEl = document.getElementById("placeList");
+        const searchInput = document.getElementById("searchInput");
+        const searchButton = document.getElementById("searchButton");
 
-            const $ = s => document.querySelector(s);
-            const $$ = s => Array.from(document.querySelectorAll(s));
+        const $ = s => document.querySelector(s);
+        const $$ = s => Array.from(document.querySelectorAll(s));
 
-            if (!naver || !naver.maps) {
-                console.error("Naver Maps SDK가 로드되지 않았습니다.");
-                mapEl.innerHTML = "<div style='text-align:center; padding: 20px;'>지도를 불러오는 데 실패했습니다.<br>NCP 클라이언트 ID를 확인해주세요.</div>";
-                searchInput.placeholder = "지도 로드 실패";
-                return;
-            }
+        if (!naver || !naver.maps) {
+            console.error("Naver Maps SDK가 로드되지 않았습니다.");
+            mapEl.innerHTML = "<div style='text-align:center; padding: 20px;'>지도를 불러오는 데 실패했습니다.<br>NCP 클라이언트 ID를 확인해주세요.</div>";
+            searchInput.placeholder = "지도 로드 실패";
+            return;
+        }
 
-            // [수정] 1. 지도 조작 옵션 명시적으로 활성화 + 초기 줌 레벨 조정
-            const mapOptions = {
-                center: new naver.maps.LatLng(36.8714, 127.6014),
-                zoom: 8, // 7 -> 8 (조금 더 가깝게 시작)
-                minZoom: 7,
+        // 지도 옵션
+        const mapOptions = {
+            center: new naver.maps.LatLng(36.8714, 127.6014), // 대한민국 중심
+            zoom: 8,
+            minZoom: 7,
+            draggable: true,
+            scrollWheel: true,
+            disableDoubleClickZoom: false,
+            disableDoubleTapZoom: false,
+            pinchZoom: true,
+            keyboardShortcuts: true,
+        };
+        const map = new naver.maps.Map("map", mapOptions);
 
-                // --- 모든 지도 조작 옵션을 명시적으로 활성화 ---
-                draggable: true,           // 마우스 드래그 이동
-                scrollWheel: true,         // 마우스 휠 줌
-                disableDoubleClickZoom: false, // 더블클릭 줌
-                disableDoubleTapZoom: false,   // 모바일 더블탭 줌
-                pinchZoom: true,           // 모바일 핀치 줌
-                keyboardShortcuts: true,   // 키보드 단축키
-                // --- ------------------------------------ ---
-            };
-            const map = new naver.maps.Map("map", mapOptions);
+        const markers = {};
+        const placeCards = {};
+        const infoWindow = new naver.maps.InfoWindow({
+            content: '',
+            maxWidth: 300,
+            backgroundColor: "#fff",
+            borderColor: "#e0d8cc",
+            borderWidth: 1,
+            anchorSize: new naver.maps.Size(10, 10),
+            anchorSkew: true,
+            pixelOffset: new naver.maps.Point(20, -20)
+        });
 
-            const markers = {};
-            const placeCards = {};
-            const infoWindow = new naver.maps.InfoWindow({
-                content: '',
-                maxWidth: 300,
-                backgroundColor: "#fff",
-                borderColor: "#e0d8cc",
-                borderWidth: 1,
-                anchorSize: new naver.maps.Size(10, 10),
-                anchorSkew: true,
-                pixelOffset: new naver.maps.Point(20, -20)
+        // --- 3. 핵심 함수 ---
+
+        // 1. 목록 카드 HTML 생성
+        function createPlaceCardElement(place) {
+            const servicesHTML = (place.services || [])
+                .map(s => `<span class="chip">${s}</span>`).join('');
+
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'place-card';
+            cardDiv.dataset.id = place.id;
+            cardDiv.innerHTML = `
+                <h3>${place.name}</h3>
+                <p class="addr">${place.address}</p>
+                <p class="phone">${place.phone}</p>
+                <div class="chips">${servicesHTML}</div>
+                <div class="links">
+                    <a href="#" onclick="alert('후기 기능 준비 중입니다.'); return false;">후기 보기</a>
+                    <a href="${place.homepageUrl || '#'}" target="_blank" rel="noopener noreferrer">홈페이지</a>
+                </div>
+            `;
+
+            cardDiv.addEventListener("click", function () {
+                const id = cardDiv.dataset.id;
+                const marker = markers[id];
+                if (marker) {
+                    map.panTo(marker.getPosition(), { duration: 300 });
+                    naver.maps.Event.trigger(marker, 'click');
+                    highlightActiveCard(id);
+                }
             });
+            return cardDiv;
+        }
 
-            // [수정] 2. Debounce(지연 실행)를 위한 타이머 변수
-            let debounceTimer;
+        // 2. 정보창 내용 HTML 생성
+        function createInfoWindowContent(place) {
+            return `
+                <div style="padding:10px; min-width:200px; line-height:1.6;">
+                    <h5 style="margin:0 0 5px; font-weight:600; color: #2C3930;">${place.name}</h5>
+                    <p style="font-size:13px; margin:0;">${place.address}</p>
+                    <p style="font-size:13px; margin:0; color:#a2725c; font-weight: 500;">${place.phone}</p>
+                    <a href="${place.homepageUrl || '#'}" target="_blank" rel="noopener noreferrer" style="font-size:13px; color:#007bff; text-decoration:none;">홈페이지 방문</a>
+                </div>
+            `;
+        }
 
-            // --- 3. 핵심 함수 (이전과 동일) ---
-
-            // 1. 목록 카드 HTML 생성
-            function createPlaceCardElement(place) {
-                const servicesHTML = (place.services || [])
-                    .map(s => `<span class="chip">${s}</span>`).join('');
-
-                const cardDiv = document.createElement('div');
-                cardDiv.className = 'place-card';
-                cardDiv.dataset.id = place.id;
-                cardDiv.innerHTML = `
-                    <h3>${place.name}</h3>
-                    <p class="addr">${place.address}</p>
-                    <p class="phone">${place.phone}</p>
-                    <div class="chips">${servicesHTML}</div>
-                    <div class="links">
-                        <a href="#" onclick="alert('후기 기능 준비 중입니다.'); return false;">후기 보기</a>
-                        <a href="${place.homepageUrl || '#'}" target="_blank" rel="noopener noreferrer">홈페이지</a>
-                    </div>
-                `;
-
-                cardDiv.addEventListener("click", function () {
-                    const id = cardDiv.dataset.id;
-                    const marker = markers[id];
-                    if (marker) {
-                        map.panTo(marker.getPosition(), { duration: 300 });
-                        naver.maps.Event.trigger(marker, 'click');
-                        highlightActiveCard(id);
-                    }
-                });
-                return cardDiv;
-            }
-
-            // 2. 정보창 내용 HTML 생성
-            function createInfoWindowContent(place) {
-                return `
-                    <div style="padding:10px; min-width:200px; line-height:1.6;">
-                        <h5 style="margin:0 0 5px; font-weight:600; color: #2C3930;">${place.name}</h5>
-                        <p style="font-size:13px; margin:0;">${place.address}</p>
-                        <p style="font-size:13px; margin:0; color:#a2725c; font-weight: 500;">${place.phone}</p>
-                        <a href="${place.homepageUrl || '#'}" target="_blank" rel="noopener noreferrer" style="font-size:13px; color:#007bff; text-decoration:none;">홈페이지 방문</a>
-                    </div>
-                `;
-            }
-
-            // 3. (Promise) 주소 -> 좌표 변환
-            function geocodeAddress(place) {
-                return new Promise((resolve, reject) => {
-                    if (place.latitude && place.longitude) {
-                        place.coords = new naver.maps.LatLng(place.latitude, place.longitude);
-                        resolve(place);
-                        return;
-                    }
-
-                    naver.maps.Service.geocode({ query: place.address }, (status, response) => {
-                        if (status !== naver.maps.Service.Status.OK || !response.v2.addresses.length) {
-                            console.warn(`[${place.name}] 지오코딩 실패: ${place.address}`);
-                            reject(new Error("Geocoding failed"));
-                            return;
-                        }
-                        const coords = response.v2.addresses[0];
-                        place.coords = new naver.maps.LatLng(coords.y, coords.x);
-                        resolve(place);
-                    });
-                });
-            }
-
-            // 4. 활성 카드 표시
-            function highlightActiveCard(id) {
-                $$(".place-card").forEach(card => card.classList.remove("active"));
-                const activeCard = $(`.place-card[data-id="${id}"]`);
-                if (activeCard) {
-                    activeCard.classList.add("active");
-                    activeCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }
-
-            // 5. [기능 2] 지도 이동 시 마커/목록 필터링 (오류 수정)
-            function updateVisiblePlaces() {
-                const bounds = map.getBounds();
-
-                // [오류 수정] bounds 객체와 .contains 함수가 모두 유효한지 확인
-                if (!bounds || typeof bounds.contains !== 'function') {
-                    return; // bounds가 준비되지 않았으면 함수 종료
-                }
-
-                PLACES.forEach(place => {
-                    const id = place.id;
-                    const card = placeCards[id];
-                    const marker = markers[id];
-
-                    if (card && marker && place.coords) {
-                        const isVisible = bounds.contains(place.coords);
-                        marker.setMap(isVisible ? map : null);
-                        card.style.display = isVisible ? 'block' : 'none';
-                    }
-                });
-            }
-
-            // 6. [기능 1] 검색 기능 핸들러
-            function handleSearch() {
-                const query = searchInput.value.trim().toLowerCase();
-                if (!query) {
-                    alert('검색어를 입력해주세요.');
+        // 3. (Promise) 주소 -> 좌표 변환
+        function geocodeAddress(place) {
+            return new Promise((resolve, reject) => {
+                if (place.latitude && place.longitude) {
+                    place.coords = new naver.maps.LatLng(place.latitude, place.longitude);
+                    resolve(place);
                     return;
                 }
 
-                const foundPlace = PLACES.find(place =>
-                    place.name.toLowerCase().includes(query)
-                );
-
-                if (foundPlace) {
-                    const marker = markers[foundPlace.id];
-
-                    if (marker) {
-                        map.panTo(marker.getPosition(), { duration: 500 });
-                        naver.maps.Event.trigger(marker, 'click');
-                        highlightActiveCard(foundPlace.id);
-                    } else {
-                        alert('"' + foundPlace.name + '"의 주소 좌표를 변환하는 데 실패했습니다. 주소를 확인해주세요.');
+                naver.maps.Service.geocode({ query: place.address }, (status, response) => {
+                    if (status !== naver.maps.Service.Status.OK || !response.v2.addresses.length) {
+                        console.warn(`[${place.name}] 지오코딩 실패: ${place.address}`);
+                        reject(new Error("Geocoding failed"));
+                        return;
                     }
+                    const coords = response.v2.addresses[0];
+                    place.coords = new naver.maps.LatLng(coords.y, coords.x);
+                    resolve(place);
+                });
+            });
+        }
+
+        // 4. 활성 카드 표시
+        function highlightActiveCard(id) {
+            $$(".place-card").forEach(card => card.classList.remove("active"));
+            const activeCard = $(`.place-card[data-id="${id}"]`);
+            if (activeCard) {
+                activeCard.classList.add("active");
+                activeCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // 5. [기능 1] 검색 기능 핸들러
+        function handleSearch() {
+            const query = searchInput.value.trim().toLowerCase();
+            if (!query) {
+                alert('검색어를 입력해주세요.');
+                return;
+            }
+
+            const foundPlace = PLACES.find(place =>
+                place.name.toLowerCase().includes(query)
+            );
+
+            if (foundPlace) {
+                const marker = markers[foundPlace.id];
+
+                if (marker) {
+                    map.panTo(marker.getPosition(), { duration: 500 });
+                    naver.maps.Event.trigger(marker, 'click');
+                    highlightActiveCard(foundPlace.id);
                 } else {
-                    alert('"' + query + '"와(과) 일치하는 장례식장을 찾을 수 없습니다.');
+                    alert('"' + foundPlace.name + '"의 주소 좌표를 변환하는 데 실패했습니다. 주소를 확인해주세요.');
                 }
+            } else {
+                alert('"' + query + '"와(과) 일치하는 장례식장을 찾을 수 없습니다.');
             }
+        }
 
-            // --- 4. 지도 실행 (순차적 로딩 및 타이밍 수정) ---
-            async function initMap() {
-                try {
+        // --- 4. 지도 실행 (수정된 버전) ---
+        async function initMap() {
+            try {
 
-                    for (const place of PLACES) {
-                        try {
-                            await geocodeAddress(place);
+                // 1. (추가) 커스텀 마커 아이콘을 정의합니다. (루프 밖에서 한 번만)
+                // (경로 예시: /asset/marker-paw.png)
+                const customIcon = {
+                    url: '/asset/marker-paw.png', // 🐾 발바닥 마커 이미지 경로
+                    size: new naver.maps.Size(32, 32),
+                    scaledSize: new naver.maps.Size(32, 32),
+                    anchor: new naver.maps.Point(16, 32) // (x: 크기의 절반, y: 크기)
+                };
 
-                            if (place.coords) {
-                                const marker = new naver.maps.Marker({
-                                    position: place.coords,
-                                    map: null,
-                                    title: place.name
-                                });
+                for (const place of PLACES) {
+                    try {
+                        await geocodeAddress(place); // 주소 -> 좌표 변환
 
-                                naver.maps.Event.addListener(marker, 'click', function() {
-                                    infoWindow.setContent(createInfoWindowContent(place));
-                                    infoWindow.open(map, marker);
-                                    highlightActiveCard(place.id);
-                                });
+                        if (place.coords) {
+                            // 2. (수정) 마커를 'map: map'으로 즉시 지도에 추가
+                            const marker = new naver.maps.Marker({
+                                position: place.coords,
+                                map: map, // 👈 즉시 지도에 표시
+                                title: place.name,
+                                icon: customIcon // 👈 커스텀 아이콘 적용
+                            });
 
-                                const card = createPlaceCardElement(place);
-                                card.style.display = 'none';
-                                placeListEl.appendChild(card);
+                            // 마커 클릭 이벤트 (정보창)
+                            naver.maps.Event.addListener(marker, 'click', function() {
+                                infoWindow.setContent(createInfoWindowContent(place));
+                                infoWindow.open(map, marker);
+                                highlightActiveCard(place.id);
+                            });
 
-                                markers[place.id] = marker;
-                                placeCards[place.id] = card;
-                            }
-                        } catch (geoError) {
-                            console.warn(`[${place.name}] 처리 중 오류:`, geoError.message);
+                            // 3. (수정) 목록 카드를 'block'으로 즉시 표시
+                            const card = createPlaceCardElement(place);
+                            card.style.display = 'block'; // 👈 즉시 목록에 표시
+                            placeListEl.appendChild(card);
+
+                            markers[place.id] = marker;
+                            placeCards[place.id] = card;
                         }
+                    } catch (geoError) {
+                        console.warn(`[${place.name}] 처리 중 오류:`, geoError.message);
                     }
-
-                    // [수정] 3. Debounce(지연 실행) 함수 정의
-                    // 200ms(0.2초) 이내에 추가 이벤트가 없으면 마지막에 한 번만 실행
-                    function debouncedUpdate() {
-                        clearTimeout(debounceTimer);
-                        debounceTimer = setTimeout(updateVisiblePlaces, 200);
-                    }
-
-                    // [수정] 4. 'idle' 대신 'bounds_changed' 이벤트를 Debounce로 연결
-                    // (지도 이동 중에는 계속 호출되지만, 0.2초 멈출 때만 updateVisiblePlaces 실행)
-                    naver.maps.Event.addListener(map, 'bounds_changed', debouncedUpdate);
-
-                    // [수정] 5. 최초 1회 실행은 지도가 완전히 준비된 후
-                    naver.maps.Event.once(map, 'tilesloaded', function() {
-                        console.log("지도 타일 로드 완료, 최초 필터링 실행.");
-                        updateVisiblePlaces();
-                    });
-
-                    // 6. 검색 버튼 이벤트 바인딩
-                    searchButton.addEventListener('click', handleSearch);
-                    searchInput.addEventListener('keydown', (e) => {
-                        if (e.key === 'Enter') handleSearch();
-                    });
-
-                    // 7. 지도를 클릭하면 정보창 닫기
-                    naver.maps.Event.addListener(map, 'click', function() {
-                        infoWindow.close();
-                        $$(".place-card").forEach(card => card.classList.remove("active"));
-                    });
-
-                    // 8. (모든 작업 완료 후) 검색창 활성화
-                    searchInput.disabled = false;
-                    searchButton.disabled = false;
-                    searchInput.placeholder = "장례식장 이름으로 검색...";
-                    console.log("지도 및 장소 로딩 완료.");
-
-                } catch (error) {
-                    console.error("지도 초기화 중 오류 발생:", error);
-                    mapEl.innerHTML = "<div style='text-align:center; padding: 20px;'>지도 초기화 중 오류가 발생했습니다.</div>";
-                    searchInput.placeholder = "지도 오류";
                 }
-            }
 
-            // 지도 초기화 실행!
-            initMap();
-        });
+                // 4. (삭제) 필터링 관련 이벤트 리스너 모두 제거
+
+                // 5. 검색 버튼 및 지도 클릭 이벤트는 그대로 유지
+                searchButton.addEventListener('click', handleSearch);
+                searchInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') handleSearch();
+                });
+                naver.maps.Event.addListener(map, 'click', function() {
+                    infoWindow.close();
+                    $$(".place-card").forEach(card => card.classList.remove("active"));
+                });
+
+                // 6. (모든 작업 완료 후) 검색창 활성화
+                searchInput.disabled = false;
+                searchButton.disabled = false;
+                searchInput.placeholder = "장례식장 이름으로 검색...";
+                console.log("지도 및 장소 로딩 완료 (모든 마커 즉시 표시).");
+
+            } catch (error) {
+                console.error("지도 초기화 중 오류 발생:", error);
+                mapEl.innerHTML = "<div style='text-align:center; padding: 20px;'>지도 초기화 중 오류가 발생했습니다.</div>";
+                searchInput.placeholder = "지도 오류";
+            }
+        }
+
+        // 지도 초기화 실행!
+        initMap();
+    });
     /*]]>*/
 </script>
 </body>
