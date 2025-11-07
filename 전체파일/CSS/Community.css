@@ -142,8 +142,8 @@ body {
     color: var(--text-color);
 }
 
-/* --- 1. 배너 --- */
-/* .banner {
+/* --- 1. 배너(수정 전) --- */
+        /* .banner {
             background-image: var(--banner-url);
             background-size: cover;
             background-position: center;
@@ -181,6 +181,7 @@ body {
             font-size: clamp(16px, 2vw, 18px);
         } */
 
+/* 배너(수정 후) */
 .banner_yj {
     position: relative;
     width: 100%;
