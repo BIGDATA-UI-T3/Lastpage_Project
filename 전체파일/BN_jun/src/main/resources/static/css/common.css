@@ -1,4 +1,11 @@
+html {
+    /* 뷰포트 전체가 y축(수직)으로 스크롤 스냅을 사용하도록 설정 */
+    scroll-snap-type: y mandatory;
+}
 
+body {
+    scroll-behavior: smooth;
+}
   
     /* 전체*/
     *,
@@ -207,13 +214,6 @@
       border-color: #2C3930;
     }
 
-    
-
-    
-
-   
-   
-
     /* 푸터 */
     footer {
       width: 100%;
@@ -237,6 +237,8 @@
       }
 
     }
+
+
 
     /* 968px 밑 반응형 영역*/
  

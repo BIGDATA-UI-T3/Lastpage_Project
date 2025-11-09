@@ -10,6 +10,9 @@
 
     <script th:src="@{'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=' + ${ncpMapClientId} + '&submodules=geocoder'}"></script>
 
+    <!-- AOS (애니메이션) CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/f_service.css}">
 </head>
@@ -53,16 +56,88 @@
     </header>
 </div>
 
-<section class="banner" role="img" aria-label="따뜻한 펫로스 심리상담 배너 이미지">
-    <div class="inner">
+<!-- 섹션 1: 배너 -->
+<section class="full-screen-section banner" role="img" aria-label="따뜻한 펫로스 심리상담 배너 이미지">
+    <div class="inner" data-aos="fade-up" data-aos-duration="1200" data-aos-easing="ease-out-cubic">
         <h1>작별의 순간, 혼자 두지 않겠습니다</h1>
         <p>그리움이 아프지 않도록, 기억을 천천히 다독입니다.</p>
     </div>
 </section>
 
-<main>
-    <div class="wrap">
+<!-- 섹션 2: 문구 레이아웃 (시안 6-3 풀스크린 중앙 정렬 + 내용 보강) -->
+<!-- [수정] section 태그에서 data-aos 제거 -->
+<section class="full-screen-section text-section-v6-full"
+         style="
+            padding: 100px 40px;
+            background-color: #2b2623;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22a%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.005%22 numOctaves=%222%22 result=%22noise%22/%3E%3CfeColorMatrix type=%22matrix%22 values=%220 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .05 0%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23a)%22 opacity=%221%22/%3E%3C/svg%3E');
+            color: #e8e6e3;
+            text-align: center;
+         ">
+
+    <div class="wrap" style="max-width: 900px;"
+         data-aos="fade-up" data-aos-duration="1200" data-aos-delay="100" data-aos-easing="ease-out-cubic">
+        <h3 style="color: #C1A38E; font-size: 1rem; margin-bottom: 20px; font-weight: 500; letter-spacing: 3px; opacity: 0.8;">CORE VALUES</h3>
+        <h2 style="font-size: 3rem; margin-bottom: 50px; line-height: 1.2; font-family: serif; letter-spacing: -1px;">변치 않는 약속</h2>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px 40px; text-align: left;">
+
+            <div style="display: flex; gap: 20px;">
+                <div style="color: #C1A38E; font-size: 1.8rem;">✦</div>
+                <div>
+                    <h4 style="font-size: 1.3rem; color: #fff; margin-bottom: 12px; font-weight: 500;">24시간 케어</h4>
+                    <p style="color: #999; font-weight: 300; line-height: 1.7; word-break: keep-all;">
+                        갑작스러운 이별은 시간과 장소를 가리지 않습니다. 한밤중이나 새벽에도 당황하지 않도록, LastPage의 반려동물 전문 장례 지도사가 24시간 대기하며 보호자님의 첫 전화부터 마지막 순간까지 1:1로 전담 케어합니다.
+                    </p>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 20px;">
+                <div style="color: #C1A38E; font-size: 1.8rem;">✦</div>
+                <div>
+                    <h4 style="font-size: 1.3rem; color: #fff; margin-bottom: 12px; font-weight: 500;">투명한 절차</h4>
+                    <p style="color: #999; font-weight: 300; line-height: 1.7; word-break: keep-all;">
+                        소중한 가족을 보내는 경황없는 와중에도 불안함을 느끼시지 않도록, 모든 장례 과정을 처음부터 끝까지 투명하게 공개합니다. 염습, 입관, 화장 등 전 과정을 참관실에서 함께하며 반려동물의 마지막 길을 지켜볼 수 있습니다.
+                    </p>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 20px;">
+                <div style="color: #C1A38E; font-size: 1.8rem;">✦</div>
+                <div>
+                    <h4 style="font-size: 1.3rem; color: #fff; margin-bottom: 12px; font-weight: 500;">맞춤형 서비스</h4>
+                    <p style="color: #999; font-weight: 300; line-height: 1.7; word-break: keep-all;">
+                        반려동물과 함께한 추억이 모두 다르듯, 추모의 방식도 달라야 합니다. 일반적인 장례 외에도 유골을 보석으로 만드는 '메모리얼 스톤', '수목장', '맞춤 굿즈' 등 소중한 존재를 가장 잘 기억할 수 있는 특별한 방식을 제안합니다.
+                    </p>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 20px;">
+                <div style="color: #C1A38E; font-size: 1.8rem;">✦</div>
+                <div>
+                    <h4 style="font-size: 1.3rem; color: #fff; margin-bottom: 12px; font-weight: 500;">사후 관리</h4>
+                    <p style="color: #999; font-weight: 300; line-height: 1.7; word-break: keep-all;">
+                        장례가 끝난 후 찾아오는 깊은 상실감(펫로스 증후군)을 이해합니다. 반려동물을 떠나보낸 뒤에도 건강하게 애도 과정을 이겨내실 수 있도록, 전문 심리 상담 센터와의 연계를 통해 보호자님의 마음까지 세심하게 돌봅니다.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 섹션 3: 지도 레이아웃 -->
+<!-- [수정] section 태그에서 data-aos 제거 -->
+<section class="map-section">
+    <!-- [수정] 내부 wrap div에 data-aos 적용 (떨림 방지) -->
+    <div class="wrap map-content"
+         data-aos="fade-up" data-aos-duration="1200" data-aos-delay="100" data-aos-easing="ease-out-cubic">
         <h1 class="title">협력 장례식장 안내</h1>
+
+        <p class="page-description">
+            라스트페이지와 협력하는 전국 반려동물 장례식장 위치를 안내합니다.<br>
+            가까운 장례식장을 찾아보고, 소중한 아이의 마지막을 함께하세요.
+        </p>
 
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="지도 로딩 중..." disabled>
@@ -75,11 +150,21 @@
             </div>
         </div>
     </div>
-</main>
+</section>
 
 <footer>
     대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
 </footer>
+
+<!-- AOS JS 및 설정 -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        once: false, // 반복 실행
+        threshold: 0.3,
+        duration: 800
+    });
+</script>
 
 <script>
     (function () {
@@ -243,44 +328,35 @@
             }
         }
 
-        // --- 4. 지도 실행 (수정된 버전) ---
+        // --- 4. 지도 실행 ---
         async function initMap() {
             try {
-
-                // 1. (추가) 커스텀 마커 아이콘을 정의합니다. (루프 밖에서 한 번만)
-                // (경로 예시: /asset/marker-paw.png)
+                // 커스텀 마커 (SVG)
                 const customIcon = {
-                    url: '/asset/marker-paw.png', // 🐾 발바닥 마커 이미지 경로
-                    size: new naver.maps.Size(32, 32),
-                    scaledSize: new naver.maps.Size(32, 32),
-                    anchor: new naver.maps.Point(16, 32) // (x: 크기의 절반, y: 크기)
+                    url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjE4IiBmaWxsPSIjRjBGMEYwIiBzdHJva2U9IiNFMEUwRTAiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xOS45OTk5IDEyLjAwMDFDMTguNjY2NiAxMi4wMDAxIDE3LjU4MzMgMTMuMDgzNCAxNy41ODMzIDE0LjQxNjhDMTcuNTgzMyAxNS43NTAxIDE4LjY2NjYgMTYuODMzNCAxOS45OTk5IDE2LjgzMzRDMjEuMzMzMyAxNi44MzM0IDIyLjQxNjYgMTUuNzUwMSAyMi40MTY2IDE0LjQxNjhDMjIuNDE2NiAxMy4wODM0IDIxLjMzMzMgMTIuMDAwMSAxOS45OTk5IDEyLjAwMDFaTTE0LjQxNjYgMTYuMDAwMUMxMy4wODMzIDE2LjAwMDEgMTIgMTcuMDgzNCAxMiAxOC40MTY4QzEyIDE5Ljc1MDEgMTMuMDgzMyAyMC44MzM0IDE0LjQxNjYgMjAuODMzNEMxNS43NSAyMC44MzM0IDE2LjgzMzMgMTkuNzUwMSAxNi44MzMzIDE4LjQxNjhDMTYuODMzMyAxNy42ODM0IDE1Ljc1IDE2LjAwMDEgMTQuNDc5OSAxNi4wMDAxWk0yNS41ODMzIDE2LjAwMDFDMjQuMjQ5OSAxNi4wMDAxIDIzLjE2NjYgMTcuMDgzNCAyMy4xNjY2IDE4LjQxNjhDMjMuMTY2NiAxOS43NTAxIDI0LjI0OTkgMjAuODMzNCAyNS41ODMzIDIwLjgzMzRDMjYuOTE2NiAyMC44MzM0IDI4IDE5Ljc1MDEgMjggMTguNDQxNjhDMjggMTcuMDgzNCAyNi45MTY2IDE2LjAwMDEgMjUuNTgzMyAxNi4wMDAxWk0yMC4wMDAxIDE4LjkxNjdDMTcuNzY2NyAxOC45MTY3IDE1Ljk2ODggMjAuNjc2IDE1LjkxODkgMjIuOTA5OUMxNS44NjkgMjUuMTQzOCAxNy42MTg2IDI2Ljk2MzQgMTkuODUyNSAyNy4wMTMzQzIyLjA4NjQgMjcuMDYzMiAyMy45MDYgMjUuMzEzNSAyMy45NTU5IDIzLjA3OTZDMjQuMDA1OCAyMC44NDU3IDIyLjI1NjIgMTkuMDI2MSAyMC4wMDAxIDE4LjkxNjdaiIgZmlsbD0iI0EyN0I1QyIvPgo8L3N2Zz4=',
+                    size: new naver.maps.Size(40, 40),
+                    scaledSize: new naver.maps.Size(40, 40),
+                    anchor: new naver.maps.Point(20, 40)
                 };
 
                 for (const place of PLACES) {
                     try {
-                        await geocodeAddress(place); // 주소 -> 좌표 변환
-
+                        await geocodeAddress(place);
                         if (place.coords) {
-                            // 2. (수정) 마커를 'map: map'으로 즉시 지도에 추가
                             const marker = new naver.maps.Marker({
                                 position: place.coords,
-                                map: map, // 👈 즉시 지도에 표시
+                                map: map,
                                 title: place.name,
-                                icon: customIcon // 👈 커스텀 아이콘 적용
+                                icon: customIcon
                             });
-
-                            // 마커 클릭 이벤트 (정보창)
                             naver.maps.Event.addListener(marker, 'click', function() {
                                 infoWindow.setContent(createInfoWindowContent(place));
                                 infoWindow.open(map, marker);
                                 highlightActiveCard(place.id);
                             });
-
-                            // 3. (수정) 목록 카드를 'block'으로 즉시 표시
                             const card = createPlaceCardElement(place);
-                            card.style.display = 'block'; // 👈 즉시 목록에 표시
+                            card.style.display = 'block';
                             placeListEl.appendChild(card);
-
                             markers[place.id] = marker;
                             placeCards[place.id] = card;
                         }
@@ -289,9 +365,6 @@
                     }
                 }
 
-                // 4. (삭제) 필터링 관련 이벤트 리스너 모두 제거
-
-                // 5. 검색 버튼 및 지도 클릭 이벤트는 그대로 유지
                 searchButton.addEventListener('click', handleSearch);
                 searchInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') handleSearch();
@@ -301,11 +374,10 @@
                     $$(".place-card").forEach(card => card.classList.remove("active"));
                 });
 
-                // 6. (모든 작업 완료 후) 검색창 활성화
                 searchInput.disabled = false;
                 searchButton.disabled = false;
                 searchInput.placeholder = "장례식장 이름으로 검색...";
-                console.log("지도 및 장소 로딩 완료 (모든 마커 즉시 표시).");
+                console.log("지도 로딩 완료.");
 
             } catch (error) {
                 console.error("지도 초기화 중 오류 발생:", error);
@@ -314,7 +386,6 @@
             }
         }
 
-        // 지도 초기화 실행!
         initMap();
     });
     /*]]>*/
