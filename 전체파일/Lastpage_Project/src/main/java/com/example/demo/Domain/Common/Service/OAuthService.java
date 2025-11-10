@@ -25,7 +25,7 @@ public class OAuthService {
     private String kakao_client_secret="AiGd2ZsH9J5mMhv4eLqc3yydHPLPtwoA";
     private String naver_client_id="JpAxufwm7yy8tFcT2Rmz";
     private String naver_client_secret="kyqlYdOKZd";
-
+   
 
 
 

@@ -1,0 +1,9 @@
+   body { background-color: #f8f5f0; font-family: "Pretendard", sans-serif; }
+        .payment-container { max-width: 720px; margin: 80px auto; background: #fff; padding: 40px; border-radius: 16px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+        .payment-method { display: flex; justify-content: space-around; margin-bottom: 25px; }
+        .payment-method button { flex: 1; margin: 0 5px; padding: 12px; border:1.5px solid #ccc; border-radius:10px; background:#f9f9f9; font-weight:600; cursor:pointer; transition:0.3s; }
+        .payment-method button.active { border-color:#73553c; color:#fff; background:#73553c; }
+        .payment-section { display:none; }
+        .payment-section.active { display:block; }
+        .btn-pay { width:100%; margin-top:30px; background-color:#73553c; color:#fff; font-weight:bold; padding:14px; border:none; border-radius:8px; transition:background 0.2s; }
+        .btn-pay:hover { background-color:#5b4330; }
