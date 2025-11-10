@@ -683,7 +683,7 @@
         const isUpdate = !!window.RESERVATION_ID;
 
         // 3-2. 모드에 따라 URL 분기
-        const url = isUpdate ? `/goods/update/${window.RESERVATION_ID}` : '/reserve/save';
+        const url = isUpdate ? `/goods-reserve/update/${window.RESERVATION_ID}` : '/goods-reserve/save';
         const method = 'POST'; // HTTP 메서드는 POST로 동일하게 사용
 
         // fetch로 전송

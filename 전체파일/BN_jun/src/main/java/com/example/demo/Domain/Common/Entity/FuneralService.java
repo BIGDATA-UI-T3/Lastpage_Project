@@ -9,7 +9,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "funeral_place")
-public class FuneralPlace {
+public class FuneralService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,10 +35,10 @@ public class FuneralPlace {
     private Double longitude;   // 경도 (X 좌표)
 
     // JPA를 위한 기본 생성자
-    public FuneralPlace() {}
+    public FuneralService() {}
 
     // DB 데이터 초기화를 위한 생성자
-    public FuneralPlace(String name, String address, String homepageUrl, String phone, List<String> services) {
+    public FuneralService(String name, String address, String homepageUrl, String phone, List<String> services) {
         this.name = name;
         this.address = address;
         this.homepageUrl = homepageUrl;

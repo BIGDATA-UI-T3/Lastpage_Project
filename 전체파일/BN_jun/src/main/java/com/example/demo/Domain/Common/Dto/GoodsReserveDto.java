@@ -1,39 +1,10 @@
-//package com.example.demo.Domain.Common.Dto;
-//
-//import lombok.Data;
-//
-//@Data
-//public class ReserveDto{
-//    private String ownerName;
-//    private String ownerPhone;
-//    private String ownerEmail;
-//    private String ownerAddr;
-//    private String petName;
-//    private String petType;
-//    private String petBreed;
-//    private String petWeight;
-//
-//    private String passedAt;
-//    private String place;
-//    private String goodsDate;
-//    private String type;
-//    private String ash;
-//    private String pickup;
-//    private String pickupAddr;
-//    private String pickupTime;
-//    private String time;
-//
-//    private String memo;
-//
-//}
-
 package com.example.demo.Domain.Common.Dto;
 
 import lombok.Data;
 import java.util.List; // List 타입을 위해 추가
 
 @Data
-public class ReserveDto{
+public class GoodsReserveDto {
     // === 기존 필드 ===
     private String ownerName;
     private String ownerPhone;
