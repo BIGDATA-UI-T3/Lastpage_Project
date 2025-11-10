@@ -39,4 +39,12 @@ public class Member {
     private boolean phoneVerified; // 인증 완료 여부
 
     private String provider;
+
+    // 커뮤니티 프로필 설정용
+    @Column(nullable = true, length = 300)
+    private String bio;     // 소개글
+
+    @Column(nullable = true)
+    private String avatarUrl; // 프로필 이미지 경로
+
 }

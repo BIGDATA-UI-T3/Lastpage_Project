@@ -21,6 +21,9 @@ public class MemberDto {
     private String phone;
     private String authCode; // 인증번호 확인용
 
+    private String bio;
+    private String avatarUrl;
+
     // Member 엔티티를 받아 DTO로 변환하는 생성자
     public MemberDto(Member member) {
         this.name = member.getName();
@@ -29,6 +32,8 @@ public class MemberDto {
         this.birth = member.getBirth();
         this.gender = member.getGender();
         this.phone = member.getPhone();
+        this.bio = member.getBio();
+        this.avatarUrl = member.getAvatarUrl();
     }
 }
 

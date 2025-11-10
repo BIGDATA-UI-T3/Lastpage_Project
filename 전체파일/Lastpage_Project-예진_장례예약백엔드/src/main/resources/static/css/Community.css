@@ -117,7 +117,7 @@ nav ul li>ul li>a:hover {
 
 
 /* ================================================== */
-/* Community.css (수정 및 개선된 코드)                */
+/* community.css (수정 및 개선된 코드)                */
 /* ================================================== */
 
 /* --- 기본 스타일 및 변수 --- */
@@ -272,8 +272,6 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 1px solid var(--border-color);
 }
-
-
 
 .profile-card .avatar {
     font-size: 80px !important;
