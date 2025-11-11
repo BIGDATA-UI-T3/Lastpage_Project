@@ -41,10 +41,5 @@ public class CommunityController {
         return dto;
     }
 
-    @GetMapping("/comm_post")
-    public String writePage() {
-        return "comm_post"; // comm_post.html
-    }
-
 
 }
