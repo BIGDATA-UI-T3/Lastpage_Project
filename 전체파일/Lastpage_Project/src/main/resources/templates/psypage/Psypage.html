@@ -18,50 +18,9 @@
 </head>
 
 <body>
-    <!-- 헤더 -->
-    <div class="header-wrapper">
-        <!-- 헤더 -->
-        <header>
-            <div class="logo">
-                <a href="#"><img src="../Asset/LastPage로고_투명.png" alt="로고" /></a>
-            </div>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="#">홈</a>
-                        <ul>
-                            <li><a href="#">인사말</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="#">장례서비스</a></li>
-                    <li><a href="#">Ourpage</a></li>
-                    <li>
-                        <a href="#">심리상담</a>
-                        <ul>
-                            <li><a href="#">상담예약</a></li>
-                            <li><a href="#">예약조회</a></li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="#">추모굿즈</a>
-                        <ul>
-                            <li><a href="#">굿즈소개</a></li>
-                            <li><a href="#">굿즈예약</a></li>
-                            <li><a href="#">예약조회</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">마이페이지</a></li>
-                    <li><a href="#">고객센터</a></li>
-                </ul>
-            </nav>
-            <div class="auth">
-                <a href="#">로그인</a>
-                <a href="#">회원가입</a>
-            </div>
-        </header>
-    </div>
+<div class="header-wrapper">
+    <div id="header-container"></div>
+</div>
     <!-- 배너 -->
     <section class="banner" role="img" aria-label="따뜻한 펫로스 심리상담 배너 이미지">
         <div class="inner">
@@ -102,7 +61,7 @@
                 <div class="slide">
                     <div class="quote">
                         <p>“상담사님의 과제와 호흡법이 큰 도움이 됐고, 가족과도 서로 돌볼 수 있게 되었어요.”</p>
-                        <div class="meta">— 최지원 (3회기 진행)</div>
+                        <div class="meta">— 심예진 (3회기 진행)</div>
                     </div>
                 </div>
             </div>
@@ -141,9 +100,9 @@
                 </div>
             </article>
             <article class="card">
-                <div class="avatar">JW</div>
+                <div class="avatar">YJ</div>
                 <div>
-                    <h3>최지원 상담사</h3>
+                    <h3>심예진 상담사</h3>
                     <div class="strengths">우울/무기력 · 일상회복 계획 · 라이프 리추얼</div>
                     <div class="tags">
                         <span class="tag">애니멀로스 전문</span>
@@ -161,14 +120,14 @@
                 <li>보안 기준 충족 상담 시스템, 익명 닉네임 사용 가능</li>
             </ul>
             <div class="cta">
-                <a class="btn" href="reserve.html" aria-label="상담 예약하기">상담 예약하기</a>
+                <a class="btn" href="/reserve/psy_reserve" aria-label="상담 예약하기">상담 예약하기</a>
             </div>
         </div>
     </section>
 
-    <footer>
-        대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
-    </footer>
+<div id="footer-container"></div>
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
     <script>
         // 섹션 페이드업 등장
         const io = new IntersectionObserver((entries) => {

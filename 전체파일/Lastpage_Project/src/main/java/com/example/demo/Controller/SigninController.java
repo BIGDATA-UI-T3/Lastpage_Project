@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Domain.Common.Entity.Signup;
 import com.example.demo.Domain.Common.Service.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,25 +64,39 @@ public class SigninController {
      * ------------------------------- */
     @PostMapping("/api/loginProc")
     @ResponseBody
-    public ResponseEntity<?> loginRest(@RequestBody Map<String, String> request, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> loginRest(
+            @RequestBody Map<String, String> request,
+            HttpSession session,
+            HttpServletRequest httpRequest) {
+
         String id = request.get("id");
         String password = request.get("password");
 
         try {
+            // 기존 세션 무효화 (보안 강화)
+            if (session != null) {
+                session.invalidate();
+            }
+
+            // 새 세션 생성
+            HttpSession newSession = httpRequest.getSession(true);
+
+            // 사용자 인증
             Signup user = authService.authenticate(id, password);
 
-            // 세션에도 동일하게 저장 (서버 렌더링 페이지 접근 가능)
-            session.setAttribute("loginUser", user);
-            session.setAttribute("userSeq", user.getUserSeq());
-            session.setAttribute("loginEmail", user.getEmailId());
-            session.setAttribute("loginName", user.getName());
+            // 세션 등록 (공용 세션키)
+            newSession.setAttribute("loginUser", user);
 
+            // 응답 데이터 구성
             Map<String, Object> response = new HashMap<>();
             response.put("result", "ok");
-            response.put("userSeq", user.getUserSeq());
-            response.put("id", user.getId());
-            response.put("name", user.getName());
-            response.put("email", user.getEmailId());
+            response.put("message", "로그인 성공");
+            response.put("user", Map.of(
+                    "userSeq", user.getUserSeq(),
+                    "id", user.getId(),
+                    "name", user.getName()
+
+            ));
 
             log.info("[REST 로그인 성공] Id={}, userSeq={}", user.getId(), user.getUserSeq());
             return ResponseEntity.ok(response);
@@ -89,9 +104,20 @@ public class SigninController {
         } catch (IllegalArgumentException e) {
             log.warn("[REST 로그인 실패] {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("result", "fail", "message", e.getMessage()));
+                    .body(Map.of(
+                            "result", "fail",
+                            "message", e.getMessage()
+                    ));
+        } catch (Exception e) {
+            log.error("[REST 로그인 오류]", e);
+            return ResponseEntity.internalServerError()
+                    .body(Map.of(
+                            "result", "error",
+                            "message", "서버 오류가 발생했습니다."
+                    ));
         }
     }
+
 
     /** -------------------------------
      *  로그아웃 처리

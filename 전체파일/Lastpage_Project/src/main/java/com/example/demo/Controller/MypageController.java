@@ -1,8 +1,13 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Domain.Common.Dto.FuneralReserveDto;
+import com.example.demo.Domain.Common.Dto.GoodsReserveDto;
 import com.example.demo.Domain.Common.Dto.PsyReserveDto;
 import com.example.demo.Domain.Common.Dto.SignupDto;
+import com.example.demo.Domain.Common.Entity.GoodsReserve;
 import com.example.demo.Domain.Common.Entity.Signup;
+import com.example.demo.Domain.Common.Service.FuneralReserveService;
+import com.example.demo.Domain.Common.Service.GoodsReserveService;
 import com.example.demo.Domain.Common.Service.PsyReserveService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,12 +16,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 public class MypageController {
 
     private final PsyReserveService psyReserveService;
+    private final GoodsReserveService goodsReserveService;
+    private final FuneralReserveService funeralReserveService;
 
     /** 세션 로그인 사용자 + 예약 정보 로드 */
     @GetMapping("/mypage/Mypage")
@@ -55,14 +66,28 @@ public class MypageController {
         model.addAttribute("userSeq", userSeq);
         model.addAttribute("userType", userType);
         // 예약 정보 로드 (user_seq 기준)
-        PsyReserveDto reserve = psyReserveService.findByUserSeq(userSeq);
+        List<PsyReserveDto> psyReservationList = psyReserveService.findAllByUserSeq(userSeq);
+        model.addAttribute("psyReservationList", psyReservationList);
+        List<GoodsReserveDto> goodsReservationList = goodsReserveService.findAllByUserSeq(userSeq);
+        model.addAttribute("goodsReservationList", goodsReservationList);
+//        FuneralReserveDto funeralReserve = funeralReserveService.findByUserSeq(userSeq);
+//
+//         if (psyReservationList != null) {
+//            log.info("심리상담 예약 로드 완료: {}", psyReservationList);
+//            model.addAttribute("psyReserve", psyReservationList);
+//        } else {
+//            log.info("심리상담 예약 없음: userSeq={}", userSeq);
+//        }
 
-        if (reserve != null) {
-            log.info("예약 정보 로드 완료: {}", reserve);
-            model.addAttribute("reserve", reserve);
-        } else {
-            log.info("해당 user_seq로 예약 정보 없음: {}", userSeq);
-        }
+
+
+//
+//        if (funeralReserve != null) {
+//            log.info("장례 예약 로드 완료: {}", funeralReserve);
+//            model.addAttribute("funeralReserve", funeralReserve);
+//        } else {
+//            log.info("장례 예약 없음: userSeq={}", userSeq);
+//        }
 
         return "mypage/Mypage";
     }

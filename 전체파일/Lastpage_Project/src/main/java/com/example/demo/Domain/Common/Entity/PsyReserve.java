@@ -19,9 +19,10 @@ public class PsyReserve {
 
     /** 회원(FK) */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userSeq", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE) // 조인할 때 만약 회원에서 키값이 날라가면 당연하게 외래키를 사용하는 예약 테이블도 사라져야 함.
-    private Signup user;   // FK로 Signup의 UUID 참조
+    @JoinColumn(name = "user_seq", referencedColumnName = "user_seq", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Signup user;
+
 
     /** 예약 정보 */
     private String name;

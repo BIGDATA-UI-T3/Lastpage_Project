@@ -1,0 +1,19 @@
+<footer xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="footer-container">
+        <div class="footer-links">
+            <a href="/">홈</a> |
+            <a href="/support">고객센터</a> |
+            <a href="/about">회사소개</a>
+        </div>
+
+        <div class="footer-info">
+            <p>© 2025 LastPage. All Rights Reserved.</p>
+        </div>
+
+        <div class="footer-login-status"
+             th:if="${isLoggedIn}"
+             style="font-size: 0.9rem; color: gray;">
+            로그인 상태 유지 중
+        </div>
+    </div>
+</footer>

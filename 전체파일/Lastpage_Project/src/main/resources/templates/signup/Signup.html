@@ -12,26 +12,7 @@
 
 <body>
 <div class="header-wrapper">
-    <header>
-        <div class="logo">
-            <a href="#"><img src="../Asset/LastPage로고_투명.png" alt="로고" /></a>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#">홈</a></li>
-                <li><a href="#">장례서비스</a></li>
-                <li><a href="#">Ourpage</a></li>
-                <li><a href="#">심리상담</a></li>
-                <li><a href="#">추모굿즈</a></li>
-                <li><a href="#">마이페이지</a></li>
-                <li><a href="#">고객센터</a></li>
-            </ul>
-        </nav>
-        <div class="auth">
-            <a href="#">로그인</a>
-            <a href="#">회원가입</a>
-        </div>
-    </header>
+    <div id="header-container"></div>
 </div>
 
 <main class="signup-bg">
@@ -92,7 +73,9 @@
     </div>
 </main>
 
-<footer>© Last Page Project</footer>
+<div id="footer-container"></div>
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
 
 <script>
     let isIdChecked = false;
@@ -204,7 +187,7 @@
       });
 
       if (res.ok) {
-        const userSeq = await res.text();  // 👈 서버 응답 본문
+        const userSeq = await res.text();  //
         console.log('회원가입 성공! userSeq:', userSeq);
         alert('회원가입 성공!');
         window.location.href = `/signin?id=${data.id}&userSeq=${userSeq}`;

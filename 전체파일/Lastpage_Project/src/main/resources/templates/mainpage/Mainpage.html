@@ -12,113 +12,13 @@
     crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/common.css}">
      <link rel="stylesheet" th:href="@{/css/Mainpage.css}">
-<!--    <link rel="stylesheet" href="./common.html">-->
-
-    <style>
-
-
-
-    </style>
-
   <title>반려동물 장례식장</title>
 
 </head>
-<body data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="100" tabindex="0">
-
-  <!-- 사이드 ScrollSpy 배너 -->
-  <div id="list-example" class="list-group">
-    <a class="list-group-item list-group-item-action" href="#Commu-wrapper">Ourpage</a>
-     <a class="list-group-item list-group-item-action" href="#Funeral-wrapper">장례서비스</a>
-    <a class="list-group-item list-group-item-action" href="#Psy-counsel-wrapper">심리치료</a>
-    <a class="list-group-item list-group-item-action" href="#Goods-wrapper">추모물품</a>
-  </div>
-
-  <div class="header-wrapper">
-    <!-- 헤더 -->
-    <header>
-
-    <!-- 햄버거 -->
-     <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <!-- 사이드 메뉴 -->
-  <div class="side-menu" id="sideMenu">
-    <ul>
-      <li><a href="#">홈</a>
-        <ul>
-          <li><a href="#">인사말</a></li>
-        </ul>
-      </li>
-      <li><a href="#">장례서비스</a></li>
-      <li><a href="#">Ourpage</a></li>
-      <li><a href="#">커뮤니티</a></li>
-      <li><a href="#">심리상담</a>
-        <ul>
-          <li><a href="#">상담예약</a></li>
-          <li><a href="#">예약조회</a></li>
-        </ul>
-      </li>
-      <li><a href="#">추모굿즈</a>
-        <ul>
-          <li><a href="#">굿즈소개</a></li>
-          <li><a href="#">굿즈예약</a></li>
-          <li><a href="#">예약조회</a></li>
-        </ul>
-      </li>
-      <li><a href="#">마이페이지</a></li>
-      <li><a href="#">고객센터</a></li>
-    </ul>
-  </div>
-       
-
-  
-
-      <div class="logo">
-        <a href="#"><img src="../Asset/LastPage로고_투명.png" alt="로고" /></a>
-      </div>
-      <nav>
-        <ul>
-          <li>
-            <a href="#">홈</a>
-            <ul>
-              <li><a href="#">인사말</a></li>
-            </ul>
-          </li>
-          
-          <li><a href="#">장례서비스</a></li>
-          <li><a href="#">Ourpage</a></li>
-          <li><a href="#">커뮤니티</a></li>
-          <li>
-            <a href="#">심리상담</a>
-            <ul>
-              <li><a href="#">상담예약</a></li>
-              <li><a href="#">예약조회</a></li>
-            </ul>
-          </li>
-
-          <li>
-            <a href="#">추모굿즈</a>
-            <ul>
-               <li><a href="#">굿즈소개</a></li>
-              <li><a href="#">굿즈예약</a></li>
-              <li><a href="#">예약조회</a></li>
-            </ul>
-          </li>
-          <li><a href="#">마이페이지</a></li>
-          <li><a href="#">고객센터</a></li>
-        </ul>
-      </nav>
-        <div class="auth"
-             th:data-login="${session.loginUser != null ? 'true' : 'false'}"
-             th:data-username="${session.loginUser != null ? session.loginUser.name : ''}">
-            <a href="/signin" class="login-link">로그인</a>
-            <a href="/signup" class="signup-link">회원가입</a>
-      </div>
-    </header>
-
-
+<body>
+<div class="header-wrapper">
+    <div id="header-container"></div>
+</div>
 
     <!-- 슬라이더 -->
      <section id="slider">
@@ -128,9 +28,6 @@
         <img src="../Asset/추모배너이미지6.jpg" alt="슬라이드3" />
       </div>
     </section>
-
-    
-
 
     <!-- 메인 컨텐츠 -->
 <main>
@@ -175,70 +72,17 @@
                 <a href="#" class="btn btn-outline-dark">굿즈 보러가기</a>
             </div>
         </section>
+</main>
 
-  
-    </main>
-
-
-
-    </div>
 
     <!-- 푸터 -->
-    <footer>
-      대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
-    </footer>
-  </div>
+<div id="footer-container"></div>
+
+
+  <script src="/js/header.js"></script>
+  <script src="/js/footer.js"></script>
 
   <script>
-      document.addEventListener("DOMContentLoaded", () => {
-      const authDiv = document.querySelector(".auth");
-      const isLoggedIn = authDiv.dataset.login === "true";
-      const username = authDiv.dataset.username;
-      const loginLink = authDiv.querySelector(".login-link");
-      const signupLink = authDiv.querySelector(".signup-link");
-
-
-
-   if (isLoggedIn) {
-   // 로그인 상태 → "누구누구님 반갑습니다"로 교체
-      loginLink.textContent = `${username}님 반갑습니다.`;
-      signupLink.textContent = "로그아웃";
-            loginLink.href = "/mypage/Mypage";
-            signupLink.href = "/logout";
-
-
-    }
-});
-  (function () {
-    const header = document.querySelector('header');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 200) {
-        header.style.top = '-120px';
-      } else {
-        header.style.top = '0';
-      }
-    });
-  });
-
-  // ScrollSpy 강제 초기화
-  document.addEventListener("DOMContentLoaded", function () {
-    new bootstrap.ScrollSpy(document.body, {
-      target: '#list-example',
-      offset: 100
-    });
-  });
-
-  const hamburger = document.getElementById('hamburger');
-  const sideMenu = document.getElementById('sideMenu');
-
-  hamburger.addEventListener('mouseenter', () => {
-
-    sideMenu.classList.add('open');
-  });
-
-  sideMenu.addEventListener('mouseleave', () => {
-    sideMenu.classList.remove('open');
-  });
   </script>
 </body>
 

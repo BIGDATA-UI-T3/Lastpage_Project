@@ -20,37 +20,11 @@
     <title>마이페이지</title>
 </head>
 
-<body data-bs-offset="100" data-bs-spy="scroll" data-bs-target="#list-example" tabindex="0">
-
-<div class="list-group" id="list-example">
-    <a class="list-group-item list-group-item-action" href="#Funeral-wrapper">장례서비스</a>
-    <a class="list-group-item list-group-item-action" href="#Psy-counsel-wrapper">심리상담</a>
-    <a class="list-group-item list-group-item-action" href="#Goods-wrapper">추모물품</a>
-</div>
+<body>
 
 <div class="header-wrapper">
-    <header>
-        <div class="logo">
-            <a href="#"><img alt="로고" src="../Asset/LastPage로고_투명.png"/></a>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#">홈</a></li>
-                <li><a href="#">장례서비스</a></li>
-                <li><a href="#">Ourpage</a></li>
-                <li><a href="#">심리상담</a></li>
-                <li><a href="#">추모굿즈</a></li>
-                <li><a href="#">마이페이지</a></li>
-                <li><a href="#">고객센터</a></li>
-            </ul>
-        </nav>
-        <div class="auth"
-             th:data-login="${session.loginUser != null ? 'true' : 'false'}"
-             th:data-username="${session.loginUser != null ? session.loginUser.name : ''}">
-            <a href="/signin" class="login-link">로그인</a>
-            <a href="/signup" class="signup-link">회원가입</a>
-        </div>
-    </header>
+    <div id="header-container"></div>
+</div>
 
     <main>
         <div class="hello_yj">
@@ -111,39 +85,93 @@
                 </div>
             </div>
 
-            <div class="reserv-content_yj">
-                <div class="reserv-details_yj" th:if="${reserve != null}">
+            <div class="reserv-content_yj" th:each="reserve : ${psyReservationList}">
+                <div class="reserv-details_yj">
                     <div><span>예약자명</span><p th:text="${reserve.name}"></p></div>
                     <div><span>상담날짜</span><p th:text="${reserve.consultDate}"></p></div>
                     <div><span>상담시간</span><p th:text="${reserve.time}"></p></div>
                     <div><span>상담사</span><p th:text="${reserve.counselor}"></p></div>
                     <div><span>메모</span><p th:text="${reserve.memo}"></p></div>
                     <div><span>예약상태</span><button>예약완료</button></div>
-                </div>
-
-                <div class="reserv-details_yj" th:if="${reserve == null}">
-                    <p style="color: gray; text-align:center; margin-top:10px;">등록된 상담예약이 없습니다.</p>
+                    <div>
+                        <span>예약 관리</span>
+                        <p>
+                            <a th:href="@{'/reserve/psy_reserve?id=' + ${reserve.id}}"
+                               class="btn btn-sm btn-outline-primary psy-edit">
+                                예약 변경
+                            </a>
+                            <a href="#" th:attr="data-id=${reserve.id}"
+                               class="btn btn-sm btn-outline-danger psy-delete"
+                               style="margin-left:5px;">
+                                예약 취소
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
+                <!-- 상담예약 내역이 없을 때 -->
+                <div class="reserv-content_yj" th:if="${#lists.isEmpty(psyReservationList)}">
+                    <p style="color: gray; text-align:center; margin-top:10px;">
+                        등록된 상담예약이 없습니다.
+                    </p>
+                </div>
+
         </div>
 
-        <!-- 굿즈 -->
-        <p class="subtitle_yj">굿즈 구매내역</p>
+
+        <!-- 굿즈 구매내역 -->
         <div class="reserv_yj effect_yj" id="Goods-wrapper">
             <div class="reserv-header_yj">
                 <div class="reserv-left_yj">
-                    <span class="material-symbols-outlined">shoppingmode</span>
-                    <p>구매내역</p>
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <p>굿즈 구매내역</p>
                 </div>
-                <a href="#">구매취소 ></a>
             </div>
 
-            <div class="reserv-content_yj">
+            <!-- 구매 내역 있을 때 -->
+            <div class="reserv-content_yj" th:each="item : ${goodsReservationList}">
                 <div class="reserv-details_yj">
-                    <p style="color: gray; text-align:center; margin-top:10px;">구매내역이 없습니다.</p>
+                    <div>
+                        <span>구매제품</span>
+                        <p th:text="${item.product}"></p>
+                    </div>
+                    <div>
+                        <span>수량</span>
+                        <p th:text="${item.quantity}"></p>
+                    </div>
+                    <div>
+                        <span>완성 희망일</span>
+                        <p th:text="${item.targetDate}"></p>
+                    </div>
+                    <div>
+                        <span>요청사항</span>
+                        <p th:text="${item.memo}"></p>
+                    </div>
+                    <div>
+                        <span>예약 관리</span>
+                        <p>
+                            <!-- 예약 수정 버튼 -->
+                            <a th:href="@{'/reserve/goods_reserve?id=' + ${item.id}}"
+                               class="btn btn-sm btn-outline-primary goods-edit">
+                                예약 변경
+                            </a>
+
+                            <!-- 예약 삭제 버튼 -->
+                            <a href="#" th:attr="data-id=${item.id}" class="btn btn-sm btn-outline-danger goods-delete" style="margin-left:5px;">
+                                예약 취소
+                            </a>
+
+                        </p>
+                    </div>
                 </div>
             </div>
+
+            <!-- 구매 내역 없을 때 -->
+            <div class="reserv-content_yj" th:if="${#lists.isEmpty(goodsReservationList)}">
+                <p style="text-align: center; padding: 20px;">구매 내역이 없습니다.</p>
+            </div>
         </div>
+
 
         <!-- 서비스 바로가기 -->
         <p class="subtitle_yj">서비스 바로가기</p>
@@ -156,7 +184,7 @@
                 <div class="text_yj">회원정보수정</div>
             </a>
             <!-- 1:1문의 페이지 추후 이동 -->
-            <a href="" class="direct_yj">
+            <a href="/supportService" class="direct_yj">
                     <span class="material-symbols-outlined">
                         contact_support
                     </span>
@@ -165,39 +193,12 @@
         </div>
     </main>
 
-    <footer>대충 연락처 / GitHub 주소 / 이메일 등 입력 예정.</footer>
-</div>
+<div id="footer-container"></div>
 
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const authDiv = document.querySelector(".auth");
-      const isLoggedIn = authDiv?.dataset.login === "true";
-      const username = authDiv?.dataset.username;
-      const loginLink = authDiv?.querySelector(".login-link");
-      const signupLink = authDiv?.querySelector(".signup-link");
-
-      // 로그인 상태 표시
-      if (isLoggedIn && loginLink && signupLink) {
-        loginLink.textContent = `${username}님 반갑습니다.`;
-        signupLink.textContent = "로그아웃";
-        loginLink.href = "/mypage/Mypage";
-        signupLink.href = "/logout";
-      }
-
-      // 회원정보 수정 후 이름 갱신 (localStorage 사용)
-      const updatedName = localStorage.getItem("updatedUserName");
-      if (updatedName && loginLink) {
-        loginLink.textContent = `${updatedName}님 반갑습니다.`;
-        localStorage.removeItem("updatedUserName");
-      }
-
-      //  스크롤 시 헤더 애니메이션
-      const header = document.querySelector("header");
-      if (header) {
-        window.addEventListener("scroll", () => {
-          header.style.top = window.scrollY > 200 ? "-120px" : "0";
-        });
-      }
 
       // 인삿말 메시지
       const hours = new Date().getHours();
@@ -236,6 +237,22 @@
           const res = await fetch(`/reserve/psy_reserve/${id}`, { method: "DELETE" });
           if (res.ok) {
             alert("상담 예약이 삭제되었습니다.");
+            location.reload();
+          } else {
+            alert((await res.text()) || "삭제 중 오류가 발생했습니다.");
+          }
+        });
+      });
+
+      //굿즈 예약 삭제 기능
+      document.querySelectorAll(".goods-delete").forEach(btn => {
+        btn.addEventListener("click", async e => {
+          e.preventDefault();
+          if (!confirm("굿즈 예약을 삭제하시겠습니까?")) return;
+          const id = btn.dataset.id;
+          const res = await fetch(`/reserve/goods_reserve/${id}`, { method: "DELETE" });
+          if (res.ok) {
+            alert("굿즈 예약이 삭제되었습니다.");
             location.reload();
           } else {
             alert((await res.text()) || "삭제 중 오류가 발생했습니다.");

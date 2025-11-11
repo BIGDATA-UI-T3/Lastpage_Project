@@ -5,6 +5,7 @@ import com.example.demo.Domain.Common.Entity.Signup;
 import com.example.demo.Domain.Common.Service.EmailService;
 import com.example.demo.Domain.Common.Service.SignupService;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -60,11 +61,10 @@ public class SignupController {
         return ResponseEntity.ok(result ? "success" : "fail");
     }
 
-    /** 회원정보 저장 (일반 + 소셜 통합) */
     @ResponseBody
     @PostMapping("/userinfoSave")
-
-    public ResponseEntity<String> userinfoSave(@RequestBody SignupDto dto) {
+    public ResponseEntity<String> userinfoSave(@RequestBody SignupDto dto,
+                                               HttpSession session) { // 세션 주입 추가
         log.info("받은 회원가입 요청: {}", dto);
         try {
             if (dto.getProvider() == null) {
@@ -73,18 +73,15 @@ public class SignupController {
                 String pw = dto.getPassword() != null ? dto.getPassword().trim() : "";
                 String cpw = dto.getConfirm_password() != null ? dto.getConfirm_password().trim() : "";
 
-                // 비밀번호 입력 확인
                 if (pw.isEmpty()) {
                     return ResponseEntity.badRequest().body("비밀번호는 필수 입력값입니다.");
                 }
 
-                // 비밀번호 형식 검증
                 boolean valid = pw.length() >= 9 && pw.matches(".*[A-Z].*") && pw.matches(".*[!@#$%^&*].*");
                 if (!valid) {
                     return ResponseEntity.badRequest().body("비밀번호는 대문자 1개 이상, 특수문자 1개 이상 포함, 최소 9자 이상이어야 합니다.");
                 }
 
-                // 비밀번호 일치 확인 (인코딩 전)
                 if (!pw.equals(cpw)) {
                     return ResponseEntity.badRequest().body("비밀번호 확인이 일치하지 않습니다.");
                 }
@@ -92,9 +89,14 @@ public class SignupController {
                 log.info("[소셜 회원가입 요청] Provider: {} / ProviderId: {}", dto.getProvider(), dto.getProviderId());
             }
 
-            //서비스로 전달 (여기서 인코딩 및 DB 저장)
+            // 회원정보 저장
             Signup saved = signupService.saveUserInfo(dto);
             log.info("회원가입 완료! user_seq={}", saved.getUserSeq());
+
+            //  세션에 로그인 사용자 저장 (자동 로그인 효과)
+            session.setAttribute("loginUser", saved);
+            log.info("세션 등록 완료 → {}", saved.getName());
+
             return ResponseEntity.ok(saved.getUserSeq());
 
         } catch (IllegalArgumentException e) {
@@ -103,7 +105,6 @@ public class SignupController {
 
         } catch (Exception e) {
             log.error("회원가입 처리 중 오류 발생", e);
-
             return ResponseEntity.internalServerError().body("회원가입 실패");
         }
     }

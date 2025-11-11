@@ -1,0 +1,235 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+
+  // ------------------------------
+  // 1) 상태 객체 & 헬퍼 함수
+  // ------------------------------
+  const state = {
+    name: "", birth: "", gender: "", phone: "", email: "", address: "",
+    consultDate: "", time: "", counselor: "", memo: ""
+  };
+  const qs = s => document.querySelector(s);
+  const qsa = s => [...document.querySelectorAll(s)];
+
+  // ------------------------------
+  // 2) URL 파라미터 확인 (수정 모드 여부)
+  // ------------------------------
+  const params = new URLSearchParams(window.location.search);
+  const reserveId = params.get("id");
+  if (reserveId) {
+    state.id = reserveId;
+    qs("#formTitle").textContent = "심리상담 예약 수정";
+    qs("#finalTitle").textContent = "예약 수정이 완료되었습니다.";
+  }
+
+  // ------------------------------
+  // 3) 날짜 제한 설정
+  // ------------------------------
+  (function setDateLimits() {
+    const today = new Date();
+    qs('#birth').max = today.toISOString().slice(0, 10);
+    qs('#consultDate').min = today.toISOString().slice(0, 10);
+  })();
+
+  // ------------------------------
+  // 4) 시간 슬롯 빌드
+  // ------------------------------
+  const timeWrap = qs('#timeSlots');
+  let selectedBtn = null;
+  (function buildSlots() {
+    for (let h = 10; h <= 18; h++) {
+      const from = String(h).padStart(2, '0') + ':00';
+      const to = String(h + 1).padStart(2, '0') + ':00';
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'slot';
+      b.textContent = `${from} - ${to}`;
+      b.dataset.value = `${from}-${to}`;
+      b.addEventListener('click', () => {
+        if (selectedBtn) selectedBtn.classList.remove('active');
+        b.classList.add('active');
+        selectedBtn = b;
+        state.time = b.dataset.value;
+        validateStep2();
+      });
+      timeWrap.appendChild(b);
+    }
+  })();
+
+  // ------------------------------
+  // 5) 수정 모드 데이터 불러오기
+  // ------------------------------
+  if (state.id) {
+    fetch(`/api/psy_reserve/${state.id}`)
+      .then(res => res.json())
+      .then(data => {
+        Object.assign(state, data);
+        fillForm(data);
+      })
+      .catch(err => console.error("예약 정보 불러오기 실패:", err));
+  }
+
+  // ------------------------------
+  // 6) 1단계 입력 검증
+  // ------------------------------
+  const requireFilled = () => {
+    const name = qs('#name').value.trim();
+    const birth = qs('#birth').value;
+    const gender = qs('#gender').value;
+    const phone = qs('#phone').value.replace(/\D/g, '');
+    const email = qs('#email').value.trim();
+    const address = qs('#address').value.trim();
+    const validEmail = !!email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const validPhone = phone.length >= 10;
+    const all = name && birth && gender && validPhone && validEmail && address;
+    qs('#next1').disabled = !all;
+
+    if (all) Object.assign(state, { name, birth, gender, phone, email, address });
+  };
+  qsa('#step1 input, #step1 select').forEach(el => el.addEventListener('input', requireFilled));
+  requireFilled();
+
+  // ------------------------------
+  // 7) 2단계 검증
+  // ------------------------------
+  function validateStep2() {
+    const date = qs('#consultDate').value;
+    const counselor = qs('#counselor').value;
+    const ok = !!date && !!state.time && !!counselor;
+    qs('#next2').disabled = !ok;
+    if (ok) Object.assign(state, { consultDate: date, counselor });
+  }
+  qsa('#consultDate, #counselor').forEach(el => el.addEventListener('input', validateStep2));
+
+  // ------------------------------
+  // 8) 메모 카운트
+  // ------------------------------
+  const memoEl = qs('#memo');
+  const memoCount = qs('#memoCount');
+  memoEl.addEventListener('input', () => {
+    memoCount.textContent = memoEl.value.length;
+    state.memo = memoEl.value;
+  });
+
+  // ------------------------------
+  // 9) 단계 이동
+  // ------------------------------
+  const goto = (n) => {
+    qsa('.step').forEach((el, i) => el.classList.toggle('active', i === n - 1));
+    qsa('.step-dot').forEach((d, i) => d.classList.toggle('active', i <= n - 1));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (n === 3) renderSummary();
+    if (n === 4) renderFinal();
+  };
+  qs('#next1').addEventListener('click', () => goto(2));
+  qs('#prev2').addEventListener('click', () => goto(1));
+  qs('#next2').addEventListener('click', () => goto(3));
+  qs('#prev3').addEventListener('click', () => goto(2));
+  qs('#next3').addEventListener('click', () => goto(4));
+  qs('#prev4').addEventListener('click', () => goto(3));
+
+  // ------------------------------
+  // 10) 체크박스 제어
+  // ------------------------------
+  const chk = qs('#confirmChk');
+  chk.addEventListener('change', () => qs('#next3').disabled = !chk.checked);
+
+  // ------------------------------
+  // 11) 요약 렌더링
+  // ------------------------------
+  function renderSummary() {
+    const s = qs('#summary');
+    s.innerHTML = `
+      <div><strong>예약자명</strong> : ${state.name}</div>
+      <div><strong>생년월일</strong> : ${state.birth}</div>
+      <div><strong>성별</strong> : ${state.gender}</div>
+      <div><strong>휴대폰</strong> : ${state.phone}</div>
+      <div><strong>이메일</strong> : ${state.email}</div>
+      <div><strong>주소</strong> : ${state.address}</div>
+      <hr style="border:none;border-top:1px solid #eee;margin:10px 0">
+      <div><strong>상담 날짜</strong> : ${state.consultDate}</div>
+      <div><strong>상담 시간</strong> : ${state.time}</div>
+      <div><strong>상담사</strong> : ${state.counselor}</div>
+      <div><strong>메모</strong> : ${state.memo ? state.memo.replace(/\n/g, '<br>') : '-'}</div>
+    `;
+  }
+
+  // ------------------------------
+  // 12) 수정 모드 폼 채우기
+  // ------------------------------
+  function fillForm(data) {
+    qs('#name').value = data.name || "";
+    qs('#birth').value = data.birth || "";
+    qs('#gender').value = data.gender || "";
+    qs('#phone').value = data.phone || "";
+    qs('#email').value = data.email || "";
+    qs('#address').value = data.address || "";
+    qs('#consultDate').value = data.consultDate || "";
+    qs('#counselor').value = data.counselor || "";
+    qs('#memo').value = data.memo || "";
+    if (data.time) {
+      const btn = [...document.querySelectorAll('.slot')]
+        .find(b => b.dataset.value === data.time);
+      if (btn) {
+        btn.classList.add('active');
+        selectedBtn = btn;
+      }
+    }
+    requireFilled();
+    validateStep2();
+  }
+
+  // ------------------------------
+  // 13) 최종 안내 출력
+  // ------------------------------
+  function renderFinal() {
+    const f = qs('#finalSummary');
+    f.innerHTML = `
+      <div><strong>${state.name}</strong> 님의 ${state.id ? '예약이 수정되었습니다.' : '예약 요청이 접수되었습니다.'}</div>
+      <div class="muted">상담일시: ${state.consultDate} ${state.time}, 상담사: ${state.counselor}</div>
+    `;
+  }
+
+  // ------------------------------
+  // 14) 제출 (REST API)
+  // ------------------------------
+  qs('#submitBtn').addEventListener('click', async () => {
+    const data = { ...state };
+
+    let userSeq = document.body.dataset.userseq || localStorage.getItem('userSeq');
+    if (!userSeq) {
+      alert('로그인 정보가 유효하지 않습니다. 다시 로그인해주세요.');
+      window.location.href = '/signin';
+      return;
+    }
+    data.userSeq = userSeq;
+
+    const url = data.id ? `/reserve/psy_reserve/${data.id}` : '/reserve/save1';
+    const method = data.id ? 'PUT' : 'POST';
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        alert(data.id ? '예약이 성공적으로 수정되었습니다!' : '예약이 성공적으로 저장되었습니다!');
+        window.location.href = `/mypage/Mypage?userSeq=${userSeq}`;
+      } else {
+        const errorText = await res.text();
+        console.error('서버 오류 응답:', errorText);
+        alert('저장 중 오류가 발생했습니다.');
+      }
+    } catch (err) {
+      console.error('서버 통신 오류:', err);
+      alert('서버 통신 중 오류가 발생했습니다.');
+    }
+  });
+
+  // ------------------------------
+  // 초기 포커스
+  // ------------------------------
+  qs('#name').focus();
+});

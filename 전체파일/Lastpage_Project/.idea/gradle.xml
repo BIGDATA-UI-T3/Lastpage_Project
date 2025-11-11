@@ -10,7 +10,7 @@
         <option name="gradleJvm" value="21" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/../../../../../손보금/Lastpage-Project/Lastpage_Project/전체파일/Lastpage_Project" />
+            <option value="$PROJECT_DIR$" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="true" />

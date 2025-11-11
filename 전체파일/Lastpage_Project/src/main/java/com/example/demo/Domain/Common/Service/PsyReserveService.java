@@ -1,6 +1,8 @@
 package com.example.demo.Domain.Common.Service;
 
+import com.example.demo.Domain.Common.Dto.GoodsReserveDto;
 import com.example.demo.Domain.Common.Dto.PsyReserveDto;
+import com.example.demo.Domain.Common.Entity.GoodsReserve;
 import com.example.demo.Domain.Common.Entity.PsyReserve;
 import com.example.demo.Domain.Common.Entity.Signup;
 import com.example.demo.Repository.PsyReserveRepository;
@@ -10,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -109,18 +112,18 @@ public class PsyReserveService {
         return toDto(result.get());
     }
 
-    /** ------------------------------
-     *  user_seq 기준 다건 예약 조회 (마이페이지용)
-     * ------------------------------ */
-//    public List<PsyReserveDto> findAllByUserSeq(String userSeq) {
-//        List<PsyReserve> list = repository.findAllByUser_UserSeq(userSeq);
-//        if (list.isEmpty()) {
-//            log.info("[예약 조회] 해당 user_seq로 예약 없음: {}", userSeq);
-//            return List.of();
-//        }
-//        return list.stream().map(this::toDto).collect(Collectors.toList());
-//    }
-
+//    /** ------------------------------
+//     *  user_seq 기준 다건 예약 조회 (마이페이지용)
+//     * ------------------------------ */
+public List<PsyReserveDto> findAllByUserSeq(String userSeq) {
+    List<PsyReserve> list = repository.findAllByUser_UserSeq(userSeq);
+    if (list.isEmpty()) {
+        log.info("[심리 예약 조회] 해당 user_seq로 예약 없음: {}", userSeq);
+        return Collections.emptyList();
+    }
+    log.info("[심리 예약 조회 완료] user_seq={}, {}건", userSeq, list.size());
+    return list.stream().map(this::toDto).collect(Collectors.toList());
+}
 
     /** ------------------------------
      *  ID 기준 예약 조회 (수정폼 진입용)
