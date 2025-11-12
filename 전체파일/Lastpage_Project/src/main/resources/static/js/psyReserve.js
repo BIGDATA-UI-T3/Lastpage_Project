@@ -196,6 +196,9 @@ document.addEventListener("DOMContentLoaded", () => {
   qs('#submitBtn').addEventListener('click', async () => {
     const data = { ...state };
 
+    // ------------------------------
+    // 1) 로그인 상태 확인
+    // ------------------------------
     let userSeq = document.body.dataset.userseq || localStorage.getItem('userSeq');
     if (!userSeq) {
       alert('로그인 정보가 유효하지 않습니다. 다시 로그인해주세요.');
@@ -204,15 +207,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     data.userSeq = userSeq;
 
+    // ------------------------------
+    // 2) 요청 URL 및 메서드 결정
+    // ------------------------------
     const url = data.id ? `/reserve/psy_reserve/${data.id}` : '/reserve/save1';
     const method = data.id ? 'PUT' : 'POST';
 
     try {
+      // ------------------------------
+      // 3) 서버로 전송
+      // ------------------------------
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
+
+      // ------------------------------
+      // 4) 응답 상태별 처리
+      // ------------------------------
+      if (res.status === 401) {
+        // 로그인 안 된 상태 → 로그인 페이지로 리다이렉트
+        alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+        window.location.href = '/signin';
+        return;
+      }
 
       if (res.ok) {
         alert(data.id ? '예약이 성공적으로 수정되었습니다!' : '예약이 성공적으로 저장되었습니다!');
@@ -223,6 +242,9 @@ document.addEventListener("DOMContentLoaded", () => {
         alert('저장 중 오류가 발생했습니다.');
       }
     } catch (err) {
+      // ------------------------------
+      // 5) 네트워크 또는 서버 통신 에러
+      // ------------------------------
       console.error('서버 통신 오류:', err);
       alert('서버 통신 중 오류가 발생했습니다.');
     }
@@ -232,4 +254,5 @@ document.addEventListener("DOMContentLoaded", () => {
   // 초기 포커스
   // ------------------------------
   qs('#name').focus();
+
 });

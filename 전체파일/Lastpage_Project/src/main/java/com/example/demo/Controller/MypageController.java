@@ -70,24 +70,9 @@ public class MypageController {
         model.addAttribute("psyReservationList", psyReservationList);
         List<GoodsReserveDto> goodsReservationList = goodsReserveService.findAllByUserSeq(userSeq);
         model.addAttribute("goodsReservationList", goodsReservationList);
-//        FuneralReserveDto funeralReserve = funeralReserveService.findByUserSeq(userSeq);
-//
-//         if (psyReservationList != null) {
-//            log.info("심리상담 예약 로드 완료: {}", psyReservationList);
-//            model.addAttribute("psyReserve", psyReservationList);
-//        } else {
-//            log.info("심리상담 예약 없음: userSeq={}", userSeq);
-//        }
+        List<FuneralReserveDto> funeralReservationList = funeralReserveService.findAllByUserSeq(userSeq);
+        model.addAttribute("funeralReservationList", funeralReservationList);
 
-
-
-//
-//        if (funeralReserve != null) {
-//            log.info("장례 예약 로드 완료: {}", funeralReserve);
-//            model.addAttribute("funeralReserve", funeralReserve);
-//        } else {
-//            log.info("장례 예약 없음: userSeq={}", userSeq);
-//        }
 
         return "mypage/Mypage";
     }

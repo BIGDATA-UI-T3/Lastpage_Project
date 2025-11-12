@@ -1,405 +1,203 @@
-*,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      position: relative;
-      margin: 0;
-    }
-
-
-    /* 헤더 */
-
-    .header-wrapper {
-      width: 100%;
-      margin: 0 auto;
-      padding-top: 120px;
-    }
-
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100px;
-      background-color: #2C3930;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      transition: top 0.3s ease;
-      z-index: 1000;
-    }
-
-    .logo img {
-      width: 60px;
-      height: 60px;
-      display: block;
-    }
-
-    nav {
-      margin: 0 auto;
-      margin-bottom: 0;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 30px;
-      margin-bottom: 0 ;
-    }
-
-    nav ul li {
-      position: relative;
-      cursor: pointer;
-    }
-
-    nav ul li>a {
-      color: #dcd7c9;
-      text-decoration: none;
-      padding: 8px;
-      display: inline-block;
-    }
-    a:hover {
-      color: #fff;
-    }
-
-    /* 드롭다운 */
-    nav ul li>ul {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #3f4f44;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-      list-style: none;
-      padding: 10px 0;
-      min-width: 100px;
-      z-index: 12;
-    }
-
-    nav ul li:hover>ul {
-      display: block;
-    }
-
-    nav ul li>ul li>a {
-      color: #dcd7c9;
-      text-decoration: none;
-      display: block;
-      padding: 8px 15px;
-      text-align: center;
-    }
-
-    nav ul li>ul li>a:hover {
-      color: #a2725c;
-    }
-
-    .auth {
-      display: flex;
-      gap: 15px;
-    }
-
-    .auth a {
-      color: #dcd7c9;
-      text-decoration: none;
-      padding: 8px;
-    }
-
-    
-
-    
-    /* 메인컨텐츠를 스파이하는 사이드 배더 스타일링 */
-main-wrapper {
-      margin-top: 120px;
-    }
-
-    section {
-      height: 700px;
-      padding: 50px;
-      font-size: 24px;
-      border-bottom: 1px solid #ccc;
-
-
-    }
-    
-
-
-    /* 메인컨텐츠를 스파이하는 사이드 배너 */
-    #list-example {
-      position: fixed;
-      top: 40%;
-      right: 20px;
-      transform: translateY(-50%);
-      z-index: 3;
-      width: 120px;
-      background-color: #2C3930;
-
-
-    }
-
-    .list-group-item {
-      position: relative;
-      display: block;
-      padding: .5rem 1rem;
-      color: #212529;
-      text-decoration: none;
-      background-color: #fff;
-      border: 1px solid rgba(0, 0, 0, .125);
-    }
-
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      background-color: #2C3930;
-    }
-
-    .list-group-item.active {
-      z-index: 2;
-      color: #fff;
-      background-color: #2C3930;
-      border-color: #2C3930;
-    }
-
-    .list-group-item-action:focus,
-    .list-group-item-action:hover {
-
-      z-index: 2;
-      color: #fff;
-      background-color: #2C3930;
-      border-color: #2C3930;
-    }
-
-    /* 푸터 */
-    footer {
-      width: 100%;
-      height: 900px;
-      background-color: #2C3930;
-      margin-top: 20px;
-      padding: 20px;
-      color: #fff;
-    }
-
-    @media (max-width : 968px) {
-      header {
-        justify-content: center;
-      }
-
-      nav,
-      .auth {
-        display: none;
-      }
-    }
-
-
-
-
-    /* 최지원회원가입 css */
-
-body {
-  background: #F6F2E7;  /* 베이지 */
-  margin: 0;
-  font-family: 'Noto Sans KR', sans-serif;
-  min-height: 100vh;
+/* ===== 카드형 회원가입 폼 스타일 ===== */
+:root {
+  --bg: #f7f3ea;
+  --card: #ffffff;
+  --border: #e7e1d6;
+  --text: #333;
+  --muted: #888;
+  --accent: #a27b5c;
+  --shadow: 0 8px 24px rgba(0, 0, 0, .08);
+  --radius: 18px;
 }
 
-.signup-bg {
+/* 전체 배경 */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", Arial, "Apple SD Gothic Neo", sans-serif;
+  background: linear-gradient(180deg, #faf7f1, #efe9dd);
+  color: var(--text);
+  margin: 20px;
+  padding: 0;
+}
+
+/* 메인 래퍼 */
+main {
   min-height: 100vh;
-  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 64px 0 64px 0;
+  padding: 48px 16px;
 }
 
+/* 카드 컨테이너 */
 .signup-wrap {
-  width: 100%;
-  max-width: 800px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 32px 0 rgba(100, 100, 100, 0.09);
-  padding: 40px 28px 34px 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: min(800px, 92vw);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 40px 36px;
 }
 
 .signup-title {
-  font-size: 1.33rem;
-  color: #888;
-  font-weight: 700;
-  margin-bottom: 26px;
   text-align: center;
-  letter-spacing: -1px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 28px;
 }
 
-.signup-form-box {
+/* 필드 공통 */
+.signup-form-box input,
+.signup-form-box select {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.signup-form-box input[type="text"],
-.signup-form-box input[type="password"] {
-  width: 100%;
-  padding: 14px 14px;
-  font-size: 1rem;
-  border: 1px solid #e2e2e2;
-  border-radius: 0;
-  box-sizing: border-box;
-  color: #222;
-  background: #fafafa;
-  margin-bottom: -1px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  background: #faf9f7;
+  font-size: 16px;
+  color: var(--text);
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color 0.2s ease;
 }
 
-.signup-form-box input:focus {
-  border: 1.5px solid #836D47;  /* 진한 베이지 브라운 계열 */
+.signup-form-box input:focus,
+.signup-form-box select:focus {
+  border-color: var(--accent);
   background: #fff;
 }
 
-.signup-form-box input::placeholder {
-  color: #b9b9b9;
-  font-size: 1rem;
-  letter-spacing: -0.5px;
-}
-
-/* 각 행(가로묶음) */
+/* 각 행 */
 .signup-row {
-  width: 100%;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #e2e2e2;
-  margin-bottom: -1px;
-  background: #fafafa;
-  gap: 0;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
-.email-row input,
-.birth-row input,
-.phone-row input,
-.sms-row input {
-  border: none;
-  border-radius: 0;
-  background: #fafafa;
-  padding: 14px 8px;
-  margin-bottom: 0;
-  font-size: 1rem;
-  box-sizing: border-box;
-  color: #222;
-  min-width: 80px;
+.signup-row input {
+  flex: 1;
 }
 
-
-
-.email-row input:last-child,
-.birth-row input:last-child,
-.phone-row input:last-child,
-.sms-row input:last-child {
-  border-right: none;
+/* 아이디 행 */
+#checkIdBtn, #sendEmailBtn {
+  flex: 0 0 110px;
 }
 
-.at {
-  margin: 0 4px;
+/* 이메일 */
+.email-row .at {
   color: #bababa;
-  font-size: 1rem;
+  font-weight: 500;
 }
 
-.domain-select {
-  padding: 0 8px;
-  border: none;
-  border-left: 1px solid #eee;
-  background: #fafafa;
-  color: #666;
-  font-size: 1rem;
-  outline: none;
-  height: 42px;
+.email-row select {
+  flex: 0 0 150px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #faf9f7;
+  border: 1px solid var(--border);
 }
 
+/* 이메일 인증 */
+.email-verify {
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 생년월일 */
 .birth-row input {
   text-align: center;
-  max-width: 64px;
-  border-right: 1px solid #eee;
-}
-.birth-row input:last-child {
-  border-right: none;
 }
 
+/* 성별 (좌측 정렬) */
 .gender-row {
-  padding: 12px 0 10px 2px;
-  background: #fafafa;
-  border: none;
-  border-bottom: 1px solid #e2e2e2;
-  margin-bottom: -1px;
+  display: flex;
+  justify-content: flex-start;
   gap: 28px;
-  font-size: 1rem;
-  color: #222;
+  color: #555;
+  font-size: 15px;
+  padding-left: 2px;
 }
 
-.gender-row label {
-  font-weight: 400;
-  margin-right: 10px;
-  user-select: none;
+/* 휴대폰 */
+.phone-row input {
+  letter-spacing: 0.3px;
 }
 
-.gender-row input[type="radio"] {
-  margin-right: 6px;
+/* 버튼 스타일 */
+.btn {
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.25s ease;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+
 }
 
-.phone-row,
-.sms-row {
-  gap: 8px;
+.btn-outline-secondary {
+  background: var(--accent);
+  text-color : var(--accent);
+  color: #ffffff;
+  border: 1px solid var(--accent);
 }
 
-.signup-btn {
-  background: #222;
-  color: #fff;
-  border: none;
-  border-radius: 0;
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0 12px;
-  height: 42px;
-  min-width: 94px;
-  cursor: pointer;
-  letter-spacing: 0;
-  transition: background 0.18s;
-  display: inline-block;
+.btn-outline-secondary:hover {
+  background:#ffffff;
+  text-color :var(--accent);
+  color: var(--accent);
+  border :1px solid var(--accent);
 }
-.signup-btn.big {
+
+.btn-primary {
   width: 100%;
-  height: 48px;
-  margin-top: 28px;
-  font-size: 1.07rem;
+  padding: 14px;
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid var(--accent);
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: 1px;
+  border-radius: 10px;
+  margin-top: 10px;
 }
 
-.signup-btn:hover {
-  background: #444;
+.btn-primary:hover {
+  background: #fff;
+  color: var(--accent);
+  border: 1px solid var(--accent);
 }
-.valid-msg { color: green; font-size: 0.7em; margin-left: 5px; }
 
-.invalid-msg { color: red; font-size: 0.7em; margin-left: 5px; }
+/* 오류 메시지 */
+.error,
+#pwMsg,
+#idCheckMsg {
+  font-size: 13px;
+  color: #c0392b;
+  margin-top: -6px;
+  margin-bottom: 10px;
+  min-height: 18px;
+  display: block;
+}
 
-.signup-row { display: flex; gap: 8px; align-items: center; }
+/* 반응형 */
 @media (max-width: 600px) {
   .signup-wrap {
-    padding: 20px 4px 20px 4px;
-    max-width: 98vw;
+    padding: 28px 20px;
   }
-  .signup-title {
-    font-size: 1.1rem;
+
+  .signup-row {
+    flex-wrap: wrap;
   }
-  .signup-btn.big {
-    font-size: 0.97rem;
+
+  .email-row select {
+    flex: 1 1 100%;
+  }
+
+  #checkIdBtn {
+    flex: 1 1 100%;
+  }
+
+  .gender-row {
+    flex-wrap: wrap;
+    gap: 12px;
   }
 }

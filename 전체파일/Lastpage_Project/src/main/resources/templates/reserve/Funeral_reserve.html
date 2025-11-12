@@ -17,63 +17,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <!-- CSS: 공통 먼저, 페이지 전용 나중 -->
+    <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/Funeral_reserve.css}">
 </head>
-<body>
 
-<!-- 헤더(메인과 동일) -->
+<body th:data-userseq="${sessionUserSeq}"
+      th:data-mode="${mode}"
+      th:data-id="${reserve != null ? reserve.id : ''}">
+
+<!-- 헤더 -->
 <div class="header-wrapper">
-    <header>
-        <div class="logo">
-            <a href="#"><img src="../Asset/LastPage로고_투명.png" alt="로고" /></a>
-        </div>
-        <nav>
-            <ul>
-                <li>
-                    <a href="#">홈</a>
-                    <ul><li><a href="#">인사말</a></li></ul>
-                </li>
-                <li><a href="#">장례서비스</a></li>
-                <li><a href="#">Ourpage</a></li>
-                <li>
-                    <a href="#">심리상담</a>
-                    <ul>
-                        <li><a href="#">상담예약</a></li>
-                        <li><a href="#">예약조회</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">추모굿즈</a>
-                    <ul>
-                        <li><a href="#">굿즈소개</a></li>
-                        <li><a href="#">굿즈예약</a></li>
-                        <li><a href="#">예약조회</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">마이페이지</a></li>
-                <li><a href="#">고객센터</a></li>
-            </ul>
-        </nav>
-        <div class="auth">
-            <a href="#">로그인</a>
-            <a href="#">회원가입</a>
-        </div>
-    </header>
-
-
-    <!-- 배너 -->
-    <section class="banner" role="img" aria-label="추모 굿즈 간편예약 배너">
-        <div class="inner">
-            <h1>사랑을 형태로 남기는 맞춤 제작</h1>
-            <p>유골·모발·발자국 등 소중한 흔적으로 주얼리/액자/레진 오브제를 제작합니다.</p>
-        </div>
-    </section>
+    <div id="header-container"></div>
 </div>
 
-
-<!-- 본문: 장례 예약 폼 -->
 <main>
     <div class="wrap">
         <div class="card">
@@ -84,157 +41,183 @@
                 <div class="step-dot" id="dot4"></div>
             </div>
 
-            <h1 class="title">장례 예약</h1>
+            <h1 class="title" id="formTitle"
+                th:text="${mode == 'edit' ? '장례 예약 수정' : '장례 예약'}">장례 예약</h1>
 
-            <!-- STEP 1 : 신청자 & 반려동물 정보 -->
+            <!-- STEP 1: 신청자 및 반려동물 정보 -->
             <section class="step active" id="step1">
                 <div class="grid">
                     <div>
                         <label class="small">신청자명</label>
-                        <div class="field"><input id="ownerName" type="text" placeholder="홍길동" required></div>
+                        <div class="field">
+                            <input id="ownerName" type="text" placeholder="홍길동"
+                                   th:value="${reserve != null ? reserve.ownerName : ''}" required>
+                        </div>
                     </div>
                     <div>
                         <label class="small">휴대폰번호</label>
-                        <div class="field"><input id="ownerPhone" type="tel" inputmode="numeric" placeholder="01012345678" required></div>
+                        <div class="field">
+                            <input id="ownerPhone" type="tel" inputmode="numeric" placeholder="01012345678"
+                                   th:value="${reserve != null ? reserve.ownerPhone : ''}" required>
+                        </div>
                     </div>
                     <div>
                         <label class="small">이메일</label>
-                        <div class="field"><input id="ownerEmail" type="email" placeholder="name@example.com" required></div>
+                        <div class="field">
+                            <input id="ownerEmail" type="email" placeholder="name@example.com"
+                                   th:value="${reserve != null ? reserve.ownerEmail : ''}" required>
+                        </div>
                     </div>
                     <div>
                         <label class="small">주소</label>
-                        <div class="field"><input id="ownerAddr" type="text" placeholder="시/구/동, 상세 주소" required></div>
+                        <div class="field">
+                            <input id="ownerAddr" type="text" placeholder="시/구/동, 상세 주소"
+                                   th:value="${reserve != null ? reserve.ownerAddr : ''}" required>
+                        </div>
                     </div>
                     <div>
                         <label class="small">반려동물 이름</label>
-                        <div class="field"><input id="petName" type="text" placeholder="모모" required></div>
+                        <div class="field">
+                            <input id="petName" type="text" placeholder="모모"
+                                   th:value="${reserve != null ? reserve.petName : ''}" required>
+                        </div>
                     </div>
-
-                    <!-- 드롭다운: 종류/품종 -->
                     <div>
                         <label class="small">반려동물 종류</label>
                         <div class="field">
                             <select id="petType" required>
                                 <option value="">선택</option>
-                                <option value="dog">개</option>
-                                <option value="cat">고양이</option>
-                                <option value="small">소동물</option>
-                                <option value="other">기타</option>
+                                <option value="dog" th:selected="${reserve != null and reserve.petType == 'dog'}">개</option>
+                                <option value="cat" th:selected="${reserve != null and reserve.petType == 'cat'}">고양이</option>
+                                <option value="small" th:selected="${reserve != null and reserve.petType == 'small'}">소동물</option>
+                                <option value="other" th:selected="${reserve != null and reserve.petType == 'other'}">기타</option>
                             </select>
                         </div>
                     </div>
                     <div>
                         <label class="small">품종</label>
                         <div class="field">
-                            <select id="petBreed" required disabled>
+                            <select id="petBreed" th:disabled="${reserve != null and reserve.petType == 'other'}">
                                 <option value="">종류 선택 먼저</option>
+                                <option th:each="b : ${breeds}" th:value="${b}" th:text="${b}"
+                                        th:selected="${reserve != null and reserve.petBreed == b}"></option>
                             </select>
-                            <input id="petBreedText" type="text" placeholder="직접 입력" style="display:none;">
+                            <input id="petBreedText" type="text" placeholder="직접 입력"
+                                   th:value="${reserve != null and reserve.petType == 'other' ? reserve.petBreed : ''}"
+                                   th:style="${reserve != null and reserve.petType == 'other' ? 'display:block' : 'display:none'}">
                         </div>
                         <small class="muted">※ “기타” 선택 시 품종을 직접 입력하세요.</small>
                     </div>
-
                     <div>
                         <label class="small">체중(kg)</label>
-                        <div class="field"><input id="petWeight" type="number" min="0" step="0.1" placeholder="4.2" required></div>
+                        <div class="field">
+                            <input id="petWeight" type="number" min="0" step="0.1" placeholder="4.2"
+                                   th:value="${reserve != null ? reserve.petWeight : ''}" required>
+                        </div>
                     </div>
                 </div>
-
                 <div class="actions">
-                    <button class="btn secondary" type="button" disabled>이전</button>
+
                     <button id="next1" class="btn primary" type="button" disabled>다음</button>
                 </div>
             </section>
 
-            <!-- STEP 2 : 장례 상세 -->
+            <!-- STEP 2: 장례 상세 -->
             <section class="step" id="step2">
                 <div class="grid">
                     <div>
                         <label class="small">사망 일시</label>
-                        <div class="field"><input id="passedAt" type="datetime-local" required></div>
+                        <div class="field">
+                            <input id="passedAt" type="datetime-local"
+                                   th:value="${reserve != null ? reserve.passedAt : ''}" required>
+                        </div>
                     </div>
-
                     <div>
-                        <label class="small">예약 장소</label>
+                        <label class="small">장례식장 선택</label>
                         <div class="field">
                             <select id="place" required>
-                                <option value="">(도시) 장례식장 선택</option>
-                                <option>(경기 광주) 펫포레스트 경기광주점</option>
-                                <option>(대구) 대구러브펫</option>
-                                <option>(부산 기장) 스타티스</option>
+                                <option value="">장례식장 선택</option>
+                                <option th:selected="${reserve != null and reserve.place == '(경기 광주) 펫포레스트 경기광주점'}">(경기 광주) 펫포레스트 경기광주점</option>
+                                <option th:selected="${reserve != null and reserve.place == '(대구) 대구러브펫'}">(대구) 대구러브펫</option>
+                                <option th:selected="${reserve != null and reserve.place == '(부산 기장) 스타티스'}">(부산 기장) 스타티스</option>
                             </select>
                         </div>
-                        <small class="note">형식 예시: (서울) 서울동물 장례식장</small>
                     </div>
-
                     <div>
                         <label class="small">장례 희망일</label>
-                        <div class="field"><input id="funeralDate" type="date" required></div>
-                        <small class="note">오늘 이후 날짜만 선택</small>
+                        <div class="field">
+                            <input id="funeralDate" type="date"
+                                   th:value="${reserve != null ? reserve.funeralDate : ''}" required>
+                        </div>
                     </div>
-
                     <div>
                         <label class="small">장례 유형</label>
                         <div class="field">
                             <select id="type" required>
                                 <option value="">선택</option>
-                                <option>개별 화장</option>
-                                <option>가족 입회 화장</option>
-                                <option>합동 화장</option>
+                                <option th:selected="${reserve != null and reserve.type == '개별 화장'}">개별 화장</option>
+                                <option th:selected="${reserve != null and reserve.type == '가족 입회 화장'}">가족 입회 화장</option>
+                                <option th:selected="${reserve != null and reserve.type == '합동 화장'}">합동 화장</option>
                             </select>
                         </div>
                     </div>
-
                     <div>
                         <label class="small">유골 처리</label>
                         <div class="field">
                             <select id="ash" required>
                                 <option value="">선택</option>
-                                <option>유골함 보관</option>
-                                <option>추모공간 안치(제휴)</option>
-                                <option>자연장/산골(자가)</option>
-                                <option>기타(메모에 기입)</option>
+                                <option th:selected="${reserve != null and reserve.ash == '유골함 보관'}">유골함 보관</option>
+                                <option th:selected="${reserve != null and reserve.ash == '추모공간 안치(제휴)'}">추모공간 안치(제휴)</option>
+                                <option th:selected="${reserve != null and reserve.ash == '자연장/산골(자가)'}">자연장/산골(자가)</option>
+                                <option th:selected="${reserve != null and reserve.ash == '기타(메모에 기입)'}">기타(메모에 기입)</option>
                             </select>
                         </div>
                     </div>
-
                     <div>
                         <label class="small">운구(픽업)</label>
                         <div class="field">
                             <select id="pickup">
-                                <option selected>직접 방문</option>
-                                <option>운구 요청</option>
+                                <option th:selected="${reserve == null or reserve.pickup == '직접 방문'}">직접 방문</option>
+                                <option th:selected="${reserve != null and reserve.pickup == '운구 요청'}">운구 요청</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <!-- 운구 추가 입력 -->
-                <div class="grid" id="pickupExtra" style="display:none; margin-top:4px">
+                <!-- 운구 요청 세부 -->
+                <div class="grid" id="pickupExtra"
+                     th:style="${reserve != null and reserve.pickup == '운구 요청' ? 'display:grid' : 'display:none'}"
+                     style="display:none; margin-top:4px">
                     <div>
                         <label class="small">운구 주소</label>
-                        <div class="field"><input id="pickupAddr" type="text" placeholder="도로명, 건물명 등 상세 주소"></div>
+                        <div class="field">
+                            <input id="pickupAddr" type="text" placeholder="도로명, 건물명 등 상세 주소"
+                                   th:value="${reserve != null ? reserve.pickupAddr : ''}">
+                        </div>
                     </div>
                     <div>
                         <label class="small">운구 희망 시간</label>
-                        <div class="field"><input id="pickupTime" type="time"></div>
+                        <div class="field">
+                            <input id="pickupTime" type="time"
+                                   th:value="${reserve != null ? reserve.pickupTime : ''}">
+                        </div>
                     </div>
                 </div>
 
+                <!-- 시간 및 메모 -->
                 <div class="grid-1" style="margin-top:10px">
                     <div>
                         <label class="small">희망 시간 (1시간)</label>
-                        <div class="seg">
-                            <button class="seg-btn is-active" type="button" data-seg="am">오전</button>
-                            <button class="seg-btn" type="button" data-seg="pm">오후</button>
-                        </div>
-                        <div id="timeSlots" class="slots" role="listbox" aria-label="시간 선택"></div>
+                        <div id="timeSlots" class="slots"
+                             th:data-time="${reserve != null ? reserve.time : ''}"
+                             role="listbox" aria-label="시간 선택"></div>
                     </div>
-
                     <div>
                         <label class="small">요청사항(선택)</label>
                         <div class="field" style="align-items:start">
-                            <textarea id="memo" rows="4" maxlength="300" placeholder="예: 가족 입회, 이동식 수습 지원 등"></textarea>
+                            <textarea id="memo" rows="4" maxlength="300"
+                                      th:text="${reserve != null ? reserve.memo : ''}"
+                                      placeholder="예: 가족 입회, 이동식 수습 지원 등"></textarea>
                         </div>
                         <div class="count"><span id="memoCount">0</span>/300</div>
                     </div>
@@ -246,7 +229,7 @@
                 </div>
             </section>
 
-            <!-- STEP 3 : 확인 -->
+            <!-- STEP 3: 확인 -->
             <section class="step" id="step3">
                 <div class="grid-1">
                     <div class="field" style="justify-content:center">
@@ -258,269 +241,39 @@
                         <span>입력한 내용이 정확합니다.</span>
                     </label>
                 </div>
-
                 <div class="actions">
                     <button class="btn secondary" type="button" id="prev3">이전</button>
                     <button id="next3" class="btn primary" type="button" disabled>다음</button>
                 </div>
             </section>
 
-            <!-- STEP 4 : 완료 -->
+            <!-- STEP 4: 완료 -->
             <section class="step" id="step4">
                 <div class="grid-1">
                     <div class="field" style="justify-content:center">
-                        <strong>예약 요청이 완료되었습니다.</strong>
+                        <strong id="finalTitle"
+                                th:text="${mode == 'edit' ? '예약 수정이 완료되었습니다.' : '예약 요청이 완료되었습니다.'}">
+                            예약 요청이 완료되었습니다.
+                        </strong>
                     </div>
                     <div class="summary" id="finalSummary"></div>
-                    <small class="muted">※ 실제 제출은 백엔드 API에 연결해 처리하세요.</small>
                 </div>
-
                 <div class="actions">
                     <button class="btn secondary" type="button" id="prev4">이전</button>
-                    <button class="btn" type="button" onclick="submitReserve()">제출하기</button>
+                    <button class="btn primary" id="submitBtn" type="button">제출하기</button>
                 </div>
             </section>
         </div>
     </div>
 </main>
 
-<!-- 푸터(메인과 동일) -->
-<footer>
-    대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
-</footer>
+<!-- 푸터 -->
+<div id="footer-container"></div>
 
-<!-- 공통 스크립트: 헤더 숨김 -->
-<script>
-    (function () {
-        const header = document.querySelector('header');
-        window.addEventListener('scroll', () => {
-            header.style.top = (window.scrollY > 200) ? '-120px' : '0';
-        });
-    })();
-</script>
+<!-- 스크립트 -->
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
+<script src="/js/funeralReserve.js"></script>
 
-<!-- 예약 폼 스크립트 -->
-<script>
-    const $  = s => document.querySelector(s);
-    const $$ = s => Array.from(document.querySelectorAll(s));
-
-    const ST = {
-        ownerName:"", ownerPhone:"", ownerEmail:"", ownerAddr:"",
-        petName:"", petType:"", petBreed:"", petWeight:"",
-        passedAt:"", place:"", funeralDate:"", type:"", ash:"",
-        pickup:"직접 방문", pickupAddr:"", pickupTime:"",
-        time:"", memo:""
-    };
-
-    // 품종 데이터 (필요하면 확장)
-    const BREEDS = {
-        dog: ["말티즈","푸들","시바","리트리버","포메라니안","믹스"],
-        cat: ["코리안숏헤어","페르시안","러시안블루","먼치킨","랙돌","믹스"],
-        small: ["햄스터","토끼","기니피그","패럿","앵무새"]
-    };
-
-    // 날짜 제한
-    (function setLimits(){
-        const t=new Date();
-        const yyyy=t.getFullYear(), mm=String(t.getMonth()+1).padStart(2,'0'), dd=String(t.getDate()).padStart(2,'0');
-        const hh=String(t.getHours()).padStart(2,'0'), mi=String(t.getMinutes()).padStart(2,'0');
-        $('#funeralDate').min = `${yyyy}-${mm}-${dd}`;
-        $('#passedAt').max    = `${yyyy}-${mm}-${dd}T${hh}:${mi}`;
-    })();
-
-    // STEP 이동
-    function gotoStep(n){
-        $$('.step').forEach((el,i)=> el.classList.toggle('active', i===n-1));
-        $$('.step-dot').forEach((d,i)=> d.classList.toggle('active', i<=n-1));
-        window.scrollTo({top:0, behavior:'smooth'});
-        if(n===3) renderSummary();
-        if(n===4) renderFinal();
-    }
-
-    // 종류 선택 시 품종 드롭다운/직접입력 처리
-    const petTypeEl = $('#petType');
-    const petBreedSel = $('#petBreed');
-    const petBreedText = $('#petBreedText');
-
-    petTypeEl.addEventListener('change', () => {
-        const type = petTypeEl.value;
-        ST.petType = type;
-        if(!type){ // 초기화
-            petBreedSel.innerHTML = '<option value="">종류 선택 먼저</option>';
-            petBreedSel.disabled = true;
-            petBreedText.style.display='none';
-            petBreedText.value='';
-            v1(); return;
-        }
-        if(type === 'other'){
-            petBreedSel.disabled = true;
-            petBreedSel.innerHTML = '<option value="">직접 입력</option>';
-            petBreedText.style.display='block';
-            ST.petBreed = petBreedText.value.trim();
-        }else{
-            petBreedSel.disabled = false;
-            petBreedText.style.display='none';
-            petBreedText.value='';
-            petBreedSel.innerHTML = '<option value="">품종 선택</option>' + BREEDS[type].map(b=>`<option>${b}</option>`).join('');
-            ST.petBreed = '';
-        }
-        v1();
-    });
-
-    petBreedSel.addEventListener('change', () => {
-        ST.petBreed = petBreedSel.value;
-        v1();
-    });
-    petBreedText.addEventListener('input', () => {
-        ST.petBreed = petBreedText.value.trim();
-        v1();
-    });
-
-    // STEP1 검증
-    function v1(){
-        const name = $('#ownerName').value.trim();
-        const phone = $('#ownerPhone').value.replace(/\D/g,'');
-        const email = $('#ownerEmail').value.trim();
-        const addr  = $('#ownerAddr').value.trim();
-        const pnm   = $('#petName').value.trim();
-        const pwt   = $('#petWeight').value.trim();
-
-        ST.ownerName=name; ST.ownerPhone=phone; ST.ownerEmail=email; ST.ownerAddr=addr;
-        ST.petName=pnm; ST.petWeight=pwt;
-
-        const emailOK = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        const breedOK = (ST.petType==='other') ? !!ST.petBreed : (!!ST.petType && !!ST.petBreed);
-
-        const ok = name && phone.length>=10 && emailOK && addr && pnm && breedOK && Number(pwt)>=0;
-        $('#next1').disabled = !ok;
-    }
-    $$('#step1 input, #step1 select').forEach(el=> el.addEventListener('input', v1));
-    v1();
-    $('#next1').addEventListener('click', ()=> gotoStep(2));
-
-    // 시간 슬롯
-    const AM = ["07:00","07:30","08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30"];
-    const PM = ["12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00"];
-    let currentSeg='am', selectedBtn=null;
-
-    function buildSlots(){
-        const list = currentSeg==='am' ? AM : PM;
-        const box = $('#timeSlots'); box.innerHTML='';
-        list.forEach(t=>{
-            const b=document.createElement('button');
-            b.type='button'; b.className='slot'; b.textContent=t; b.dataset.value=t;
-            b.addEventListener('click', ()=>{
-                selectedBtn?.classList.remove('active');
-                b.classList.add('active'); selectedBtn=b;
-                ST.time=t; v2();
-            });
-            box.appendChild(b);
-        });
-    }
-    buildSlots();
-    $$('.seg-btn').forEach(b=>{
-        b.addEventListener('click', ()=>{
-            $('.seg-btn.is-active')?.classList.remove('is-active');
-            b.classList.add('is-active');
-            currentSeg=b.dataset.seg; buildSlots();
-        });
-    });
-
-    // 메모
-    $('#memo').addEventListener('input', e=>{
-        $('#memoCount').textContent = e.target.value.length;
-        ST.memo = e.target.value;
-    });
-
-    // 운구 토글
-    $('#pickup').addEventListener('change', ()=>{
-        const need = $('#pickup').value === '운구 요청';
-        $('#pickupExtra').style.display = need ? 'grid' : 'none';
-        if(!need){ $('#pickupAddr').value=''; $('#pickupTime').value=''; }
-        v2();
-    });
-
-    // STEP2 검증
-    function v2(){
-        ST.passedAt = $('#passedAt').value;
-        ST.place    = $('#place').value;
-        ST.funeralDate = $('#funeralDate').value;
-        ST.type     = $('#type').value;
-        ST.ash      = $('#ash').value;
-        ST.pickup   = $('#pickup').value;
-
-        let ok = !!ST.passedAt && !!ST.place && !!ST.funeralDate && !!ST.type && !!ST.ash && !!ST.time;
-
-        if(ST.pickup==='운구 요청'){
-            ST.pickupAddr = $('#pickupAddr').value.trim();
-            ST.pickupTime = $('#pickupTime').value;
-            ok = ok && !!ST.pickupAddr && !!ST.pickupTime;
-        }else{
-            ST.pickupAddr=''; ST.pickupTime='';
-        }
-        $('#next2').disabled = !ok;
-    }
-    $$('#passedAt, #place, #funeralDate, #type, #ash, #pickup, #pickupAddr, #pickupTime').forEach(el=> el.addEventListener('input', v2));
-
-    $('#prev2').addEventListener('click', ()=> gotoStep(1));
-    $('#next2').addEventListener('click', ()=> gotoStep(3));
-
-    // STEP3 요약/완료
-    function renderSummary(){
-        $('#summary').innerHTML = `
-        <div><strong>신청자</strong> : ${ST.ownerName} / ${ST.ownerPhone} / ${ST.ownerEmail}</div>
-        <div><strong>주소</strong> : ${ST.ownerAddr}</div>
-        <div><strong>반려동물</strong> : ${ST.petName} (${ST.petType || '-'} / ${ST.petBreed || '-'}, ${ST.petWeight}kg)</div>
-        <div><strong>사망 일시</strong> : ${ST.passedAt}</div>
-        <hr style="border:none;border-top:1px solid #eee;margin:10px 0">
-        <div><strong>예약 장소</strong> : ${ST.place}</div>
-        <div><strong>장례 유형</strong> : ${ST.type}</div>
-        <div><strong>희망 일시</strong> : ${ST.funeralDate} ${ST.time}</div>
-        <div><strong>유골 처리</strong> : ${ST.ash}</div>
-        <div><strong>운구</strong> : ${ST.pickup}${ST.pickup==='운구 요청' ? ` / ${ST.pickupAddr} (${ST.pickupTime})` : ''}</div>
-        <div><strong>요청사항</strong> : ${ST.memo ? ST.memo.replace(/\n/g,'<br>') : '-'}</div>
-      `;
-    }
-    $('#confirmChk').addEventListener('change', ()=> $('#next3').disabled = !$('#confirmChk').checked);
-    $('#prev3').addEventListener('click', ()=> gotoStep(2));
-    $('#next3').addEventListener('click', ()=> gotoStep(4));
-
-    function renderFinal(){
-        $('#finalSummary').innerHTML = `
-        <div><strong>${ST.ownerName}</strong> 님의 장례 예약 요청이 접수되었습니다.</div>
-        <div class="muted">장소: ${ST.place} · 유형: ${ST.type}</div>
-        <div class="muted">일시: ${ST.funeralDate} ${ST.time}</div>
-      `;
-    }
-
-    // STEP4
-    function submitReserve() {
-        // 기존 alert 유지
-        alert('DB로 예약정보 전송함.');
-
-        // AJAX POST 추가
-        fetch('/reserve/save2', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(ST)
-        })
-            .then(res => {
-                if (!res.ok) throw new Error('예약 저장 실패');
-                return res.json();
-            })
-            .then(data => {
-                console.log('저장 완료', data);
-                renderFinal();
-                gotoStep(4);
-            })
-            .catch(err => {
-                console.error(err);
-                alert('예약 저장 중 오류가 발생했습니다.');
-            });
-    }
-
-    // 초기 포커스
-    $('#ownerName').focus();
-</script>
 </body>
 </html>

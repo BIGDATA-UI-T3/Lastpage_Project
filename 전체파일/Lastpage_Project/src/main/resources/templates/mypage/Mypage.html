@@ -48,27 +48,49 @@
                     <span class="material-symbols-outlined">calendar_month</span>
                     <p>장례예약 내역</p>
                 </div>
+            </div>
 
-                <div th:if="${funeralReserve != null}">
-                    <a href="#" th:attr="data-id=${funeralReserve.id}" class="funeral-edit">수정</a> |
-                    <a href="#" th:attr="data-id=${funeralReserve.id}" class="funeral-delete text-danger">삭제</a>
+            <!-- 예약 목록이 있을 때 -->
+            <div class="reserv-content_yj" th:each="funeral : ${funeralReservationList}">
+                <div class="reserv-details_yj">
+                    <div><span>신청자명</span><p th:text="${funeral.ownerName}"></p></div>
+                    <div><span>장례일</span><p th:text="${funeral.funeralDate}"></p></div>
+                    <div><span>시간</span><p th:text="${funeral.time}"></p></div>
+                    <div><span>장소</span><p th:text="${funeral.place}"></p></div>
+                    <div><span>요청사항</span><p th:text="${funeral.memo} ?: '-'"></p></div>
+                    <div><span>예약상태</span><button>예약완료</button></div>
+
+                    <div>
+                        <span>예약 관리</span>
+                        <p>
+                            <!-- 예약 수정 -->
+                            <a th:if="${funeral.id != null}"
+                               th:href="@{'/reserve/funeral_reserve?id=' + ${funeral.id}}"
+                               class="btn btn-sm btn-outline-primary funeral-edit">
+                                예약 변경
+                            </a>
+
+
+                            <!-- 예약 삭제 -->
+                            <a href="#"
+                               th:attr="data-id=${funeral.id}"
+                               class="btn btn-sm btn-outline-danger funeral-delete"
+                               style="margin-left:5px;">
+                                예약 취소
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <div class="reserv-content_yj">
-                <div class="reserv-details_yj" th:if="${funeralReserve != null}">
-                    <div><span>예약날짜</span><p th:text="${funeralReserve.date}"></p></div>
-                    <div><span>예약시간</span><p th:text="${funeralReserve.time}"></p></div>
-                    <div><span>예약장소</span><p th:text="${funeralReserve.location}"></p></div>
-                    <div><span>요청사항</span><p th:text="${funeralReserve.memo}"></p></div>
-                    <div><span>예약상태</span><button>예약완료</button></div>
-                </div>
-
-                <div class="reserv-details_yj" th:if="${funeralReserve == null}">
-                    <p style="color: gray; text-align:center; margin-top:10px;">등록된 장례예약이 없습니다.</p>
-                </div>
+            <!-- 예약 내역이 없을 때 -->
+            <div class="reserv-content_yj" th:if="${#lists.isEmpty(funeralReserveList)}">
+                <p style="color: gray; text-align:center; margin-top:10px;">
+                    등록된 장례예약이 없습니다.
+                </p>
             </div>
         </div>
+
 
         <!-- 상담예약 -->
         <p class="subtitle_yj">상담예약</p>
@@ -79,10 +101,6 @@
                     <p>상담예약 내역</p>
                 </div>
 
-                <div th:if="${reserve != null}">
-                    <a th:href="@{'/reserve/psy_reserve?id=' + ${reserve.id}}" class="psy-edit">수정</a> |
-                    <a href="#" th:attr="data-id=${reserve.id}" class="psy-delete text-danger">삭제</a>
-                </div>
             </div>
 
             <div class="reserv-content_yj" th:each="reserve : ${psyReservationList}">
@@ -197,85 +215,9 @@
 
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
+<script src="/js/mypage.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
 
-      // 인삿말 메시지
-      const hours = new Date().getHours();
-      const msg =
-        hours < 12
-          ? "오늘도 함께 걸어가겠습니다 ☀️"
-          : hours < 18
-          ? "따뜻한 오후 보내세요 🌼"
-          : "편안한 저녁 되세요 🌙";
-      const msgEl = document.getElementById("timeMessage");
-      if (msgEl) msgEl.textContent = msg;
-
-      // 스크롤 애니메이션 (IntersectionObserver)
-      const boxes = document.querySelectorAll(".effect_yj");
-      if (boxes.length > 0) {
-        const observer = new IntersectionObserver(
-          (entries, obs) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("show");
-                obs.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.2 }
-        );
-        boxes.forEach(box => observer.observe(box));
-      }
-
-      //상담예약 삭제 기능
-      document.querySelectorAll(".psy-delete").forEach(btn => {
-        btn.addEventListener("click", async e => {
-          e.preventDefault();
-          if (!confirm("상담 예약을 삭제하시겠습니까?")) return;
-          const id = btn.dataset.id;
-          const res = await fetch(`/reserve/psy_reserve/${id}`, { method: "DELETE" });
-          if (res.ok) {
-            alert("상담 예약이 삭제되었습니다.");
-            location.reload();
-          } else {
-            alert((await res.text()) || "삭제 중 오류가 발생했습니다.");
-          }
-        });
-      });
-
-      //굿즈 예약 삭제 기능
-      document.querySelectorAll(".goods-delete").forEach(btn => {
-        btn.addEventListener("click", async e => {
-          e.preventDefault();
-          if (!confirm("굿즈 예약을 삭제하시겠습니까?")) return;
-          const id = btn.dataset.id;
-          const res = await fetch(`/reserve/goods_reserve/${id}`, { method: "DELETE" });
-          if (res.ok) {
-            alert("굿즈 예약이 삭제되었습니다.");
-            location.reload();
-          } else {
-            alert((await res.text()) || "삭제 중 오류가 발생했습니다.");
-          }
-        });
-      });
-
-      // 장례예약 삭제 기능
-      document.querySelectorAll(".funeral-delete").forEach(btn => {
-        btn.addEventListener("click", async e => {
-          e.preventDefault();
-          if (!confirm("장례 예약을 삭제하시겠습니까?")) return;
-          const id = btn.dataset.id;
-          const res = await fetch(`/reserve/funeral_reserve/${id}`, { method: "DELETE" });
-          if (res.ok) {
-            alert("장례 예약이 삭제되었습니다.");
-            location.reload();
-          } else {
-            alert((await res.text()) || "삭제 중 오류가 발생했습니다.");
-          }
-        });
-      });
-    });
 </script>
 
 </body>

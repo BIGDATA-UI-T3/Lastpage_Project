@@ -139,4 +139,22 @@ public class EditInfoService {
 
         return hasLetter && hasDigit && hasSpecial;
     }
+
+    @Transactional
+    public boolean verifyPassword(String userSeq, String rawPassword) {
+        Signup user = signupRepository.findById(userSeq)
+                .orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
+        boolean matches = passwordEncoder.matches(rawPassword, user.getPassword());
+        log.info("[비밀번호 검증] userSeq={} → {}", userSeq, matches ? "일치" : "불일치");
+        return matches;
+    }
+
+    @Transactional
+    public void deleteUserInfo(String userSeq) {
+        Signup user = signupRepository.findById(userSeq)
+                .orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
+        signupRepository.delete(user);
+        log.info("[회원탈퇴 완료] userSeq={}, name={}", userSeq, user.getName());
+    }
+
 }

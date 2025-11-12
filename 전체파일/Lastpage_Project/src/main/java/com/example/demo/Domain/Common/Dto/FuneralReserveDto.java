@@ -1,9 +1,16 @@
 package com.example.demo.Domain.Common.Dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class FuneralReserveDto{
+@AllArgsConstructor
+@NoArgsConstructor
+public class FuneralReserveDto {
+    private Long id;
+
+    private String userSeq;
     private String ownerName;
     private String ownerPhone;
     private String ownerEmail;
@@ -25,4 +32,8 @@ public class FuneralReserveDto{
 
     private String memo;
 
+    private String username;
+
+//    public Long getId() { return id; }
+//    public void setId(Long id) { this.id = id; }
 }

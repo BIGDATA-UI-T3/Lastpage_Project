@@ -73,6 +73,18 @@ public class SignupService {
         return saved;
     }
 
+
+    /**
+     * 회원정보 삭제
+     */
+    public Signup deleteUserInfo(String userSeq, Signup Dto){
+        Signup exisiting = repository.findById(userSeq)
+                .orElseThrow(()-> new IllegalArgumentException("해당 회원을 찾을 수 없습니다. user_seq" + userSeq));
+
+        log.info("[회원정보 삭제 시도] user_seq={}", userSeq);
+return new Signup();
+    }
+
     /**
      * 회원정보 수정 (로그인 사용자 기준)
      */

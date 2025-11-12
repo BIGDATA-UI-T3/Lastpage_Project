@@ -310,6 +310,129 @@ public class ReserveController {
                 return ResponseEntity.badRequest().body(e.getMessage());
             }
         }
+    /* =========================================================
+     *  [1] 장례 예약 페이지 (신규 / 수정 모드)
+     *  - ?id=123 있으면 수정모드
+     *  - 없으면 신규모드
+     * ========================================================= */
+    @GetMapping("/funeral_reserve")
+    public String funeralReserveForm(@RequestParam(required = false) Long id,
+                                   Model model,
+                                   HttpSession session) {
+        String userSeq = (String) session.getAttribute("userSeq");
+        if (id != null) {
+            FuneralReserveDto dto = funeralReserveService.findById(id);
+            if (dto == null) {
+                log.warn("[예약 수정 페이지] 존재하지 않는 ID={}", id);
+                return "redirect:/mypage/Mypage";
+            }
+            model.addAttribute("reserve", dto);
+            model.addAttribute("mode", "edit");
+            log.info("[예약 수정 페이지 진입] ID={}, userSeq={}", dto.getId(), dto.getUserSeq());
+        } else {
+            model.addAttribute("reserve", null);
+            model.addAttribute("mode", "create");
+        }
+
+        model.addAttribute("sessionUserSeq", userSeq);
+        return "reserve/Funeral_reserve";
+    }
+
+    /* =========================================================
+     *  [2] 장례 상담 예약 상세조회 (fetch용)
+     * ========================================================= */
+    @GetMapping("/api/funeral_reserve/{id}")
+    @ResponseBody
+    public ResponseEntity<?> getFuneralReserve(@PathVariable Long id) {
+        try {
+            FuneralReserveDto dto = funeralReserveService.findById(id);
+            if (dto == null) return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            log.error("[굿즈 예약 상세조회 실패]", e);
+            return ResponseEntity.internalServerError().body("예약 정보를 불러올 수 없습니다.");
+        }
+    }
+
+    /* =========================================================
+     *  [3] 신규 장례 예약 저장
+     * ========================================================= */
+    @PostMapping("/save3")
+    @ResponseBody
+    public ResponseEntity<?> saveFuneralReserve(
+            @SessionAttribute(value = "loginUser", required = false) Object loginUser,
+            @RequestBody FuneralReserveDto dto) {
+
+        try {
+            if (loginUser == null)
+                return ResponseEntity.status(401).body("로그인이 필요합니다.");
+
+            String userSeq = extractUserSeq(loginUser);
+            dto.setUserSeq(userSeq); // FK 연결
+
+            FuneralReserveDto saved = funeralReserveService.saveReservation(dto);
+            log.info("[예약 등록 완료] userSeq={}, 예약ID={}", userSeq, saved.getId());
+
+            return ResponseEntity.ok(saved.getId());
+        } catch (IllegalStateException e) {
+            log.warn("[예약 저장 실패] {}", e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("굿즈 예약 저장 실패", e);
+            return ResponseEntity.internalServerError().body("예약 저장 실패");
+        }
+    }
+
+    /* =========================================================
+     *  [4] 장례 예약 수정
+     * ========================================================= */
+    @PutMapping("/funeral_reserve/{id}")
+    @ResponseBody
+    public ResponseEntity<?> updateFuneralReserve(
+            @PathVariable Long id,
+            @SessionAttribute(value = "loginUser", required = false) Object loginUser,
+            @RequestBody FuneralReserveDto dto) {
+
+        try {
+            if (loginUser == null)
+                return ResponseEntity.status(401).body("로그인이 필요합니다.");
+
+            String userSeq = extractUserSeq(loginUser);
+            FuneralReserveDto updated = funeralReserveService.updateReserve(id, dto, userSeq);
+
+            log.info("[예약 수정 완료] ID={}, userSeq={}", id, userSeq);
+            return ResponseEntity.ok(updated);
+        } catch (IllegalStateException e) {
+            log.warn("[예약 수정 실패] {}", e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error("굿즈 예약 수정 중 오류", e);
+            return ResponseEntity.internalServerError().body("예약 수정 실패");
+        }
+    }
+    /* =========================================================
+     *  [5] 장례 예약 삭제
+     * ========================================================= */
+    @DeleteMapping("/funeral_reserve/{id}")
+    @ResponseBody
+    public ResponseEntity<?> deleteFuneralReserve(
+            @PathVariable Long id,
+            @SessionAttribute(value = "loginUser", required = false) Object loginUser) {
+
+        try {
+            if (loginUser == null)
+                return ResponseEntity.status(401).body("로그인이 필요합니다.");
+
+            String userSeq = extractUserSeq(loginUser);
+            funeralReserveService.deleteReserve(id, userSeq);
+
+            log.info("[예약 삭제 완료] ID={}, userSeq={}", id, userSeq);
+            return ResponseEntity.ok("삭제 완료");
+        } catch (Exception e) {
+            log.error("예약 삭제 실패", e);
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 
 
