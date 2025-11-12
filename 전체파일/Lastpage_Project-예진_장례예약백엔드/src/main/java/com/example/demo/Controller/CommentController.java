@@ -1,6 +1,6 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Domain.Common.Entity.Post;
+import com.example.demo.Domain.Community.Entity.Post;
 import com.example.demo.Domain.Common.Entity.Comment;
 import com.example.demo.Domain.Common.Security.CustomUserPrincipal;
 import com.example.demo.Repository.CommentRepository;

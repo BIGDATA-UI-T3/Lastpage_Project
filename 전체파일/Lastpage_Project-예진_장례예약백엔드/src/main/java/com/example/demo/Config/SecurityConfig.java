@@ -25,9 +25,9 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final ClientRegistrationRepository clientRegistrationRepository;
 
-    private final String KAKAO_CLIENT_ID = "5d7fff1b393cf0631d314ac992a4bb1d";
-    private static final String NAVER_CLIENT_ID = "cp6NwZfugso1weHyopUW";
-    private static final String NAVER_CLIENT_SECRET = "40AdJjr3T3";
+    private final String KAKAO_CLIENT_ID = "";
+    private static final String NAVER_CLIENT_ID = "";
+    private static final String NAVER_CLIENT_SECRET = "";
 
 
     @Bean
