@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/reserve")
 @RequiredArgsConstructor
+@Transactional
 public class ReserveController {
 
     private final PsyReserveService psyReserveService;
@@ -41,8 +43,13 @@ public class ReserveController {
     @GetMapping("/psy_reserve")
     public String psyReserveForm(@RequestParam(required = false) Long id,
                                  Model model,
-                                 HttpSession session) {
-        String userSeq = (String) session.getAttribute("userSeq");
+                                 @SessionAttribute(value = "loginUser", required = false) Object loginUser) {
+        if (loginUser == null) {
+            log.warn("[심리 예약 페이지 접근] 세션 없음 → 로그인 필요");
+            return "redirect:/signin";
+        }
+//        String userSeq = (String) session.getAttribute("userSeq");
+        String userSeq = extractUserSeq(loginUser);
         if (id != null) {
             PsyReserveDto dto = psyReserveService.findById(id);
             if (dto == null) {
@@ -88,6 +95,7 @@ public class ReserveController {
 
         try {
             if (loginUser == null)
+
                 return ResponseEntity.status(401).body("로그인이 필요합니다.");
 
             String userSeq = extractUserSeq(loginUser);
@@ -194,9 +202,15 @@ public class ReserveController {
      * ========================================================= */
     @GetMapping("/goods_reserve")
     public String goodsReserveForm(@RequestParam(required = false) Long id,
-                                 Model model,
-                                 HttpSession session) {
-        String userSeq = (String) session.getAttribute("userSeq");
+                                   Model model,
+                                   @SessionAttribute(value = "loginUser", required = false) Object loginUser) {
+        if (loginUser == null) {
+            log.warn("[굿즈 예약 페이지 접근] 세션 없음 → 로그인 필요");
+            return "redirect:/signin";
+        }
+
+        String userSeq = extractUserSeq(loginUser);
+//        String userSeq = (String) session.getAttribute("userSeq");
         if (id != null) {
             GoodsReserveDto dto = goodsReserveService.findById(id);
             if (dto == null) {
@@ -317,9 +331,15 @@ public class ReserveController {
      * ========================================================= */
     @GetMapping("/funeral_reserve")
     public String funeralReserveForm(@RequestParam(required = false) Long id,
-                                   Model model,
-                                   HttpSession session) {
-        String userSeq = (String) session.getAttribute("userSeq");
+                                     Model model,
+                                     @SessionAttribute(value = "loginUser", required = false) Object loginUser) {
+        if (loginUser == null) {
+            log.warn("[장례예약 페이지 접근] 세션 없음 → 로그인 필요");
+            return "redirect:/signin";
+        }
+
+        String userSeq = extractUserSeq(loginUser);
+
         if (id != null) {
             FuneralReserveDto dto = funeralReserveService.findById(id);
             if (dto == null) {
@@ -339,7 +359,7 @@ public class ReserveController {
     }
 
     /* =========================================================
-     *  [2] 장례 상담 예약 상세조회 (fetch용)
+     *  [2] 장례 예약 상세조회 (fetch용)
      * ========================================================= */
     @GetMapping("/api/funeral_reserve/{id}")
     @ResponseBody
@@ -349,7 +369,7 @@ public class ReserveController {
             if (dto == null) return ResponseEntity.notFound().build();
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
-            log.error("[굿즈 예약 상세조회 실패]", e);
+            log.error("[장례 예약 상세조회 실패]", e);
             return ResponseEntity.internalServerError().body("예약 정보를 불러올 수 없습니다.");
         }
     }
@@ -371,14 +391,16 @@ public class ReserveController {
             dto.setUserSeq(userSeq); // FK 연결
 
             FuneralReserveDto saved = funeralReserveService.saveReservation(dto);
-            log.info("[예약 등록 완료] userSeq={}, 예약ID={}", userSeq, saved.getId());
+            log.info("[장례 예약 등록 완료] userSeq={}, 예약ID={}", userSeq, saved.getId());
 
             return ResponseEntity.ok(saved.getId());
         } catch (IllegalStateException e) {
+
             log.warn("[예약 저장 실패] {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            log.error("굿즈 예약 저장 실패", e);
+
+            log.error("장례 예약 저장 실패", e);
             return ResponseEntity.internalServerError().body("예약 저장 실패");
         }
     }
@@ -406,10 +428,11 @@ public class ReserveController {
             log.warn("[예약 수정 실패] {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            log.error("굿즈 예약 수정 중 오류", e);
+            log.error("장례 예약 수정 중 오류", e);
             return ResponseEntity.internalServerError().body("예약 수정 실패");
         }
     }
+
     /* =========================================================
      *  [5] 장례 예약 삭제
      * ========================================================= */
@@ -426,13 +449,14 @@ public class ReserveController {
             String userSeq = extractUserSeq(loginUser);
             funeralReserveService.deleteReserve(id, userSeq);
 
-            log.info("[예약 삭제 완료] ID={}, userSeq={}", id, userSeq);
+            log.info("[장례 예약 삭제 완료] ID={}, userSeq={}", id, userSeq);
             return ResponseEntity.ok("삭제 완료");
         } catch (Exception e) {
             log.error("예약 삭제 실패", e);
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
 
 

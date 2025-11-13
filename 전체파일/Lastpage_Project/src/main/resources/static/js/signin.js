@@ -121,4 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = `http://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`;
       });
     }
+
+
+
   });

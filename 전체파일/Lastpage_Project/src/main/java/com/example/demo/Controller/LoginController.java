@@ -38,13 +38,19 @@ public class LoginController {
         session.setAttribute("loginEmail", user.getOauthEmail());
         session.setAttribute("loginName", user.getName());
 
-        //  리디렉트 URL
+
         String name = user.getName() != null ? user.getName() : "사용자";
-        String redirectUrl = "/?login=success&user=" +
-                URLEncoder.encode(name, StandardCharsets.UTF_8);
-        log.info("카카오 로그인 성공 → 세션 저장 완료 / 리디렉트: {}", redirectUrl);
+        String redirectUrl = "/?welcome=" + URLEncoder.encode(name, StandardCharsets.UTF_8);
+        log.info("카카오 로그인 완료 → redirect: {}", redirectUrl);
 
         return new RedirectView(redirectUrl);
+        //  리디렉트 URL
+//        String name = user.getName() != null ? user.getName() : "사용자";
+//        String redirectUrl = "/?login=success&user=" +
+//                URLEncoder.encode(name, StandardCharsets.UTF_8);
+//        log.info("카카오 로그인 성공 → 세션 저장 완료 / 리디렉트: {}", redirectUrl);
+
+//        return new RedirectView(redirectUrl);
     }
 
     /**  네이버 로그인 콜백 */
@@ -63,11 +69,12 @@ public class LoginController {
 
         //  리디렉트 URL
         String name = user.getName() != null ? user.getName() : "사용자";
-        String redirectUrl = "/?login=success&user=" +
-                URLEncoder.encode(name, StandardCharsets.UTF_8);
-        log.info("네이버 로그인 성공 → 세션 저장 완료 / 리디렉트: {}", redirectUrl);
+        String redirectUrl = "/?welcome=" + URLEncoder.encode(name, StandardCharsets.UTF_8);
+        log.info("네이버 로그인 완료 → redirect: {}", redirectUrl);
 
         return new RedirectView(redirectUrl);
+
+
     }
 
     /**  구글 로그인 콜백 */
@@ -84,10 +91,10 @@ public class LoginController {
 
         //  리디렉트 URL
         String name = user.getName() != null ? user.getName() : "사용자";
-        String redirectUrl = "/?login=success&user=" +
-                URLEncoder.encode(name, StandardCharsets.UTF_8);
-        log.info("구글 로그인 성공 → 세션 저장 완료 / 리디렉트: {}", redirectUrl);
+        String redirectUrl = "/?welcome=" + URLEncoder.encode(name, StandardCharsets.UTF_8);
+        log.info("구글 로그인 완료 → redirect: {}", redirectUrl);
 
         return new RedirectView(redirectUrl);
+
     }
 }

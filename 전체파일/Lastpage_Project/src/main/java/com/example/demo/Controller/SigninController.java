@@ -42,7 +42,7 @@ public class SigninController {
         try {
             Signup user = authService.authenticate(id, password);
 
-            // 세션에 모든 로그인 정보 저장
+            //  세션에 모든 로그인 정보 저장 (공통 구조)
             session.setAttribute("loginUser", user);
             session.setAttribute("userSeq", user.getUserSeq());
             session.setAttribute("loginEmail", user.getEmailId());
@@ -84,8 +84,11 @@ public class SigninController {
             // 사용자 인증
             Signup user = authService.authenticate(id, password);
 
-            // 세션 등록 (공용 세션키)
+            //  세션 등록 (SSR 방식과 동일하게 통일)
             newSession.setAttribute("loginUser", user);
+            newSession.setAttribute("userSeq", user.getUserSeq());
+            newSession.setAttribute("loginEmail", user.getEmailId());
+            newSession.setAttribute("loginName", user.getName());
 
             // 응답 데이터 구성
             Map<String, Object> response = new HashMap<>();
@@ -95,7 +98,6 @@ public class SigninController {
                     "userSeq", user.getUserSeq(),
                     "id", user.getId(),
                     "name", user.getName()
-
             ));
 
             log.info("[REST 로그인 성공] Id={}, userSeq={}", user.getId(), user.getUserSeq());
@@ -117,7 +119,6 @@ public class SigninController {
                     ));
         }
     }
-
 
     /** -------------------------------
      *  로그아웃 처리

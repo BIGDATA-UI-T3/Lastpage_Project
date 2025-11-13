@@ -56,6 +56,7 @@ public class PsyReserveService {
 
         PsyReserve saved = repository.save(entity);
 
+
         log.info("[상담예약 등록 완료] user_seq={}, 날짜={}, 시간={}",
                 user.getUserSeq(), saved.getConsultDate(), saved.getTime());
 

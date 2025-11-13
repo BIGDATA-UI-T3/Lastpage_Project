@@ -1,5 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  const userSeq = document.body.dataset.userseq;
+    if (!userSeq || userSeq === "null" || userSeq === "undefined") {
+      alert("우선 로그인을 진행해주세요.");
+      window.location.href = "/signin";
+      return;
+      }
+
   // ------------------------------
   // 1) 상태 객체 & 헬퍼 함수
   // ------------------------------
@@ -299,9 +306,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     data.userSeq = userSeq;
 
-    const url = data.id
-      ? `/reserve/funeral_reserve/${data.id}`
-      : "/reserve/funeral_reserve/save3";
+
+      const url = data.id ? `/reserve/funeral_reserve/${data.id}` : '/reserve/save3';
     const method = data.id ? "PUT" : "POST";
 
     try {

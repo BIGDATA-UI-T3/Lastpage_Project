@@ -79,9 +79,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   /** ------------------------------
    *  외부에서 강제로 헤더 새로고침 요청 시
-   *  - window.dispatchEvent(new Event("lp:update-header"))
    * ------------------------------ */
   window.addEventListener("lp:update-header", async () => {
     await loadHeader();
   });
+
+
+  const params = new URLSearchParams(window.location.search);
+  const welcomeName = params.get("welcome");
+  if (welcomeName) {
+    setTimeout(() => {
+      alert(`${welcomeName}님 환영합니다!`);
+    }, 300); // 헤더 렌더 후 표시 (너무 빨리 실행되는 것 방지)
+  }
 });
