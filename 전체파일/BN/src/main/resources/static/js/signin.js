@@ -117,6 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
          if (googleBtn) {
            googleBtn.addEventListener("click", () => {
                 //
-           });
+                });
          }
        });
