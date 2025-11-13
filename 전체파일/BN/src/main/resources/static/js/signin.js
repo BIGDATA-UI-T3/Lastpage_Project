@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
          const googleBtn = document.getElementById("googleLoginBtn");
          if (googleBtn) {
            googleBtn.addEventListener("click", () => {
-             //값 넣기
+                //
            });
          }
        });

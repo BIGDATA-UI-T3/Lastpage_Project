@@ -304,11 +304,13 @@
         async function initMap() {
             try {
                 // 커스텀 마커 (SVG)
+
+                // 1. SVG 문자열로 마커 콘텐츠를 정의합니다.
                 const customIcon = {
-                    url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjE4IiBmaWxsPSIjRjBGMEYwIiBzdHJva2U9IiNFMEUwRTAiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xOS45OTk5IDEyLjAwMDFDMTguNjY2NiAxMi4wMDAxIDE3LjU4MzMgMTMuMDgzNCAxNy41ODMzIDE0LjQxNjhDMTcuNTgzMyAxNS43NTAxIDE4LjY2NjYgMTYuODMzNCAxOS45OTk5IDE2LjgzMzRDMjEuMzMzMyAxNi44MzM0IDIyLjQxNjYgMTUuNzUwMSAyMi40MTY2IDE0LjQxNjhDMjIuNDE2NiAxMy4wODM0IDIxLjMzMzMgMTIuMDAwMSAxOS45OTk5IDEyLjAwMDFaTTE0LjQxNjYgMTYuMDAwMUMxMy4wODMzIDE2LjAwMDEgMTIgMTcuMDgzNCAxMiAxOC40MTY4QzEyIDE5Ljc1MDEgMTMuMDgzMyAyMC44MzM0IDE0LjQxNjYgMjAuODMzNEMxNS43NSAyMC44MzM0IDE2LjgzMzMgMTkuNzUwMSAxNi44MzMzIDE4LjQxNjhDMTYuODMzMyAxNy42ODM0IDE1Ljc1IDE2LjAwMDEgMTQuNDc5OSAxNi4wMDAxWk0yNS41ODMzIDE2LjAwMDFDMjQuMjQ5OSAxNi4wMDAxIDIzLjE2NjYgMTcuMDgzNCAyMy4xNjY2IDE4LjQxNjhDMjMuMTY2NiAxOS43NTAxIDI0LjI0OTkgMjAuODMzNCAyNS41ODMzIDIwLjgzMzRDMjYuOTE2NiAyMC44MzM0IDI4IDE5Ljc1MDEgMjggMTguNDQxNjhDMjggMTcuMDgzNCAyNi45MTY2IDE2LjAwMDEgMjUuNTgzMyAxNi4wMDAxWk0yMC4wMDAxIDE4LjkxNjdDMTcuNzY2NyAxOC45MTY3IDE1Ljk2ODggMjAuNjc2IDE1LjkxODkgMjIuOTA5OUMxNS44NjkgMjUuMTQzOCAxNy42MTg2IDI2Ljk2MzQgMTkuODUyNSAyNy4wMTMzQzIyLjA4NjQgMjcuMDYzMiAyMy45MDYgMjUuMzEzNSAyMy45NTU5IDIzLjA3OTZDMjQuMDA1OCAyMC44NDU3IDIyLjI1NjIgMTkuMDI2MSAyMC4wMDAxIDE4LjkxNjdaiIgZmlsbD0iI0EyN0I1QyIvPgo8L3N2Zz4=',
-                    size: new naver.maps.Size(40, 40),
-                    scaledSize: new naver.maps.Size(40, 40),
-                    anchor: new naver.maps.Point(20, 40)
+                    url: '/Asset/paw_marker.png',
+                    size: new naver.maps.Size(50, 70),       // 비율 유지 (절반 크기)
+                    scaledSize: new naver.maps.Size(50, 70), // 꼭 같게
+                    anchor: new naver.maps.Point(25, 70)     // 하단 중앙 기준점
                 };
 
                 for (const place of PLACES) {
