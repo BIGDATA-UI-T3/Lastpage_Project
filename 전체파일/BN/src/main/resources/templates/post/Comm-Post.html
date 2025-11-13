@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../CSS/common.css">
+    <link rel="stylesheet" href="../CSS/Comm-Post.css">
+  <link rel="stylesheet" href="./common.html">
+  <link rel="stylesheet" href="../JS/Comm-Post.js">
+  <title>내 글 쓰기</title>
+  <style>
+    
+  </style>
+</head>
+<body>
+<div class="header-wrapper">
+    <!-- 헤더 -->
+    <header>
+      <div class="logo">
+        <a href="#"><img src="../Asset/LastPage로고_투명.png" alt="로고" /></a>
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <a href="#">홈</a>
+            <ul>
+              <li><a href="#">인사말</a></li>
+            </ul>
+          </li>
+          
+          <li><a href="#">장례서비스</a></li>
+          <li><a href="#">Ourpage</a></li>
+          <li>
+            <a href="#">심리상담</a>
+            <ul>
+              <li><a href="#">상담예약</a></li>
+              <li><a href="#">예약조회</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <a href="#">추모굿즈</a>
+            <ul>
+               <li><a href="#">굿즈소개</a></li>
+              <li><a href="#">굿즈예약</a></li>
+              <li><a href="#">예약조회</a></li>
+            </ul>
+          </li>
+          <li><a href="#">마이페이지</a></li>
+          <li><a href="#">고객센터</a></li>
+        </ul>
+      </nav>
+      <div class="auth">
+        <a href="#">로그인</a>
+        <a href="#">회원가입</a>
+      </div>
+    </header>
+
+
+
+  <div class="page">
+    <article class="card" id="composer">
+      <div class="media" id="mediaArea" aria-label="사진 추가 구역" tabindex="0">
+        <div class="uploader-hint">이 구역을 눌러 사진 첨부 (최대 10장)</div>
+        <span class="badge" id="countBadge" hidden>0 / 10</span>
+        <button class="nav-btn nav-prev" id="prevBtn" aria-label="이전 사진">‹</button>
+        <button class="nav-btn nav-next" id="nextBtn" aria-label="다음 사진">›</button>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" multiple>
+
+      <div class="actions">
+        <div class="left-actions">
+          <button class="icon-btn" title="좋아요"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <button class="icon-btn" title="댓글"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a4 4 0 0 1-4 4H7l-4 4V5a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg></button>
+          <button class="icon-btn" title="공유"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51L8.59 10.49"/></svg></button>
+        </div>
+        <div class="right-actions">
+          <button class="icon-btn" title="북마크"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+        </div>
+      </div>
+
+      <div class="caption-wrap">
+        <textarea id="caption" class="textarea" maxlength="200" placeholder="캡션추가"></textarea>
+        <div class="helper">
+          <span>사진은 최대 10장 / 이미지 클릭으로 추가</span>
+          <span id="charCount">0 / 200</span>
+        </div>
+      </div>
+
+      <div class="footer">
+        <button class="share-btn" id="shareBtn" disabled>공유하기</button>
+      </div>
+    </article>
+  </div>
+
+  <!-- 푸터 -->
+    <footer>
+      대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
+    </footer>
+  </div>
+
+<script>
+const mediaArea = document.getElementById('mediaArea');
+    const fileInput = document.getElementById('fileInput');
+    const countBadge = document.getElementById('countBadge');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const caption = document.getElementById('caption');
+    const charCount = document.getElementById('charCount');
+    const shareBtn = document.getElementById('shareBtn');
+
+    const MAX = 10;
+    let files = [];
+    let idx = 0;
+
+    mediaArea.addEventListener('click', () => fileInput.click());
+    mediaArea.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); fileInput.click(); }});
+
+    fileInput.addEventListener('change', handleFiles);
+
+    function handleFiles(){
+      const picked = Array.from(fileInput.files || []);
+      files = (files.concat(picked)).slice(0, MAX);
+      idx = 0;
+      renderPreviews();
+      updateShareState();
+      fileInput.value = '';
+    }
+
+    function renderPreviews(){
+      Array.from(mediaArea.querySelectorAll('img.preview')).forEach(n=>n.remove());
+      if(files.length){
+        countBadge.hidden = false;
+        countBadge.textContent = `${files.length} / ${MAX}`;
+      } else {
+        countBadge.hidden = true;
+      }
+      prevBtn.style.display = files.length>1 ? 'grid':'none';
+      nextBtn.style.display = files.length>1 ? 'grid':'none';
+
+      files.forEach((f,i)=>{
+        const img = document.createElement('img');
+        img.className = 'preview' + (i===idx ? ' active':'');
+        img.alt = `업로드 이미지 ${i+1}`;
+        img.decoding = 'async';
+        img.loading = 'lazy';
+        const reader = new FileReader();
+        reader.onload = e => {img.src = e.target.result;};
+        reader.readAsDataURL(f);
+        mediaArea.appendChild(img);
+      });
+      updateActive();
+    }
+
+    function updateActive(){
+      const imgs = mediaArea.querySelectorAll('img.preview');
+      imgs.forEach((im,i)=> im.classList.toggle('active', i===idx));
+      mediaArea.querySelector('.uploader-hint').style.display = files.length ? 'none':'grid';
+    }
+
+    prevBtn.addEventListener('click', (e)=>{ e.stopPropagation(); if(!files.length) return; idx = (idx-1+files.length)%files.length; updateActive();});
+    nextBtn.addEventListener('click', (e)=>{ e.stopPropagation(); if(!files.length) return; idx = (idx+1)%files.length; updateActive();});
+
+    caption.addEventListener('input', ()=>{
+      if(caption.value.length>200) caption.value = caption.value.slice(0,200);
+      charCount.textContent = `${caption.value.length} / 200`;
+      updateShareState();
+    });
+
+    function updateShareState(){
+      shareBtn.disabled = !(files.length || caption.value.trim().length);
+    }
+
+    shareBtn.addEventListener('click', ()=>{
+      const formData = new FormData();
+      files.forEach((f,i)=> formData.append('images', f, f.name || `image_${i}.jpg`));
+      formData.append('caption', caption.value.trim());
+
+      alert('게시물이 공유되었습니다!');
+
+      files = []; idx = 0; caption.value=''; charCount.textContent='0 / 200';
+      renderPreviews(); updateShareState();
+    });
+
+
+
+</script>
+</body>
+</html>
