@@ -1,0 +1,66 @@
+#services:
+#  # ======================
+#  # MySQL (DB)
+#  # ======================
+#  mysql:
+#    image: mysql:8.0
+#    container_name: lastpage-mysql
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root1234
+#      MYSQL_DATABASE: lastpage
+#      MYSQL_USER: root
+#      MYSQL_PASSWORD: 12345678
+#    ports:
+#      - "3306:3306"
+#    volumes:
+#      - mysql_data:/var/lib/mysql
+#      - ./DB파일/my.cnf:/etc/mysql/conf.d/my.cnf  # ✅ (선택) 직접 설정파일 추가 가능
+#    command:
+#      --default-authentication-plugin=mysql_native_password
+#      --character-set-server=utf8mb4
+#      --collation-server=utf8mb4_unicode_ci
+#
+#  # ======================
+#  # Redis (Session / Cache)
+#  # ======================
+#  redis:
+#    image: redis:latest
+#    container_name: lastpage-redis
+#    restart: always
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - redis_data:/data
+#      - ./DB파일/redis.conf:/usr/local/etc/redis/redis.conf  # ✅ (선택) redis.conf 있으면 연결
+#    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+#
+#  # ======================
+#  # Spring Boot (Backend)
+#  # ======================
+#  springboot:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile   # ✅ Dockerfile 명시 (Mac에서 경로 인식 문제 방지)
+#    container_name: lastpage-app
+#    restart: always
+#    depends_on:
+#      - mysql
+#      - redis
+#    ports:
+#      - "8090:8090"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/lastpage?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: 12345678
+#      SPRING_REDIS_HOST: redis
+#      SPRING_REDIS_PORT: 6379
+#      TZ: Asia/Seoul   # ✅ 컨테이너 시간대 동기화
+#    volumes:
+#      - .:/app
+#    working_dir: /app
+#    command: ["./gradlew", "bootRun"]  # ✅ gradlew 실행 (Mac에서는 실행 권한 필수)
+#
+#volumes:
+#  mysql_data:
+#  redis_data:

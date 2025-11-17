@@ -174,6 +174,17 @@ public List<PsyReserveDto> findAllByUserSeq(String userSeq) {
         return true;
     }
 
+    public long countAll() {
+        return repository.count();
+    }
+
+    public List<PsyReserveDto> findRecent5() {
+        return repository.findTop5ByOrderByCreated_atDesc()
+                .stream()
+                .map(PsyReserveDto::fromEntity)
+                .toList();
+    }
+
     /** ------------------------------
      *  Entity → DTO 변환
      * ------------------------------ */
@@ -193,4 +204,6 @@ public List<PsyReserveDto> findAllByUserSeq(String userSeq) {
         dto.setMemo(entity.getMemo());
         return dto;
     }
+
+
 }

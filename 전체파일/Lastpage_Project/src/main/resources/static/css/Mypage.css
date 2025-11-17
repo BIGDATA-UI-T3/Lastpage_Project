@@ -1,12 +1,77 @@
+/* =============================== */
+/*  상단 배너 영역 50svh + 오버레이 */
+/* =============================== */
+.hello_yj {
+    width: 100%;
+    height: 100svh;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner-overlay_yj {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.banner-img_yj {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(75%) hue-rotate(-15deg) saturate(115%);
+}
+
+.banner-overlay_yj::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(15, 30, 20, 0.35),
+        rgba(10, 25, 15, 0.55),
+        rgba(0, 0, 0, 0.75)
+    );
+}
+
+
+.banner-text_yj {
+    position: absolute;
+    bottom: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #fff;
+}
+
+.mypage-title_yj {
+    font-size: 60px;
+
+    margin: 0;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.greeting_yj span{
+    font-size: 28px;
+    font-weight: 600;
+    margin-top: 15px;
+    color: #ffffff;
+    text-shadow: 0 3px 8px rgba(0,0,0,0.5);
+    justify-content: center;
+    display: flex;
+}
+
+
 /* .hello_yj>div {
     display: flex;
 } */
 
-/* 상단배너 */
 .logo_yj {
     display: flex;
-    /* text-align: center; */
-    /* align-items: center; */
     justify-content: center;
     margin-top: 50px;
 }
@@ -27,7 +92,6 @@
     display: flex;
     justify-content: center;
     color: rgb(103, 66, 21);
-
 }
 
 /* 예약내역 헤더 */
@@ -39,7 +103,7 @@
 .subtitle_yj {
     width: 1000px;
     padding-left: 30px;
-    margin: 20px auto;
+    margin: 35px auto;
     display: flex;
     justify-content: left;
     font-size: 30px;
@@ -49,9 +113,8 @@
 
 main>.reserv_yj {
     max-width: 1000px;
-    /* height: 700px; */
     background-color: white;
-    box-shadow: 0 12px 32px rgb(0, 0, 0, 0.1);
+    box-shadow: 0 12px 32px rgb(0 0 0 / 10%);
     border-radius: 22px;
     display: flex;
     flex-direction: column;
@@ -63,7 +126,6 @@ main>.reserv_yj {
 .reserv-header_yj {
     display: flex;
     justify-content: space-between;
-    /* 좌측 아이콘/텍스트, 우측 링크 분리 */
 }
 
 .reserv-left_yj {
@@ -93,14 +155,10 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
 
 /* 예약내역 테이블 */
 .reserv-content_yj {
-    border: 10px black;
-    /* background-color: antiquewhite; */
-    border: 3px solid rgb(64, 31, 31, 0.1);
+    border: 3px solid rgba(64, 31, 31, 0.1);
     border-radius: 10px;
     padding: 20px 20px 0 20px;
     margin-top: 10px;
-    /* display: flex;
-    flex-direction: column; */
 }
 
 .reserv-row_yj {
@@ -130,11 +188,10 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
     font-weight: 600;
     display: flex;
     justify-content: center;
-
 }
 
 .reserv-details_yj {
-    border-top: 3px solid rgb(64, 31, 31, 0.1);
+    border-top: 3px solid rgba(64, 31, 31, 0.1);
     display: flex;
     flex-direction: column;
     margin-top: 20px;
@@ -163,12 +220,9 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
     border-radius: 5px;
 }
 
-
-
 /* 서비스 바로가기 */
 .service_yj {
     display: flex;
-    /* margin: 0 auto; */
     margin-bottom: 100px;
     gap: 20px;
     justify-content: center;
@@ -183,7 +237,7 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
     width: 475px;
     height: 250px;
     background-color: white;
-    box-shadow: 0 12px 32px rgb(0, 0, 0, 0.1);
+    box-shadow: 0 12px 32px rgb(0 0 0 / 10%);
     border-radius: 22px;
     display: flex;
     flex-direction: column;
@@ -203,13 +257,14 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
     background-color: rgb(238, 234, 234);
 }
 
+/* 스크롤 등장 효과 */
 .effect_yj {
-  opacity: 0;
-  transform: translateY(50px); /* 살짝 아래에서 올라오는 느낌 */
-  transition: all 0.6s ease-out;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.6s ease-out;
 }
 
 .effect_yj.show {
-  opacity: 1;
-  transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
 }

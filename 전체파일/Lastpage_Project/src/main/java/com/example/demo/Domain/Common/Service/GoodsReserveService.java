@@ -245,6 +245,16 @@ public class GoodsReserveService {
 //        // Repository의 기능을 바로 호출합니다. (User를 찾는 과정 불필요)
 //        return goodsReserveRepository.findByUser_UserSeq(userSeq);
 //    }
+public long countAll() {
+    return goodsReserveRepository.count();
+}
+
+    public List<GoodsReserveDto> findRecent5() {
+        return goodsReserveRepository.findTop5ByOrderByCreated_atDesc()
+                .stream()
+                .map(GoodsReserveDto::fromEntity)
+                .toList();
+    }
 
 
     private GoodsReserveDto toDto(GoodsReserve entity) {

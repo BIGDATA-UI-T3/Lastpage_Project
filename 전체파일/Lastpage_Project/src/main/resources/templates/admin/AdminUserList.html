@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/adminDashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/adminUserList.css}">
+    <title>회원 관리</title>
+
+    <style>
+
+
+
+    </style>
+
+</head>
+
+<body>
+<div class="header-wrapper">
+    <div id="header-container"></div>
+</div>
+
+<div class="admin-header">
+    관리자 페이지 - 회원 관리
+</div>
+
+<div class="admin-layout">
+
+    <!-- 사이드바 -->
+    <div class="sidebar">
+        <a href="/admin/dashboard"> 대시보드</a>
+        <a href="/admin/users"> 사용자 관리</a>
+        <a href="/admin/reserves"> 예약 관리</a>
+        <a href="/admin/qna"> QnA 관리</a>
+
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="main-content">
+        <h2 style="margin-bottom: 25px;">전체 회원 목록</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>이름</th>
+                <th>ID / 소셜</th>
+                <th>이메일</th>
+                <th>전화번호</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="user, index : ${users}">
+                <td th:text="${index.count}"></td>
+                <td th:text="${user.name}"></td>
+
+                <!-- ID가 없으면 소셜 회원 -->
+                <td th:text="${user.id != null ? user.id : '소셜 회원'}"></td>
+
+                <td th:text="${user.emailId + '@' + user.emailDomain}"></td>
+                <td th:text="${user.phone_num}"></td>
+
+                <td>
+                    <!-- ★ 수정: 관리자 전용 수정 페이지 -->
+                    <a class="btn-edit"
+                       th:href="@{'/admin/user/edit/' + ${user.userSeq}}">
+                        수정
+                    </a>
+                </td>
+
+                <td>
+                    <button class="btn-delete"
+                            th:attr="onclick=|deleteUser('${user.userSeq}')|">
+                        삭제
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div id="footer-container"></div>
+<script src="/js/adminUserList.js"></script>
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
+
+<script>
+</script>
+
+</body>
+</html>

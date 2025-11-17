@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function loadHeader() {
     try {
       const res = await fetch("/html/header.html", {
-        credentials: "same-origin", // 세션 유지
-        cache: "no-store" // 항상 최신 헤더 가져오기
+        credentials: "same-origin",
+        cache: "no-store"
       });
 
       if (!res.ok) throw new Error("헤더 파일 로드 실패");
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const html = await res.text();
       headerContainer.innerHTML = html;
 
-      //  로그인 상태 반영
+      // 로그인 상태 반영
       const authDiv = headerContainer.querySelector(".auth");
       if (authDiv) {
         const isLoggedIn = authDiv.dataset.login === "true";
@@ -33,12 +33,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       }
 
-      //  햄버거 메뉴 토글
+      /** ------------------------------
+       *  햄버거 메뉴 슬라이드 토글
+       * ------------------------------ */
       const hamburger = headerContainer.querySelector("#hamburger");
       const sideMenu = headerContainer.querySelector("#sideMenu");
       if (hamburger && sideMenu) {
         hamburger.addEventListener("click", () => {
           sideMenu.classList.toggle("active");
+          document.body.classList.toggle("side-open");
         });
       }
 
@@ -48,14 +51,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   /** ------------------------------
-   *  초기 실행
+   * 초기 실행
    * ------------------------------ */
   if (headerContainer) {
     await loadHeader();
   }
 
   /** ------------------------------
-   *  회원정보 수정 후 이름 갱신
+   * 회원정보 수정 후 이름 갱신
    * ------------------------------ */
   const updatedName = localStorage.getItem("updatedUserName");
   if (updatedName && loginLink) {
@@ -64,8 +67,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   /** ------------------------------
-   *  로그인 성공 시 헤더 즉시 갱신 (페이지 새로고침 없이)
-   *  - login.js에서 dispatchEvent("lp:login-success") 발생
+   * 로그인 성공 시 헤더 갱신
    * ------------------------------ */
   window.addEventListener("lp:login-success", (e) => {
     const { name } = e.detail;
@@ -78,18 +80,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   /** ------------------------------
-   *  외부에서 강제로 헤더 새로고침 요청 시
+   * 외부에서 헤더 새로고침 요청
    * ------------------------------ */
   window.addEventListener("lp:update-header", async () => {
     await loadHeader();
   });
 
-
+  /** ------------------------------
+   * 로그인 환영 메시지
+   * ------------------------------ */
   const params = new URLSearchParams(window.location.search);
   const welcomeName = params.get("welcome");
   if (welcomeName) {
     setTimeout(() => {
       alert(`${welcomeName}님 환영합니다!`);
-    }, 300); // 헤더 렌더 후 표시 (너무 빨리 실행되는 것 방지)
+    }, 300);
   }
 });

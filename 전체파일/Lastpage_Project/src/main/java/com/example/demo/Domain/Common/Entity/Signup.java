@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,7 +16,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Signup {
+public class Signup implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /** 기본키 */
     @Id
@@ -22,6 +25,14 @@ public class Signup {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "user_seq", nullable = false, updatable = false, unique = true, length = 36)
     private String userSeq;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;     // ROLE_USER, ROLE_ADMIN
+
+
+
+
 
     /**  일반 회원가입 및 공통 정보 */
     private String name;

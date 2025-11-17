@@ -27,14 +27,17 @@
 </div>
 
     <main>
+        <!-- 상단 배너 -->
         <div class="hello_yj">
-            <div class="logo_yj">
-                <img alt="" src="../Asset/LastPage로고_투명.png" style="width: 300px;"/>
+            <div class="banner-overlay_yj">
+                <img src="../Asset/Mypage-banner.jpeg" alt="" class="banner-img_yj">
             </div>
-            <div class="mypage_yj">
-                <p>MY PAGE</p>
+
+            <div class="banner-text_yj">
+                <p class="mypage-title_yj">MY PAGE</p>
+
                 <div class="greeting_yj">
-                    <span th:text="${user}">고객님</span>님,
+                    <span th:text="${user}"></span>
                     <span id="timeMessage"></span>
                 </div>
             </div>
@@ -138,6 +141,7 @@
 
 
         <!-- 굿즈 구매내역 -->
+        <p class="subtitle_yj">굿즈예약</p>
         <div class="reserv_yj effect_yj" id="Goods-wrapper">
             <div class="reserv-header_yj">
                 <div class="reserv-left_yj">
@@ -186,7 +190,7 @@
 
             <!-- 구매 내역 없을 때 -->
             <div class="reserv-content_yj" th:if="${#lists.isEmpty(goodsReservationList)}">
-                <p style="text-align: center; padding: 20px;">구매 내역이 없습니다.</p>
+                <p style="color: gray; text-align:center; margin-top:10px;">구매 내역이 없습니다.</p>
             </div>
         </div>
 

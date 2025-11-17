@@ -42,7 +42,7 @@ body{
     border-radius:var(--radius);
     box-shadow:var(--shadow);
     padding:24px;
-    margin:18px 0;
+    margin:40px 0;
 }
 h1.title{ margin:6px 0 18px; color:#666; font-size:24px; text-align:center }
 

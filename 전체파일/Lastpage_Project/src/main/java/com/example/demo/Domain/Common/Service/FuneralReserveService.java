@@ -162,6 +162,17 @@ public class FuneralReserveService {
         return true;
     }
 
+    public long countAll() {
+        return repository.count();
+    }
+
+    public List<FuneralReserveDto> findRecent5() {
+        return repository.findTop5ByOrderByCreated_atDesc()
+                .stream()
+                .map(FuneralReserveDto::fromEntity)
+                .toList();
+    }
+
     /** Entity → DTO */
     private FuneralReserveDto toDto(FuneralReserve entity) {
         FuneralReserveDto dto = new FuneralReserveDto();
@@ -192,4 +203,6 @@ public class FuneralReserveService {
 
         return dto;
     }
+
+
 }

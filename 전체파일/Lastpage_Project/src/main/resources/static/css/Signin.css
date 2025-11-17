@@ -184,6 +184,8 @@ body {
   border: 1px solid var(--border);
 }
 
+
+
 /* 작은 화면 */
 @media (max-width:480px) {
   .card { padding:22px; }

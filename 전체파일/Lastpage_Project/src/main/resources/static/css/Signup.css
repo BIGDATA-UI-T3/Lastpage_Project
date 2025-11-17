@@ -15,7 +15,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", Arial, "Apple SD Gothic Neo", sans-serif;
   background: linear-gradient(180deg, #faf7f1, #efe9dd);
   color: var(--text);
-  margin: 20px;
+  margin: 0;
   padding: 0;
 }
 
@@ -30,6 +30,7 @@ main {
 
 /* 카드 컨테이너 */
 .signup-wrap {
+  margin-top:36px;
   width: min(800px, 92vw);
   background: var(--card);
   border: 1px solid var(--border);
@@ -166,17 +167,30 @@ main {
   border: 1px solid var(--accent);
 }
 
-/* 오류 메시지 */
+
+/* 기본 메시지 스타일 (크기, 여백 공통) */
 .error,
 #pwMsg,
-#idCheckMsg {
+#idCheckMsg,
+.invalid-msg,
+.valid-msg {
   font-size: 13px;
-  color: #c0392b;
   margin-top: -6px;
   margin-bottom: 10px;
   min-height: 18px;
   display: block;
 }
+
+
+.invalid-msg {
+  color: #c0392b;  /* 기존 색 유지 */
+}
+
+
+.valid-msg {
+  color: #27ae60; /* 통용되는 그린 (#2ecc71, #27ae60 계열) */
+}
+
 
 /* 반응형 */
 @media (max-width: 600px) {

@@ -1,19 +1,62 @@
+<!--<footer xmlns:th="http://www.w3.org/1999/xhtml">-->
+<!--    <div class="footer-container">-->
+<!--        <div class="footer-links">-->
+<!--            <a href="/">홈</a> |-->
+<!--            <a href="/support">고객센터</a> |-->
+<!--            <a href="/about">회사소개</a>-->
+<!--        </div>-->
+
+<!--        <div class="footer-info">-->
+<!--            <p>© 2025 LastPage. All Rights Reserved.</p>-->
+<!--        </div>-->
+
+<!--        <div class="footer-login-status"-->
+<!--             th:if="${isLoggedIn}"-->
+<!--             style="font-size: 0.9rem; color: gray;">-->
+<!--            로그인 상태 유지 중-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</footer>-->
 <footer xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="footer-container">
-        <div class="footer-links">
-            <a href="/">홈</a> |
-            <a href="/support">고객센터</a> |
-            <a href="/about">회사소개</a>
+        <div class="footer-logo">
+            <img th:src="@{/Asset/LastPage-Lettering.png}" alt="LastPage Logo" />
         </div>
 
+        <!-- 상단 링크 -->
+        <div class="footer-links">
+            <a href="/">홈</a> |
+            <a href="/supportService">고객센터</a> |
+            <a href="/about">회사소개</a> |
+            <a href="/funeral">장례서비스</a> |
+            <a href="/psyService">심리상담</a> |
+            <a href="/goodsService">추모굿즈</a>
+        </div>
+
+        <!-- 회사 정보 / 고객센터 -->
+        <div class="footer-company-info">
+            <p>대표자 : &nbsp;<a href
+            ="/">손보금</a> &nbsp;| &nbsp; <a href="/">박준형</a> &nbsp;| &nbsp; <a href="/">심예진<a/> &nbsp;| &nbsp; 사업자등록번호 : 123-45-67890</p>
+            <p>주소 : 대구광역시 중앙대로 366 9F</p>
+
+            <p class="footer-contact">
+                고객센터 : <a href="tel:1599-1999">1599-1999</a>
+                &nbsp; | &nbsp; 운영시간 : 09:00 ~ 18:00
+                &nbsp; | &nbsp; 이메일 : support@lastpage.com
+            </p>
+        </div>
+
+        <!-- 저작권 -->
         <div class="footer-info">
             <p>© 2025 LastPage. All Rights Reserved.</p>
         </div>
 
+        <!-- 로그인 상태 표시 (절대 수정 금지) -->
         <div class="footer-login-status"
              th:if="${isLoggedIn}"
              style="font-size: 0.9rem; color: gray;">
             로그인 상태 유지 중
         </div>
+
     </div>
 </footer>

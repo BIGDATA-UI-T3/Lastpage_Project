@@ -2,8 +2,8 @@
     display: flex;
     position: relative;
     width: 100%;
-    height: 48vh;
-    background-image: url(../Asset/고양이.png);
+    min-height: 100svh;
+    background-image: url(../Asset/9.jpg.webp);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -22,6 +22,9 @@
 }
 
 .banner_yj>.overlay_yj>.banner-text_yj {
+    font-size:15px;
+    font-weight: 600;
+    text-shadow: 0 3px 8px rgba(0,0,0,0.5);
     padding-top: 20px;
     display: flex;
     flex-direction: column;
