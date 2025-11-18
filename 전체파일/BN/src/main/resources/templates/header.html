@@ -11,9 +11,9 @@
     <!-- 사이드 메뉴 -->
     <div class="side-menu" id="sideMenu">
         <ul>
-            <li><a href="/">홈</a>
+            <li><a th:href="@{/}">홈</a>
                 <ul>
-                    <li><a href="#">인사말</a></li>
+                    <li><a th:href="@{/aboutuspage/aboutus}">인사말</a></li>
                 </ul>
             </li>
             <li><a href="#">장례서비스</a>
@@ -54,10 +54,9 @@
     <!-- 네비게이션 -->
     <nav>
         <ul>
-            <li>
-                <a href="/">홈</a>
+            <li><a th:href="@{/}">홈</a>
                 <ul>
-                    <li><a href="#">인사말</a></li>
+                    <li><a th:href="@{/aboutuspage/aboutus}">인사말</a></li>
                 </ul>
             </li>
 

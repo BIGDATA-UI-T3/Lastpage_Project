@@ -17,5 +17,10 @@ public class HomeController {
         return "mainpage/Mainpage";
     }
 
+    // 인사말
+    @GetMapping("/aboutuspage/aboutus")
+    public String aboutUsPage() {
+        return "aboutuspage/aboutus";
+    }
 
 }
