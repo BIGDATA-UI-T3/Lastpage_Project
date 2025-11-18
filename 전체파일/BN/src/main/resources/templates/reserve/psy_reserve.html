@@ -13,11 +13,19 @@
 <body th:data-userseq="${sessionUserSeq}"
       th:data-mode="${mode}"
       th:data-id="${reserve != null ? reserve.id : ''}">
+
 <div class="header-wrapper">
     <div id="header-container"></div>
 </div>
-    <main>
-    <!-- 메인 -->
+
+<section class="banner" role="img" aria-label="심리상담 예약 배너">
+    <div class="inner">
+        <h1>마음 돌봄과 애도 여정</h1>
+        <p>펫로스 증후군, 전문가와 함께 나누고 치유하세요.</p>
+    </div>
+</section>
+
+<main>
     <div class="wrap">
         <div class="card">
             <div class="steps" aria-label="예약 단계">
@@ -29,7 +37,6 @@
             <h1 class="title" id="formTitle"
                 th:text="${mode == 'edit' ? '심리상담 예약 수정' : '심리상담 예약'}">심리상담 예약</h1>
 
-            <!-- STEP 1 -->
             <section class="step active" id="step1">
                 <div class="grid">
                     <div>
@@ -83,7 +90,6 @@
                 </div>
             </section>
 
-            <!-- STEP 2 -->
             <section class="step" id="step2">
                 <div class="grid">
                     <div>
@@ -132,7 +138,6 @@
                 </div>
             </section>
 
-            <!-- STEP 3 -->
             <section class="step" id="step3">
                 <div class="grid-1">
                     <div class="field" style="justify-content:center"><strong>입력한 예약 내용을 확인해 주세요.</strong></div>
@@ -148,7 +153,6 @@
                 </div>
             </section>
 
-            <!-- STEP 4 -->
             <section class="step" id="step4">
                 <div class="grid-1">
                     <div class="field" style="justify-content:center">
@@ -168,9 +172,10 @@
         </div>
     </div>
 </main>
-    <div id="footer-container"></div>
-    <script src="/js/header.js"></script>
-    <script src="/js/footer.js"></script>
-    <script src = "/js/psyReserve.js"></script>
+
+<div id="footer-container"></div>
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
+<script src="/js/psyReserve.js"></script>
 </body>
 </html>
