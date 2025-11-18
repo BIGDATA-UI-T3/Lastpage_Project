@@ -3,20 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- AOS (Scroll Animation) CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <!-- 공통 CSS 경로 -->
     <link rel="stylesheet" th:href="@{/css/common.css}">
-
-    <!-- (필요시) aboutus.css 링크 -->
-    <!-- <link rel="stylesheet" th:href="@{/css/aboutus.css}"> -->
-
     <title>About Us - LastPage</title>
     <script>
-        // Tailwind CSS 색상 팔레트에 공통 CSS의 색상 추가
         tailwind.config = {
           theme: {
             extend: {
@@ -24,7 +15,7 @@
                 brand: {
                   dark: '#2C3930',  // 공통 CSS의 헤더/푸터 색상
                   light: '#A27B5C', // 공통 CSS의 버튼/링크 색상
-                  bg: '#f5f0e5',   // 공통 CSS의 body 배경색
+                  bg: '#f5f0e5',    // 공통 CSS의 body 배경색
                   'dark-overlay': '#2C3930' // 어두운 배경색
                 }
               },
@@ -37,79 +28,104 @@
         }
     </script>
     <style>
-        /* (Mainpage.html과 동일) 스티키 헤더가 필요한 경우를 대비한 스타일 */
         .sticky-top-header {
-          top: 100px; /* 공통 헤더의 높이만큼 여백 */
+          top: 100px;
         }
     </style>
 </head>
 <body class="bg-brand-bg text-brand-dark">
 
-<!-- 1. 공통 헤더 (JS 주입 방식) -->
 <div class="header-wrapper">
     <div id="header-container"></div>
 </div>
 
 <main>
-    <!--   배너-->
-    <section class="relative w-full h-screen bg-neutral-800 text-white">
-        <img th:src="@{/Asset/aboutus_banner2.jpg}" alt="About Us 배너"
-             class="absolute inset-0 w-full h-full object-cover opacity-50">
 
-        <!-- 배너 위 텍스트 -->
+    <section class="relative w-full h-screen bg-neutral-800 text-white">
+        <img th:src="@{/Asset/aboutus_banner.jpg}" alt="About Us 배너"
+             class="absolute inset-0 w-full h-full object-cover opacity-50"
+             style="object-position: 50% 50%;">
         <div class="relative h-full flex flex-col items-center justify-center text-center p-6" data-aos="fade-in" data-aos-duration="1500">
-            <h1 class="font-serif text-6xl md:text-8xl font-thin" style="font-family: 'Georgia', serif;">
+            <h1 class="font-serif text-6xl md:text-8xl" style="font-family: 'Georgia', serif; font-weight: 100;">
                 About Us
             </h1>
         </div>
     </section>
 
-    <!-- 2. [수정] 브랜드 소개 텍스트 (배경 이미지 추가) -->
-    <!-- 2-column-layout을 제거하고, 원래의 전체 화면 중앙 정렬로 되돌립니다. -->
-    <!-- [개선] 배경 이미지를 약하게 추가하고, 그 위에 어두운 오버레이를 겹쳐 텍스트 가독성을 확보합니다. -->
-    <section class="relative text-stone-200 h-screen flex items-center justify-center isolate"> <!-- [수정] bg-brand-dark-overlay 제거, relative/isolate 추가 -->
+    <section class="relative w-full h-[200vh] text-stone-200">
 
-        <!-- [추가] 배경 이미지 -->
-        <!-- TODO: th:src="@{...}"로 원하시는 배경 이미지 (차분한 질감, 풍경 등)로 교체하세요. -->
-        <!-- 현재는 배너 이미지를 재사용하되, 매우 약하게(opacity-20) 설정합니다. -->
-        <img th:src="@{/Asset/aboutus_5.PNG}" alt="배경 이미지"
-             class="absolute inset-0 w-full h-full object-cover z-[-2] opacity-80">
+        <img th:src="@{/Asset/aboutus.jpg}" alt="소개 배경"
+             class="absolute inset-0 w-full h-full object-cover">
 
-        <!-- [추가] 텍스트 가독성을 위한 어두운 오버레이 -->
-        <!-- 기존 배경색(brand-dark-overlay)을 오버레이로 사용하되, 텍스트 대비를 위해 90% 불투명도로 설정 -->
-        <div class="absolute inset-0 bg-brand-dark-overlay opacity-60 z-[-1]"></div>
+        <!-- 어두운 오버레이 -->
+        <div class="absolute inset-0 w-full h-full bg-brand-dark opacity-80"></div>
 
-        <!-- data-aos="fade-up"을 다시 적용합니다. -->
-        <div class="relative max-w-3xl mx-auto px-6 text-center" data-aos="fade-up" data-aos-duration="1000"> <!-- [수정] z-index가 필요할 수 있으므로 relative 추가 -->
+        <!-- 콘텐츠 래퍼 (200vh 높이를 2개의 행으로 나눔) -->
+        <div class="relative w-full h-full grid grid-rows-2">
 
-            <!-- [추가] 장식용 라인 (brand-light 색상 사용) -->
-            <div class="w-24 h-px bg-brand-light mx-auto mb-6"></div>
+            <!-- 2-1. 브랜드 소개 (상단 100vh 영역) -->
+            <div class="flex items-center justify-center">
+                <div class="max-w-3xl mx-auto px-6 text-center" data-aos="fade-up">
+                    <h2 class="font-serif text-3xl md:text-4xl font-semibold mb-6 text-white">
+                        애도 여정의 동반자, LastPage
+                    </h2>
+                    <p class="text-lg md:text-xl text-stone-300 leading-relaxed">
+                        LastPage는 정식 등록 업체입니다.<br>
+                        모든 장례지도사는 반려동물 장례지도사 1:1로 배정되며,<br>
+                        보호사와 함께 처음부터 끝까지 모든 과정을 함께 합니다.<br>
+                        숭고한 이별은 함께 나누며,<br>
+                        마음과 정성을 다하여 이별의 슬픔을 위로하는 LastPage가 되겠습니다.
+                    </p>
+                </div>
+            </div>
 
-            <h2 class="font-serif text-3xl md:text-4xl font-semibold mb-8 text-white"> <!-- mb-6에서 mb-8로 변경 -->
-                애도 여정의 동반자, LastPage
-            </h2>
+            <div class="flex items-center justify-center">
 
-            <p class="text-lg md:text-xl text-stone-300">
-                LastPage는 정식 등록 업체입니다.<br>
-                모든 장례지도사는 반려동물 장례지도사 1:1로 배정되며,<br>
-                보호사와 함께 처음부터 끝까지 모든 과정을 함께 합니다.<br>
-                숭고한 이별은 함께 나누며,<br>
-                마음과 정성을 다하여 이별의 슬픔을 위로하는 LastPage가 되겠습니다.
-            </p>
+                <div class="max-w-5xl mx-auto px-6 w-full" data-aos="fade-up">
 
-        </div>
-    </section>
+                    <h2 class="font-serif text-4xl md:text-5xl font-semibold mb-12 text-white text-center">
+                        오시는 길
+                    </h2>
 
-    <!-- [수정] 'Our Values' 섹션 삭제됨 -->
+                    <!-- 그리드 시작 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+
+                        <!-- 왼쪽 지도 컬럼 -->
+                        <div>
+                            <img th:src="@{/Asset/aboutus_map.PNG}" alt="오시는 길 지도"
+                                 class="w-full h-auto rounded-lg shadow-lg border-2 border-white/50">
+                        </div>
+
+                        <div class="text-left">
+
+                            <div class="mb-8 text-xl text-stone-200">
+                                <p><strong>주소:</strong> 대구 중구 달구벌대로 2095 (반월당역)</p>
+                                <p><strong>대표 전화:</strong> 1577-5474</p>
+                                <p><strong>영업 시간:</strong> 24시간 연중무휴</p>
+                            </div>
+
+                            <!-- 상세 주소 텍스트 -->
+                            <p class="text-lg text-stone-400 mt-4">
+                                반월당역 13번 출구 나와서 바로 앞 반월 <br>
+                                센트럴타워(광개토병원) 10층에 위치하고 있습니다.<br>
+                                13번 출구에서 눈앞에 바로 보이며<br>
+                                단 10걸음이라 찾기 쉽습니다
+                            </p>
+                        </div>
+
+                    </div> <!-- End Grid -->
+                </div> <!-- End Wrapper Div -->
+            </div>
+
+        </div> <!-- End Grid/Content Wrapper -->
+    </section> <!-- End 200vh Section -->
 
 </main>
 
-<!-- 3. 공통 푸터 (JS 주입 방식) -->
 <div id="footer-container"></div>
 <script th:src="@{/js/header.js}"></script>
 <script th:src="@{/js/footer.js}"></script>
 
-<!-- AOS JS 및 초기화 -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     AOS.init({
