@@ -118,4 +118,31 @@ document.addEventListener('DOMContentLoaded', () => {
             isAnimating = false;
         }, 650);
     }
+
+    // ---------------------------------------------------------
+    // [기능 3] 아이템 삭제 (공간 비우기) - 전역 함수로 선언해야 HTML에서 호출 가능
+    // ---------------------------------------------------------
+    window.deleteItem = function(id) {
+        if (!confirm("정말로 이 추모 공간을 비우시겠습니까?\n삭제된 데이터는 복구할 수 없습니다.")) {
+            return;
+        }
+
+        // ReserveController의 @DeleteMapping("/ourpage_reserve/{id}") 호출
+        fetch(`/reserve/ourpage_reserve/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("공간이 비워졌습니다.");
+                window.location.reload(); // 화면 새로고침
+            } else {
+                response.text().then(text => alert("삭제 실패: " + text));
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("오류가 발생했습니다.");
+        });
+    };
+
 });

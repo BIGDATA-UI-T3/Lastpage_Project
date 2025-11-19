@@ -46,6 +46,7 @@ public class OurpageReserveService {
                 dtos.set(idx, OurpageReserveDto.builder()
                         .id(entity.getId())
                         .slotIndex(idx)
+                        .userSeq(entity.getUserSeq())
                         .petName(entity.getPetName())
                         .dateRange(entity.getDateRange())
                         .message(entity.getMessage())
