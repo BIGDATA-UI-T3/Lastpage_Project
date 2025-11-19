@@ -1,14 +1,11 @@
-<!-- 헤더 -->
 <header xmlns:th="http://www.w3.org/1999/xhtml">
 
-    <!-- 햄버거 -->
     <div class="hamburger" id="hamburger">
         <span></span>
         <span></span>
         <span></span>
     </div>
 
-    <!-- 사이드 메뉴 -->
     <div class="side-menu" id="sideMenu">
         <ul>
             <li><a th:href="@{/}">홈</a>
@@ -23,7 +20,8 @@
                     <li><a href="/mypage/Mypage">예약조회</a></li>
                 </ul>
             </li>
-            <li><a href="/">Ourpage</a></li>
+            <li><a th:href="@{/reserve/ourpage/main}">Ourpage</a></li>
+
             <li><a href="#">심리상담서비스</a>
                 <ul>
                     <li><a href="/psyService">서비스소개</a></li>
@@ -44,14 +42,12 @@
         </ul>
     </div>
 
-    <!-- 로고 -->
     <div class="logo">
         <a href="/">
             <img th:src="@{/Asset/LastPage로고_투명.png}" alt="로고" />
         </a>
     </div>
 
-    <!-- 네비게이션 -->
     <nav>
         <ul>
             <li><a th:href="@{/}">홈</a>
@@ -67,7 +63,9 @@
                     <li><a href="/mypage/Mypage">예약조회</a></li>
                 </ul>
             </li>
-            <li><a href="#">Ourpage</a></li>
+
+            <li><a th:href="@{/reserve/ourpage/main}">Ourpage</a></li>
+
             <li><a href="#">심리상담서비스</a>
                 <ul>
                     <li><a href="/psyService">서비스소개</a></li>
@@ -90,7 +88,6 @@
         </ul>
     </nav>
 
-    <!-- 로그인 상태 -->
     <div class="auth"
          th:data-login="${session.loginUser != null ? 'true' : 'false'}"
          th:data-username="${session.loginUser != null ? session.loginUser.name : ''}">
