@@ -326,14 +326,15 @@ public class ReserveController {
      * 실제 URL: /reserve/ourpage/main
      * ========================================================= */
     @GetMapping("/ourpage/main")
-    public String ourpageMain(Model model) {
-        // 1. 서비스에서 12개 슬롯(빈자리 포함) 데이터를 가져옴
+    public String ourpageMain(Model model, HttpSession session) { // HttpSession 추가
+        // 1. 목록 가져오기
         List<OurpageReserveDto> list = ourpageReserveService.getAllOurpages();
-
-        // 2. 모델에 담아서 HTML로 전달
         model.addAttribute("ourpageList", list);
 
-        // 3. templates/ourpage/ourpage.html 파일을 엽니다.
+        // 2. 로그인 여부 확인해서 HTML로 보냄
+        boolean isLoggedIn = session.getAttribute("userSeq") != null;
+        model.addAttribute("isLoggedIn", isLoggedIn);
+
         return "ourpage/ourpage";
     }
 
