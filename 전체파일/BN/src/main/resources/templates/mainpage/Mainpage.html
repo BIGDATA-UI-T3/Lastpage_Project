@@ -7,8 +7,10 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <link rel="stylesheet" th:href="@{/css/common.css}">
-    <link rel="stylesheet" th:href="@{/css/Mainpage.css}">
     <title>LastPage - 새로운 메인 레이아웃</title>
+    <style>
+        .sticky-top-header {top: 100px;}
+    </style>
     <script>
         // Tailwind CSS 색상 팔레트에 공통 CSS의 색상 추가
         tailwind.config = {
@@ -41,6 +43,15 @@
 
     <section class="relative w-full h-screen bg-neutral-800">
         <img th:src="@{/Asset/main1.png}" alt="추모 배너" class="absolute inset-0 w-full h-full object-cover opacity-60">
+
+        <div class="absolute inset-0 flex items-center justify-center z-10">
+            <h1 class="font-serif text-6xl md:text-7xl font-semibold text-white tracking-widest drop-shadow-lg"
+                style="font-family: 'Georgia', 'Nanum Myeongjo', serif;"
+                data-aos="fade-up"
+                data-aos-duration="1500">
+                LASTPAGE
+            </h1>
+        </div>
     </section>
 
     <section class="bg-white py-32 md:py-40">
@@ -109,7 +120,7 @@
             <div class="group bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row" data-aos="fade-up" data-aos-delay="100">
                 <img th:src="@{/Asset/펫로스증후군2.png}" alt="심리치료" class="w-full md:w-5/12 h-56 md:h-auto object-cover">
                 <div class="p-6 md:p-8 flex flex-col flex-grow">
-                    <h3 class="font-serif text-2xl font-semibold mb-3">심리치료</h3>
+                    <h3 class="font-sans text-xl font-semibold mb-3">심리치료</h3>
                     <p class="text-stone-600 mb-5 flex-grow">펫로스 증후군을 이겨내는 따뜻한 상담. 전문가와 함께 슬픔을 나누세요.</p>
                     <a th:href="@{/psyService}" class="font-semibold text-brand-light transition-colors duration-300 hover:text-brand-dark">상담 예약하기 &rarr;</a>
                 </div>
@@ -118,17 +129,18 @@
             <div class="group bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row" data-aos="fade-up" data-aos-delay="200">
                 <img th:src="@{/Asset/털보관함사진1.webp}" alt="추모물품" class="w-full md:w-5/12 h-56 md:h-auto object-cover">
                 <div class="p-6 md:p-8 flex flex-col flex-grow">
-                    <h3 class="font-serif text-2xl font-semibold mb-3">추모물품</h3>
+                    <h3 class="font-sans text-xl font-semibold mb-3">추모물품</h3>
                     <p class="text-stone-600 mb-5 flex-grow">소중한 기억을 간직할 수 있도록. 맞춤 굿즈, 고급 유골함 등을 만나보세요.</p>
                     <a th:href="@{/goodsService}" class="font-semibold text-brand-light transition-colors duration-300 hover:text-brand-dark">굿즈 보러가기 &rarr;</a>
                 </div>
             </div>
 
-            <div class="group bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row lg:col-span-2" data-aos="fade-up" data-aos-delay="300">
+            <div class="group bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row lg:col-span-2 mb-0" data-aos="fade-up" data-aos-delay="300">
                 <img th:src="@{/Asset/장례지도이미지1.jpg}" alt="커뮤니티" class="w-full md:w-5/12 h-56 md:h-auto object-cover">
                 <div class="p-6 md:p-8 flex flex-col flex-grow">
-                    <h3 class="font-serif text-2xl font-semibold mb-3">Ourpage & 커뮤니티</h3>
-                    <p class="text-stone-600 mb-5 flex-grow">메시지를 남기거나 사진을 공유하며 반려동물을 함께 추억하는 공간입니다.</p>
+                    <h3 class="font-sans text-xl font-semibold mb-9">Ourpage</h3>
+                    <p class="text-stone-600 mb-5 flex-grow">세상에 없지만 영원히 마음속에 살아있는 소중한 반려동물만을 위한 페이지입니다.
+                        가장 아름다웠던 순간들을 담은 사진, 미처 전하지 못한 편지 등을 모아 나만의 방식으로 영원히 간직할 수 있습니다.</p>
                     <a th:href="@{/community}" class="font-semibold text-brand-light transition-colors duration-300 hover:text-brand-dark">추모공간 가기 &rarr;</a>
                 </div>
             </div>

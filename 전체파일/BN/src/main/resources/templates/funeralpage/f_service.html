@@ -10,7 +10,6 @@
 
     <script th:src="@{'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=' + ${ncpMapClientId} + '&submodules=geocoder'}"></script>
 
-    <!-- AOS (애니메이션) CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <link rel="stylesheet" th:href="@{/css/common.css}">
@@ -22,17 +21,15 @@
     <div id="header-container"></div>
 </div>
 
-<!-- 섹션 1: 배너 -->
 <section class="full-screen-section banner" role="img" aria-label="따뜻한 펫로스 심리상담 배너 이미지"
          th:style="'background-image: url(' + @{/asset/f_service_banner.png} + ');'">
 
     <div class="inner" data-aos="fade-up" data-aos-duration="2000" data-aos-easing="ease-out-cubic">
-        <h1>작별의 순간, 혼자 두지 않겠습니다</h1>
+        <h1 style="font-family: serif;">작별의 순간, 혼자 두지 않겠습니다</h1>
         <p>그리움이 아프지 않도록, 기억을 천천히 다독입니다.</p>
     </div>
 </section>
 
-<!-- 섹션 2: 문구 레이아웃 (시안 6-3 풀스크린 중앙 정렬 + 내용 보강) -->
 <section class="full-screen-section text-section-v6-full"
          th:style="'padding: 100px 40px; color: #e8e6e3; text-align: center; ' +
                    'background-image: linear-gradient(rgba(43, 38, 35, 0.85), rgba(43, 38, 35, 0.85)), url(' + @{/asset/장례서비스설명.jpg} + '); ' +
@@ -44,7 +41,6 @@
         <h2 style="font-size: 3rem; margin-bottom: 50px; line-height: 1.2; font-family: serif; letter-spacing: -1px;">변치 않는 약속</h2>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px 40px; text-align: left;">
-
             <div style="display: flex; gap: 20px;">
                 <div style="color: #C1A38E; font-size: 1.8rem;">✦</div>
                 <div>
@@ -54,7 +50,6 @@
                     </p>
                 </div>
             </div>
-
             <div style="display: flex; gap: 20px;">
                 <div style="color: #C1A38E; font-size: 1.8rem;">✦</div>
                 <div>
@@ -64,7 +59,6 @@
                     </p>
                 </div>
             </div>
-
             <div style="display: flex; gap: 20px;">
                 <div style="color: #C1A38E; font-size: 1.8rem;">✦</div>
                 <div>
@@ -74,7 +68,6 @@
                     </p>
                 </div>
             </div>
-
             <div style="display: flex; gap: 20px;">
                 <div style="color: #C1A38E; font-size: 1.8rem;">✦</div>
                 <div>
@@ -84,14 +77,11 @@
                     </p>
                 </div>
             </div>
-
         </div>
     </div>
 </section>
 
-<!-- 섹션 3: 지도 레이아웃 -->
 <section class="map-section">
-    <!-- [수정] 내부 wrap div에 data-aos 적용 (떨림 방지) -->
     <div class="wrap map-content"
          data-aos="fade-up" data-aos-duration="1200" data-aos-delay="100" data-aos-easing="ease-out-cubic">
         <h1 class="title">협력 장례식장 안내</h1>
@@ -108,261 +98,25 @@
 
         <div class="grid">
             <div id="map" aria-label="장례식장 위치 지도"></div>
-            <div class="list-container" id="placeList">
-            </div>
+            <div class="list-container" id="placeList"></div>
         </div>
     </div>
 </section>
 
 <div id="footer-container"></div>
+
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
-<!-- AOS JS 및 설정 -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init({
-        once: false, // 반복 실행
-        threshold: 0.3,
-        duration: 800
-    });
-</script>
-
-<script>
-    (function () {
-      const header = document.querySelector('header');
-      window.addEventListener('scroll', () => {
-        header.style.top = (window.scrollY > 120) ? '-80px' : '0';
-      });
-    })();
-</script>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    document.addEventListener("DOMContentLoaded", function () {
-
-        // --- 1. DB 데이터 가져오기 ---
-        const PLACES = /*[[${places}]]*/ [];
-
-        // --- 2. 전역 변수 및 지도 초기화 ---
-        const mapEl = document.getElementById("map");
-        const placeListEl = document.getElementById("placeList");
-        const searchInput = document.getElementById("searchInput");
-        const searchButton = document.getElementById("searchButton");
-
-        const $ = s => document.querySelector(s);
-        const $$ = s => Array.from(document.querySelectorAll(s));
-
-        if (!naver || !naver.maps) {
-            console.error("Naver Maps SDK가 로드되지 않았습니다.");
-            mapEl.innerHTML = "<div style='text-align:center; padding: 20px;'>지도를 불러오는 데 실패했습니다.<br>NCP 클라이언트 ID를 확인해주세요.</div>";
-            searchInput.placeholder = "지도 로드 실패";
-            return;
-        }
-
-        // 지도 옵션
-        const mapOptions = {
-            center: new naver.maps.LatLng(36.8714, 127.6014), // 대한민국 중심
-            zoom: 8,
-            minZoom: 7,
-            draggable: true,
-            scrollWheel: true,
-            disableDoubleClickZoom: false,
-            disableDoubleTapZoom: false,
-            pinchZoom: true,
-            keyboardShortcuts: true,
-        };
-        const map = new naver.maps.Map("map", mapOptions);
-
-        const markers = {};
-        const placeCards = {};
-        const infoWindow = new naver.maps.InfoWindow({
-            content: '',
-            maxWidth: 300,
-            backgroundColor: "#fff",
-            borderColor: "#e0d8cc",
-            borderWidth: 1,
-            anchorSize: new naver.maps.Size(10, 10),
-            anchorSkew: true,
-            pixelOffset: new naver.maps.Point(20, -20)
-        });
-
-        // --- 3. 핵심 함수 ---
-
-        // 1. 목록 카드 HTML 생성
-        function createPlaceCardElement(place) {
-            const servicesHTML = (place.services || [])
-                .map(s => `<span class="chip">${s}</span>`).join('');
-
-            // [추가] 장례식장 이름을 URL 파라미터로 넘기기 위해 인코딩합니다.
-            const encodedPlaceName = encodeURIComponent(place.name);
-            // [추가] 장례 예약 페이지 URL을 생성합니다.
-            const reserveUrl = `/reserve/funeral_reserve?placeName=${encodedPlaceName}`;
-
-            const cardDiv = document.createElement('div');
-            cardDiv.className = 'place-card';
-            cardDiv.dataset.id = place.id;
-            cardDiv.innerHTML = `
-                <h3>${place.name}</h3>
-                <p class="addr">${place.address}</p>
-                <p class="phone">${place.phone}</p>
-                <div class="chips">${servicesHTML}</div>
-                <div class="links">
-                    <a href="#" onclick="alert('후기 기능 준비 중입니다.'); return false;">후기 보기</a>
-                    <a href="${place.homepageUrl || '#'}" target="_blank" rel="noopener noreferrer">홈페이지</a>
-
-                    <a href="${reserveUrl}" class="btn-reserve">예약하기</a>
-                </div>
-            `;
-
-            cardDiv.addEventListener("click", function (e) {
-                // A 태그(링크)를 클릭한 게 아니면 지도 이동
-                if (e.target.tagName !== 'A') {
-                    const id = cardDiv.dataset.id;
-                    const marker = markers[id];
-                    if (marker) {
-                        map.panTo(marker.getPosition(), { duration: 300 });
-                        naver.maps.Event.trigger(marker, 'click');
-                        highlightActiveCard(id);
-                    }
-                }
-                // A 태그를 클릭했다면, 기본 동작(링크 이동)을 수행
-            });
-            return cardDiv;
-        }
-
-        // 2. 정보창 내용 HTML 생성
-        function createInfoWindowContent(place) {
-            return `
-                <div style="padding:10px; min-width:200px; line-height:1.6;">
-                    <h5 style="margin:0 0 5px; font-weight:600; color: #2C3930;">${place.name}</h5>
-                    <p style="font-size:13px; margin:0;">${place.address}</p>
-                    <p style="font-size:13px; margin:0; color:#a2725c; font-weight: 500;">${place.phone}</p>
-                    <a href="${place.homepageUrl || '#'}" target="_blank" rel="noopener noreferrer" style="font-size:13px; color:#007bff; text-decoration:none;">홈페이지 방문</a>
-                </div>
-            `;
-        }
-
-        // 3. (Promise) 주소 -> 좌표 변환
-        function geocodeAddress(place) {
-            return new Promise((resolve, reject) => {
-                if (place.latitude && place.longitude) {
-                    place.coords = new naver.maps.LatLng(place.latitude, place.longitude);
-                    resolve(place);
-                    return;
-                }
-
-                naver.maps.Service.geocode({ query: place.address }, (status, response) => {
-                    if (status !== naver.maps.Service.Status.OK || !response.v2.addresses.length) {
-                        console.warn(`[${place.name}] 지오코딩 실패: ${place.address}`);
-                        reject(new Error("Geocoding failed"));
-                        return;
-                    }
-                    const coords = response.v2.addresses[0];
-                    place.coords = new naver.maps.LatLng(coords.y, coords.x);
-                    resolve(place);
-                });
-            });
-        }
-
-        // 4. 활성 카드 표시
-        function highlightActiveCard(id) {
-            $$(".place-card").forEach(card => card.classList.remove("active"));
-            const activeCard = $(`.place-card[data-id="${id}"]`);
-            if (activeCard) {
-                activeCard.classList.add("active");
-            }
-        }
-
-        // 5. [기능 1] 검색 기능 핸들러
-        function handleSearch() {
-            const query = searchInput.value.trim().toLowerCase();
-            if (!query) {
-                alert('검색어를 입력해주세요.');
-                return;
-            }
-
-            const foundPlace = PLACES.find(place =>
-                place.name.toLowerCase().includes(query)
-            );
-
-            if (foundPlace) {
-                const marker = markers[foundPlace.id];
-
-                if (marker) {
-                    map.panTo(marker.getPosition(), { duration: 500 });
-                    naver.maps.Event.trigger(marker, 'click');
-                    highlightActiveCard(foundPlace.id);
-                } else {
-                    alert('"' + foundPlace.name + '"의 주소 좌표를 변환하는 데 실패했습니다. 주소를 확인해주세요.');
-                }
-            } else {
-                alert('"' + query + '"와(과) 일치하는 장례식장을 찾을 수 없습니다.');
-            }
-        }
-
-        // --- 4. 지도 실행 ---
-        async function initMap() {
-            try {
-                // 커스텀 마커 (SVG)
-
-                // 1. SVG 문자열로 마커 콘텐츠를 정의합니다.
-                const customIcon = {
-                    url: '/Asset/map_marker.png',
-                    size: new naver.maps.Size(50, 70),       // 비율 유지 (절반 크기)
-                    scaledSize: new naver.maps.Size(50, 70), // 꼭 같게
-                    anchor: new naver.maps.Point(25, 70)     // 하단 중앙 기준점
-                };
-
-                for (const place of PLACES) {
-                    try {
-                        await geocodeAddress(place);
-                        if (place.coords) {
-                            const marker = new naver.maps.Marker({
-                                position: place.coords,
-                                map: map,
-                                title: place.name,
-                                icon: customIcon
-                            });
-                            naver.maps.Event.addListener(marker, 'click', function() {
-                                infoWindow.setContent(createInfoWindowContent(place));
-                                infoWindow.open(map, marker);
-                                highlightActiveCard(place.id);
-                            });
-                            const card = createPlaceCardElement(place);
-                            card.style.display = 'block';
-                            placeListEl.appendChild(card);
-                            markers[place.id] = marker;
-                            placeCards[place.id] = card;
-                        }
-                    } catch (geoError) {
-                        console.warn(`[${place.name}] 처리 중 오류:`, geoError.message);
-                    }
-                }
-
-                searchButton.addEventListener('click', handleSearch);
-                searchInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') handleSearch();
-                });
-                naver.maps.Event.addListener(map, 'click', function() {
-                    infoWindow.close();
-                    $$(".place-card").forEach(card => card.classList.remove("active"));
-                });
-
-                searchInput.disabled = false;
-                searchButton.disabled = false;
-                searchInput.placeholder = "장례식장 이름으로 검색...";
-                console.log("지도 로딩 완료.");
-
-            } catch (error) {
-                console.error("지도 초기화 중 오류 발생:", error);
-                mapEl.innerHTML = "<div style='text-align:center; padding: 20px;'>지도 초기화 중 오류가 발생했습니다.</div>";
-                searchInput.placeholder = "지도 오류";
-            }
-        }
-
-        initMap();
-    });
+    // Thymeleaf 변수를 전역 변수에 할당하여 외부 JS 파일에서 접근 가능하게 함
+    window.PLACES_DATA = /*[[${places}]]*/ [];
     /*]]>*/
 </script>
+
+<script src="/js/f_service.js"></script>
+
 </body>
 </html>

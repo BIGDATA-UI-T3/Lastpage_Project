@@ -4,10 +4,11 @@ import com.example.demo.Domain.Common.Entity.FuneralService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- * FuneralPlace Entity에 대한 데이터베이스 접근(CRUD)을 처리합니다.
- */
+import java.util.List;
+
 @Repository
 public interface FuneralServiceRepository extends JpaRepository<FuneralService, Long> {
-    // JpaRepository가 findById, findAll, saveAll 등을 기본 제공합니다.
+
+    // [추가] 이름(Name) 또는 주소(Address)에 키워드가 포함(Containing)되어 있으면 검색
+    List<FuneralService> findByNameContainingOrAddressContaining(String nameKeyword, String addressKeyword);
 }

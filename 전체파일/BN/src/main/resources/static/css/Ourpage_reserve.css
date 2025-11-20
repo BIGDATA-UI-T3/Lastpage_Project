@@ -14,7 +14,7 @@
 *{box-sizing:border-box}
 
 body{
-    margin:0; font-family: 'Georgia', serif;
+    margin:0;
     background:linear-gradient(180deg,#f4efe6,var(--bg));
     color:var(--ink);
 }

@@ -42,7 +42,7 @@
 <main>
 
     <section class="relative w-full h-screen bg-neutral-800 text-white">
-        <img th:src="@{/Asset/aboutus_banner.jpg}" alt="About Us 배너"
+        <img th:src="@{/Asset/cat-9749782_1280.jpg}" alt="About Us 배너"
              class="absolute inset-0 w-full h-full object-cover opacity-50"
              style="object-position: 50% 50%;">
         <div class="relative h-full flex flex-col items-center justify-center text-center p-6" data-aos="fade-in" data-aos-duration="1500">
@@ -52,19 +52,15 @@
         </div>
     </section>
 
-    <section class="relative w-full h-[200vh] text-stone-200">
-
+    <section class="relative w-full min-h-screen text-stone-200 py-20">
         <img th:src="@{/Asset/aboutus.jpg}" alt="소개 배경"
              class="absolute inset-0 w-full h-full object-cover">
 
-        <!-- 어두운 오버레이 -->
         <div class="absolute inset-0 w-full h-full bg-brand-dark opacity-80"></div>
 
-        <!-- 콘텐츠 래퍼 (200vh 높이를 2개의 행으로 나눔) -->
-        <div class="relative w-full h-full grid grid-rows-2">
+        <div class="relative w-full h-full flex flex-col justify-start">
 
-            <!-- 브랜드 소개 (상단 100vh 영역) -->
-            <div class="flex items-center justify-center">
+            <div class="flex items-center justify-center py-60">
                 <div class="max-w-3xl mx-auto px-6 text-center" data-aos="fade-up">
                     <h2 class="font-serif text-3xl md:text-4xl font-semibold mb-6 text-white">
                         애도 여정의 동반자, LastPage
@@ -79,10 +75,9 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-center">
+            <div class="flex items-center justify-center py-50">
 
-                <div class="max-w-5xl mx-auto px-6 w-full" data-aos="fade-up">
-
+                <div class="max-w-5xl mx-auto px-6 w-full pt-30 pb-40">
                     <h2 class="font-serif text-4xl md:text-5xl font-semibold mb-12 text-white text-center">
                         오시는 길
                     </h2>
