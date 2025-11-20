@@ -320,11 +320,6 @@ public class ReserveController {
     /* =========================================================
      * [NEW] Ourpage (추모 공간) 예약
      * ========================================================= */
-
-    /* =========================================================
-     * [0] Ourpage 메인 화면 (그리드 조회) - [이 코드가 빠져있었습니다!]
-     * 실제 URL: /reserve/ourpage/main
-     * ========================================================= */
     @GetMapping("/ourpage/main")
     public String ourpageMain(Model model, HttpSession session) { // HttpSession 추가
         // 1. 목록 가져오기
@@ -382,7 +377,6 @@ public class ReserveController {
             @RequestParam("dateStart") String dateStart,
             @RequestParam("dateEnd") String dateEnd,
             @RequestParam("message") String message,
-            // 👇 [수정 1] 프론트에서 보낸 자리 번호(slotIndex) 받기
             @RequestParam("slotIndex") Integer slotIndex,
             @RequestParam(value = "petPhoto", required = false) MultipartFile petPhoto,
             @SessionAttribute(value = "loginUser", required = false) Object loginUser) {
@@ -393,7 +387,6 @@ public class ReserveController {
             // UserSeq를 String으로 추출 (지난번 수정 사항 유지)
             String userSeq = extractUserSeq(loginUser);
 
-            // 👇 [수정 2] 서비스의 save 메서드에 slotIndex 전달 (맨 뒤에 추가)
             ourpageReserveService.save(petName, dateStart, dateEnd, message, petPhoto, userSeq, slotIndex);
 
             log.info("[Ourpage 예약 등록 완료] userSeq={}, slotIndex={}", userSeq, slotIndex);
@@ -404,10 +397,8 @@ public class ReserveController {
         }
     }
 
-    /* [4] Ourpage 수정 (파일 포함 -> POST/PUT) */
-    // HTML Form/JS FormData는 기본적으로 PUT 요청 시 파일 전송이 까다로울 수 있어 POST로 처리하거나
-    // JS에서 fetch method: 'PUT' 설정 필요. 여기서는 기존 패턴대로 PUT 매핑을 유지하되,
-    // 클라이언트(JS)에서 FormData 전송 시 주의 필요.
+    /* [4] Ourpage 수정 */
+
     @PutMapping("/ourpage_reserve/{id}")
     @ResponseBody
     public ResponseEntity<?> updateOurpageReserve(
@@ -423,7 +414,6 @@ public class ReserveController {
             if (loginUser == null) return ResponseEntity.status(401).body("로그인이 필요합니다.");
             String userSeq = extractUserSeq(loginUser);
 
-            // Service에 update 로직 필요 (save와 유사하되 ID로 조회 후 수정)
             ourpageReserveService.updateReserve(id, petName, dateStart, dateEnd, message, petPhoto, userSeq);
 
             log.info("[Ourpage 수정 완료] ID={}, userSeq={}", id, userSeq);
@@ -453,7 +443,6 @@ public class ReserveController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 
     /* =========================================================
      * [공통] 로그인 사용자 user_seq 추출

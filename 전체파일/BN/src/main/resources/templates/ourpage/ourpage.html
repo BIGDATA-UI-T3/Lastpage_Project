@@ -106,20 +106,18 @@
 <script th:src="@{/js/header.js}"></script>
 <script th:src="@{/js/footer.js}"></script>
 <script th:inline="javascript">
-    /* 컨트롤러에서 보낸 로그인 여부 받기 */
     const isLoggedIn = [[${isLoggedIn}]];
 
     function checkLogin(event) {
         // 로그인이 안 되어 있다면?
         if (!isLoggedIn) {
-            event.preventDefault(); // 1. 페이지 이동 막기 (중요!)
+            event.preventDefault(); // 페이지 이동 막기
 
             if (confirm("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?")) {
-                window.location.href = "/signin"; // 2. 로그인 페이지로 이동
+                window.location.href = "/signin"; // 로그인 페이지로 이동
             }
             return false;
         }
-        // 로그인이 되어 있다면 그냥 통과 -> 예약 페이지로 이동
     }
 </script>
 <script th:src="@{/js/ourpage.js}"></script>

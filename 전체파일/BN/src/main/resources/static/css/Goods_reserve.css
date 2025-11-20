@@ -8,40 +8,35 @@
     --border:#ece3d7;
     --shadow:0 12px 32px rgba(0,0,0,.10);
     --radius:22px;
-
-    /* 굿즈 예약 배너 이미지 경로 */
-    --banner-url: url('../Asset/Gemini_Generated_Image_jirnjrjirnjrjirn.png'); /* 경로에 맞게 수정 */
+    --banner-url: url('../Asset/goodsReserve_banner.png');
 }
 
 *{box-sizing:border-box}
 
 body{
-    margin:0; 
-    /* [수정] 폰트 통일 */
-    font-family: 'Georgia', serif; 
+    margin:0;
+    font-family: 'Georgia', serif;
     background:linear-gradient(180deg,#f4efe6,var(--bg));
     color:var(--ink);
 }
 
-/* --- [장례 페이지와 동일] 통합 배경 스타일 --- */
-.full-background { /* 굿즈 HTML에서 main 태그에 이 클래스를 적용해야 합니다. */
+/* --- 통합 배경 스타일 --- */
+.full-background {
     position: relative;
     width: 100%;
-    min-height: 100vh; 
+    min-height: 100vh;
     background-image: var(--banner-url);
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; 
+    background-attachment: fixed;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* 콘텐츠를 상단에 배치 */
-    
-    padding-top: 140px; 
-    /* 장례 예약과 동일하게 간격 최소화 */
-    padding-bottom: 40px; 
+    align-items: flex-start;
+
+    padding-top: 140px;
+    padding-bottom: 40px;
 }
 
-/* 배경 어둡게 처리 (오버레이) */
 .overlay {
     position: absolute;
     inset: 0;
@@ -49,7 +44,7 @@ body{
     z-index: 0;
 }
 
-/* 콘텐츠 래퍼 (굿즈 페이지 타이틀과 카드 감싸는 역할) */
+/* 콘텐츠 래퍼 */
 .content-wrapper {
     position: relative;
     z-index: 1;
@@ -58,26 +53,36 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 80px; 
+    gap: 160px;
     padding: 0 20px;
 }
 
-/* 굿즈 페이지 타이틀 영역 (장례 페이지와 동일) */
-/* 만약 굿즈 페이지에 별도의 타이틀 영역이 있다면 이 부분을 추가하세요. */
-/* 현재는 HTML 구조를 모르므로 페이지 타이틀 영역은 잠시 생략하고 카드 스타일만 수정합니다. */
+/* 페이지 타이틀 영역 */
+.page-title-area {
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+.page-title-area h1 {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
+    margin: 0 0 12px;
+}
+.page-title-area p {
+    font-size: 18px;
+    opacity: 0.95;
+    font-weight: 400;
+    margin: 0;
+}
 
-
-/* [수정] 카드 스타일 (투명도 적용) */
+/* --- 카드 스타일 --- */
 .card{
-    width:min(880px, 92vw);
-    /* [수정] 카드 투명도 적용 (0.75) */
-    background: rgba(255, 255, 255, 0.75);
+    width: 100%;
+    background: rgba(255, 255, 255, 0.85);
     border:1px solid var(--border);
     border-radius:var(--radius);
     box-shadow:var(--shadow);
     padding:24px;
-    /* 굿즈 페이지의 .wrap 클래스 대신 .full-background에 의해 중앙 정렬되므로 margin-top/bottom은 제거 */
-    margin: 0; 
 }
 
 h1.title{ margin:6px 0 18px; color:#666; font-size:24px; text-align:center }
@@ -103,20 +108,6 @@ label.small{ font-size:13px; color:#555 }
 }
 .muted{ color:var(--muted) }
 
-/* 슬롯/세그먼트 */
-.seg{display:flex; gap:8px; margin:6px 0}
-.seg-btn{
-    flex:1; height:36px; border:1px solid #e4d7c8; background:#fffaf4; color:#444; cursor:pointer;
-}
-.seg-btn.is-active{ background:#222; color:#fff; border-color:#222 }
-.slots{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
-@media (max-width:480px){ .slots{ grid-template-columns:repeat(3,1fr); } }
-.slot{
-    height:36px; border:1px solid #e4d7c8; background:#fff; color:#333; border-radius:10px; cursor:pointer;
-}
-.slot.active{ background:#222; color:#fff; border-color:#222 }
-.slot.is-disabled{ background:#f2f2f2; color:#b7b7b7; pointer-events:none }
-
 /* 버튼 */
 .actions{ display:flex; gap:8px; justify-content:space-between; margin-top:14px }
 .btn{
@@ -138,5 +129,5 @@ label.small{ font-size:13px; color:#555 }
 .summary{ border-top:1px dashed #e3d7c6; margin-top:10px; padding-top:12px; line-height:1.8 }
 .count{ font-size:12px; color:#8c7a68; text-align:right }
 
-/* 작은 안내 */
-.note{ display:block; color:#8b7d6c; font-size:12px; margin-top:4px }
+/* date input 스타일 */
+input[type="date"]{ color-scheme:light }

@@ -39,7 +39,6 @@ public class OurpageReserveService {
                     .build());
         }
 
-        // DB에 있는 데이터를 해당 slotIndex 자리에 끼워넣기
         for (OurpageReserve entity : entities) {
             int idx = entity.getSlotIndex();
             if (idx >= 0 && idx < 12) {
@@ -58,7 +57,7 @@ public class OurpageReserveService {
         return dtos;
     }
 
-    // [중요] 2. 상세 조회 (이 메서드가 없어서 에러가 났던 겁니다!)
+    // 2. 상세 조회
     @Transactional(readOnly = true)
     public OurpageReserveDto findById(Long id) {
         return ourpageReserveRepository.findById(id)
@@ -108,7 +107,6 @@ public class OurpageReserveService {
         entity.setDateRange(dateStart + " ~ " + dateEnd);
         entity.setMessage(message);
 
-        // 수정된 DTO 반환 (필요시)
         return findById(id);
     }
 

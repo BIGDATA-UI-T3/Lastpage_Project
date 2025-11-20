@@ -15,11 +15,10 @@ public class OurpageReserve {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 예약자(유저) 시퀀스
     private String userSeq;
 
     @Column(nullable = false)
-    private String petName; // 반려동물 이름
+    private String petName;
 
     @Column(nullable = false)
     private String dateRange; // "2010.05.01 ~ 2024.03.15"
