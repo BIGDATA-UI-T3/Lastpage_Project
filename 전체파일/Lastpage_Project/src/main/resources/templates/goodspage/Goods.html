@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -12,8 +12,8 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <!-- <link rel="stylesheet" href="./common.html"> -->
-    <link rel="stylesheet" href="../CSS/common.css">
-    <link rel="stylesheet" href="../CSS/Goods.css">
+    <link rel="stylesheet" th:href="@{/css/Goods.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
     <title>Goods</title>
 </head>
 
@@ -119,14 +119,9 @@
 
     <!-- 푸터 -->
 <div id="footer-container"></div>
+<script src="/js/goods.js"></script>
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
-<script src="/js/goods.js"></script>
-
-    <script>
-
-    </script>
-
 
 </body>
 

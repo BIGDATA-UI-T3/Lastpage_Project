@@ -48,19 +48,19 @@ public class AdminReserveController {
         return "admin/AdminReserveDetail";
     }
 
-    /** 삭제 */
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/delete/{type}/{id}")
-    public String delete(@PathVariable String type,
-                         @PathVariable Long id) {
-
-        switch (type) {
-            case "funeral" -> adminFuneralService.deleteById(id);
-            case "goods" -> adminGoodsService.deleteById(id);
-            case "psy" -> adminPsyService.deleteById(id);
-            default -> throw new IllegalArgumentException("잘못된 타입입니다: " + type);
-        }
-
-        return "redirect:/admin/reserves";
-    }
+//    /** 삭제 */
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @GetMapping("/delete/{type}/{id}")
+//    public String delete(@PathVariable String type,
+//                         @PathVariable Long id) {
+//
+//        switch (type) {
+//            case "funeral" -> adminFuneralService.deleteById(id);
+//            case "goods" -> adminGoodsService.deleteById(id);
+//            case "psy" -> adminPsyService.deleteById(id);
+//            default -> throw new IllegalArgumentException("잘못된 타입입니다: " + type);
+//        }
+//
+//        return "redirect:/admin/reserves";
+//    }
 }

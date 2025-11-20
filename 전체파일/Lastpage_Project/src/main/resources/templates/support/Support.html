@@ -9,17 +9,23 @@
     <title>고객센터</title>
 </head>
 
-<body th:data-userseq="${
-       session.loginUser != null ? session.loginUser.userSeq :
-       session.socialUser != null ? session.socialUser.userSeq :
-       ''
-}">
-
+<body
+        th:data-userseq="${
+           session.loginUser != null ? session.loginUser.userSeq :
+           session.socialUser != null ? session.socialUser.userSeq :
+           ''
+      }"
+        th:data-adminmode="${isAdmin != null ? isAdmin : false}"
+        th:data-qnaid="${qnaId != null ? qnaId : ''}"
+>
 <div class="header-wrapper">
     <div id="header-container"></div>
 </div>
 
-<!-- 배너 -->
+
+
+
+<!-- 탭 + QnA/FAQ -->
 <section class="banner" aria-labelledby="bannerTitle">
     <div class="inner">
         <h1 id="bannerTitle" class="headline">고객센터</h1>
@@ -27,8 +33,9 @@
     </div>
 </section>
 
-<!-- 탭 + QnA/FAQ -->
 <main class="wrap">
+    <!-- 배너 -->
+
 
     <div class="tabbar" role="tablist" aria-label="콘텐츠 전환">
         <button class="tab active" id="tab-faq" role="tab" aria-selected="true">FAQ</button>
@@ -156,6 +163,9 @@
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
 
-
+</main>
 </body>
 </html>
+
+
+

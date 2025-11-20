@@ -144,6 +144,18 @@ public class SignupService {
 
     private final SignupRepository signupRepository;
 
+
+    /* ======================================================
+       회원 단건 조회 (관리자 세션 갱신용)
+    ====================================================== */
+    public Signup findById(String userSeq) {
+        return repository.findById(userSeq)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("해당 회원을 찾을 수 없습니다. userSeq=" + userSeq)
+                );
+    }
+
+
     /** 전체 회원 수 */
     public long countUsers() {
         return signupRepository.count();

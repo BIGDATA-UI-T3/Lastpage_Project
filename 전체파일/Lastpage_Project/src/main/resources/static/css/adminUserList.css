@@ -62,7 +62,8 @@
             border-radius: 8px;
             background: white;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
         }
 
         th, td {
@@ -73,34 +74,53 @@
         }
 
         th {
-            background: #f1f2f6;
+            background: #2d3436;
             font-weight: bold;
+            color:white;
         }
 
-        /* 버튼 */
-        .btn-edit {
-            padding: 6px 12px;
-            font-size: 13px;
-            background: #0984e3;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-        }
+          /* 버튼 */
 
-        .btn-edit:hover {
-            background: #0873c9;
-        }
+          .btn-action {
+              padding: 6px 12px;
+              font-size: 13px;
+              border-radius: 5px;
+              color: white;
+              text-decoration: none;
+              transition: background 0.2s ease, color 0.2s ease;
+          }
 
-        .btn-delete {
-            padding: 6px 12px;
-            font-size: 13px;
-            background: #d63031;
-            color: white;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-        }
+                /* 수정 버튼 */
+                .btn-edit {
+                padding: 6px 12px;
+                              font-size: 13px;
+                              border-radius: 5px;
+                    background: #0984e3;
+                    text-decoration: none;
+                    color :white;
+                    border: 1px solid transparent;
+                }
 
-        .btn-delete:hover {
-            background: #b92424;
-        }
+                .btn-edit:hover {
+                    background: white;
+                    border: 1px solid #0984e3;
+                    color: #0984e3;
+                }
+
+                /* 삭제 버튼 */
+                .btn-delete {
+                padding: 6px 12px;
+                                              font-size: 13px;
+                                              border-radius: 5px;
+                                    background: #d63031;
+                                    text-decoration: none;
+                                    color:white;
+
+                    border: 1px solid transparent;
+                }
+
+                .btn-delete:hover {
+                    background: white;
+                    border: 1px solid #d63031;
+                    color: #d63031;
+                }

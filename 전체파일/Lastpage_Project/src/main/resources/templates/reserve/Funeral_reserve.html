@@ -207,7 +207,13 @@
                 <!-- 시간 및 메모 -->
                 <div class="grid-1" style="margin-top:10px">
                     <div>
-                        <label class="small">희망 시간 (1시간)</label>
+                        <label class="small">희망 시간 (30분)</label>
+                        <!-- 오전 / 오후 선택 -->
+                        <div class="seg" style="margin-bottom:10px;">
+                            <button type="button" class="seg-btn is-active" data-seg="am">오전</button>
+                            <button type="button" class="seg-btn" data-seg="pm">오후</button>
+                        </div>
+
                         <div id="timeSlots" class="slots"
                              th:data-time="${reserve != null ? reserve.time : ''}"
                              role="listbox" aria-label="시간 선택"></div>

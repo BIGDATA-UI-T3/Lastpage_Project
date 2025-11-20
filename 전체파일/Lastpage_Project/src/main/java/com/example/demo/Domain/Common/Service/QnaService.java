@@ -28,7 +28,6 @@ public class QnaService {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     private final QnaImageService imageService;
 
-
     /* ============================================================
      * 유저: QnA 작성
      * ============================================================ */
@@ -37,7 +36,6 @@ public class QnaService {
         Signup writer = signupRepository.findById(dto.getUserSeq())
                 .orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
 
-        // Base64 이미지 저장
         List<String> savedImages = imageService.saveBase64Images(dto.getImages());
 
         Qna qna = Qna.builder()
@@ -58,7 +56,6 @@ public class QnaService {
         return QnaResponseDto.fromEntity(qna);
     }
 
-
     /* ============================================================
      * 유저: QnA 수정
      * ============================================================ */
@@ -71,9 +68,6 @@ public class QnaService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        // ------------------------------
-        //   이미지 처리 (Base64 + 기존 URL 구분)
-        // ------------------------------
         List<String> newUrls = imageService.saveBase64Images(dto.getImages());
 
         qna.setNickname(dto.getNickname());
@@ -81,13 +75,12 @@ public class QnaService {
         qna.setContent(dto.getContent());
         qna.setCategory(dto.getCategory());
         qna.setSecret(dto.isSecret());
-        qna.setImages(newUrls); // ← URL만 저장
+        qna.setImages(newUrls);
         qna.setLinks(dto.getLinks() != null ? dto.getLinks() : List.of());
         qna.setUpdatedAt(LocalDateTime.now());
 
         return QnaResponseDto.fromEntity(qna);
     }
-
 
     /* ============================================================
      * 유저: QnA 삭제
@@ -104,7 +97,9 @@ public class QnaService {
         qnaRepository.delete(qna);
     }
 
-
+    /* ============================================================
+     * QnA 조회
+     * ============================================================ */
     @Transactional(readOnly = true)
     public List<QnaResponseDto> findByCategory(String category) {
         return QnaResponseDto.fromEntities(
@@ -112,16 +107,12 @@ public class QnaService {
         );
     }
 
-
     @Transactional(readOnly = true)
     public QnaResponseDto getDetail(String id) {
-
         Qna qna = qnaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
-
         return QnaResponseDto.fromEntity(qna);
     }
-
 
     @Transactional(readOnly = true)
     public List<QnaResponseDto> findAll() {
@@ -135,21 +126,33 @@ public class QnaService {
         );
     }
 
-
+    /* ============================================================
+     * 관리자: 답변 저장/수정
+     * ============================================================ */
     public QnaResponseDto saveAnswer(QnaAnswerDto dto) {
 
+        log.info("[saveAnswer] 요청 dto = {}", dto);
+
         Qna qna = qnaRepository.findById(dto.getQnaId())
-                .orElseThrow(() -> new IllegalArgumentException("문의가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("문의가 존재하지 않습니다. qnaId=" + dto.getQnaId()));
 
         qna.setAdminAnswer(dto.getAnswer());
         qna.setAdminName(dto.getAdminName());
         qna.setAnswerAt(LocalDateTime.now());
         qna.setUpdatedAt(LocalDateTime.now());
 
-        return QnaResponseDto.fromEntity(qna);
+        Qna saved = qnaRepository.save(qna);
+
+        log.info("[saveAnswer] 저장 완료. id={}, adminName={}, answer={}",
+                saved.getId(), saved.getAdminName(), saved.getAdminAnswer());
+
+        return QnaResponseDto.fromEntity(saved);
     }
 
 
+    /* ============================================================
+     * 유저: 비밀번호 체크
+     * ============================================================ */
     @Transactional(readOnly = true)
     public boolean checkPassword(String id, String rawPassword) {
 
@@ -158,4 +161,13 @@ public class QnaService {
 
         return encoder.matches(rawPassword, qna.getWriterPass());
     }
+
+    public void adminDelete(String id) {
+
+        Qna qna = qnaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
+
+        qnaRepository.delete(qna);
+    }
+
 }

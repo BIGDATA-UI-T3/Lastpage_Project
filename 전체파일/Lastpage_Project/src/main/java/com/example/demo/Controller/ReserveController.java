@@ -11,6 +11,7 @@ import com.example.demo.Domain.Common.Service.GoodsReserveService;
 import com.example.demo.Domain.Common.Service.PsyReserveService;
 import com.example.demo.Domain.Common.Service.SignupService;
 import com.example.demo.Repository.SignupRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,40 +37,62 @@ public class ReserveController {
     private final SignupRepository signupRepository;
 
     /* =========================================================
-     *  [1] 심리상담 예약 페이지 (신규 / 수정 모드)
-     *  - ?id=123 있으면 수정모드
-     *  - 없으면 신규모드
+     *   심리상담 예약 컨트롤러 (관리자 / 사용자 통합)
      * ========================================================= */
-    @GetMapping("/psy_reserve")
+
+    @GetMapping({"/psy_reserve", "/psy_reserve/{id}",
+            "/admin/reserve/psy_reserve", "/admin/reserve/psy_reserve/{id}"})
     public String psyReserveForm(@RequestParam(required = false) Long id,
+                                 @RequestParam(required = false) String targetUserSeq,
                                  Model model,
+                                 HttpServletRequest request,
                                  @SessionAttribute(value = "loginUser", required = false) Object loginUser) {
+
         if (loginUser == null) {
-            log.warn("[심리 예약 페이지 접근] 세션 없음 → 로그인 필요");
+            log.warn("[심리예약 페이지 접근] 세션 없음 → 로그인 필요");
             return "redirect:/signin";
         }
-//        String userSeq = (String) session.getAttribute("userSeq");
-        String userSeq = extractUserSeq(loginUser);
+
+        // 1) 관리자 요청 여부
+        String uri = request.getRequestURI();
+        boolean isAdminRequest = uri.startsWith("/reserve/admin/");
+
+        // 2) 로그인한 세션 사용자
+        String sessionUserSeq = extractUserSeq(loginUser);
+
+        // 3) 실제 조회 기준이 되는 userSeq
+        String actualUserSeq = isAdminRequest
+                ? (targetUserSeq != null ? targetUserSeq : sessionUserSeq)
+                : sessionUserSeq;
+
+        // 4) 수정 모드이면 데이터 불러오기
+        PsyReserveDto dto = null;
+
         if (id != null) {
-            PsyReserveDto dto = psyReserveService.findById(id);
+            dto = psyReserveService.findByIdForAdminOrUser(id, actualUserSeq, isAdminRequest);
             if (dto == null) {
-                log.warn("[예약 수정 페이지] 존재하지 않는 ID={}", id);
+                log.warn("[심리예약 수정 페이지] 존재하지 않는 ID={}", id);
                 return "redirect:/mypage/Mypage";
             }
-            model.addAttribute("reserve", dto);
-            model.addAttribute("mode", "edit");
-            log.info("[예약 수정 페이지 진입] ID={}, userSeq={}", dto.getId(), dto.getUserSeq());
+            model.addAttribute("mode", isAdminRequest ? "admin-edit" : "edit");
         } else {
-            model.addAttribute("reserve", null);
-            model.addAttribute("mode", "create");
+            model.addAttribute("mode", isAdminRequest ? "admin-create" : "create");
         }
 
-        model.addAttribute("sessionUserSeq", userSeq);
+        model.addAttribute("reserve", dto);
+        model.addAttribute("sessionUserSeq", sessionUserSeq);
+        model.addAttribute("targetUserSeq", actualUserSeq);
+
+        log.info("[{}] 심리예약 페이지 진입 → sessionUserSeq={}, targetUserSeq={}, id={}",
+                isAdminRequest ? "ADMIN" : "USER",
+                sessionUserSeq, actualUserSeq, id);
+
         return "reserve/psy_reserve";
     }
 
+
     /* =========================================================
-     *  [2] 심리상담 예약 상세조회 (fetch용)
+     *   [2] 상세 조회 (fetch용)
      * ========================================================= */
     @GetMapping("/api/psy_reserve/{id}")
     @ResponseBody
@@ -78,14 +101,16 @@ public class ReserveController {
             PsyReserveDto dto = psyReserveService.findById(id);
             if (dto == null) return ResponseEntity.notFound().build();
             return ResponseEntity.ok(dto);
+
         } catch (Exception e) {
             log.error("[상담예약 상세조회 실패]", e);
             return ResponseEntity.internalServerError().body("예약 정보를 불러올 수 없습니다.");
         }
     }
 
+
     /* =========================================================
-     *  [3] 신규 상담예약 저장
+     *   [3] 신규 저장 (공용)
      * ========================================================= */
     @PostMapping("/save1")
     @ResponseBody
@@ -95,32 +120,32 @@ public class ReserveController {
 
         try {
             if (loginUser == null)
-
                 return ResponseEntity.status(401).body("로그인이 필요합니다.");
 
             String userSeq = extractUserSeq(loginUser);
-            dto.setUserSeq(userSeq); // FK 연결
+            dto.setUserSeq(userSeq);
 
             PsyReserveDto saved = psyReserveService.saveReservation(dto);
-            log.info("[예약 등록 완료] userSeq={}, 예약ID={}", userSeq, saved.getId());
 
+            log.info("[상담예약 등록 완료] userSeq={}, 예약ID={}", userSeq, saved.getId());
             return ResponseEntity.ok(saved.getId());
-        } catch (IllegalStateException e) {
-            log.warn("[예약 저장 실패] {}", e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
+
         } catch (Exception e) {
             log.error("상담 예약 저장 실패", e);
             return ResponseEntity.internalServerError().body("예약 저장 실패");
         }
     }
 
+
     /* =========================================================
-     *  [4] 상담예약 수정
+     *   [4] 수정 (관리자 / 사용자 통합)
      * ========================================================= */
-    @PutMapping("/psy_reserve/{id}")
+    @PutMapping({"/psy_reserve/{id}", "/admin/reserve/psy_reserve/{id}"})
     @ResponseBody
     public ResponseEntity<?> updatePsyReserve(
             @PathVariable Long id,
+            @RequestParam(required = false) String targetUserSeq,
+            HttpServletRequest request,
             @SessionAttribute(value = "loginUser", required = false) Object loginUser,
             @RequestBody PsyReserveDto dto) {
 
@@ -128,46 +153,70 @@ public class ReserveController {
             if (loginUser == null)
                 return ResponseEntity.status(401).body("로그인이 필요합니다.");
 
-            String userSeq = extractUserSeq(loginUser);
-            PsyReserveDto updated = psyReserveService.updateReserve(id, dto, userSeq);
+            String uri = request.getRequestURI();
+            boolean isAdminRequest = uri.startsWith("/reserve/admin/");
+            String sessionUserSeq = extractUserSeq(loginUser);
 
-            log.info("[예약 수정 완료] ID={}, userSeq={}", id, userSeq);
+            String actualUserSeq = isAdminRequest
+                    ? (targetUserSeq != null ? targetUserSeq : sessionUserSeq)
+                    : sessionUserSeq;
+
+            PsyReserveDto updated =
+                    psyReserveService.updateForAdminOrUser(id, dto, actualUserSeq, isAdminRequest);
+
+            log.info("[{} 상담예약 수정] ID={}, 수행자={}, 대상UserSeq={}",
+                    isAdminRequest ? "ADMIN" : "USER",
+                    id, sessionUserSeq, actualUserSeq);
+
             return ResponseEntity.ok(updated);
-        } catch (IllegalStateException e) {
-            log.warn("[예약 수정 실패] {}", e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
+
         } catch (Exception e) {
             log.error("상담 예약 수정 중 오류", e);
             return ResponseEntity.internalServerError().body("예약 수정 실패");
         }
     }
 
+
     /* =========================================================
-     *  [5] 상담예약 삭제
+     *   [5] 삭제 (관리자 / 사용자 통합)
      * ========================================================= */
-    @DeleteMapping("/psy_reserve/{id}")
+    @DeleteMapping({"/psy_reserve/{id}", "/admin/reserve/psy_reserve/{id}"})
     @ResponseBody
     public ResponseEntity<?> deletePsyReserve(
             @PathVariable Long id,
+            @RequestParam(required = false) String targetUserSeq,
+            HttpServletRequest request,
             @SessionAttribute(value = "loginUser", required = false) Object loginUser) {
 
         try {
             if (loginUser == null)
                 return ResponseEntity.status(401).body("로그인이 필요합니다.");
 
-            String userSeq = extractUserSeq(loginUser);
-            psyReserveService.deleteReserve(id, userSeq);
+            String uri = request.getRequestURI();
+            boolean isAdminRequest = uri.startsWith("/reserve/admin/");
+            String sessionUserSeq = extractUserSeq(loginUser);
 
-            log.info("[예약 삭제 완료] ID={}, userSeq={}", id, userSeq);
+            String actualUserSeq = isAdminRequest
+                    ? (targetUserSeq != null ? targetUserSeq : sessionUserSeq)
+                    : sessionUserSeq;
+
+            psyReserveService.deleteForAdminOrUser(id, actualUserSeq, isAdminRequest);
+
+            log.info("[{} 상담예약 삭제] ID={}, 수행자={}, 대상UserSeq={}",
+                    isAdminRequest ? "ADMIN" : "USER",
+                    id, sessionUserSeq, actualUserSeq);
+
             return ResponseEntity.ok("삭제 완료");
+
         } catch (Exception e) {
             log.error("예약 삭제 실패", e);
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
+
     /* =========================================================
-     *  [6] 날짜별 예약된 시간 조회 (중복 방지)
+     *   [6] 날짜별 예약된 시간 조회 (중복 방지)
      * ========================================================= */
     @GetMapping("/booked-times")
     @ResponseBody
@@ -196,41 +245,66 @@ public class ReserveController {
     }
 
     /* =========================================================
-     *  [1] 굿즈 예약 페이지 (신규 / 수정 모드)
-     *  - ?id=123 있으면 수정모드
-     *  - 없으면 신규모드
+     *  굿즈 예약 컨트롤러 (관리자/사용자 통합 버전)
      * ========================================================= */
-    @GetMapping("/goods_reserve")
+
+    @GetMapping({"/goods_reserve", "/goods_reserve/{id}",
+            "/admin/reserve/goods_reserve", "/admin/reserve/goods_reserve/{id}"})
     public String goodsReserveForm(@RequestParam(required = false) Long id,
+                                   @RequestParam(required = false) String targetUserSeq,
                                    Model model,
+                                   HttpServletRequest request,
                                    @SessionAttribute(value = "loginUser", required = false) Object loginUser) {
+
         if (loginUser == null) {
-            log.warn("[굿즈 예약 페이지 접근] 세션 없음 → 로그인 필요");
+            log.warn("[굿즈예약 페이지 접근] 세션 없음 → 로그인 필요");
             return "redirect:/signin";
         }
 
-        String userSeq = extractUserSeq(loginUser);
-//        String userSeq = (String) session.getAttribute("userSeq");
+        // 1) 관리자 요청인지 판별
+        String uri = request.getRequestURI();
+        boolean isAdminRequest = uri.startsWith("/reserve/admin/");
+
+        // 2) 로그인한 사용자
+        String sessionUserSeq = extractUserSeq(loginUser);
+
+        // 3) 조회 기준 userSeq 결정
+        String actualUserSeq = isAdminRequest
+                ? (targetUserSeq != null ? targetUserSeq : sessionUserSeq)
+                : sessionUserSeq;
+
+        // 4) 수정 모드라면 예약 조회
+        GoodsReserveDto dto = null;
+
         if (id != null) {
-            GoodsReserveDto dto = goodsReserveService.findById(id);
+
+            dto = goodsReserveService.findByIdForAdminOrUser(id, actualUserSeq, isAdminRequest);
+
             if (dto == null) {
-                log.warn("[예약 수정 페이지] 존재하지 않는 ID={}", id);
+                log.warn("[굿즈 수정 페이지] 존재하지 않는 ID={}", id);
                 return "redirect:/mypage/Mypage";
             }
-            model.addAttribute("reserve", dto);
-            model.addAttribute("mode", "edit");
-            log.info("[예약 수정 페이지 진입] ID={}, userSeq={}", dto.getId(), dto.getUserSeq());
+
+            model.addAttribute("mode", isAdminRequest ? "admin-edit" : "edit");
+
         } else {
-            model.addAttribute("reserve", null);
-            model.addAttribute("mode", "create");
+            model.addAttribute("mode", isAdminRequest ? "admin-create" : "create");
         }
 
-        model.addAttribute("sessionUserSeq", userSeq);
+        model.addAttribute("reserve", dto);
+        model.addAttribute("sessionUserSeq", sessionUserSeq);
+        model.addAttribute("targetUserSeq", actualUserSeq);
+
+        log.info("[{}] 굿즈 예약 페이지 진입 → sessionUserSeq={}, targetUserSeq={}, id={}",
+                isAdminRequest ? "ADMIN" : "USER",
+                sessionUserSeq, actualUserSeq, id);
+
         return "reserve/Goods_reserve";
     }
 
+
     /* =========================================================
-     *  [2] 굿즈 상담 예약 상세조회 (fetch용)
+     *  [2] 굿즈 예약 상세조회 (fetch용 / 공용)
      * ========================================================= */
     @GetMapping("/api/goods_reserve/{id}")
     @ResponseBody
@@ -245,8 +319,9 @@ public class ReserveController {
         }
     }
 
+
     /* =========================================================
-     *  [3] 신규 굿즈 예약 저장
+     *  [3] 신규 굿즈 예약 저장 (공용)
      * ========================================================= */
     @PostMapping("/save2")
     @ResponseBody
@@ -259,28 +334,29 @@ public class ReserveController {
                 return ResponseEntity.status(401).body("로그인이 필요합니다.");
 
             String userSeq = extractUserSeq(loginUser);
-            dto.setUserSeq(userSeq); // FK 연결
+            dto.setUserSeq(userSeq);
 
             GoodsReserveDto saved = goodsReserveService.saveReservation(dto);
-            log.info("[예약 등록 완료] userSeq={}, 예약ID={}", userSeq, saved.getId());
 
+            log.info("[굿즈 예약 등록 완료] userSeq={}, 예약ID={}", userSeq, saved.getId());
             return ResponseEntity.ok(saved.getId());
-        } catch (IllegalStateException e) {
-            log.warn("[예약 저장 실패] {}", e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
+
         } catch (Exception e) {
             log.error("굿즈 예약 저장 실패", e);
-            return ResponseEntity.internalServerError().body("예약 저장 실패");
+            return ResponseEntity.internalServerError().body("굿즈 예약 저장 실패");
         }
     }
 
+
     /* =========================================================
-     *  [4] 굿즈 예약 수정
+     *  [4] 굿즈 예약 수정 (관리자/사용자 통합)
      * ========================================================= */
-    @PutMapping("/goods_reserve/{id}")
+    @PutMapping({"/goods_reserve/{id}", "/admin/reserve/goods_reserve/{id}"})
     @ResponseBody
     public ResponseEntity<?> updateGoodsReserve(
             @PathVariable Long id,
+            @RequestParam(required = false) String targetUserSeq,
+            HttpServletRequest request,
             @SessionAttribute(value = "loginUser", required = false) Object loginUser,
             @RequestBody GoodsReserveDto dto) {
 
@@ -288,73 +364,120 @@ public class ReserveController {
             if (loginUser == null)
                 return ResponseEntity.status(401).body("로그인이 필요합니다.");
 
-            String userSeq = extractUserSeq(loginUser);
-            GoodsReserveDto updated = goodsReserveService.updateReserve(id, dto, userSeq);
+            String uri = request.getRequestURI();
+            boolean isAdminRequest = uri.startsWith("/reserve/admin/");
+            String sessionUserSeq = extractUserSeq(loginUser);
 
-            log.info("[예약 수정 완료] ID={}, userSeq={}", id, userSeq);
+            String actualUserSeq = isAdminRequest
+                    ? (targetUserSeq != null ? targetUserSeq : sessionUserSeq)
+                    : sessionUserSeq;
+
+            GoodsReserveDto updated =
+                    goodsReserveService.updateForAdminOrUser(id, dto, actualUserSeq, isAdminRequest);
+
+            log.info("[{} 굿즈 예약 수정 완료] ID={}, 수정요청자={}, 대상UserSeq={}",
+                    isAdminRequest ? "ADMIN" : "USER",
+                    id, sessionUserSeq, actualUserSeq);
+
             return ResponseEntity.ok(updated);
-        } catch (IllegalStateException e) {
-            log.warn("[예약 수정 실패] {}", e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
+
         } catch (Exception e) {
             log.error("굿즈 예약 수정 중 오류", e);
-            return ResponseEntity.internalServerError().body("예약 수정 실패");
+            return ResponseEntity.internalServerError().body("굿즈 예약 수정 실패");
         }
     }
-        /* =========================================================
-         *  [5] 굿즈 예약 삭제
-         * ========================================================= */
-        @DeleteMapping("/goods_reserve/{id}")
-        @ResponseBody
-        public ResponseEntity<?> deleteGoodsReserve(
-                @PathVariable Long id,
-                @SessionAttribute(value = "loginUser", required = false) Object loginUser) {
 
-            try {
-                if (loginUser == null)
-                    return ResponseEntity.status(401).body("로그인이 필요합니다.");
 
-                String userSeq = extractUserSeq(loginUser);
-               goodsReserveService.deleteReserve(id, userSeq);
+    /* =========================================================
+     *  [5] 굿즈 예약 삭제 (관리자/사용자 통합)
+     * ========================================================= */
+    @DeleteMapping({"/goods_reserve/{id}", "/admin/reserve/goods_reserve/{id}"})
+    @ResponseBody
+    public ResponseEntity<?> deleteGoodsReserve(
+            @PathVariable Long id,
+            @RequestParam(required = false) String targetUserSeq,
+            HttpServletRequest request,
+            @SessionAttribute(value = "loginUser", required = false) Object loginUser) {
 
-                log.info("[예약 삭제 완료] ID={}, userSeq={}", id, userSeq);
-                return ResponseEntity.ok("삭제 완료");
-            } catch (Exception e) {
-                log.error("예약 삭제 실패", e);
-                return ResponseEntity.badRequest().body(e.getMessage());
-            }
+        try {
+            if (loginUser == null)
+                return ResponseEntity.status(401).body("로그인이 필요합니다.");
+
+            String uri = request.getRequestURI();
+            boolean isAdminRequest = uri.startsWith("/reserve/admin/");
+            String sessionUserSeq = extractUserSeq(loginUser);
+
+            String actualUserSeq = isAdminRequest
+                    ? (targetUserSeq != null ? targetUserSeq : sessionUserSeq)
+                    : sessionUserSeq;
+
+            goodsReserveService.deleteForAdminOrUser(id, actualUserSeq, isAdminRequest);
+
+            log.info("[{} 굿즈 예약 삭제 완료] ID={}, 삭제요청자={}, 대상UserSeq={}",
+                    isAdminRequest ? "ADMIN" : "USER",
+                    id, sessionUserSeq, actualUserSeq);
+
+            return ResponseEntity.ok("삭제 완료");
+
+        } catch (Exception e) {
+            log.error("굿즈 예약 삭제 실패", e);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
     /* =========================================================
      *  [1] 장례 예약 페이지 (신규 / 수정 모드)
      *  - ?id=123 있으면 수정모드
      *  - 없으면 신규모드
      * ========================================================= */
-    @GetMapping("/funeral_reserve")
+    @GetMapping({"/funeral_reserve", "/funeral_reserve/{id}",
+            "/admin/reserve/funeral_reserve", "/admin/reserve/funeral_reserve/{id}"})
+
     public String funeralReserveForm(@RequestParam(required = false) Long id,
+                                     @RequestParam(required = false) String targetUserSeq,
                                      Model model,
+                                     HttpServletRequest request,
                                      @SessionAttribute(value = "loginUser", required = false) Object loginUser) {
+
         if (loginUser == null) {
             log.warn("[장례예약 페이지 접근] 세션 없음 → 로그인 필요");
             return "redirect:/signin";
         }
 
-        String userSeq = extractUserSeq(loginUser);
+        // 1) 관리자 요청인지 판별
+        String uri = request.getRequestURI();
+        boolean isAdminRequest = uri.startsWith("/reserve/admin/");
 
+
+        // 2) 세션 사용자 (로그인한 사람)
+        String sessionUserSeq = extractUserSeq(loginUser);
+
+        // 3) 조회 기준이 되는 userSeq 결정
+        String actualUserSeq = isAdminRequest
+                ? (targetUserSeq != null ? targetUserSeq : sessionUserSeq)
+                : sessionUserSeq;
+
+        // 4) 예약 조회
+        FuneralReserveDto dto = null;
         if (id != null) {
-            FuneralReserveDto dto = funeralReserveService.findById(id);
+            dto = funeralReserveService.findByIdForAdminOrUser(id, actualUserSeq, isAdminRequest);
             if (dto == null) {
                 log.warn("[예약 수정 페이지] 존재하지 않는 ID={}", id);
                 return "redirect:/mypage/Mypage";
             }
-            model.addAttribute("reserve", dto);
-            model.addAttribute("mode", "edit");
-            log.info("[예약 수정 페이지 진입] ID={}, userSeq={}", dto.getId(), dto.getUserSeq());
+            model.addAttribute("mode", isAdminRequest ? "admin-edit" : "edit");
         } else {
-            model.addAttribute("reserve", null);
-            model.addAttribute("mode", "create");
+            model.addAttribute("mode", isAdminRequest ? "admin-create" : "create");
         }
 
-        model.addAttribute("sessionUserSeq", userSeq);
+        model.addAttribute("reserve", dto);
+        model.addAttribute("sessionUserSeq", sessionUserSeq);   // 로그인한 사람
+        model.addAttribute("targetUserSeq", actualUserSeq);     // 수정 대상 사용자
+
+        log.info("[{}] 장례 예약 페이지 진입 -> sessionUserSeq={}, targetUserSeq={}, id={}",
+                isAdminRequest ? "ADMIN" : "USER",
+                sessionUserSeq, actualUserSeq, id);
+
         return "reserve/Funeral_reserve";
     }
 
@@ -408,22 +531,44 @@ public class ReserveController {
     /* =========================================================
      *  [4] 장례 예약 수정
      * ========================================================= */
-    @PutMapping("/funeral_reserve/{id}")
+    @PutMapping({"/funeral_reserve/{id}", "/admin/reserve/funeral_reserve/{id}"})
     @ResponseBody
     public ResponseEntity<?> updateFuneralReserve(
             @PathVariable Long id,
+            @RequestParam(required = false) String targetUserSeq,
+            HttpServletRequest request,
             @SessionAttribute(value = "loginUser", required = false) Object loginUser,
             @RequestBody FuneralReserveDto dto) {
+
 
         try {
             if (loginUser == null)
                 return ResponseEntity.status(401).body("로그인이 필요합니다.");
 
-            String userSeq = extractUserSeq(loginUser);
-            FuneralReserveDto updated = funeralReserveService.updateReserve(id, dto, userSeq);
 
-            log.info("[예약 수정 완료] ID={}, userSeq={}", id, userSeq);
+
+
+            String uri = request.getRequestURI();
+            boolean isAdminRequest = uri.startsWith("/reserve/admin/");
+
+            log.info("ADMIN DETECT? uri={}, isAdmin={}", uri, isAdminRequest);
+
+
+            String sessionUserSeq = extractUserSeq(loginUser);
+
+            String actualUserSeq = isAdminRequest
+                    ? (targetUserSeq != null ? targetUserSeq : sessionUserSeq)
+                    : sessionUserSeq;
+
+            FuneralReserveDto updated =
+                    funeralReserveService.updateForAdminOrUser(id, dto, actualUserSeq, isAdminRequest);
+
+            log.info("[{} 예약 수정 완료] ID={}, 수정요청자={}, 대상UserSeq={}",
+                    isAdminRequest ? "ADMIN" : "USER",
+                    id, sessionUserSeq, actualUserSeq);
+
             return ResponseEntity.ok(updated);
+
         } catch (IllegalStateException e) {
             log.warn("[예약 수정 실패] {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -433,29 +578,40 @@ public class ReserveController {
         }
     }
 
+
     /* =========================================================
      *  [5] 장례 예약 삭제
      * ========================================================= */
-    @DeleteMapping("/funeral_reserve/{id}")
+    @DeleteMapping({"/funeral_reserve/{id}", "/admin/reserve/funeral_reserve/{id}"})
     @ResponseBody
     public ResponseEntity<?> deleteFuneralReserve(
             @PathVariable Long id,
+            @RequestParam(required = false) String targetUserSeq,
+            HttpServletRequest request,
             @SessionAttribute(value = "loginUser", required = false) Object loginUser) {
 
         try {
             if (loginUser == null)
                 return ResponseEntity.status(401).body("로그인이 필요합니다.");
 
-            String userSeq = extractUserSeq(loginUser);
-            funeralReserveService.deleteReserve(id, userSeq);
+            String uri = request.getRequestURI();
+            boolean isAdminRequest = uri.startsWith("/reserve/admin/");
+            String sessionUserSeq = extractUserSeq(loginUser);
 
-            log.info("[장례 예약 삭제 완료] ID={}, userSeq={}", id, userSeq);
+            String actualUserSeq = isAdminRequest
+                    ? (targetUserSeq != null ? targetUserSeq : sessionUserSeq)
+                    : sessionUserSeq;
+
+            funeralReserveService.deleteForAdminOrUser(id, actualUserSeq, isAdminRequest);
+
             return ResponseEntity.ok("삭제 완료");
+
         } catch (Exception e) {
             log.error("예약 삭제 실패", e);
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
 
 

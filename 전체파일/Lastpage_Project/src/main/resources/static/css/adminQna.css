@@ -87,7 +87,7 @@
             border-radius: 8px;
             background: white;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         th, td {
@@ -98,8 +98,9 @@
         }
 
         th {
-            background: #f1f2f6;
+            background: #2d3436;
             font-weight: bold;
+            color: white;
         }
 
         tr:last-child td {
@@ -126,18 +127,41 @@
         }
 
         /* 버튼 */
-        .btn-answer {
-            padding: 6px 12px;
-            font-size: 13px;
-            background: #0984e3;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-        }
 
-        .btn-answer:hover {
-            background: #0873c9;
-        }
+       .btn-delete {
+           padding: 6px 12px;
+           font-size: 13px;
+           background: #d63031;
+           color: white;
+           border-radius: 5px;
+           border: 1px solid transparent; /* ← 추가됨 */
+           text-decoration: none;
+       }
+
+       .btn-delete:hover {
+           background: white;
+           color: #d63031;
+           border: 1px solid #d63031; /* ← hover에서도 두께 동일 */
+           text-decoration: none;
+       }
+
+.btn-answer {
+    padding: 6px 12px;
+    font-size: 13px;
+    background: #0984e3;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid transparent; /* ← 추가됨 */
+    text-decoration: none;
+}
+
+.btn-answer:hover {
+    background: white;
+    color: #0984e3;
+    border: 1px solid #0984e3;
+    text-decoration: none;
+}
+
 
         .btn-view {
             padding: 6px 12px;

@@ -15,6 +15,7 @@ public interface FuneralReserveRepository extends JpaRepository <FuneralReserve,
     List<FuneralReserve> findAllByUser_UserSeq(String userSeq);
     @Query("SELECT s FROM Signup s ORDER BY s.created_at DESC")
     List<FuneralReserve> findTop5ByOrderByCreated_atDesc();
+    Optional<FuneralReserve> findByIdAndUser_UserSeq(Long id, String userSeq);
 
 
     long count();

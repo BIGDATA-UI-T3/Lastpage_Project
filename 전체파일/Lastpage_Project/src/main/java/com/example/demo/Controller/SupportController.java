@@ -1,13 +1,17 @@
+
+
 package com.example.demo.Controller;
 
 import com.example.demo.Domain.Common.Dto.QnaAnswerDto;
 import com.example.demo.Domain.Common.Dto.QnaRequestDto;
 import com.example.demo.Domain.Common.Dto.QnaResponseDto;
 import com.example.demo.Domain.Common.Service.QnaService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +32,36 @@ public class SupportController {
         return "support/Support";
     }
 
+    /** ==========================================================
+     *   [관리자] 관리자 QnA → 답변하기 클릭 시
+     *  /admin/qna/{id} → Support.html 로 이동
+     * ========================================================== */
+    @GetMapping("/admin/qna/{id}")
+    public String adminQnaDetail(
+            @PathVariable String id,
+            Model model,
+            HttpSession session
+    ) {
+        // 관리자 여부 체크
+        String role = (String) session.getAttribute("loginRole");
+        boolean isAdmin = role != null && role.equals("ADMIN");
+
+        if (!isAdmin) {
+            return "redirect:/signin";
+        }
+
+        // QnA 상세 조회
+        QnaResponseDto qna = qnaService.getDetail(id);
+
+        // Support 페이지에서 필요한 값 전달
+        model.addAttribute("isAdmin", true);
+        model.addAttribute("adminMode", "edit");
+        model.addAttribute("qnaId", id);
+        model.addAttribute("qnaData", qna);
+
+        return "support/Support";
+    }
+
 
 
     /** ==========================================================
@@ -41,7 +75,6 @@ public class SupportController {
 
     /** ==========================================================
      *  [유저] QnA 작성
-     * POST /supportService/api/qna
      * ========================================================== */
     @PostMapping("/api/qna")
     @ResponseBody
@@ -51,7 +84,6 @@ public class SupportController {
 
     /** ==========================================================
      *  [유저] QnA 수정
-     * PUT /supportService/api/qna
      * ========================================================== */
     @PutMapping("/api/qna")
     @ResponseBody
@@ -61,7 +93,6 @@ public class SupportController {
 
     /** ==========================================================
      *  [유저] QnA 목록 조회 (카테고리 필터)
-     *  GET /supportService/api/qna?category=xxx
      * ========================================================== */
     @GetMapping("/api/qna")
     @ResponseBody
@@ -74,11 +105,8 @@ public class SupportController {
         return qnaService.findByCategory(category);
     }
 
-
-
     /** ==========================================================
      *  [유저] QnA 삭제
-     * DELETE /supportService/api/qna/{id}?password=xxx
      * ========================================================== */
     @DeleteMapping("/api/qna/{id}")
     @ResponseBody
@@ -92,7 +120,6 @@ public class SupportController {
 
     /** ==========================================================
      *  [유저] 비밀번호 확인 API
-     * GET /supportService/api/qna/check/{id}?password=xxx
      * ========================================================== */
     @GetMapping("/api/qna/check/{id}")
     @ResponseBody
@@ -120,4 +147,15 @@ public class SupportController {
     public QnaResponseDto answer(@RequestBody QnaAnswerDto dto) {
         return qnaService.saveAnswer(dto);
     }
+
+    /** ==========================================================
+     *  [관리자] QnA 삭제 (비밀번호 불필요)
+     * ========================================================== */
+    @DeleteMapping("/api/admin/qna/{id}")
+    @ResponseBody
+    public ResponseEntity<String> adminDelete(@PathVariable String id) {
+        qnaService.adminDelete(id);
+        return ResponseEntity.ok("관리자 삭제 완료");
+    }
+
 }

@@ -1,15 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const userSeq = document.body.dataset.userseq;
-    if (!userSeq || userSeq === "null" || userSeq === "undefined") {
-      alert("우선 로그인을 진행해주세요.");
-      window.location.href = "/signin";
-      return;
-      }
+  /* ================================
+   * 0) 관리자 모드 감지
+   * ================================ */
+  const mode = document.body.dataset.mode || "create";              // "admin-edit" | "edit" | "create"
+  const targetUserSeq = document.body.dataset.targetuserseq || null; // 관리자 모드일 때만 세팅됨
+  const loginUserSeq = document.body.dataset.userseq || null;
 
-  // ------------------------------
+  const isAdminEdit = mode === "admin-edit";
+  // 관리자 모드일 때는 loginUserSeq != targetUserSeq 가능
+  const effectiveUserSeq = isAdminEdit ? (targetUserSeq || loginUserSeq) : loginUserSeq;
+
+  if (!effectiveUserSeq || effectiveUserSeq === "null" || effectiveUserSeq === "undefined") {
+    alert("우선 로그인을 진행해주세요.");
+    window.location.href = "/signin";
+    return;
+  }
+
+  // -------------------------------------
   // 1) 상태 객체 & 헬퍼 함수
-  // ------------------------------
+  // -------------------------------------
   const state = {
     id: "",
     ownerName: "", ownerPhone: "", ownerEmail: "", ownerAddr: "",
@@ -21,20 +31,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const qs = s => document.querySelector(s);
   const qsa = s => [...document.querySelectorAll(s)];
 
-  // ------------------------------
+  // -------------------------------------
   // 2) URL 파라미터 확인 (수정 모드 여부)
-  // ------------------------------
+  // -------------------------------------
   const params = new URLSearchParams(window.location.search);
   const reserveId = params.get("id");
   if (reserveId) {
     state.id = reserveId;
-    qs("#formTitle").textContent = "장례 예약 수정";
-    qs("#finalTitle").textContent = "예약 수정이 완료되었습니다.";
+    qs("#formTitle").textContent = isAdminEdit ? "관리자 - 장례 예약 수정" : "장례 예약 수정";
+    qs("#finalTitle").textContent = isAdminEdit
+      ? "관리자가 예약을 수정했습니다."
+      : "예약 수정이 완료되었습니다.";
   }
 
-  // ------------------------------
+  // -------------------------------------
   // 3) 날짜 제한 설정
-  // ------------------------------
+  // -------------------------------------
   (function setDateLimits() {
     const t = new Date();
     const yyyy = t.getFullYear(), mm = String(t.getMonth()+1).padStart(2,'0'), dd = String(t.getDate()).padStart(2,'0');
@@ -43,9 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
     qs('#passedAt').max = `${yyyy}-${mm}-${dd}T${hh}:${mi}`;
   })();
 
-  // ------------------------------
+  // -------------------------------------
   // 4) 품종 데이터 및 핸들러
-  // ------------------------------
+  // -------------------------------------
   const BREEDS = {
     dog: ["말티즈","푸들","시바","리트리버","포메라니안","믹스"],
     cat: ["코리안숏헤어","페르시안","러시안블루","먼치킨","랙돌","믹스"],
@@ -58,12 +70,14 @@ document.addEventListener("DOMContentLoaded", () => {
   petTypeEl.addEventListener("change", () => {
     const type = petTypeEl.value;
     state.petType = type;
+
     if (!type) {
       petBreedSel.innerHTML = '<option value="">종류 선택 먼저</option>';
       petBreedSel.disabled = true;
       petBreedText.style.display = "none";
       return validateStep1();
     }
+
     if (type === "other") {
       petBreedSel.disabled = true;
       petBreedSel.innerHTML = '<option value="">직접 입력</option>';
@@ -72,18 +86,27 @@ document.addEventListener("DOMContentLoaded", () => {
       petBreedSel.disabled = false;
       petBreedText.style.display = "none";
       petBreedText.value = "";
-      petBreedSel.innerHTML = '<option value="">품종 선택</option>' + BREEDS[type].map(b => `<option>${b}</option>`).join('');
+      petBreedSel.innerHTML =
+        '<option value="">품종 선택</option>' +
+        BREEDS[type].map(b => `<option>${b}</option>`).join('');
     }
     validateStep1();
   });
-  petBreedSel.addEventListener("change", () => { state.petBreed = petBreedSel.value; validateStep1(); });
-  petBreedText.addEventListener("input", () => { state.petBreed = petBreedText.value.trim(); validateStep1(); });
 
-  // ------------------------------
+  petBreedSel.addEventListener("change", () => {
+    state.petBreed = petBreedSel.value;
+    validateStep1();
+  });
+  petBreedText.addEventListener("input", () => {
+    state.petBreed = petBreedText.value.trim();
+    validateStep1();
+  });
+
+  // -------------------------------------
   // 5) 수정 모드 데이터 불러오기
-  // ------------------------------
+  // -------------------------------------
   if (state.id) {
-    fetch(`/api/funeral_reserve/${state.id}`)
+    fetch(`/reserve/api/funeral_reserve/${state.id}`)
       .then(res => res.json())
       .then(data => {
         Object.assign(state, data);
@@ -92,9 +115,9 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(err => console.error("예약 정보 불러오기 실패:", err));
   }
 
-  // ------------------------------
+  // -------------------------------------
   // 6) STEP1 검증
-  // ------------------------------
+  // -------------------------------------
   function validateStep1() {
     const name = qs("#ownerName").value.trim();
     const phone = qs("#ownerPhone").value.replace(/\D/g, '');
@@ -102,7 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const addr = qs("#ownerAddr").value.trim();
     const pet = qs("#petName").value.trim();
     const weight = qs("#petWeight").value.trim();
-
     const emailOK = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     const breedOK = state.petType === "other"
       ? !!state.petBreed
@@ -111,15 +133,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const all = name && phone.length >= 10 && emailOK && addr && pet && breedOK && Number(weight) >= 0;
     qs("#next1").disabled = !all;
 
-    if (all)
-      Object.assign(state, { ownerName: name, ownerPhone: phone, ownerEmail: email, ownerAddr: addr, petName: pet, petWeight: weight });
+    if (all) {
+      Object.assign(state, {
+        ownerName: name,
+        ownerPhone: phone,
+        ownerEmail: email,
+        ownerAddr: addr,
+        petName: pet,
+        petWeight: weight
+      });
+    }
   }
   qsa("#step1 input, #step1 select").forEach(el => el.addEventListener("input", validateStep1));
   validateStep1();
 
-  // ------------------------------
+  // -------------------------------------
   // 7) STEP2 시간 슬롯 빌드
-  // ------------------------------
+  // -------------------------------------
   const AM = ["07:00","07:30","08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30"];
   const PM = ["12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00"];
   let currentSeg = "am", selectedBtn = null;
@@ -145,6 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   buildSlots();
+
   qsa(".seg-btn").forEach(b => {
     b.addEventListener("click", () => {
       qsa(".seg-btn.is-active").forEach(btn => btn.classList.remove("is-active"));
@@ -154,9 +185,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ------------------------------
+  // -------------------------------------
   // 8) STEP2 검증
-  // ------------------------------
+  // -------------------------------------
   qs("#pickup").addEventListener("change", () => {
     const need = qs("#pickup").value === "운구 요청";
     qs("#pickupExtra").style.display = need ? "grid" : "none";
@@ -197,9 +228,9 @@ document.addEventListener("DOMContentLoaded", () => {
     state.memo = e.target.value;
   });
 
-  // ------------------------------
+  // -------------------------------------
   // 9) 단계 이동
-  // ------------------------------
+  // -------------------------------------
   const goto = n => {
     qsa(".step").forEach((el, i) => el.classList.toggle("active", i === n - 1));
     qsa(".step-dot").forEach((d, i) => d.classList.toggle("active", i <= n - 1));
@@ -215,14 +246,15 @@ document.addEventListener("DOMContentLoaded", () => {
   qs("#next3").addEventListener("click", () => goto(4));
   qs("#prev4").addEventListener("click", () => goto(3));
 
-  // ------------------------------
+  // -------------------------------------
   // 10) 요약 렌더링
-  // ------------------------------
+  // -------------------------------------
   function renderSummary() {
     const s = qs("#summary");
     const pickupInfo = state.pickup === "운구 요청"
       ? `${state.pickup} / ${state.pickupAddr} (${state.pickupTime})`
       : state.pickup;
+
     s.innerHTML = `
       <div><strong>신청자명</strong> : ${state.ownerName}</div>
       <div><strong>연락처</strong> : ${state.ownerPhone}</div>
@@ -245,20 +277,21 @@ document.addEventListener("DOMContentLoaded", () => {
     qs("#next3").disabled = !qs("#confirmChk").checked;
   });
 
-  // ------------------------------
+  // -------------------------------------
   // 11) 최종 안내 출력
-  // ------------------------------
+  // -------------------------------------
   function renderFinal() {
     const f = qs("#finalSummary");
     f.innerHTML = `
-      <div><strong>${state.ownerName}</strong> 님의 ${state.id ? "예약이 수정되었습니다." : "예약 요청이 완료되었습니다."}</div>
+      <div><strong>${state.ownerName}</strong> 님의
+      ${isAdminEdit ? "예약이 관리자에 의해 수정되었습니다." : (state.id ? "예약이 수정되었습니다." : "예약 요청이 완료되었습니다.")}</div>
       <div class="muted">장례일시: ${state.funeralDate}, 장소: ${state.place}</div>
     `;
   }
 
-  // ------------------------------
+  // -------------------------------------
   // 12) 수정 모드 폼 채우기
-  // ------------------------------
+  // -------------------------------------
   function fillForm(data) {
     qs("#ownerName").value = data.ownerName || "";
     qs("#ownerPhone").value = data.ownerPhone || "";
@@ -283,11 +316,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (data.time) {
-      const btn = [...document.querySelectorAll(".slot")].find(b => b.dataset.value === data.time);
-      if (btn) {
-        btn.classList.add("active");
-      }
+      const btn = [...document.querySelectorAll(".slot")]
+        .find(b => b.dataset.value === data.time);
+      if (btn) btn.classList.add("active");
     }
+
     validateStep1();
     validateStep2();
   }
@@ -298,16 +331,16 @@ document.addEventListener("DOMContentLoaded", () => {
   qs("#submitBtn").addEventListener("click", async () => {
     const data = { ...state };
 
-    let userSeq = document.body.dataset.userseq || localStorage.getItem("userSeq");
-    if (!userSeq) {
-      alert("로그인 정보가 유효하지 않습니다. 다시 로그인해주세요.");
-      window.location.href = "/signin";
-      return;
-    }
-    data.userSeq = userSeq;
+    // 일반모드: 로그인한 본인
+    // 관리자모드: targetUserSeq 기준
+    data.userSeq = effectiveUserSeq;
 
+    const url = data.id
+      ? (isAdminEdit
+          ? `/reserve/admin/reserve/funeral_reserve/${data.id}?targetUserSeq=${effectiveUserSeq}`
+          : `/reserve/funeral_reserve/${data.id}`)
+      : '/reserve/save3';
 
-      const url = data.id ? `/reserve/funeral_reserve/${data.id}` : '/reserve/save3';
     const method = data.id ? "PUT" : "POST";
 
     try {
@@ -318,8 +351,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (res.ok) {
-        alert(data.id ? "예약이 성공적으로 수정되었습니다!" : "예약이 성공적으로 저장되었습니다!");
-        window.location.href = `/mypage/Mypage?userSeq=${userSeq}`;
+        if (isAdminEdit) {
+          alert("관리자가 예약을 성공적으로 수정했습니다.");
+          window.location.href = "/admin/reserves";
+        } else {
+          alert(data.id ? "예약이 성공적으로 수정되었습니다!" : "예약이 성공적으로 저장되었습니다!");
+          window.location.href = `/mypage/Mypage?userSeq=${effectiveUserSeq}`;
+        }
       } else {
         const errorText = await res.text();
         console.error("서버 오류 응답:", errorText);
@@ -331,8 +369,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ------------------------------
   // 초기 포커스
-  // ------------------------------
   qs("#ownerName").focus();
 });

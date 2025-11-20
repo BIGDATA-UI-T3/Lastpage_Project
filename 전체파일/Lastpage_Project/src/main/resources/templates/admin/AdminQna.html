@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <title>QnA 관리</title>
 
-    <style>
-
-    </style>
-
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/adminQna.css}">
 </head>
+
 <body>
 <div class="header-wrapper">
     <div id="header-container"></div>
@@ -27,19 +24,18 @@
         <a href="/admin/dashboard"> 대시보드</a>
         <a href="/admin/users"> 사용자 관리</a>
         <a href="/admin/reserves"> 예약 관리</a>
-        <a href="/admin/Qna"> QnA 관리</a>
+        <a href="/admin/qna"> QnA 관리</a>
     </div>
 
     <!-- 메인 컨텐츠 -->
     <div class="main-content">
         <h2 style="margin-bottom: 20px;">전체 문의 목록</h2>
 
-        <!-- 요약 카드 (총 문의 / 미답변 / 답변완료) -->
+        <!-- 요약 카드 -->
         <div class="summary-row">
             <div class="summary-card">
                 <div class="summary-title">전체 문의</div>
-                <div class="summary-number"
-                     th:text="${#lists.size(qnaList)}">0</div>
+                <div class="summary-number" th:text="${#lists.size(qnaList)}">0</div>
                 <div class="summary-sub">등록된 전체 QnA 개수</div>
             </div>
 
@@ -68,70 +64,31 @@
                 <th>작성자</th>
                 <th>등록일</th>
                 <th>상태</th>
-                <th>보기</th>
                 <th>답변</th>
+                <th>삭제</th>
             </tr>
             </thead>
+
+            <!-- ★★★ JS가 목록을 렌더링할 tbody (유일한 tbody) -->
+            <tbody id="qnaTableBody"></tbody>
+
+            <!-- ★★★ 데이터 없음 표시 영역 (tbody 밖이지만 테이블 안쪽에 존재) -->
             <tbody>
-            <!-- 문의가 하나도 없을 때 -->
-            <tr th:if="${#lists.isEmpty(qnaList)}">
-                <td colspan="8" class="empty-row">
+            <tr id="noResult" style="display:none;">
+                <td colspan="9" class="empty-row">
                     등록된 문의가 없습니다.
                 </td>
             </tr>
-
-            <!-- 문의 목록 렌더링 -->
-            <tr th:each="qna, stat : ${qnaList}">
-                <td th:text="${stat.count}">1</td>
-                <td th:text="${qna.category}">장례서비스</td>
-
-                <!-- 비공개 표시 -->
-                <td>
-                    <span th:text="${qna.secret} ? '[비공개] ' + ${qna.title} : ${qna.title}">
-                        제목
-                    </span>
-                </td>
-
-                <td th:text="${qna.nickname != null ? qna.nickname : '익명'}">익명</td>
-
-                <td th:text="${#temporals.format(qna.createdAt, 'yyyy-MM-dd HH:mm')}">
-                    2025-11-17 12:00
-                </td>
-
-                <!-- 상태 -->
-                <td>
-                    <span class="badge-status"
-                          th:classappend="${qna.adminAnswer == null or #strings.isEmpty(qna.adminAnswer)} ? ' badge-wait' : ' badge-done'"
-                          th:text="${qna.adminAnswer == null or #strings.isEmpty(qna.adminAnswer) ? '미답변' : '답변완료'}">
-                        미답변
-                    </span>
-                </td>
-
-                <!-- 상세 보기 (필요 시 상세 페이지로 이동) -->
-                <td>
-                    <a class="btn-view"
-                       th:href="@{'/supportService?qnaId=' + ${qna.id}}">
-                        보기
-                    </a>
-                </td>
-
-                <!-- 답변/수정 버튼 (답변 페이지로 이동) -->
-                <td>
-                    <a class="btn-answer"
-                       th:href="@{'/admin/qna/' + ${qna.id}}">
-                        <span th:text="${qna.adminAnswer == null or #strings.isEmpty(qna.adminAnswer) ? '답변하기' : '수정하기'}">
-                            답변하기
-                        </span>
-                    </a>
-                </td>
-            </tr>
             </tbody>
+
         </table>
     </div>
 
 </div>
 
 <div id="footer-container"></div>
+
+<script src="/js/adminQna.js"></script>
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
 

@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
 
   /* =======================================================
@@ -8,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const userType = form.dataset.usertype;   // native | social | admin
   const oauthEmail = form.dataset.oauthemail;
-  const targetUserSeq = form.dataset.userseq; // admin 모드용 (필수)
+  const targetUserSeq = form.dataset.userseq; // admin 모드용
 
   const name = document.getElementById("name");
   const emailId = document.getElementById("emailId");
@@ -28,20 +29,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("[ADMIN MODE] 관리자 권한으로 회원정보 수정 페이지 접근");
 
-    // 모든 입력 활성화
     [name, emailId, emailDomain].forEach(el => el.disabled = false);
 
-    // 비밀번호 필드는 관리자 모드에서는 숨기거나 비활성화
     if (password) password.disabled = true;
     if (pwConfirm) pwConfirm.disabled = true;
 
     if (pwBar) pwBar.style.display = "none";
     if (pwText) pwText.style.display = "none";
 
-    // 탈퇴 버튼 숨기기
     if (deleteBtn) deleteBtn.style.display = "none";
 
-    // 저장 버튼 (관리자 전용 API로 전송)
+    /* 관리자 저장 */
     if (saveBtn) {
       saveBtn.addEventListener("click", async () => {
 
@@ -66,30 +64,46 @@ document.addEventListener("DOMContentLoaded", () => {
           gender: document.getElementById("gender").value
         };
 
+        // (1) 관리자용 업데이트
         const res = await fetch(`/admin/user/update/${targetUserSeq}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(updated)
         });
 
-        if (res.ok) {
-          alert("관리자가 회원 정보를 수정했습니다.");
-          window.location.href = "/admin/users";
-        } else {
+        if (!res.ok) {
           alert(await res.text());
+          return;
         }
+
+        alert("관리자가 회원 정보를 수정했습니다.");
+
+        // -------------------------------------------
+        // (2) 관리자 자신인지 확인 → 세션 리프레시
+        // -------------------------------------------
+        try {
+          await fetch("/admin/user/session/refresh", { method: "POST" });
+
+          // 헤더 새로고침 이벤트
+          window.dispatchEvent(new CustomEvent("lp:update-header"));
+        } catch (e) {
+          console.error("관리자 세션 갱신 실패:", e);
+        }
+
+        // -------------------------------------------
+        // (3) 관리자 목록으로 이동
+        // -------------------------------------------
+        window.location.href = "/admin/users";
       });
     }
 
-    return; // ★★★ 관리자 모드는 아래 로직을 실행하지 않도록 종료
+    return; // 관리자 모드 종료
   }
-
 
   /* =======================================================
        2) 소셜 로그인 사용자
   ======================================================= */
   if (userType === "social") {
-
     if (oauthEmail) {
       const [idPart, domainPart] = oauthEmail.split("@");
       if (emailId) emailId.value = idPart;
@@ -99,18 +113,15 @@ document.addEventListener("DOMContentLoaded", () => {
     [name, emailId, emailDomain, password, pwConfirm].forEach(el => el.disabled = true);
   }
 
-
   /* =======================================================
-       3) 자체 로그인 사용자
+       3) 자체 로그인 사용자 (일반)
   ======================================================= */
   if (userType === "native") {
     [name, emailId, emailDomain, password, pwConfirm].forEach(el => el.disabled = false);
   }
 
-
   /* =======================================================
-       4) 비밀번호 강도 검사 / 재사용 검사
-         (관리자/소셜은 아예 위에서 차단됨)
+       4) 비밀번호 강도 검사 + 재사용 검사
   ======================================================= */
   if (password) {
     password.addEventListener("input", async () => {
@@ -131,18 +142,14 @@ document.addEventListener("DOMContentLoaded", () => {
           body: val
         });
 
-        if (reuseCheck.ok) {
-          const reused = await reuseCheck.text();
-          if (reused === "reused") {
-            pwText.textContent = "기존에 사용한 비밀번호는 사용할 수 없습니다.";
-            pwText.style.color = "#ff4d4f";
-            pwBar.style.backgroundColor = "#ff4d4f";
-          }
+        if (reuseCheck.ok && await reuseCheck.text() === "reused") {
+          pwText.textContent = "기존에 사용한 비밀번호는 사용할 수 없습니다.";
+          pwText.style.color = "#ff4d4f";
+          pwBar.style.backgroundColor = "#ff4d4f";
         }
       }
     });
   }
-
 
   if (pwConfirm) {
     pwConfirm.addEventListener("input", () => {
@@ -151,7 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-
   function checkStrength(password) {
     let score = 0;
     if (password.length >= 8) score++;
@@ -159,23 +165,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (/[0-9]/.test(password)) score++;
     if (/[^A-Za-z0-9]/.test(password)) score++;
     switch (score) {
-      case 0:
-      case 1:
-        return { score, text: "보안 수준: 약함", color: "#ff4d4f" };
-      case 2:
-        return { score, text: "보안 수준: 보통", color: "#faad14" };
-      case 3:
-        return { score, text: "보안 수준: 좋음", color: "#52c41a" };
-      case 4:
-        return { score, text: "보안 수준: 매우 강함", color: "#389e0d" };
-      default:
-        return { score: 0, text: "비밀번호를 입력하세요", color: "#ccc" };
+      case 1: return { score, text: "보안 수준: 약함", color: "#ff4d4f" };
+      case 2: return { score, text: "보안 수준: 보통", color: "#faad14" };
+      case 3: return { score, text: "보안 수준: 좋음", color: "#52c41a" };
+      case 4: return { score, text: "보안 수준: 매우 강함", color: "#389e0d" };
+      default: return { score: 0, text: "비밀번호를 입력하세요", color: "#ccc" };
     }
   }
 
-
   /* =======================================================
-       5) 저장 요청 (일반 사용자)
+       5) 일반 사용자 저장 처리
   ======================================================= */
   if (saveBtn) {
     saveBtn.addEventListener("click", async () => {
@@ -221,12 +220,10 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("updatedUserName", newName);
         window.location.href = "/mypage/Mypage";
       } else {
-        const msg = await res.text();
-        alert(msg);
+        alert(await res.text());
       }
     });
   }
-
 
   /* =======================================================
        6) 탈퇴 처리 (일반 사용자)
@@ -256,7 +253,6 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        // 자체 로그인
         const pw = prompt("비밀번호를 입력해주세요:");
         if (!pw) return;
 
@@ -266,8 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
           body: pw,
         });
 
-        const verifyText = await verifyRes.text();
-        if (verifyText !== "valid") {
+        if (await verifyRes.text() !== "valid") {
           alert("비밀번호가 올바르지 않습니다.");
           return;
         }

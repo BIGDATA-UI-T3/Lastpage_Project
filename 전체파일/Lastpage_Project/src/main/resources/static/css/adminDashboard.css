@@ -1,73 +1,145 @@
+/* 전체 레이아웃 기본 */
 body {
-            background: #f5f6fa;
-            font-family: 'Apple SD Gothic Neo', sans-serif;
-        }
+    background: #f5f6fa;
+    font-family: 'Apple SD Gothic Neo', sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-        .admin-header {
-        margin-top:40px;
-            width: 100%;
-            padding: 15px 25px;
-            background: #2d3436;
-            color: #fff;
-            font-size: 20px;
-            font-weight: bold;
-        }
+/* 관리자 헤더 */
+.admin-header {
+    margin-top: 40px;
+    width: 100%;
+    padding: 15px 25px;
+    background: #2d3436;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+}
 
-        /* 레이아웃 */
-        .admin-layout {
-            display: flex;
-            min-height: calc(100vh - 60px);
-        }
+/* 레이아웃 */
+.admin-layout {
+    display: flex;
+    min-height: calc(100vh - 60px);
+}
 
-        /* 사이드바 */
-        .sidebar {
-            width: 220px;
-            background: #ffffff;
-            border-right: 1px solid #ddd;
-            padding-top: 20px;
-        }
+/* 사이드바 */
+.sidebar {
+    width: 220px;
+    background: #ffffff;
+    border-right: 1px solid #ddd;
+    padding-top: 20px;
+}
 
-        .sidebar a {
-            display: block;
-            padding: 12px 20px;
-            color: #333;
-            text-decoration: none;
-            font-size: 15px;
-        }
+.sidebar a {
+    display: block;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
+}
 
-        .sidebar a:hover {
-            background: #e8e8e8;
-        }
+.sidebar a:hover {
+    background: #e8e8e8;
+}
 
-        /* 메인 콘텐츠 */
-        .main-content {
-            flex-grow: 1;
-            padding: 30px;
-        }
+/* 메인 콘텐츠 */
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+}
 
-        /* 카드 */
-        .summary-card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px 25px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            text-align: left;
-        }
+/* 카드 디자인 (요약 카드) */
+.summary-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px 25px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    text-align: left;
+}
 
-        .summary-number {
-            font-size: 26px;
-            font-weight: bold;
-            color: #2d3436;
-        }
+.summary-header {
+    font-size: 15px;
+    color: #636e72;
+}
 
-        table {
-        border-radius: 8px;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        }
+.summary-number {
+    font-size: 26px;
+    font-weight: bold;
+    color: #2d3436;
+}
 
-        th {
-            background: #f1f2f6;
-        }
+/* 테이블 공통 */
+table {
+    width: 100%;
+
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+thead th {
+    background: #2d3436 !important;
+     color:white !important;
+      padding: 12px;
+      font-size: 14px;
+      border-bottom: 1px solid #2d3436;
+}
+
+tbody td {
+    padding: 12px;
+    font-size: 14px;
+    color: #2d3436;
+    border-top: 1px solid #ecf0f1;
+}
+
+/* 줄 hover 효과 */
+tbody tr:hover {
+    background: #f9f9f9;
+}
+
+/* 버튼 통일 규격 */
+.btn-action {
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* 수정 버튼 */
+.btn-edit {
+    background: #0984e3;
+}
+
+.btn-edit:hover {
+    background: white;
+    border: 1px solid #0984e3;
+    color: #0984e3;
+}
+
+/* 삭제 버튼 */
+.btn-delete {
+    background: #d63031;
+}
+
+.btn-delete:hover {
+    background: white;
+    border: 1px solid #d63031;
+    color: #d63031;
+}
+
+/* 보기 버튼 */
+.btn-view {
+    background: #636e72;
+}
+
+.btn-view:hover {
+    background: white;
+    border: 1px solid #636e72;
+    color: #636e72;
+}
+
+.th{}

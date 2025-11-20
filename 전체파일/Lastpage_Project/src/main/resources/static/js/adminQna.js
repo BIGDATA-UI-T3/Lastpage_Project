@@ -1,16 +1,41 @@
+// /static/js/adminQna.js
+
 document.addEventListener("DOMContentLoaded", () => {
     const tableBody = document.getElementById("qnaTableBody");
     const noResult = document.getElementById("noResult");
 
+    // ===== API 경로 정리 (SupportController 기준) =====
+    const API_ADMIN_QNA_LIST   = "/supportService/api/admin/qna";   // 관리자 전체 목록
+    const API_QNA_DETAIL       = "/supportService/api/qna";         // 단건 조회 (QnaResponseDto)
+    const API_ADMIN_QNA_DELETE = "/supportService/api/admin/qna";   // 관리자 삭제 (DELETE /{id})
+    // 답변 저장은 /admin 쪽 컨트롤러를 그대로 쓰는 경우가 많아서 기존 경로 유지
+    const API_ADMIN_QNA_ANSWER = "/admin/qna/answer";               // PUT /{id} (기존 구현 유지)
+
+    // 초기 로딩
     loadQnaList();
+
+    // ============================
+    // 0. 행 삭제 버튼(리스트용) 위임
+    // ============================
+    document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".btn-delete");
+        if (!btn) return;
+
+        const id = btn.dataset.id;
+        deleteQna(id);
+    });
 
     // ============================
     // 1. QnA 전체 조회
     // ============================
     function loadQnaList(keyword = "") {
-        fetch(`/admin/qna/all`)
-            .then(res => res.json())
+        fetch(API_ADMIN_QNA_LIST)
+            .then(res => {
+                if (!res.ok) throw new Error("목록 조회 실패");
+                return res.json();
+            })
             .then(list => {
+                // 검색어 필터
                 if (keyword) {
                     list = list.filter(q =>
                         (q.title?.includes(keyword)) ||
@@ -20,30 +45,79 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 tableBody.innerHTML = "";
-                noResult.style.display = list.length === 0 ? "block" : "none";
 
-                list.forEach(q => {
+                if (!list || list.length === 0) {
+                    // 데이터 없으면 noResult 표시
+                    if (noResult) {
+                        noResult.style.display = "table-row";
+                    }
+                    return;
+                } else {
+                    if (noResult) {
+                        noResult.style.display = "none";
+                    }
+                }
+
+                list.forEach((q, idx) => {
+
                     const tr = document.createElement("tr");
                     tr.innerHTML = `
-                        <td>${q.category}</td>
-                        <td>${q.title}</td>
-                        <td>${q.nickname || "익명"}</td>
-                        <td>${formatDate(q.createdAt)}</td>
-                        <td>${q.adminAnswer ? "<span class='text-success fw-bold'>답변완료</span>" : "미답변"}</td>
-                        <td>
-                            <button class="btn btn-sm btn-dark" data-id="${q.id}" data-act="view">보기</button>
+                        <td class="col-number">${idx + 1}</td>
+
+                        <td class="col-category">
+                            <span class="tag">${q.category}</span>
+                        </td>
+
+                        <td class="col-title">
+                            ${q.secret ? "[비공개] " : ""}${q.title}
+                        </td>
+
+                        <td class="col-nickname">${q.nickname || "익명"}</td>
+
+                        <td class="col-date">${formatDate(q.createdAt)}</td>
+
+                        <td class="col-status">
+                            <span class="badge-status ${q.adminAnswer ? "badge-done" : "badge-wait"}">
+                                ${q.adminAnswer ? "답변완료" : "미답변"}
+                            </span>
+                        </td>
+
+
+
+                        <td class="col-answer">
+                            <a class="btn-answer btn btn-sm btn-primary"
+                               href="/supportService/admin/qna/${q.id}">
+                                ${q.adminAnswer ? "수정하기" : "답변하기"}
+                            </a>
+                        </td>
+
+                        <td class="col-delete">
+                            <a class="btn-delete btn btn-sm btn-outline-danger"
+                                    data-id="${q.id}">
+                                삭제
+                            </a>
                         </td>
                     `;
+
+
                     tableBody.appendChild(tr);
                 });
+
+            })
+            .catch(err => {
+                console.error(err);
+                alert("문의 목록을 불러오는 중 오류가 발생했습니다.");
             });
     }
 
     // 검색 버튼
-    document.getElementById("btnSearch").addEventListener("click", () => {
-        const keyword = document.getElementById("searchKeyword").value.trim();
-        loadQnaList(keyword);
-    });
+    const btnSearch = document.getElementById("btnSearch");
+    if (btnSearch) {
+        btnSearch.addEventListener("click", () => {
+            const keyword = document.getElementById("searchKeyword").value.trim();
+            loadQnaList(keyword);
+        });
+    }
 
     // ============================
     // 2. 상세 모달 열기
@@ -57,39 +131,60 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function openModal(id) {
-        fetch(`/admin/qna/${id}`)
-            .then(res => res.json())
+        fetch(`${API_QNA_DETAIL}/${id}`)
+            .then(res => {
+                if (!res.ok) throw new Error("상세 조회 실패");
+                return res.json();
+            })
             .then(q => {
-                document.getElementById("modalTitle").textContent = q.title;
-                document.getElementById("modalCategory").textContent = q.category;
-                document.getElementById("modalNickname").textContent = q.nickname;
-                document.getElementById("modalCreatedAt").textContent = formatDate(q.createdAt);
-                document.getElementById("modalContent").textContent = q.content;
+                document.getElementById("modalTitle").textContent      = q.title;
+                document.getElementById("modalCategory").textContent   = q.category;
+                document.getElementById("modalNickname").textContent   = q.nickname;
+                document.getElementById("modalCreatedAt").textContent  = formatDate(q.createdAt);
+                document.getElementById("modalContent").textContent    = q.content;
 
                 renderImages(q.images);
                 renderLinks(q.links);
                 renderAnswer(q);
 
-                document.getElementById("btnDelete").onclick = () => deleteQna(q.id);
+                // 모달 내 삭제 버튼
+                const btnDelete = document.getElementById("btnDelete");
+                if (btnDelete) {
+                    btnDelete.onclick = () => deleteQna(q.id);
+                }
 
                 const modal = new bootstrap.Modal(document.getElementById("qnaModal"));
                 modal.show();
+            })
+            .catch(err => {
+                console.error(err);
+                alert("상세 내용을 불러오는 중 오류가 발생했습니다.");
             });
     }
 
     function renderImages(list) {
         const wrap = document.getElementById("modalImagesWrap");
+        if (!wrap) return;
+
         if (!list || list.length === 0) {
             wrap.innerHTML = "";
             return;
         }
-        wrap.innerHTML = `<label class="fw-bold">사진</label><div class="d-flex gap-2 mt-2">
-            ${list.map(src => `<img src="${src}" style="width:100px;height:100px;border-radius:12px;object-fit:cover">`).join("")}
-        </div>`;
+        wrap.innerHTML = `
+            <label class="fw-bold">사진</label>
+            <div class="d-flex gap-2 mt-2">
+                ${list.map(src => `
+                    <img src="${src}"
+                         style="width:100px;height:100px;border-radius:12px;object-fit:cover">
+                `).join("")}
+            </div>
+        `;
     }
 
     function renderLinks(list) {
         const wrap = document.getElementById("modalLinksWrap");
+        if (!wrap) return;
+
         if (!list || list.length === 0) {
             wrap.innerHTML = "";
             return;
@@ -107,18 +202,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // ============================
     function renderAnswer(q) {
         const wrap = document.getElementById("modalAnswerWrap");
+        if (!wrap) return;
 
         if (!q.adminAnswer) {
             wrap.innerHTML = `
                 <label class="fw-bold">답변 작성</label>
-                <textarea id="answerText" class="form-control mt-2" rows="5" placeholder="답변을 입력하세요"></textarea>
+                <textarea id="answerText" class="form-control mt-2" rows="5"
+                          placeholder="답변을 입력하세요"></textarea>
                 <button class="btn btn-dark mt-3" id="btnAnswerSave">등록하기</button>
             `;
         } else {
             wrap.innerHTML = `
                 <div class="answer-view">
                     <div>${q.adminAnswer}</div>
-                    <div class="meta">답변자: ${q.adminName} · ${formatDate(q.answerAt)}</div>
+                    <div class="meta">답변자: ${q.adminName || ""} · ${q.answerAt ? formatDate(q.answerAt) : ""}</div>
                 </div>
 
                 <label class="fw-bold mt-3">답변 수정</label>
@@ -127,44 +224,76 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         }
 
-        document.getElementById("btnAnswerSave").onclick = () =>
-            saveAnswer(q.id);
+        const btnSave = document.getElementById("btnAnswerSave");
+        if (btnSave) {
+            btnSave.onclick = () => saveAnswer(q.id);
+        }
     }
 
     // ============================
     // 4. 답변 저장
     // ============================
     function saveAnswer(id) {
-        const text = document.getElementById("answerText").value.trim();
+        const textEl = document.getElementById("answerText");
+        if (!textEl) return;
+
+        const text = textEl.value.trim();
         if (!text) {
             alert("답변을 입력하세요");
             return;
         }
 
-        fetch(`/admin/qna/answer/${id}`, {
+        fetch(`${API_ADMIN_QNA_ANSWER}/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ answer: text })
         })
             .then(res => res.ok ? alert("저장되었습니다.") : alert("오류 발생"))
-            .then(() => loadQnaList());
+            .then(() => loadQnaList())
+            .catch(err => {
+                console.error(err);
+                alert("답변 저장 중 오류가 발생했습니다.");
+            });
     }
 
     // ============================
-    // 5. 삭제
+    // 5. 삭제 (관리자 권한, 비밀번호 없이)
     // ============================
     function deleteQna(id) {
         if (!confirm("정말 삭제하시겠습니까?")) return;
 
-        fetch(`/admin/qna/${id}`, { method: "DELETE" })
-            .then(res => res.ok ? alert("삭제되었습니다.") : alert("오류 발생"))
+        fetch(`${API_ADMIN_QNA_DELETE}/${id}`, {
+            method: "DELETE"
+        })
+            .then(res => {
+                if (res.ok) {
+                    alert("삭제되었습니다.");
+                } else {
+                    alert("오류 발생");
+                }
+            })
             .then(() => {
+                // 목록 새로 로딩 → 즉시 반영
                 loadQnaList();
-                bootstrap.Modal.getInstance(document.getElementById("qnaModal")).hide();
+
+                // 모달이 열려 있으면 닫기
+                const modalEl = document.getElementById("qnaModal");
+                if (modalEl) {
+                    const modal = bootstrap.Modal.getInstance(modalEl);
+                    if (modal) modal.hide();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("삭제 중 오류가 발생했습니다.");
             });
     }
 
+    // ============================
+    // 공통 날짜 포맷
+    // ============================
     function formatDate(d) {
+        if (!d) return "";
         return new Date(d).toLocaleString("ko-KR", { hour12: false });
     }
 });

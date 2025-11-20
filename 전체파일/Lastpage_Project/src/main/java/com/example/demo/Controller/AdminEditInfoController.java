@@ -3,6 +3,8 @@ package com.example.demo.Controller;
 import com.example.demo.Domain.Common.Dto.SignupDto;
 import com.example.demo.Domain.Common.Entity.Signup;
 import com.example.demo.Domain.Common.Service.EditInfoService;
+import com.example.demo.Domain.Common.Service.SignupService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+//Repo -> EditInfoService -> Controller -> <-js->html
 @Controller
 @Slf4j
 @RequiredArgsConstructor
@@ -17,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminEditInfoController {
 
     private final EditInfoService editInfoService;
-
+    private final SignupService signupService;
     /** ------------------------------------------
      *  회원정보 수정 페이지 진입 (관리자 모드)
      *  GET /admin/user/edit/{userSeq}
@@ -76,4 +79,27 @@ public class AdminEditInfoController {
             return ResponseEntity.internalServerError().body("회원 삭제 중 오류가 발생했습니다.");
         }
     }
+    /* =======================================================
+       (4) 관리자 세션 강제 갱신 API
+           - JS에서 필요할 때 호출 가능
+    ======================================================= */
+    @PostMapping("/session/refresh")
+    @ResponseBody
+    public ResponseEntity<?> refreshAdminSession(HttpSession session) {
+
+        Signup loginUser = (Signup) session.getAttribute("loginUser");
+
+        // 로그인한 사람이 관리자라면 세션 갱신
+        if (loginUser != null) {
+            Signup refreshed = signupService.findById(loginUser.getUserSeq());
+            session.setAttribute("loginUser", refreshed);
+
+            log.info("[ADMIN] 관리자 세션 리프레시 완료 → userSeq={}", refreshed.getUserSeq());
+        }
+
+        return ResponseEntity.ok("session-refreshed");
+    }
+
+
+
 }

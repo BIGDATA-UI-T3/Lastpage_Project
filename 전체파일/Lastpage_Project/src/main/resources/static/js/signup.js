@@ -145,10 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const userSeq = await res.text();
       console.log("회원가입 성공 userSeq:", userSeq);
 
-      alert("회원가입 완료! 자동 로그인 됩니다.");
+      alert("회원가입 완료!");
 
       // 회원가입 성공 → 이미 Security + Session 등록됨
-      window.location.href = "/";
+      window.location.href = "/signin";
       
     } catch (error) {
       console.error(error);

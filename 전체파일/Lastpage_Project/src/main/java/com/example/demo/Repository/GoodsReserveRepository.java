@@ -1,5 +1,6 @@
 package com.example.demo.Repository;
 
+import com.example.demo.Domain.Common.Entity.FuneralReserve;
 import com.example.demo.Domain.Common.Entity.GoodsReserve;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +23,6 @@ public interface GoodsReserveRepository extends JpaRepository <GoodsReserve, Lon
 
     @Query("SELECT s FROM Signup s ORDER BY s.created_at DESC")
     List<GoodsReserve> findTop5ByOrderByCreated_atDesc();
-
+    Optional<GoodsReserve> findByIdAndUser_UserSeq(Long id, String userSeq);
     long count();
 }

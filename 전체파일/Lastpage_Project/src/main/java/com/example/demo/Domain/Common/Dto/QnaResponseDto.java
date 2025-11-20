@@ -27,13 +27,12 @@ public class QnaResponseDto {
     private List<String> links;
 
     /* 관리자 답변 */
-    private String adminAnswer;
+    private String adminAnswer; // null → "" 로 통일해주는 게 포인트
     private String adminName;
     private LocalDateTime answerAt;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
 
 
     /* =====================================================
@@ -51,9 +50,12 @@ public class QnaResponseDto {
                 .secret(q.isSecret())
                 .images(q.getImages() != null ? q.getImages() : List.of())
                 .links(q.getLinks() != null ? q.getLinks() : List.of())
-                .adminAnswer(q.getAdminAnswer())
+
+                // 관리자 답변 null-safe 처리
+                .adminAnswer(q.getAdminAnswer() != null ? q.getAdminAnswer() : "")
                 .adminName(q.getAdminName())
                 .answerAt(q.getAnswerAt())
+
                 .createdAt(q.getCreatedAt())
                 .updatedAt(q.getUpdatedAt())
                 .build();

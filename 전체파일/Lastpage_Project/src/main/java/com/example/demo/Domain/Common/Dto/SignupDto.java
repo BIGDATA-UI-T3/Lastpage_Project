@@ -47,7 +47,7 @@ public class SignupDto {
         dto.setYear(e.getYear());
         dto.setMonth(e.getMonth());
         dto.setDay(e.getDay());
-        dto.setGender(e.getGender().name());
+        dto.setGender(String.valueOf(e.getGender()));
         dto.setPhone_num(e.getPhone_num());
         dto.setProvider(e.getProvider());
         dto.setProviderId(e.getProviderId());

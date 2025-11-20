@@ -17,7 +17,7 @@
     <div id="header-container"></div>
 </div>
 
-<div class="admin-header">관리자 페이지</div>
+<div class="admin-header">관리자 페이지 - 예약 관리</div>
 
 <div class="admin-layout">
 
@@ -53,9 +53,18 @@
                 <td th:text="${f.petName}"></td>
                 <td th:text="${f.funeralDate}"></td>
                 <td class="action-buttons">
-                    <a th:href="@{|/admin/reserves/funeral/${f.id}|}" class="btn-edit">상세</a>
-                    <a th:href="@{|/admin/reserves/delete/funeral/${f.id}|}" class="btn-delete"
-                       onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+
+                    <!-- 관리자: 예약 수정 (GET 이동) -->
+                    <a th:href="@{|/reserve/admin/reserve/funeral_reserve?id=${f.id}&targetUserSeq=${f.userSeq}|}"
+                       class="btn-edit">수정
+                    </a>
+
+
+                    <!-- 관리자: 예약 삭제 (fetch 요청) -->
+                    <a href="#"
+                       class="btn-delete admin-delete-funeral"
+                       th:attr="data-id=${f.id}">삭제
+                    </a>
                 </td>
             </tr>
             </tbody>
@@ -80,9 +89,13 @@
                 <td th:text="${g.petName}"></td>
                 <td th:text="${g.product}"></td>
                 <td class="action-buttons">
-                    <a th:href="@{|/admin/reserves/goods/${g.id}|}" class="btn-edit">상세</a>
-                    <a th:href="@{|/admin/reserves/delete/goods/${g.id}|}" class="btn-delete"
-                       onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+                    <a th:href="@{|/reserve/admin/reserve/goods_reserve?id=${g.id}&targetUserSeq=${g.userSeq}|}"
+                       class="btn-edit">수정</a>
+
+                    <a href="#"
+                       class="btn-delete admin-delete-goods"
+                       th:attr="data-id=${g.id}">삭제
+                    </a>
                 </td>
             </tr>
             </tbody>
@@ -107,9 +120,12 @@
                 <td th:text="${p.counselor}"></td>
                 <td th:text="${p.consultDate}"></td>
                 <td class="action-buttons">
-                    <a th:href="@{|/admin/reserves/psy/${p.id}|}" class="btn-edit">상세</a>
-                    <a th:href="@{|/admin/reserves/delete/psy/${p.id}|}" class="btn-delete"
-                       onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+                    <a th:href="@{|/reserve/admin/reserve/psy_reserve?id=${p.id}&targetUserSeq=${p.userSeq}|}"
+                       class="btn-edit">수정</a>
+                    <a href="#"
+                       class="btn-delete admin-delete-psy"
+                       th:attr="data-id=${p.id}">삭제
+                    </a>
                 </td>
             </tr>
             </tbody>
@@ -118,6 +134,7 @@
     </div>
 </div>
 <div id="footer-container"></div>
+<script src ="/js/adminReserveList.js"></script>
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
 </body>
