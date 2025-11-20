@@ -24,7 +24,7 @@
     <!-- 사이드바 -->
     <div class="sidebar">
         <a href="/admin/dashboard"> 대시보드</a>
-        <a href="/admin/users"> 사용자 관리</a>
+        <a href="/admin/users"> 회원 관리</a>
         <a href="/admin/reserves"> 예약 관리</a>
         <a href="/admin/qna"> QnA 관리</a>
     </div>
@@ -43,7 +43,8 @@
                 <th>예약자</th>
                 <th>펫 이름</th>
                 <th>장례 날짜</th>
-                <th>관리</th>
+                <th>수정</th>
+                <th>삭제</th>
             </tr>
             </thead>
             <tbody>
@@ -58,8 +59,9 @@
                     <a th:href="@{|/reserve/admin/reserve/funeral_reserve?id=${f.id}&targetUserSeq=${f.userSeq}|}"
                        class="btn-edit">수정
                     </a>
+                </td>
 
-
+                <td class="action-buttons">
                     <!-- 관리자: 예약 삭제 (fetch 요청) -->
                     <a href="#"
                        class="btn-delete admin-delete-funeral"
@@ -79,7 +81,8 @@
                 <th>예약자</th>
                 <th>펫 이름</th>
                 <th>상품명</th>
-                <th>관리</th>
+                <th>수정</th>
+                <th>삭제</th>
             </tr>
             </thead>
             <tbody>
@@ -91,7 +94,9 @@
                 <td class="action-buttons">
                     <a th:href="@{|/reserve/admin/reserve/goods_reserve?id=${g.id}&targetUserSeq=${g.userSeq}|}"
                        class="btn-edit">수정</a>
+                </td>
 
+                <td class="action-buttons">
                     <a href="#"
                        class="btn-delete admin-delete-goods"
                        th:attr="data-id=${g.id}">삭제
@@ -110,7 +115,8 @@
                 <th>예약자</th>
                 <th>상담사</th>
                 <th>날짜</th>
-                <th>관리</th>
+                <th>수정</th>
+                <th>삭제</th>
             </tr>
             </thead>
             <tbody>
@@ -122,6 +128,8 @@
                 <td class="action-buttons">
                     <a th:href="@{|/reserve/admin/reserve/psy_reserve?id=${p.id}&targetUserSeq=${p.userSeq}|}"
                        class="btn-edit">수정</a>
+                </td>
+                <td class="action-buttons">
                     <a href="#"
                        class="btn-delete admin-delete-psy"
                        th:attr="data-id=${p.id}">삭제

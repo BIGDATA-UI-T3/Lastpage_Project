@@ -1,5 +1,6 @@
 package com.example.demo.Config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -7,12 +8,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    @Value("${file.upload.path}")
+    private String uploadPath;
+
+    @Value("${file.upload.qna}")
+    private String qnaUploadPath;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:///" + uploadPath);
+
         registry.addResourceHandler("/uploads/qna/**")
-                .addResourceLocations("file:" + System.getProperty("user.home") + "/lastpage_uploads/qna/");
-
-
+                .addResourceLocations("file:///" + qnaUploadPath);
     }
 }

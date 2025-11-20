@@ -78,7 +78,7 @@ nav ul li>ul {
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: #3f4f44;
+  background: #2C3930;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   list-style: none;
   padding: 10px 0;
@@ -520,10 +520,109 @@ color:#ffffff
   }
 }
 
+.auth-mobile,
+      .auth-mobile-menu {
+        display: none;
+      }
 
 /* 968px 이하 반응형 */
 @media (max-width : 968px) {
   header {
     justify-content: center;
   }
+
+  /* 로고를 헤더 정중앙에 고정 */
+    .logo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* 모바일에서는 왼쪽 마진 제거 */
+    .logo img {
+      margin-left: 0;
+    }
+     /* 기존 규칙 수정: auth 숨기지 않기 */
+      .auth {
+        display: none !important;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        gap: 10px;
+        font-size: 13px;   /* 조금 줄임 */
+      }
+
+      /* 링크 스타일 */
+      .auth a {
+        padding: 4px 6px;
+        font-size: 13px;
+      }
+
+      /* 로그인/회원가입 구분 좀 더 부드럽게 */
+      .auth .login-link,
+      .auth .signup-link {
+        color: #dcd7c9;
+      }
+
+      /* 관리자 전용 링크 */
+      .admin-highlight {
+        padding: 2px 6px;
+        font-size: 12px;
+      }
+
+      /* nav는 계속 숨김 (기존 유지) */
+      nav {
+        display: none !important;
+      }
+
+
+
+       /* 모바일용 auth 아이콘 표시 */
+        .auth-mobile {
+          display: flex !important;
+          position: absolute;
+          right: 20px;
+          top: 50%;
+          transform: translateY(-50%);
+          cursor: pointer;
+          z-index: 2000;
+
+        }
+
+        .auth-mobile svg {
+          width: 32px;
+          height: 32px;
+
+        }
+
+
+
+      /* 드롭다운 메뉴 */
+        .auth-mobile-menu {
+          display: none;
+          position: absolute;
+          right: 20px;
+          top: 90px;
+          background: #2C3930;
+          padding: 12px 16px;
+          border-radius: 10px;
+          flex-direction: column;
+          gap: 12px;
+          z-index: 2100;
+        }
+
+        .auth-mobile-menu a {
+          color: #dcd7c9;
+          text-decoration: none;
+        }
+
+        .auth-mobile-menu a:hover {
+          color: #ffffff;
+        }
+
+        .auth-mobile-menu.open {
+          display: flex;
+        }
 }

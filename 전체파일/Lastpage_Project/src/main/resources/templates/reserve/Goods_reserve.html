@@ -25,65 +25,20 @@
 th:data-mode="${mode}"
 th:data-id="${reserve!=null?reserve.id:''}">
 
-<!--<script th:if="${existingData}" th:inline="javascript">-->
-<!--    /*[CDATA[*/-->
-<!--    // 1-1. 서버에서 전달된 'GoodsReserve' 엔티티-->
-<!--    const serverData = /*[[${existingData}]]*/ null;-->
-
-<!--    // 1-2. 이 예약의 고유 ID를 전역 변수로 저장-->
-<!--    window.RESERVATION_ID = serverData.id;-->
-
-<!--    // 1-3. 엔티티 데이터를 JS 폼 객체(ST) 구조로 변환-->
-<!--    //      [수정] 모든 필드에 '||(or)' 연산자를 추가하여 null 안정성 확보-->
-<!--    window.initialST = {-->
-<!--        ownerName: serverData.ownerName || '',-->
-<!--        ownerPhone: serverData.ownerPhone || '',-->
-<!--        ownerEmail: serverData.ownerEmail || '',-->
-<!--        ownerAddr: serverData.ownerAddr || '',-->
-<!--        petName: serverData.petName || '',-->
-<!--        petType: serverData.petType || '',-->
-<!--        petBreed: serverData.petBreed || '',-->
-<!--        petWeight: serverData.petWeight || '',-->
-<!--        memo: serverData.memo || '',-->
-<!--        materials: serverData.materials ? serverData.materials.split(',') : [],-->
-<!--        product: serverData.product || '',-->
-<!--        metalColor: serverData.metalColor || '',-->
-<!--        chainLength: serverData.chainLength || '',-->
-<!--        ringSize: serverData.ringSize || '',-->
-<!--        quantity: serverData.quantity || 1, // 수량은 null이면 1로-->
-<!--        engravingText: serverData.engravingText || '',-->
-<!--        engravingFont: serverData.engravingFont || '',-->
-<!--        optionsMemo: serverData.optionsMemo || '',-->
-<!--        shipMethod: serverData.shipMethod || '',-->
-<!--        targetDate: serverData.targetDate || '',-->
-<!--        isExpress: serverData.isExpress || false, // boolean은 false로-->
-<!--        kitAddr: serverData.kitAddr || '',-->
-<!--        kitDate: serverData.kitDate || '',-->
-<!--        kitTime: serverData.kitTime || '',-->
-<!--        visitDate: serverData.visitDate || '',-->
-<!--        visitTime: serverData.visitTime || '',-->
-<!--        trackingInfo: serverData.trackingInfo || ''-->
-<!--    };-->
-<!--    /*]]>*/-->
-<!--</script>-->
-
 <!-- 헤더(메인과 동일) -->
 <div class="header-wrapper">
     <div id="header-container"></div>
 </div>
 
-    <!-- 배너 -->
-    <section class="banner" role="img" aria-label="추모 굿즈 간편예약 배너">
-        <div class="inner">
-            <h1>사랑을 형태로 남기는 맞춤 제작</h1>
-            <p>유골·모발·발자국 등 소중한 흔적으로 주얼리/액자/레진 오브제를 제작합니다.</p>
-        </div>
-    </section>
-</div>
-
 <!-- 본문: 추모 굿즈 간편예약 폼 -->
-<main>
-    <div class="wrap">
+<main class="full-background">
+    <div class="overlay"></div>
+    <div class="content-wrapper">
+        <div class="page-title-area">
+            <h1>사랑을 형태로 남기는 맞춤 제작</h1>
+            <p>유골·모발·발자국 등 소중한 흔적으로 주얼리/액자/레진 오브제를 제작합니다</p>
+        </div>
+
         <div class="card">
             <div class="steps" aria-label="예약 단계">
                 <div class="step-dot active" id="dot1"></div>

@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const userType = form.dataset.usertype;   // native | social | admin
   const oauthEmail = form.dataset.oauthemail;
   const targetUserSeq = form.dataset.userseq; // admin 모드용
+  const targetLoginType = form.dataset.targetlogintype;
 
   const name = document.getElementById("name");
   const emailId = document.getElementById("emailId");
@@ -22,83 +23,120 @@ document.addEventListener("DOMContentLoaded", () => {
   const pwBar = document.getElementById("pwStrengthBar");
   const pwText = document.getElementById("pwStrengthText");
 
-  /* =======================================================
-       1) 관리자 모드 처리
-  ======================================================= */
-  if (userType === "admin") {
 
-    console.log("[ADMIN MODE] 관리자 권한으로 회원정보 수정 페이지 접근");
+   /* =======================================================
+        1) 관리자 모드 처리
+   ======================================================= */
+   if (userType === "admin") {
 
-    [name, emailId, emailDomain].forEach(el => el.disabled = false);
+     console.log("[ADMIN MODE] 관리자 권한으로 회원정보 수정 페이지 접근");
 
-    if (password) password.disabled = true;
-    if (pwConfirm) pwConfirm.disabled = true;
+     // targetLoginType (대상 회원의 로그인 방식) 읽기
+     const targetLoginType = form.dataset.targetlogintype; // social | native
+     console.log("→ 관리자가 수정 중인 회원의 로그인 방식:", targetLoginType);
 
-    if (pwBar) pwBar.style.display = "none";
-    if (pwText) pwText.style.display = "none";
+     // 공통: 비밀번호 관련 UI 숨김 + 탈퇴 버튼 숨김
+     if (pwBar) pwBar.style.display = "none";
+     if (pwText) pwText.style.display = "none";
+     if (deleteBtn) deleteBtn.style.display = "none";
 
-    if (deleteBtn) deleteBtn.style.display = "none";
+     /* ================================
+          A) 소셜 로그인 회원(social)
+          → 이름, 이메일, 비밀번호 전부 수정 불가
+     ================================== */
+     if (targetLoginType === "social") {
 
-    /* 관리자 저장 */
-    if (saveBtn) {
-      saveBtn.addEventListener("click", async () => {
+       console.log("※ 대상 회원은 소셜 로그인 사용자 → 이름/이메일/비밀번호 수정 불가");
 
-        const birthValue = document.getElementById("birth").value;
-        let year = null, month = null, day = null;
+       // 소셜 이메일 표시 (oauthEmail 기준)
+       if (oauthEmail) {
+         const [idPart, domainPart] = oauthEmail.split("@");
+         if (emailId) emailId.value = idPart || "";
+         if (emailDomain) emailDomain.value = domainPart || "";
+       }
 
-        if (birthValue) {
-          const date = new Date(birthValue);
-          year = date.getFullYear();
-          month = date.getMonth() + 1;
-          day = date.getDate();
-        }
+       // 전부 잠금
+       [name, emailId, emailDomain, password, pwConfirm].forEach(el => {
+         if (el) el.disabled = true;
+       });
+     }
 
-        const updated = {
-          name: name.value.trim(),
-          emailId: emailId.value.trim(),
-          emailDomain: emailDomain.value.trim(),
-          phone_num: document.getElementById("phone").value.trim(),
-          year,
-          month,
-          day,
-          gender: document.getElementById("gender").value
-        };
+     /* ================================
+          B) 자체 로그인 회원(native)
+          → 비밀번호만 수정 불가, 나머지는 수정 가능
+     ================================== */
+     else if (targetLoginType === "native") {
 
-        // (1) 관리자용 업데이트
-        const res = await fetch(`/admin/user/update/${targetUserSeq}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updated)
-        });
+       console.log("※ 대상 회원은 자체 로그인 사용자 → 비밀번호만 수정 불가");
 
-        if (!res.ok) {
-          alert(await res.text());
-          return;
-        }
+       // 이름/이메일 수정 가능
+       [name, emailId, emailDomain].forEach(el => {
+         if (el) el.disabled = false;
+       });
 
-        alert("관리자가 회원 정보를 수정했습니다.");
+       // 비밀번호는 잠금
+       if (password) password.disabled = true;
+       if (pwConfirm) pwConfirm.disabled = true;
+     }
 
-        // -------------------------------------------
-        // (2) 관리자 자신인지 확인 → 세션 리프레시
-        // -------------------------------------------
-        try {
-          await fetch("/admin/user/session/refresh", { method: "POST" });
+     /* ================================
+          C) 관리자 저장 버튼 (기존 로직 유지)
+     ================================== */
+     if (saveBtn) {
+       saveBtn.addEventListener("click", async () => {
 
-          // 헤더 새로고침 이벤트
-          window.dispatchEvent(new CustomEvent("lp:update-header"));
-        } catch (e) {
-          console.error("관리자 세션 갱신 실패:", e);
-        }
+         const birthValue = document.getElementById("birth").value;
+         let year = null, month = null, day = null;
 
-        // -------------------------------------------
-        // (3) 관리자 목록으로 이동
-        // -------------------------------------------
-        window.location.href = "/admin/users";
-      });
-    }
+         if (birthValue) {
+           const date = new Date(birthValue);
+           year = date.getFullYear();
+           month = date.getMonth() + 1;
+           day = date.getDate();
+         }
 
-    return; // 관리자 모드 종료
-  }
+         const updated = {
+           name: name.value.trim(),
+           emailId: emailId.value.trim(),
+           emailDomain: emailDomain.value.trim(),
+           phone_num: document.getElementById("phone").value.trim(),
+           year,
+           month,
+           day,
+           gender: document.getElementById("gender").value
+         };
+
+         // (1) 관리자용 업데이트
+         const res = await fetch(`/admin/user/update/${targetUserSeq}`, {
+           method: "PUT",
+           headers: { "Content-Type": "application/json" },
+           body: JSON.stringify(updated)
+         });
+
+         if (!res.ok) {
+           alert(await res.text());
+           return;
+         }
+
+         alert("관리자가 회원 정보를 수정했습니다.");
+
+         // (2) 관리자 자신의 세션 갱신
+         try {
+           await fetch("/admin/user/session/refresh", { method: "POST" });
+           window.dispatchEvent(new CustomEvent("lp:update-header"));
+         } catch (e) {
+           console.error("관리자 세션 갱신 실패:", e);
+         }
+
+         // (3) 관리자 목록으로 이동
+         window.location.href = "/admin/users";
+       });
+     }
+
+     return; // 관리자 모드 종료
+   }
+
+
 
   /* =======================================================
        2) 소셜 로그인 사용자

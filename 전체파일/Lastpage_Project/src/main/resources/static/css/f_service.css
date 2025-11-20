@@ -206,3 +206,31 @@
         min-height: auto;
     }
 }
+
+
+
+.links {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    margin-top: 12px;
+}
+
+/* [추가] 예약하기 버튼 스타일 */
+.links a.btn-reserve {
+    background-color: #A27B5C; /* 테마 악센트 색상 */
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border-bottom: none; /* 기존 링크 밑줄 제거 */
+    font-weight: 500;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    text-decoration: none; /* 밑줄 제거 */
+}
+.links a.btn-reserve:hover {
+    background-color: #2C3930; /* 테마 메인 색상 */
+    color: #fff;
+    border-bottom: none;
+}

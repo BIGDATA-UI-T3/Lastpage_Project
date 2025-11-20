@@ -35,14 +35,17 @@ public class EditInfoController {
 
         String userType;
         String userSeq;
+        String loginType;
 
         // 세션 구분 (자체 vs 소셜)
         if (loginUser instanceof SignupDto dto) {
             userType = "social";
             userSeq = dto.getUserSeq();
+            loginType = "social";   //  소셜 로그인
         } else if (loginUser instanceof Signup entity) {
             userType = "native";
             userSeq = entity.getUserSeq();
+            loginType = "native";   //  자체 로그인
         } else {
             log.error("잘못된 세션 객체 유형");
             return "redirect:/signin";
@@ -52,8 +55,9 @@ public class EditInfoController {
         var userInfo = editInfoService.getUserInfo(userSeq);
         model.addAttribute("user", userInfo);
         model.addAttribute("userType", userType);
+        model.addAttribute("loginType", loginType);
 
-        log.info("[회원정보 수정 페이지 접근] userSeq={}, userType={}", userSeq, userType);
+        log.info("[회원정보 수정 페이지 접근] userSeq={}, userType={}, loginType={}", userSeq, userType,loginType);
         return "mypage/EditInfo";
     }
 

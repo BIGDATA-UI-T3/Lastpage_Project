@@ -10,11 +10,11 @@
             color:white;
             padding: 12px;
             font-size: 14px;
-            text-align: left;
             border-bottom: 1px solid #2d3436;
         }
 
         .reserve-table td {
+        text-align:center;
             padding: 12px;
             border-bottom: 1px solid #eee;
             font-size: 14px;
@@ -28,6 +28,7 @@
         }
 
         .action-buttons a {
+
             padding: 6px 12px;
                 font-size: 13px;
                 border-radius: 5px;
@@ -51,11 +52,13 @@
 
         /* 삭제 버튼 */
         .btn-delete {
+
             background: #d63031;
             border: 1px solid transparent;
         }
 
         .btn-delete:hover {
+
             background: white;
             border: 1px solid #d63031;
             color: #d63031;

@@ -1,6 +1,10 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const headerContainer = document.querySelector("#header-container");
+
+
   let loginLink, signupLink;
+
+
 
   /** ------------------------------
    *  헤더를 서버에서 fetch해서 렌더링
@@ -45,9 +49,27 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
       }
 
-    } catch (err) {
-      console.error("헤더 로딩 중 오류:", err);
-    }
+      // 모바일 버전
+          const mobileBtn = headerContainer.querySelector("#authMobileBtn");
+          const mobileMenu = headerContainer.querySelector("#authMobileMenu");
+
+          if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener("click", () => {
+              mobileMenu.classList.toggle("open");
+            });
+
+            document.addEventListener("click", (e) => {
+              if (!mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.remove("open");
+              }
+            });
+          }
+
+        } catch (err) {
+          console.error("헤더 로딩 중 오류:", err);
+        }
+
+
   }
 
   /** ------------------------------

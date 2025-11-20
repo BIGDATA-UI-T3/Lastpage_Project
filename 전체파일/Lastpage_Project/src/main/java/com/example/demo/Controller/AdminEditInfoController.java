@@ -31,14 +31,24 @@ public class AdminEditInfoController {
         // 수정할 회원 정보 읽기
         SignupDto userInfo = editInfoService.getUserInfo(userSeq);
 
-        model.addAttribute("user", userInfo);
-        model.addAttribute("userType", "admin");   // ★ 관리자 모드 전달
-        model.addAttribute("targetUserSeq", userSeq);
+        // 로그인 타입 판별 (social/native 구분)
+        String targetLoginType =
+                (userInfo.getOauthEmail() != null && !userInfo.getOauthEmail().isEmpty())
+                        ? "social"
+                        : "native";
 
-        log.info("[ADMIN] 회원 수정 페이지 접근 → userSeq={}", userSeq);
+
+        model.addAttribute("user", userInfo);
+        model.addAttribute("userType", "admin");
+        model.addAttribute("targetUserSeq", userSeq);     // 수정 대상 seq
+        model.addAttribute("loginType", targetLoginType);
+
+        log.info("[ADMIN] 회원 수정 페이지 접근 → userSeq={}, loginType={}",
+                userSeq, targetLoginType);
 
         return "mypage/EditInfo";  // 동일한 EditInfo.html 재사용
     }
+
 
     /** ------------------------------------------
      *  회원정보 수정 처리 (관리자 모드)

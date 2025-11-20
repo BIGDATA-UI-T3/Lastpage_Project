@@ -21,8 +21,10 @@
     <!-- ★ userType + userSeq + oauthEmail 전달 (관리자용 포함) -->
     <form id="editForm"
           th:data-usertype="${userType}"
-    th:data-userseq="${targetUserSeq}"
-    th:data-oauthemail="${user?.oauthEmail}">
+          th:data-userseq="${targetUserSeq}"
+          th:data-oauthemail="${user?.oauthEmail}"
+          th:data-targetlogintype="${loginType}">
+
 
     <div class="mb-3">
         <label class="form-label">이름</label>
