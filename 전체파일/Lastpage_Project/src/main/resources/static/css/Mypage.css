@@ -101,9 +101,9 @@
 }
 
 .subtitle_yj {
-    width: 1000px;
+    width: 800px;
     padding-left: 30px;
-    margin: 35px auto;
+    margin: 20px auto;
     display: flex;
     justify-content: left;
     font-size: 30px;
@@ -111,16 +111,24 @@
     color: rgb(64, 31, 31);
 }
 
-main>.reserv_yj {
-    max-width: 1000px;
+main>.reserv_yj  {
+    max-width: 800px;
     background-color: white;
     box-shadow: 0 12px 32px rgb(0 0 0 / 10%);
     border-radius: 22px;
-    display: flex;
+    display: grid;
     flex-direction: column;
     margin: auto;
     margin-bottom: 50px;
     padding: 30px;
+}
+main>.service_yj{
+    max-width: 800px;
+    border-radius: 22px;
+    display: flex;
+    margin: auto;
+    margin-bottom: 50px;
+
 }
 
 .reserv-header_yj {
@@ -135,14 +143,14 @@ main>.reserv_yj {
 .reserv_yj>.reserv-header_yj>.reserv-left_yj>p {
     color: black;
     font-size: 28px;
-    font-weight: 600;
+    font-weight: 800;
     margin-left: 10px;
 }
 
 main>.reserv_yj>.reserv-header_yj>a {
     text-decoration: none;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 800;
     line-height: 60px;
     margin-right: 10px;
     color: black;
@@ -157,8 +165,8 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
 .reserv-content_yj {
     border: 3px solid rgba(64, 31, 31, 0.1);
     border-radius: 10px;
-    padding: 20px 20px 0 20px;
-    margin-top: 10px;
+    padding: 20px 20px 0 30px;
+    margin-top: 20px;
 }
 
 .reserv-row_yj {
@@ -184,8 +192,9 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
 }
 
 .icon-duration_yj>p {
+margin-bottom:auto;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 800;
     display: flex;
     justify-content: center;
 }
@@ -194,20 +203,20 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
     border-top: 3px solid rgba(64, 31, 31, 0.1);
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 10px;
 }
 
 .reserv-details_yj>div {
-    display: flex;
+    display: list-item;
     justify-content: space-between;
     margin: 8px;
     align-items: center;
 }
 
 .reserv-details_yj>div>span {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 .reserv-details_yj>div>p {
@@ -241,7 +250,6 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
     border-radius: 22px;
     display: flex;
     flex-direction: column;
-    margin: 10px;
     align-items: center;
     justify-content: center;
 }
@@ -249,7 +257,7 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
 .direct_yj>.text_yj {
     text-decoration: none;
     color: black;
-    font-size: 25px;
+    font-size: 18px;
     font-weight: 600;
 }
 
@@ -265,6 +273,55 @@ main>.reserv_yj>.reserv-header_yj>a:hover {
 }
 
 .effect_yj.show {
+    max-width:800px;
     opacity: 1;
     transform: translateY(0);
 }
+
+/* 예약 카드 상단 (왼쪽 제목 + 오른쪽 액션) */
+
+.reserv-title_yj{
+font-size:20px;
+font-weight:600;
+}
+.reserv-top_yj {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding : 0 18px;
+}
+
+/* 오른쪽 전체 그룹 */
+.reserv-actions_yj {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* 상태 묶음 */
+.status-group_yj {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-btn_yj {
+    padding: 3px 10px;
+    border: 1px solid #6c757d;
+    background: white;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* 버튼 묶음 */
+.btn-group_yj a {
+    margin-left: 5px;
+}
+
+.reserv-memo-details_yj{
+display:grid;
+border-top:3px solid rgba(64, 31, 31, 0.1);
+padding:12px 0 0 0;
+}
+

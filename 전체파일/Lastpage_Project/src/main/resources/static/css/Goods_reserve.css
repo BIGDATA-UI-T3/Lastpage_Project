@@ -16,9 +16,7 @@
 *{box-sizing:border-box}
 
 body{
-    margin:0; 
-    /* [수정] 폰트 통일 */
-    font-family: 'Georgia', serif; 
+
     background:linear-gradient(180deg,#f4efe6,var(--bg));
     color:var(--ink);
 }
@@ -111,7 +109,7 @@ h1.title{ margin:6px 0 18px; color:#666; font-size:24px; text-align:center }
 
 label.small{ font-size:13px; color:#555 }
 .field{
-    display:flex; align-items:center; gap:8px;
+    align-items:center; gap:8px;
     background:#faf9f7; border:1px solid var(--border); border-radius:12px;
     padding:12px 12px;
 }

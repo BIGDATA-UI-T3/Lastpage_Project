@@ -1,73 +1,81 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    const kakaoBtn = document.getElementById("kakaoPayBtn");
+    const naverBtn = document.getElementById("naverPayBtn");
+    const confirmCheck = document.getElementById("confirmCheck");
+    const amountInput = document.getElementById("paymentAmount");
 
-   /* ===== 결제 수단 선택 ===== */
-   const methodButtons = document.querySelectorAll(".method-btn");
-   const sections = document.querySelectorAll(".payment-section");
+    if (!kakaoBtn || !naverBtn) {
+        console.error("[ERROR] 결제 버튼 요소를 찾을 수 없습니다.");
+        return;
+    }
+    if (!amountInput) {
+        console.error("[ERROR] 결제 금액이 존재하지 않습니다.");
+        return;
+    }
 
-   methodButtons.forEach((btn) => {
-     btn.addEventListener("click", () => {
-       methodButtons.forEach((b) => b.classList.remove("active"));
-       sections.forEach((sec) => sec.classList.remove("active"));
-       btn.classList.add("active");
-       document.getElementById(btn.dataset.target).classList.add("active");
-     });
-   });
+    //  클라이언트 전용 UUID 주문번호 생성
+    const orderId = "ORDER_" + Date.now() + "_" + crypto.randomUUID();
+    const amount = Number(amountInput.value);
 
-   /* ===== 결제 버튼 클릭 ===== */
-   document.getElementById("payBtn").addEventListener("click", async () => {
-     try {
-       const activeMethod = document.querySelector(".method-btn.active").dataset.target;
-       const amount = 35000; // th:text 바인딩 or JS 변수로 전달 가능
-       const orderId = "ORDER_" + Date.now();
+    console.log("[생성된 OrderId] ", orderId);
 
-       // 백엔드로 결제 요청
-       const res = await fetch("/api/payments/create", {
-         method: "POST",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({
-           method: activeMethod.toUpperCase(), // CARD / KAKAO / NAVER
-           amount,
-           orderId
-         })
-       });
+    // ---------------------------
+    // 공통 결제 함수
+    // ---------------------------
+    async function requestPayment(method) {
+        try {
+            if (!confirmCheck.checked) {
+                alert("결제 내용을 확인해 주세요.");
+                return;
+            }
 
-       if (!res.ok) {
-         alert(await res.text());
-         return;
-       }
+            kakaoBtn.disabled = true;
+            naverBtn.disabled = true;
 
-       const data = await res.json();
+            console.log("[결제 요청] method=", method, "orderId=", orderId);
 
-       // 결제 수단별 후속 처리
-       switch (activeMethod) {
-         case "card":
-           alert("카드 결제가 완료되었습니다.");
-           window.location.href = "/pay/success";
-           break;
+            const res = await fetch("/api/payments/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ method, amount, orderId })
+            });
 
-         case "kakao":
-           if (data.next_redirect_pc_url) {
-             window.location.href = data.next_redirect_pc_url;
-           } else {
-             alert("카카오페이 결제창 연결 실패");
-           }
-           break;
+            if (!res.ok) {
+                alert(await res.text());
+                return;
+            }
 
-         case "naver":
-           if (data.redirect_url) {
-             window.location.href = data.redirect_url;
-           } else {
-             alert("네이버페이 결제창 연결 실패");
-           }
-           break;
+            const data = await res.json();
 
-         default:
-           alert("지원하지 않는 결제 방식입니다.");
-       }
-     } catch (err) {
-       console.error("결제 중 오류:", err);
-       alert("결제 요청 중 오류가 발생했습니다.");
-     }
-   });
- });
+            // 카카오페이
+            if (method === "KAKAO") {
+                if (data.next_redirect_pc_url) {
+                    window.location.href = data.next_redirect_pc_url;
+                } else {
+                    alert("카카오페이 결제창 연결 실패");
+                }
+            }
+
+            // 네이버페이
+            if (method === "NAVER") {
+                if (data.redirect_url) {
+                    window.location.href = data.redirect_url;
+                } else {
+                    alert("네이버페이 결제창 연결 실패");
+                }
+            }
+
+        } catch (err) {
+            console.error("[결제 오류]", err);
+            alert("결제 요청 중 오류가 발생했습니다.");
+        } finally {
+            kakaoBtn.disabled = false;
+            naverBtn.disabled = false;
+        }
+    }
+
+    // 이벤트 연결
+    kakaoBtn.addEventListener("click", () => requestPayment("KAKAO"));
+    naverBtn.addEventListener("click", () => requestPayment("NAVER"));
+});

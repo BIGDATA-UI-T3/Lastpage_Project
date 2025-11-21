@@ -8,12 +8,12 @@
 }
 
 body {
+  font-family: 'Apple SD Gothic Neo', sans-serif;
   position: relative;
   margin: 0;
   background-color: #f5f0e5;
 }
 
-/*전체*/
 /* 헤더 배너 */
 
 .header-wrapper {
@@ -60,7 +60,7 @@ nav ul li {
   cursor: pointer;
 }
 
-nav ul li>a {
+nav ul li > a {
   color: #dcd7c9;
   text-decoration: none;
   padding: 8px;
@@ -72,7 +72,7 @@ a:hover {
 }
 
 /* 배너 드롭다운 */
-nav ul li>ul {
+nav ul li > ul {
   display: none;
   position: absolute;
   top: 100%;
@@ -87,11 +87,11 @@ nav ul li>ul {
   text-align: center;
 }
 
-nav ul li:hover>ul {
+nav ul li:hover > ul {
   display: block;
 }
 
-nav ul li>ul li>a {
+nav ul li > ul li > a {
   color: #dcd7c9;
   text-decoration: none;
   padding: 8px 15px;
@@ -100,26 +100,25 @@ nav ul li>ul li>a {
   text-align: center;
 }
 
-nav ul li>ul li>a:hover {
+nav ul li > ul li > a:hover {
   color: #ffffff;
 }
 
 .auth {
   margin-right: 20px;
   display: flex;
-  gap: 15px;
+  gap: 2px;
 }
 
 .auth a {
   color: #dcd7c9;
   text-decoration: none;
-  padding: 8px;
+  padding: 10px 15px;
 }
 
 .auth a:hover {
   color: #fff;
   text-decoration: none;
-  padding: 8px;
 }
 
 /* 햄버거 메뉴 */
@@ -190,7 +189,7 @@ nav ul li>ul li>a:hover {
   display: block;
 }
 
-/* 반응형 */
+/* 반응형 (헤더/네비/로그인) */
 @media (max-width: 968px) {
   nav,
   .auth {
@@ -200,19 +199,6 @@ nav ul li>ul li>a:hover {
   .hamburger {
     display: flex;
   }
-}
-
-/* 메인 */
-.main-wrapper {
-  margin-top: 50px;
-}
-
-.main-wrapper section {
-  display: flex;
-  height: 450px;
-  padding: 50px;
-  font-size: 24px;
-  flex-direction: column;
 }
 
 /* 사이드 배너 */
@@ -253,26 +239,16 @@ nav ul li>ul li>a:hover {
 /* Admin 전용 강조 */
 .admin-highlight {
   color: #d7263d !important;
-  font-weight: 700;
-  background: #fff3f3;
-  border-radius: 6px;
-  padding: 4px 10px;
-  transition: 0.3s ease;
-}
-.admin-highlight:hover {
-  background: #d7263d;
-  color: white !important;
+  font-weight: 500 !important;
+  background: #ffffff !important;
+  border-radius: 6px !important;
+  padding: 10px 10px 10px 10px !important;
+  transition: 0.3s ease !important;
 }
 
-.admin-only a {
-  color: #b30000;
-  font-weight: 600;
-}
-.admin-only a:hover {
-  color: white;
-  background: #b30000;
-  border-radius: 4px;
-  padding: 3px 6px;
+.admin-highlight:hover {
+  background: #d7263d !important;
+  color: white !important;
 }
 
 /* ======================================================================= */
@@ -288,8 +264,6 @@ footer {
   font-size: 14px;
 }
 
-
-
 .footer-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -303,17 +277,18 @@ footer {
 }
 
 .footer-logo img {
-  width: 100px;        /* ★ 추천 크기 */
-  height: auto;        /* 비율 유지 */
-  opacity: 0.95;       /* 자연스럽게 */
+  width: 100px;       /* 추천 크기 */
+  height: auto;       /* 비율 유지 */
+  opacity: 0.95;      /* 자연스럽게 */
   transition: 0.2s;
 }
 
 .footer-logo img:hover {
-  opacity: 1;          /* 호버 효과 */
+  opacity: 1;         /* 호버 효과 */
 }
+
 /* 퀵 링크 */
-.footer-links{
+.footer-links {
   text-align: center;
   margin-bottom: 15px;
   font-size: 15px;
@@ -336,30 +311,34 @@ footer {
   line-height: 1.7;
   opacity: 0.9;
 }
-.footer-company-info a{
-color : #dcd7c9;
-text-decoration: none;
+
+.footer-company-info a {
+  color: #dcd7c9;
+  text-decoration: none;
 }
 
-.footer-company-info a:hover{
-color:#ffffff
+.footer-company-info a:hover {
+  color: #ffffff;
 }
 
- .footer-brand {
- margin-top: 15px;
-   text-align: center;
-   line-height: 1.7;
-   opacity: 0.9;
+.footer-brand {
+  margin-top: 15px;
+  text-align: center;
+  line-height: 1.7;
+  opacity: 0.9;
   font-weight: 600;
   font-size: 15px;
   color: #ffffff;
 }
 
-.footer-contact a, .footer-company-info a {
+.footer-contact a,
+.footer-company-info a {
   color: #dcd7c9;
   text-decoration: none;
 }
-.footer-contact a:hover, footer-company-info a:hover {
+
+.footer-contact a:hover,
+.footer-company-info a:hover {
   color: #ffffff;
 }
 
@@ -497,132 +476,83 @@ color:#ffffff
   100% { transform: translateY(0); opacity: 1; }
 }
 
-/* 968px 이하 반응형 모달 전용 */
-@media (max-width: 968px) {
-
-  .dev-card {
-    padding: 22px;
-  }
-
-  .dev-content {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .dev-photo img {
-    width: 140px;
-    height: 140px;
-  }
-
-  .dev-close-btn {
-    right: 14px;
-    top: 10px;
-  }
+/* 기본값 */
+.auth-mobile,
+.auth-mobile-menu {
+  display: none;
 }
 
-.auth-mobile,
-      .auth-mobile-menu {
-        display: none;
-      }
-
-/* 968px 이하 반응형 */
-@media (max-width : 968px) {
+/* 968px 이하 반응형 (헤더 + 모바일 auth) */
+@media (max-width: 968px) {
   header {
     justify-content: center;
   }
 
   /* 로고를 헤더 정중앙에 고정 */
-    .logo {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
+  .logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
 
-    /* 모바일에서는 왼쪽 마진 제거 */
-    .logo img {
-      margin-left: 0;
-    }
-     /* 기존 규칙 수정: auth 숨기지 않기 */
-      .auth {
-        display: none !important;
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        gap: 10px;
-        font-size: 13px;   /* 조금 줄임 */
-      }
+  /* 모바일에서는 왼쪽 마진 제거 */
+  .logo img {
+    margin-left: 0;
+  }
 
-      /* 링크 스타일 */
-      .auth a {
-        padding: 4px 6px;
-        font-size: 13px;
-      }
-
-      /* 로그인/회원가입 구분 좀 더 부드럽게 */
-      .auth .login-link,
-      .auth .signup-link {
-        color: #dcd7c9;
-      }
-
-      /* 관리자 전용 링크 */
-      .admin-highlight {
-        padding: 2px 6px;
-        font-size: 12px;
-      }
-
-      /* nav는 계속 숨김 (기존 유지) */
-      nav {
-        display: none !important;
-      }
+  /* 데스크탑용 auth는 숨김 */
+  .auth {
+    display: none;
+  }
 
 
 
-       /* 모바일용 auth 아이콘 표시 */
-        .auth-mobile {
-          display: flex !important;
-          position: absolute;
-          right: 20px;
-          top: 50%;
-          transform: translateY(-50%);
-          cursor: pointer;
-          z-index: 2000;
+  /* nav는 계속 숨김 (기존 유지) */
+  nav {
+    display: none;
+  }
 
-        }
+  /* 모바일용 auth 아이콘 표시 */
+  .auth-mobile {
+    display: flex;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 2000;
+  }
 
-        .auth-mobile svg {
-          width: 32px;
-          height: 32px;
+  .auth-mobile svg {
+    width: 32px;
+    height: 32px;
+  }
 
-        }
+  /* 드롭다운 메뉴 */
+  .auth-mobile-menu {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 90px;
+    background: #2C3930;
+    padding: 12px 16px;
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 2100;
+  }
 
+  .auth-mobile-menu a {
+    color: #dcd7c9;
+    text-decoration: none;
+  }
 
+  .auth-mobile-menu a:hover {
+    color: #ffffff;
+  }
 
-      /* 드롭다운 메뉴 */
-        .auth-mobile-menu {
-          display: none;
-          position: absolute;
-          right: 20px;
-          top: 90px;
-          background: #2C3930;
-          padding: 12px 16px;
-          border-radius: 10px;
-          flex-direction: column;
-          gap: 12px;
-          z-index: 2100;
-        }
-
-        .auth-mobile-menu a {
-          color: #dcd7c9;
-          text-decoration: none;
-        }
-
-        .auth-mobile-menu a:hover {
-          color: #ffffff;
-        }
-
-        .auth-mobile-menu.open {
-          display: flex;
-        }
+  .auth-mobile-menu.open {
+    display: flex;
+  }
 }

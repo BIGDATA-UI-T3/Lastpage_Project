@@ -5,9 +5,9 @@
     display: flex;
     align-items: center; /* 세로 중앙 정렬 */
     justify-content: center; /* 가로 중앙 정렬 */
-    position: relative;
-    padding: 80px 20px; /* 위아래 패딩 (헤더/푸터 영역 감안) */
-    box-sizing: border-box;
+
+     /* 위아래 패딩 (헤더/푸터 영역 감안) */
+
     overflow: hidden;
     scroll-snap-align: start;
 }
@@ -20,18 +20,10 @@
     color:#2C3930;
 }
 
-/*.banner::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.55));
-    z-index: 1; *//* 배경 이미지 위에, 텍스트(inner) 아래에 위치 *//*
-}*/
 
 .banner .inner {
     padding: 36px 16px;
-    /*position: relative; *//* ::after 위로 올라오도록 *//*
-    z-index: 2;*/
+
     text-align: center;
 }
 

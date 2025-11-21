@@ -4,18 +4,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const tableBody = document.getElementById("qnaTableBody");
     const noResult = document.getElementById("noResult");
 
-    // ===== API 경로 정리 (SupportController 기준) =====
-    const API_ADMIN_QNA_LIST   = "/supportService/api/admin/qna";   // 관리자 전체 목록
-    const API_QNA_DETAIL       = "/supportService/api/qna";         // 단건 조회 (QnaResponseDto)
-    const API_ADMIN_QNA_DELETE = "/supportService/api/admin/qna";   // 관리자 삭제 (DELETE /{id})
-    // 답변 저장은 /admin 쪽 컨트롤러를 그대로 쓰는 경우가 많아서 기존 경로 유지
-    const API_ADMIN_QNA_ANSWER = "/admin/qna/answer";               // PUT /{id} (기존 구현 유지)
+    // ===== API 경로 정리 =====
+    const API_ADMIN_QNA_LIST   = "/supportService/api/admin/qna";
+    const API_QNA_DETAIL       = "/supportService/api/qna";
+    const API_ADMIN_QNA_DELETE = "/supportService/api/admin/qna";
+    const API_ADMIN_QNA_ANSWER = "/admin/qna/answer";  // 기존 경로 유지
 
     // 초기 로딩
     loadQnaList();
 
     // ============================
-    // 0. 행 삭제 버튼(리스트용) 위임
+    // 0. 삭제 버튼(Event Delegation)
     // ============================
     document.addEventListener("click", (e) => {
         const btn = e.target.closest(".btn-delete");
@@ -26,7 +25,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ============================
-    // 1. QnA 전체 조회
+    // (A) Summary 숫자 즉시 갱신 기능 추가
+    // ============================
+    function updateSummary(list) {
+        const totalEl = document.querySelector(".summary-card:nth-child(1) .summary-number");
+        const waitEl  = document.querySelector(".summary-card:nth-child(2) .summary-number");
+        const doneEl  = document.querySelector(".summary-card:nth-child(3) .summary-number");
+
+        const total = list.length;
+        const wait = list.filter(q => !q.adminAnswer || q.adminAnswer.trim() === "").length;
+        const done = list.filter(q => q.adminAnswer && q.adminAnswer.trim() !== "").length;
+
+        if (totalEl) totalEl.textContent = total;
+        if (waitEl)  waitEl.textContent = wait;
+        if (doneEl)  doneEl.textContent = done;
+    }
+
+    // ============================
+    // 1. QnA 전체 조회 + summary 갱신
     // ============================
     function loadQnaList(keyword = "") {
         fetch(API_ADMIN_QNA_LIST)
@@ -44,22 +60,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
                 }
 
+                // ===== Summary UI 즉시 반영 =====
+                updateSummary(list);
+
                 tableBody.innerHTML = "";
 
                 if (!list || list.length === 0) {
-                    // 데이터 없으면 noResult 표시
-                    if (noResult) {
-                        noResult.style.display = "table-row";
-                    }
+                    if (noResult) noResult.style.display = "table-row";
                     return;
                 } else {
-                    if (noResult) {
-                        noResult.style.display = "none";
-                    }
+                    if (noResult) noResult.style.display = "none";
                 }
 
                 list.forEach((q, idx) => {
-
                     const tr = document.createElement("tr");
                     tr.innerHTML = `
                         <td class="col-number">${idx + 1}</td>
@@ -82,8 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             </span>
                         </td>
 
-
-
                         <td class="col-answer">
                             <a class="btn-answer btn btn-sm btn-primary"
                                href="/supportService/admin/qna/${q.id}">
@@ -98,8 +109,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             </a>
                         </td>
                     `;
-
-
                     tableBody.appendChild(tr);
                 });
 
@@ -110,7 +119,9 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 
-    // 검색 버튼
+    // ============================
+    // 검색 기능
+    // ============================
     const btnSearch = document.getElementById("btnSearch");
     if (btnSearch) {
         btnSearch.addEventListener("click", () => {
@@ -137,21 +148,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 return res.json();
             })
             .then(q => {
-                document.getElementById("modalTitle").textContent      = q.title;
-                document.getElementById("modalCategory").textContent   = q.category;
-                document.getElementById("modalNickname").textContent   = q.nickname;
-                document.getElementById("modalCreatedAt").textContent  = formatDate(q.createdAt);
-                document.getElementById("modalContent").textContent    = q.content;
+                document.getElementById("modalTitle").textContent     = q.title;
+                document.getElementById("modalCategory").textContent  = q.category;
+                document.getElementById("modalNickname").textContent  = q.nickname;
+                document.getElementById("modalCreatedAt").textContent = formatDate(q.createdAt);
+                document.getElementById("modalContent").textContent   = q.content;
 
                 renderImages(q.images);
                 renderLinks(q.links);
                 renderAnswer(q);
 
-                // 모달 내 삭제 버튼
                 const btnDelete = document.getElementById("btnDelete");
-                if (btnDelete) {
-                    btnDelete.onclick = () => deleteQna(q.id);
-                }
+                if (btnDelete) btnDelete.onclick = () => deleteQna(q.id);
 
                 const modal = new bootstrap.Modal(document.getElementById("qnaModal"));
                 modal.show();
@@ -198,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ============================
-    // 3. 답변 입력 UI
+    // 3. 답변 입력 / 수정 UI
     // ============================
     function renderAnswer(q) {
         const wrap = document.getElementById("modalAnswerWrap");
@@ -225,13 +233,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const btnSave = document.getElementById("btnAnswerSave");
-        if (btnSave) {
-            btnSave.onclick = () => saveAnswer(q.id);
-        }
+        if (btnSave) btnSave.onclick = () => saveAnswer(q.id);
     }
 
     // ============================
-    // 4. 답변 저장
+    // 4. 답변 저장 + summary 즉시 반영
     // ============================
     function saveAnswer(id) {
         const textEl = document.getElementById("answerText");
@@ -257,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ============================
-    // 5. 삭제 (관리자 권한, 비밀번호 없이)
+    // 5. 삭제 + Summary 즉시 갱신
     // ============================
     function deleteQna(id) {
         if (!confirm("정말 삭제하시겠습니까?")) return;
@@ -266,17 +272,12 @@ document.addEventListener("DOMContentLoaded", () => {
             method: "DELETE"
         })
             .then(res => {
-                if (res.ok) {
-                    alert("삭제되었습니다.");
-                } else {
-                    alert("오류 발생");
-                }
+                if (res.ok) alert("삭제되었습니다.");
+                else alert("오류 발생");
             })
             .then(() => {
-                // 목록 새로 로딩 → 즉시 반영
-                loadQnaList();
+                loadQnaList(); // 즉시 갱신
 
-                // 모달이 열려 있으면 닫기
                 const modalEl = document.getElementById("qnaModal");
                 if (modalEl) {
                     const modal = bootstrap.Modal.getInstance(modalEl);
