@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/Signup.css}">
+    <title>회원가입</title>
+</head>
+
+<body>
+<div class="header-wrapper">
+    <div id="header-container"></div>
+</div>
+
+<main class="signup-bg">
+    <div class="signup-wrap">
+        <h2 class="signup-title">회원가입하기</h2>
+
+        <form id="signupForm" class="signup-form-box" autocomplete="off">
+
+            <!-- 이름 -->
+            <div class="signup-row">
+                <input type="text" id="name" placeholder="이름" required>
+            </div>
+
+            <!-- 아이디 -->
+            <div class="signup-row">
+                <input type="text" id="userid" placeholder="아이디" required>
+                <button type="button" id="checkIdBtn" class="btn btn-outline-secondary btn-sm">중복확인</button>
+            </div>
+            <span id="idCheckMsg" class="msg-line"></span>
+
+            <!-- 비밀번호 -->
+            <div class="signup-row">
+                <input type="password" id="password" placeholder="비밀번호 (9자 이상, 대문자/특수문자 포함)" required>
+            </div>
+            <div class="signup-row">
+                <input type="password" id="confirm_password" placeholder="비밀번호 확인" required>
+            </div>
+            <span id="pwMsg" class="msg-line"></span>
+
+            <!-- 이메일 -->
+            <div class="signup-row email-row">
+                <input type="text" id="emailId" class="email-id" placeholder="이메일" required>
+                <span class="at">@</span>
+                <input type="text" id="emailDomain" class="email-domain" placeholder="도메인" required>
+                <select class="domain-select">
+                    <option>직접입력</option>
+                    <option>naver.com</option>
+                    <option>gmail.com</option>
+                    <option>daum.net</option>
+                </select>
+            </div>
+
+            <div class="signup-row">
+                <button type="button" id="sendEmailBtn" class="btn btn-outline-secondary btn-sm">인증메일 보내기</button>
+            </div>
+
+            <div class="signup-row email-verify" style="display:none;">
+                <input type="text" id="emailCode" placeholder="이메일 인증번호 입력">
+                <button type="button" id="verifyEmailBtn" class="btn btn-outline-secondary btn-sm">확인</button>
+            </div>
+
+            <!-- 생년월일 -->
+            <div class="signup-row birth-row">
+                <input type="text" id="year" maxlength="4" placeholder="생년(4자)" required>
+                <input type="text" id="month" maxlength="2" placeholder="월(2자)" required>
+                <input type="text" id="day" maxlength="2" placeholder="일(2자)" required>
+            </div>
+
+            <!-- 성별 -->
+            <div class="signup-row gender-row">
+                <label><input type="radio" name="gender" value="N" required> 선택안함</label>
+                <label><input type="radio" name="gender" value="M"> 남</label>
+                <label><input type="radio" name="gender" value="F"> 여</label>
+            </div>
+
+            <!-- 휴대폰 -->
+            <div class="signup-row phone-row">
+                <input type="text" id="phone" maxlength="11" placeholder="휴대폰 번호 (숫자만)" required>
+            </div>
+
+            <!-- 제출 -->
+            <div class="signup-row">
+                <button type="submit" class="btn btn-primary w-100">회원가입하기</button>
+            </div>
+
+        </form>
+    </div>
+</main>
+
+
+<div id="footer-container"></div>
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
+
+<script>
+    let isIdChecked = false;
+    let isEmailVerified = false;
+    let tempEmail = "";
+
+    // 도메인 선택
+    document.querySelector('.domain-select').addEventListener('change', e => {
+      const domainInput = document.getElementById('emailDomain');
+      domainInput.value = e.target.value === '직접입력' ? '' : e.target.value;
+    });
+
+    // 아이디 중복검사
+    document.getElementById('checkIdBtn').addEventListener('click', async () => {
+      const id = document.getElementById('userid').value.trim();
+      if (!id) return alert("아이디를 입력하세요.");
+
+      const res = await fetch(`/signup/checkDuplicateId?id=${id}`);
+      const text = await res.text();
+
+      const msg = document.getElementById('idCheckMsg');
+      if (text === 'duplicate') {
+        msg.textContent = "이미 사용 중인 아이디입니다.";
+        msg.className = 'invalid-msg';
+        isIdChecked = false;
+      } else {
+        msg.textContent = "사용 가능한 아이디입니다.";
+        msg.className = 'valid-msg';
+        isIdChecked = true;
+      }
+    });
+
+    // 비밀번호 유효성 검사
+    const pw = document.getElementById('password');
+    const cpw = document.getElementById('confirm_password');
+    const pwMsg = document.getElementById('pwMsg');
+
+    cpw.addEventListener('input', () => {
+      const valid = pw.value.length >= 9 && /[A-Z]/.test(pw.value) && /[!@#$%^&*]/.test(pw.value);
+      if (!valid) {
+        pwMsg.textContent = '대문자·특수문자 포함 9자 이상이어야 합니다.';
+        pwMsg.className = 'invalid-msg';
+      } else if (pw.value === cpw.value) {
+        pwMsg.textContent = '비밀번호가 일치합니다.';
+        pwMsg.className = 'valid-msg';
+      } else {
+        pwMsg.textContent = '비밀번호가 일치하지 않습니다.';
+        pwMsg.className = 'invalid-msg';
+      }
+    });
+
+    // 이메일 인증
+    document.getElementById('sendEmailBtn').addEventListener('click', async () => {
+      const email = document.getElementById('emailId').value + '@' + document.getElementById('emailDomain').value;
+      if (!email.includes('@')) return alert('이메일 주소를 올바르게 입력해주세요.');
+
+      const res = await fetch('/signup/sendEmailCode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+
+      if (res.ok) {
+        alert('인증메일이 발송되었습니다.');
+        tempEmail = email;
+        document.querySelector('.email-verify').style.display = 'flex';
+      }
+    });
+
+    document.getElementById('verifyEmailBtn').addEventListener('click', async () => {
+      const code = document.getElementById('emailCode').value.trim();
+      const res = await fetch('/signup/verifyEmailCode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: tempEmail, code })
+      });
+      const text = await res.text();
+      if (text === 'success') {
+        alert('이메일 인증 완료!');
+        isEmailVerified = true;
+      } else alert('인증번호가 일치하지 않습니다.');
+    });
+
+    // 회원가입
+    document.getElementById('signupForm').addEventListener('submit', async e => {
+      e.preventDefault();
+
+      if (!isIdChecked) return alert('아이디 중복확인을 해주세요.');
+      if (!isEmailVerified) return alert('이메일 인증을 완료해주세요.');
+
+      const data = {
+        name: document.getElementById('name').value,
+        id: document.getElementById('userid').value,
+        password: document.getElementById('password').value,
+        confirm_password: document.getElementById('confirm_password').value,
+        emailId: document.getElementById('emailId').value,
+        emailDomain: document.getElementById('emailDomain').value,
+        year: document.getElementById('year').value,
+        month: document.getElementById('month').value,
+        day: document.getElementById('day').value,
+        gender: document.querySelector('input[name="gender"]:checked').value,
+        phone_num: document.getElementById('phone').value
+      };
+
+      const res = await fetch('/signup/userinfoSave', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        const userSeq = await res.text();  //
+        console.log('회원가입 성공! userSeq:', userSeq);
+        alert('회원가입 성공!');
+        window.location.href = `/signin?id=${data.id}&userSeq=${userSeq}`;
+      } else {
+        const errorMsg = await res.text();
+        alert('회원가입 실패: ' + errorMsg);
+      }
+    });
+</script>
+
+</body>
+</html>
