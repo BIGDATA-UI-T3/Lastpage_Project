@@ -122,20 +122,27 @@
         </div>
     </section>
 
+
 </main>
 
 <div id="footer-container"></div>
+<button id="scrollToTopBtn" title="맨 위로 가기">↑</button>
+
 <script th:src="@{/js/header.js}"></script>
 <script th:src="@{/js/footer.js}"></script>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
+
     AOS.init({
       once: false, // 스크롤할 때마다 애니메이션 반복
       duration: 800, // 애니메이션 지속 시간
       easing: 'ease-out-cubic', // 부드러운 효과
       threshold: 0.1 // 요소가 10% 보였을 때 애니메이션 시작
     });
+
+
+
 </script>
 
 </body>

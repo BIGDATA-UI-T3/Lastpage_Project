@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
+
   const footerContainer = document.querySelector("#footer-container");
   if (!footerContainer) return;
 
@@ -22,6 +23,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+    // ---------- 스크롤 Top 버튼 ----------
+  window.addEventListener("scroll", () => {
+    if (!scrollToTopBtn) return;
+    const show = window.scrollY > 300;
+    scrollToTopBtn.style.display = show ? "flex" : "none";
+  });
+
+  scrollToTopBtn?.addEventListener("click", () =>
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  );
 
 // ================================
 //  개발자 소개 모달 기능

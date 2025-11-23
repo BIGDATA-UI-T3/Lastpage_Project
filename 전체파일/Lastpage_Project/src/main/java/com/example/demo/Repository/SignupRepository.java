@@ -41,6 +41,12 @@ public interface SignupRepository extends JpaRepository<Signup, String> {
      *  소셜 로그인 이메일로 회원 조회 (oauthEmail 기반)
      * ------------------------------ */
     Optional<Signup> findByOauthEmail(String oauthEmail);
+
+    //  post
+    Optional<Signup> findByUserSeq(String userSeq);
+
+    //  Like
+    Optional<Signup> findByUsername(String username);
     // 최근 가입자 5명
     @Query("SELECT s FROM Signup s ORDER BY s.created_at DESC")
     List<Signup> findTop5ByOrderByCreated_atDesc();

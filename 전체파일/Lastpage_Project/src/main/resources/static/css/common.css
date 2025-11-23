@@ -68,7 +68,7 @@ nav ul li > a {
 }
 
 a:hover {
-  color: #fff;
+  color: #fff !important;
 }
 
 /* 배너 드롭다운 */
@@ -555,4 +555,37 @@ footer {
   .auth-mobile-menu.open {
     display: flex;
   }
+}
+#kakao-talk-channel-chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+/* --- 10. 맨 위로 가기 버튼 --- */
+#scrollToTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 999;
+}
+
+#scrollToTopBtn:hover {
+    opacity: 1;
+    transform: scale(1.05);
 }
