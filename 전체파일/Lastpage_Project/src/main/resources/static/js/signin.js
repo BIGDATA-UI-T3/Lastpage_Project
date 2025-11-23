@@ -123,7 +123,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const googleBtn = document.getElementById("googleLoginBtn");
   if (googleBtn) {
     googleBtn.addEventListener("click", () => {
-
       const redirectUri = "http://localhost:8090/login/oauth2/code/google";
       window.location.href = `http://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`;
     });
