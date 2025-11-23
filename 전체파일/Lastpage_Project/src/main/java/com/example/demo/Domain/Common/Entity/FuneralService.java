@@ -54,7 +54,6 @@ public class FuneralService {
 
         @Override
         public String convertToDatabaseColumn(List<String> attribute) {
-            // List<String>을 "A, B, C" 형태의 문자열로 변환하여 DB에 저장
             if (attribute == null || attribute.isEmpty()) {
                 return null;
             }
@@ -63,16 +62,14 @@ public class FuneralService {
 
         @Override
         public List<String> convertToEntityAttribute(String dbData) {
-            // DB의 "A, B, C" 문자열을 List<String>으로 변환하여 Java 객체에 로드
             if (dbData == null || dbData.trim().isEmpty()) {
-                return List.of(); // 빈 리스트 반환
+                return List.of();
             }
             return List.of(dbData.split(SPLIT_CHAR));
         }
     }
 
     // --- Getter and Setter ---
-    // (Lombok @Getter, @Setter를 사용해도 됩니다)
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
