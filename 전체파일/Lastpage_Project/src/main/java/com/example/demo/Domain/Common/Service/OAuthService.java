@@ -143,8 +143,8 @@ public class OAuthService {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
-        params.add("client_id", google_client_id);
-        params.add("client_secret", google_client_secret);
+//        params.add("client_id", google_client_id);
+//        params.add("client_secret", google_client_secret);
         params.add("redirect_uri", "http://localhost:8090/login/oauth2/code/google");
         params.add("code", code);
 

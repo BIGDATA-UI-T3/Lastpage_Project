@@ -12,7 +12,7 @@ public class DataSourceConfig {
     public HikariDataSource dataSource(){
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/testdb");
+        dataSource.setJdbcUrl("jdbc:mysql://lastpage-mysql:3306/lastpage");
         dataSource.setUsername("root");
         dataSource.setPassword("12345678");
 
