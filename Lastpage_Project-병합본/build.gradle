@@ -1,0 +1,93 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'org.springframework.boot' version '3.5.5'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'Demo project for Spring Boot'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+//	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:11.0.10'
+
+
+    //JSTL
+    implementation 'jakarta.servlet:jakarta.servlet-api' //스프링부트 3.0 이상
+  //  implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' //스프링부트 3.0 이상
+ //   implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
+    // https://mvnrepository.com/artifact/jakarta.el/jakarta.el-api
+    implementation 'jakarta.el:jakarta.el-api:6.0.1' //JSP EL PARSE
+
+    //Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //DB Connection
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    runtimeOnly 'com.mysql:mysql-connector-j:8.3.0'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2
+    implementation 'org.apache.commons:commons-dbcp2:2.13.0'
+
+    //JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //Mybatis
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.5'
+
+    //Thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    //Jakarta
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    //Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //Redis
+//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//    implementation 'org.springframework.session:spring-session-data-redis'
+
+
+
+
+}
+
+bootJar {
+    enabled = true
+}
+jar {
+    enabled = false
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

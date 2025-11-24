@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>추모 굿즈 간편예약</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- CSS: 공통 먼저, 페이지 전용 나중 -->
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/Goods_reserve.css}">
+</head>
+<body th:data-userseq="${sessionUserSeq}"
+th:data-mode="${mode}"
+th:data-id="${reserve!=null?reserve.id:''}">
+
+<!-- 헤더(메인과 동일) -->
+<div class="header-wrapper">
+    <div id="header-container"></div>
+</div>
+
+<!-- 본문: 추모 굿즈 간편예약 폼 -->
+<main class="full-background">
+    <div class="overlay"></div>
+    <div class="content-wrapper">
+        <div class="page-title-area">
+            <h1>사랑을 형태로 남기는 맞춤 제작</h1>
+            <p>유골·모발·발자국 등 소중한 흔적으로 주얼리/액자/레진 오브제를 제작합니다</p>
+        </div>
+
+        <div class="card">
+            <div class="steps" aria-label="예약 단계">
+                <div class="step-dot active" id="dot1"></div>
+                <div class="step-dot" id="dot2"></div>
+                <div class="step-dot" id="dot3"></div>
+                <div class="step-dot" id="dot4"></div>
+            </div>
+
+            <h1 class="title" id="formTitle"
+                th:text="${mode == 'edit' ? '굿즈 예약 수정' : '굿즈 예약'}">굿즈 예약</h1>
+
+            <!-- STEP 1 : 신청자/반려동물 & 보관 중인 흔적 -->
+            <section class="step active" id="step1">
+                <div class="grid">
+                    <div>
+                        <label class="small">신청자명</label>
+                        <div class="field">
+                            <input id="ownerName" type="text" placeholder="홍길동"
+                                   th:value="${reserve != null ? reserve.ownerName : ''}" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="small">휴대폰번호</label>
+                        <div class="field">
+                            <input id="ownerPhone" type="tel" inputmode="numeric" placeholder="01012345678"
+                                   th:value="${reserve != null ? reserve.ownerPhone : ''}" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="small">이메일</label>
+                        <div class="field">
+                            <input id="ownerEmail" type="email" placeholder="name@example.com"
+                                   th:value="${reserve != null ? reserve.ownerEmail : ''}" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="small">수령/반송 주소</label>
+                        <div class="field">
+                            <input id="ownerAddr" type="text" placeholder="시/구/동, 상세 주소"
+                                   th:value="${reserve != null ? reserve.ownerAddr : ''}" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="small">반려동물 이름</label>
+                        <div class="field">
+                            <input id="petName" type="text" placeholder="모모"
+                                   th:value="${reserve != null ? reserve.petName : ''}" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="small">반려동물 종류</label>
+                        <div class="field">
+                            <select id="petType" required>
+                                <option value="">선택</option>
+                                <option value="dog" th:selected="${reserve != null and reserve.petType == 'dog'}">개</option>
+                                <option value="cat" th:selected="${reserve != null and reserve.petType == 'cat'}">고양이</option>
+                                <option value="small" th:selected="${reserve != null and reserve.petType == 'small'}">소동물</option>
+                                <option value="other" th:selected="${reserve != null and reserve.petType == 'other'}">기타</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="small">품종</label>
+                        <div class="field">
+                            <select id="petBreed" required disabled>
+                                <option value="">종류 선택 먼저</option>
+                            </select>
+                            <input id="petBreedText" type="text" placeholder="직접 입력"
+                                   th:value="${reserve != null ? reserve.petBreed : ''}"
+                                   style="display:none;">
+                        </div>
+                        <small class="muted">※ “기타” 선택 시 품종을 직접 입력하세요.</small>
+                    </div>
+
+                    <div>
+                        <label class="small">체중(kg)</label>
+                        <div class="field">
+                            <input id="petWeight" type="number" min="0" step="0.1" placeholder="4.2"
+                                   th:value="${reserve != null ? reserve.petWeight : ''}" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-1" style="margin-top:8px">
+                    <label class="small">보유 중인 흔적(최소 1개)</label>
+                    <div class="slots" id="materialsBox" role="group" aria-label="보유 흔적">
+                        <button type="button" class="slot"
+                                data-mat="ash"
+                                th:classappend="${reserve != null and #lists.contains(reserve.materials, 'ash')} ? ' active' : ''">
+                            유골
+                        </button>
+                        <button type="button" class="slot"
+                                data-mat="hair"
+                                th:classappend="${reserve != null and #lists.contains(reserve.materials, 'hair')} ? ' active' : ''">
+                            모발
+                        </button>
+                        <button type="button" class="slot"
+                                data-mat="paw"
+                                th:classappend="${reserve != null and #lists.contains(reserve.materials, 'paw')} ? ' active' : ''">
+                            발자국(클레이/잉크)
+                        </button>
+                        <button type="button" class="slot"
+                                data-mat="item"
+                                th:classappend="${reserve != null and #lists.contains(reserve.materials, 'item')} ? ' active' : ''">
+                            유품(리본/털뭉치 등)
+                        </button>
+                    </div>
+                    <small class="muted">※ 보관은 건조·밀봉 상태 권장. 분량 안내는 다음 단계에서 확인합니다.</small>
+                </div>
+
+                <div class="actions">
+                    <button class="btn secondary" type="button" disabled>이전</button>
+                    <button id="next1" class="btn primary" type="button" disabled>다음</button>
+                </div>
+            </section>
+
+            <!-- STEP 2 : 품목/옵션 선택 -->
+            <section class="step" id="step2">
+                <div class="grid">
+                    <div>
+                        <label class="small">품목</label>
+                        <div class="field">
+                            <select id="product" required>
+                                <option value="">선택</option>
+                                <option value="necklace" th:selected="${reserve != null and reserve.product == 'necklace'}">주얼리 - 목걸이(봉입)</option>
+                                <option value="ring" th:selected="${reserve != null and reserve.product == 'ring'}">주얼리 - 반지(봉입)</option>
+                                <option value="keyring" th:selected="${reserve != null and reserve.product == 'keyring'}">키링/참(봉입)</option>
+                                <option value="resin" th:selected="${reserve != null and reserve.product == 'resin'}">레진 오브제</option>
+                                <option value="frame" th:selected="${reserve != null and reserve.product == 'frame'}">포토/발자국 액자</option>
+                                <option value="candle" th:selected="${reserve != null and reserve.product == 'candle'}">메모리 캔들</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="small">메탈/색상(해당 시)</label>
+                        <div class="field">
+                            <select id="metal">
+                                <option value="">선택(해당 시)</option>
+                                <option th:selected="${reserve != null and reserve.metalColor == '실버'}">실버</option>
+                                <option th:selected="${reserve != null and reserve.metalColor == '스테인리스'}">스테인리스</option>
+                                <option th:selected="${reserve != null and reserve.metalColor == '골드톤'}">골드톤</option>
+                                <option th:selected="${reserve != null and reserve.metalColor == '로즈골드톤'}">로즈골드톤</option>
+                            </select>
+                        </div>
+                        <small class="muted">※ 레진/액자/캔들은 선택하지 않아도 됩니다.</small>
+                    </div>
+
+                    <div id="chainRow" th:style="${reserve != null and reserve.product == 'necklace'} ? '' : 'display:none'">
+                        <label class="small">체인 길이</label>
+                        <div class="field">
+                            <select id="chainLength">
+                                <option value="">선택</option>
+                                <option th:selected="${reserve != null and reserve.chainLength == '40cm'}">40cm</option>
+                                <option th:selected="${reserve != null and reserve.chainLength == '45cm'}">45cm</option>
+                                <option th:selected="${reserve != null and reserve.chainLength == '50cm'}">50cm</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="ringRow" th:style="${reserve != null and reserve.product == 'ring'} ? '' : 'display:none'">
+                        <label class="small">반지 호수</label>
+                        <div class="field">
+                            <input id="ringSize" type="text" placeholder="예: 12호"
+                                   th:value="${reserve != null ? reserve.ringSize : ''}">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="small">수량</label>
+                        <div class="field">
+                            <input id="qty" type="number" min="1" step="1"
+                                   th:value="${reserve != null ? reserve.quantity : 1}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-1" style="margin-top:10px">
+                    <div>
+                        <label class="small">각인(선택)</label>
+                        <div class="field">
+                            <input id="engrave" type="text" maxlength="20"
+                                   th:value="${reserve != null ? reserve.engravingText : ''}"
+                                   placeholder="예: MOMO 2025.08.27 (20자 이내)">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="small">각인 폰트</label>
+                        <div class="field">
+                            <select id="font">
+                                <option value="">선택(선택 시)</option>
+                                <option th:selected="${reserve != null and reserve.engravingFont == 'Classic'}">Classic</option>
+                                <option th:selected="${reserve != null and reserve.engravingFont == 'Sans'}">Sans</option>
+                                <option th:selected="${reserve != null and reserve.engravingFont == 'Script'}">Script</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="small">기타 옵션/설명(선택)</label>
+                        <div class="field" style="align-items:start">
+                            <textarea id="optMemo" rows="3" maxlength="300"
+                                      th:text="${reserve != null ? reserve.optionsMemo : ''}"
+                                      placeholder="예: 유골·모발 비율, 레진 색상 톤 등"></textarea>
+                        </div>
+                        <div class="count"><span id="optCount">0</span>/300</div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button class="btn secondary" type="button" id="prev2">이전</button>
+                    <button id="next2" class="btn primary" type="button" disabled>다음</button>
+                </div>
+            </section>
+
+            <!-- STEP 3 : 수거/배송 & 완료 희망일 -->
+            <section class="step" id="step3">
+                <div class="grid">
+                    <div>
+                        <label class="small">재료 전달 방식</label>
+                        <div class="field">
+                            <select id="shipMethod" required>
+                                <option value="">선택</option>
+                                <option value="kit" th:selected="${reserve != null and reserve.shipMethod == 'kit'}">수거키트 신청(택배 수거)</option>
+                                <option value="visit" th:selected="${reserve != null and reserve.shipMethod == 'visit'}">직접 방문</option>
+                                <option value="post" th:selected="${reserve != null and reserve.shipMethod == 'post'}">자가 발송(우편/택배)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="small">완성 희망일</label>
+                        <div class="field">
+                            <input id="targetDate" type="date" th:value="${reserve != null ? reserve.targetDate : ''}" required>
+                        </div>
+                        <small class="note">일반 제작은 최소 +7일 이후 날짜를 권장합니다.</small>
+                    </div>
+
+                    <div>
+                        <label class="small">익스프레스(선택)</label>
+                        <div class="field" style="gap:10px">
+                            <input id="express" type="checkbox">
+                            <small class="muted">빠른 제작 요청(가능 일정 확인 후 안내)</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid" id="kitBox"
+                     th:style="${reserve != null and reserve.shipMethod == 'kit'} ? 'display:grid' : 'display:none'">
+                    <div>
+                        <label class="small">수거 주소</label>
+                        <div class="field"><input id="kitAddr" type="text" placeholder="도로명, 건물명 등 상세 주소"
+                                                  th:value="${reserve != null ? reserve.kitAddr : ''}"></div>
+                    </div>
+                    <div>
+                        <label class="small">수거 희망일</label>
+                        <div class="field"><input id="kitDate" type="date" th:value="${reserve != null ? reserve.kitDate : ''}"></div>
+                    </div>
+                </div>
+
+                <div class="grid" id="visitBox"
+                     th:style="${reserve != null and reserve.shipMethod == 'visit'} ? 'display:grid' : 'display:none'">
+                    <div>
+                        <label class="small">방문 희망일</label>
+                        <div class="field"><input id="visitDate" type="date" th:value="${reserve != null ? reserve.visitDate : ''}"></div>
+                    </div>
+                    <div>
+                        <label class="small">방문 시간</label>
+                        <div class="field"><input id="visitTime" type="time" th:value="${reserve != null ? reserve.visitTime : ''}"></div>
+                    </div>
+                </div>
+
+                <div class="grid" id="postBox"
+                     th:style="${reserve != null and reserve.shipMethod == 'post'} ? 'display:grid' : 'display:none'">
+                    <div style="grid-column:1/-1">
+                        <label class="small">발송 예정 택배사/운송장(선택)</label>
+                        <div class="field"><input id="tracking" type="text" placeholder="예: OO택배 1234-5678-9012"
+                                                  th:value="${reserve != null ? reserve.trackingInfo : ''}"></div>
+                    </div>
+                </div>
+
+                <div class="grid-1" style="margin-top:10px">
+                    <div>
+                        <label class="small">요청사항(선택)</label>
+                        <div class="field" style="align-items:start">
+                            <textarea id="memo" rows="4" maxlength="300"
+                                      th:text="${reserve != null ? reserve.memo : ''}"
+                                      placeholder="제작 시 유의점, 비율, 포장 등"></textarea>
+                        </div>
+                        <div class="count"><span id="memoCount">0</span>/300</div>
+                    </div>
+
+                    <label class="field" style="gap:10px">
+                        <input type="checkbox" id="consent">
+                        <small class="muted">제작 과정상 색·입자·기포 등 미세 차이가 발생할 수 있음을 이해하며, 남은 흔적의 보관/반송에 동의합니다.</small>
+                    </label>
+                </div>
+
+                <div class="actions">
+                    <button class="btn secondary" type="button" id="prev3">이전</button>
+                    <button id="next3" class="btn primary" type="button" disabled>다음</button>
+                </div>
+            </section>
+
+            <!-- STEP 4 : 확인/완료 -->
+            <section class="step" id="step4">
+                <div class="grid-1">
+                    <div class="field" style="justify-content:center">
+                        <strong>입력한 예약 내용을 확인해 주세요.</strong>
+                    </div>
+                    <div class="summary" id="summary"></div>
+                    <label class="field" style="gap:10px">
+                        <input type="checkbox" id="confirmChk" />
+                        <small class="muted">입력한 내용이 정확합니다.</small>
+                    </label>
+                </div>
+
+                <div class="actions">
+                    <button class="btn secondary" type="button" id="prev4">이전</button>
+                    <button class="btn primary" type="button" id="submitBtn" disabled>제출하기</button>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+
+
+<!-- 푸터(메인과 동일) -->
+
+<div id="footer-container"></div>
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
+<script src = "/js/goodsReserve.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!-- 헤더 -->
+<header xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <!-- 햄버거 -->
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- 사이드 메뉴 -->
+    <div class="side-menu" id="sideMenu">
+        <ul>
+            <li><a href="/">홈</a>
+                <ul>
+                    <li><a href="/aboutuspage/aboutus">인사말</a></li>
+                </ul>
+            </li>
+            <li><a href="#">장례서비스</a>
+                <ul>
+                    <li><a href="/funeral">서비스소개</a></li>
+                    <li><a href="/reserve/funeral_reserve">장례예약</a></li>
+                    <li><a href="/mypage/Mypage">예약조회</a></li>
+                </ul>
+            </li>
+
+            <li><a href="/reserve/ourpage/main">Ourpage</a></li>
+            <li><a href="#">심리상담서비스</a>
+                <ul>
+                    <li><a href="/psyService">서비스소개</a></li>
+                    <li><a href="/reserve/psy_reserve">상담예약</a></li>
+                    <li><a href="/mypage/Mypage">예약조회</a></li>
+                </ul>
+            </li>
+            <li><a href="#">추모굿즈</a>
+                <ul>
+                    <li><a href="/goodsService">굿즈소개</a></li>
+                    <li><a href="/reserve/goods_reserve">굿즈예약</a></li>
+                    <li><a href="/mypage/Mypage">예약조회</a></li>
+                </ul>
+            </li>
+            <li><a href="/communitypage/Community">이용후기</a></li>
+            <li><a href="/mypage/Mypage">마이페이지</a></li>
+            <li><a href="/supportService">고객센터</a></li>
+        </ul>
+    </div>
+
+    <!-- 로고 -->
+    <div class="logo">
+        <a href="/">
+            <img th:src="@{/Asset/LastPage로고_투명.png}" alt="로고" />
+        </a>
+    </div>
+
+    <!-- 네비게이션 -->
+    <nav>
+        <ul>
+            <li>
+                <a href="/">홈</a>
+                <ul>
+                    <li><a href="/aboutuspage/aboutus">인사말</a></li>
+                </ul>
+            </li>
+
+            <li><a href="#">장례서비스</a>
+                <ul>
+                    <li><a href="/funeral">서비스소개</a></li>
+                    <li><a href="/reserve/funeral_reserve">장례예약</a></li>
+                    <li><a href="/mypage/Mypage">예약조회</a></li>
+                </ul>
+            </li>
+            <li><a href="/reserve/ourpage/main">Ourpage</a></li>
+            <li><a href="#">심리상담서비스</a>
+                <ul>
+                    <li><a href="/psyService">서비스소개</a></li>
+                    <li><a href="/reserve/psy_reserve">상담예약</a></li>
+                    <li><a href="/mypage/Mypage">예약조회</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">추모굿즈</a>
+                <ul>
+                    <li><a href="/goodsService">굿즈소개</a></li>
+                    <li><a href="/reserve/goods_reserve">굿즈예약</a></li>
+                    <li><a href="/mypage/Mypage">예약조회</a></li>
+                </ul>
+            </li>
+            <li><a href="/communitypage/Community">이용후기</a></li>
+            <li><a href="/mypage/Mypage">마이페이지</a></li>
+            <li><a href="/supportService">고객센터</a></li>
+        </ul>
+    </nav>
+
+    <!-- 로그인 상태 -->
+    <div class="auth"
+         th:data-login="${session.loginUser != null ? 'true' : 'false'}"
+         th:data-username="${session.loginUser != null ? session.loginUser.name : ''}">
+
+        <!-- 로그인 전 -->
+        <a href="/signin" class="login-link"
+           th:if="${session.loginUser == null}">로그인</a>
+
+        <a href="/signup" class="signup-link"
+           th:if="${session.loginUser == null}">회원가입</a>
+
+        <!-- 로그인 후 -->
+        <a href="/mypage/Mypage" class="login-link"
+           th:if="${session.loginUser != null}"
+           th:text="${session.loginUser.name + '님 반갑습니다.'}"></a>
+
+        <a href="/logout" class="signup-link"
+           th:if="${session.loginUser != null}">로그아웃</a>
+
+        <!--  관리자 전용 메뉴 추가 -->
+        <a href="/admin/dashboard"
+           class="signup-link admin-highlight"
+           th:if="${session.loginRole == 'ADMIN'}">관리자 페이지</a>
+
+    </div>
+
+    <!-- 모바일용 계정 메뉴 아이콘 -->
+    <div class="auth-mobile" id="authMobileBtn">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+             stroke="#dcd7c9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M6 20c1.5-4 4.5-6 6-6s4.5 2 6 6"></path>
+        </svg>
+    </div>
+
+
+    <!-- 모바일용 미니 메뉴 -->
+    <div class="auth-mobile-menu" id="authMobileMenu"
+         th:data-login="${session.loginUser != null ? 'true' : 'false'}"
+         th:data-username="${session.loginUser != null ? session.loginUser.name : ''}">
+
+        <!-- 로그인 전 -->
+        <a href="/signin" class="login-link"
+           th:if="${session.loginUser == null}">로그인</a>
+
+        <a href="/signup" class="signup-link"
+           th:if="${session.loginUser == null}">회원가입</a>
+
+        <!-- 로그인 후 -->
+        <a href="/mypage/Mypage" class="login-link"
+           th:if="${session.loginUser != null}"
+           th:text="${session.loginUser.name + '님 반갑습니다.'}"></a>
+
+        <a href="/logout" class="signup-link"
+           th:if="${session.loginUser != null}">로그아웃</a>
+
+        <a href="/admin/dashboard"
+           th:if="${session.loginRole == 'ADMIN'}">관리자 페이지</a>
+    </div>
+
+
+</header>
+
