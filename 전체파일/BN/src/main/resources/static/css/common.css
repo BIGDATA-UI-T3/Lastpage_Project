@@ -1,4 +1,12 @@
-/* 전체*/
+/* ================================================== */
+/* 0. common.css - 헤더 고정 및 초기화 (수정됨) */
+/* ================================================== */
+
+/* 1. 스크롤바 강제 고정 (페이지 이동 시 덜컹거림 방지) */
+html {
+  overflow-y: scroll; /* 내용이 짧아도 스크롤바 영역을 항상 유지 */
+}
+
 *,
 *::before,
 *::after {
@@ -7,42 +15,24 @@
   box-sizing: border-box;
 }
 
+/* 2. Body 설정: Tailwind/Bootstrap 충돌 방지 */
 body {
-  font-family: 'Apple SD Gothic Neo', sans-serif;
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   position: relative;
   margin: 0;
   background-color: #f5f0e5;
+  line-height: 1.5; /* Tailwind 기본값과 맞춤 */
 }
 
-/* 헤더 배너 */
-
-/* 1. 배너 제목 (h1) */
-.banner-title {
-    font-family: 'Georgia', 'Nanum Myeongjo', serif !important; /* 명조체 강제 */
-    font-size: clamp(26px, 4vw, 40px) !important; /* 반응형 크기: 최소 26px, 최대 40px */
-    font-weight: 700 !important; /* 굵게 */
-    color: #fff !important; /* 흰색 */
-    margin-bottom: 10px !important;
-    text-align: center;
-    word-break: keep-all; /* 단어 단위 줄바꿈 */
-    line-height: 1.3;
-}
-
-/* 2. 배너 부제목 (p) */
-.banner-desc {
-    font-family: 'Inter', 'Noto Sans KR', sans-serif; /* 고딕체 (기본) */
-    font-size: 1.1rem !important; /* 약 17~18px */
-    font-weight: 400 !important; /* 보통 굵기 */
-    color: rgba(255, 255, 255, 0.95) !important; /* 약간 투명한 흰색 */
-    margin: 0 !important;
-    text-align: center;
-    line-height: 1.6;
-}
+/* ================================================== */
+/* [헤더] 디자인 고정 */
+/* ================================================== */
 
 .header-wrapper {
   width: 100%;
   margin: 0 auto;
-  padding-top: 60px;
+  /* 헤더 높이(100px)만큼 공간 확보하여 컨텐츠가 헤더 뒤로 숨지 않게 함 */
+  padding-top: 100px;
 }
 
 header {
@@ -50,51 +40,67 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100px;
+  height: 100px; /* 헤더 높이 고정 */
   background-color: #2C3930;
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: top 0.3s ease;
   z-index: 1000;
+
+  /* 프레임워크 간섭 방지용 강제 설정 */
+  box-shadow: none !important;
+  border: none !important;
+  padding-right: 0 !important; /* 스크롤바 때문에 생기는 패딩 제거 */
 }
 
+/* 로고 위치 고정 */
 .logo img {
   margin-left: 40px;
   width: 60px;
   height: 60px;
   display: block;
+
+  /* 이미지 비율 왜곡 방지 */
+  object-fit: contain;
 }
 
+/* 네비게이션 초기화 (Bootstrap/Tailwind 간섭 무시) */
 nav {
   margin: 0 auto;
-  margin-bottom: 0;
+  margin-bottom: 0 !important; /* Bootstrap의 ul margin-bottom 제거 */
 }
 
 nav ul {
-  list-style: none;
+  list-style: none !important; /* 리스트 스타일 강제 제거 */
   display: flex;
   gap: 50px;
-  margin-bottom: 0;
+  margin: 0 !important; /* Bootstrap/Tailwind 마진 강제 초기화 */
+  padding: 0 !important; /* 패딩 강제 초기화 */
+  align-items: center; /* 수직 중앙 정렬 */
 }
 
 nav ul li {
   position: relative;
   cursor: pointer;
+  line-height: normal !important; /* 줄간격 초기화 */
 }
 
 nav ul li > a {
   color: #dcd7c9;
-  text-decoration: none;
+  text-decoration: none !important; /* 밑줄 강제 제거 */
   padding: 8px;
   display: inline-block;
+  font-size: 16px; /* 글자 크기 명시적 지정 */
+  font-weight: 400;
+  background: transparent !important;
 }
 
 a:hover {
   color: #fff !important;
 }
 
-/* 배너 드롭다운 */
+/* 드롭다운 메뉴 고정 */
 nav ul li > ul {
   display: none;
   position: absolute;
@@ -103,45 +109,55 @@ nav ul li > ul {
   transform: translateX(-50%);
   background: #2C3930;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  list-style: none;
-  padding: 10px 0;
+  list-style: none !important;
+  padding: 10px 0 !important;
   min-width: 110px;
   z-index: 12;
   text-align: center;
+  border-radius: 0 0 8px 8px; /* 아래쪽 둥글게 */
 }
 
 nav ul li:hover > ul {
   display: block;
 }
 
+nav ul li > ul li {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 nav ul li > ul li > a {
   color: #dcd7c9;
-  text-decoration: none;
+  text-decoration: none !important;
   padding: 8px 15px;
   display: block;
   width: 100%;
   text-align: center;
+  font-size: 14px; /* 드롭다운 폰트 크기 고정 */
 }
 
 nav ul li > ul li > a:hover {
   color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1); /* 호버 시 배경 살짝 */
 }
 
+/* 로그인/회원가입 영역 고정 */
 .auth {
   margin-right: 20px;
   display: flex;
   gap: 2px;
+  align-items: center; /* 수직 중앙 정렬 */
 }
 
 .auth a {
   color: #dcd7c9;
-  text-decoration: none;
+  text-decoration: none !important;
   padding: 10px 15px;
+  font-size: 14px; /* 폰트 크기 고정 */
 }
 
 .auth a:hover {
   color: #fff;
-  text-decoration: none;
 }
 
 /* 햄버거 메뉴 */
