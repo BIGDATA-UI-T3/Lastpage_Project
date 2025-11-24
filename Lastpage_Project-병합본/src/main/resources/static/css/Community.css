@@ -101,6 +101,14 @@ body {
     padding: 0 20px;
 }
 
+/* 반응형 */
+@media (max-width: 1500px) {
+    .page-container {
+        gap: 30px;
+        margin: 40px;
+    }
+}
+
 /* --- 3. 좌측 고정 프로필 바 --- */
 .profile-sidebar {
     width: 280px;
@@ -119,7 +127,14 @@ body {
     border: 1px solid var(--border-color);
 }
 
-/* 커뮤니티 메인 왼쪽 프로필 */
+/* 반응형 */
+@media (max-width: 1500px) {
+    .profile-card {
+    margin-top: 105px;
+    }
+}
+
+/* 프로필 사진 */
 .profile-card .avatar {
     width: 90px;
     height: 90px;
@@ -166,6 +181,10 @@ body {
     color: #95a5a6;
 }
 
+.my-profile-name {
+    font-weight: bolder;
+}
+
 .profile-bio {
     font-size: 0.9em;
     color: #555;
@@ -181,12 +200,12 @@ body {
     /*background-color: #f0f0f0;*/
     background-color: #a49684;
     color: white;
-    font-weight: bold;
+    font-weight: bolder;
     border: 1px solid #ddd;
     padding: 12px;
     border-radius: 8px;
     font-size: 0.9em;
-    font-weight: 500;
+    font-weight: bold;
     cursor: pointer;
     transition: all 0.2s;
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -242,11 +261,17 @@ body {
     border: none;
     padding: 12px 22px;
     border-radius: 8px;
-    font-size: 0.95em;
-    font-weight: 500;
+    font-size: 0.95rem;
+    font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s;
     font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+/* 반응형 */
+@media (max-width: 1500px) {
+    .write-post-btn {
+    }
 }
 
 .write-post-btn:hover {
@@ -263,13 +288,27 @@ body {
     padding: 20px 0;
 }
 
+/* 반응형: 화면 작아지면 1개만 */
+@media (max-width: 1500px) {
+    .post-feed {
+        grid-template-columns: 1fr;
+    }
+      .feed-post-card {
+        max-width: 500px;
+        min-width: 400px;
+   }
+}
+
 .feed-post-card {
     background-color: var(--card-bg);
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 1px solid var(--border-color);
-    max-height: 450px;
-    height: 450px;
+    max-height: 500px;
+    min-height: 450px;
+    max-width: 400px;
+    min-width: 300px;
+    margin: 0 auto;
 }
 
 .post-header {
@@ -466,6 +505,13 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
+}
+
+.text-count {
+    font-size: 13px;
+    text-align: right;
+    margin-top: 4px;
+    color: #666;
 }
 
 /* ===== 댓글 모달 ===== */
