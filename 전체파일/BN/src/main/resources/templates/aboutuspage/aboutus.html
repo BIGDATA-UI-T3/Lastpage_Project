@@ -50,6 +50,17 @@
                 About Us
             </h1>
         </div>
+
+        <div class="scroll-indicator" onclick="scrollToMainContent()">
+            <div class="scroll-icon">
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="m6 9 6 6 6-6"/>
+                </svg>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="m6 9 6 6 6-6"/>
+                </svg>
+            </div>
+        </div>
     </section>
 
     <section class="relative w-full min-h-screen text-stone-200 py-20">
@@ -120,6 +131,7 @@
 <div id="footer-container"></div>
 <script th:src="@{/js/header.js}"></script>
 <script th:src="@{/js/footer.js}"></script>
+<script th:src="@{/js/common.js}"></script>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>

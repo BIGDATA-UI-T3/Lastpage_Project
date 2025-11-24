@@ -323,3 +323,10 @@ padding:12px 0 0 0;
     font-family: 'Georgia', 'Nanum Myeongjo', serif !important;
     font-weight: 700 !important;
 }
+
+
+
+/* 스크롤 화살표를 왼쪽으로 이동시켜 중앙에 맞추기 */
+.banner .scroll-indicator {
+    left: calc(50% - 45px) !important;
+}

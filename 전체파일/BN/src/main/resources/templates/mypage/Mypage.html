@@ -43,6 +43,17 @@
                     <span id="timeMessage"></span>
                 </div>
             </div>
+
+            <div class="scroll-indicator" onclick="scrollToMainContent()">
+                <div class="scroll-icon">
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="m6 9 6 6 6-6"/>
+                    </svg>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="m6 9 6 6 6-6"/>
+                    </svg>
+                </div>
+            </div>
         </div>
 
         <!-- 장례예약 -->
@@ -255,6 +266,7 @@
 <script src="/js/mypage.js"></script>
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
+<script th:src="@{/js/common.js}"></script>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 

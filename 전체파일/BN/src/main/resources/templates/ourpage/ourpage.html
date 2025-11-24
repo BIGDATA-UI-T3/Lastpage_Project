@@ -24,6 +24,17 @@
         <h1>우리가 함께 만드는 따뜻한 공간</h1>
         <p>반려동물 가족을 위한 모든 서비스와 정보를 한눈에 확인하세요.</p>
     </div>
+
+    <div class="scroll-indicator" onclick="scrollToMainContent()">
+        <div class="scroll-icon">
+            <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="m6 9 6 6 6-6"/>
+            </svg>
+            <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="m6 9 6 6 6-6"/>
+            </svg>
+        </div>
+    </div>
 </div>
 
 <main class="main-content-wrapper">
@@ -107,6 +118,7 @@
 
 <script th:src="@{/js/header.js}"></script>
 <script th:src="@{/js/footer.js}"></script>
+<script th:src="@{/js/common.js}"></script>
 <script th:inline="javascript">
     const isLoggedIn = [[${isLoggedIn}]];
 
