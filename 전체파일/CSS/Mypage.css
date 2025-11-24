@@ -1,0 +1,204 @@
+/* .hello_yj>div {
+    display: flex;
+} */
+
+/* 상단배너 */
+.logo_yj {
+    display: flex;
+    /* text-align: center; */
+    /* align-items: center; */
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.mypage_yj>p {
+    font-size: 80px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    color: rgb(64, 31, 31);
+}
+
+.greeting_yj {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 10px 0 100px;
+    display: flex;
+    justify-content: center;
+    color: rgb(103, 66, 21);
+
+}
+
+/* 예약내역 헤더 */
+.material-symbols-outlined {
+    color: rgb(157, 88, 3);
+    font-size: 50px !important;
+}
+
+.subtitle_yj {
+    width: 1500px;
+    padding-left: 30px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: left;
+    font-size: 35px;
+    font-weight: 800;
+    color: rgb(64, 31, 31);
+}
+
+main>.reserv_yj {
+    max-width: 1500px;
+    /* height: 700px; */
+    background-color: white;
+    box-shadow: 0 12px 32px rgb(0, 0, 0, 0.1);
+    border-radius: 22px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-bottom: 100px;
+    padding: 30px;
+}
+
+.reserv-header_yj {
+    display: flex;
+    justify-content: space-between;
+    /* 좌측 아이콘/텍스트, 우측 링크 분리 */
+}
+
+.reserv-left_yj {
+    display: flex;
+}
+
+.reserv_yj>.reserv-header_yj>.reserv-left_yj>p {
+    color: black;
+    font-size: 30px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+main>.reserv_yj>.reserv-header_yj>a {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 60px;
+    margin-right: 10px;
+    color: black;
+    display: flex;
+}
+
+main>.reserv_yj>.reserv-header_yj>a:hover {
+    text-decoration: underline;
+}
+
+/* 예약내역 테이블 */
+
+
+.reserv-content_yj {
+    border: 10px black;
+    /* background-color: antiquewhite; */
+    border: 3px solid rgb(64, 31, 31, 0.1);
+    border-radius: 10px;
+    padding: 20px 20px 0 20px;
+    margin-top: 10px;
+    /* display: flex;
+    flex-direction: column; */
+}
+
+.reserv-row_yj {
+    display: flex;
+    justify-content: space-between;
+    padding: 50px;
+}
+
+.reserv-row_yj>.time-info_yj {
+    margin: 10px;
+}
+
+.reserv-row_yj>.time-info_yj>.start-time_yj {
+    font-size: 50px;
+}
+
+.reserv-row_yj>.time-info_yj>.end-time_yj {
+    font-size: 50px;
+}
+
+.icon-duration_yj {
+    margin-top: 25px;
+}
+
+.icon-duration_yj>p {
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+
+}
+
+.reserv-details_yj {
+    border-top: 3px solid rgb(64, 31, 31, 0.1);
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.reserv-details_yj>div {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px;
+}
+
+.reserv-details_yj>div>span {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.reserv-details_yj>div>p {
+    font-size: 18px;
+}
+
+.reserv-details_yj>div>button {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+
+/* 서비스 바로가기 */
+.service_yj {
+    display: flex;
+    /* margin: 0 auto; */
+    margin-bottom: 100px;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.service_yj>a {
+    text-decoration: none;
+}
+
+.direct_yj {
+    width: 730px;
+    height: 300px;
+    background-color: white;
+    box-shadow: 0 12px 32px rgb(0, 0, 0, 0.1);
+    border-radius: 22px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.direct_yj>.text_yj {
+    text-decoration: none;
+    color: black;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.direct_yj:hover {
+    background-color: rgb(238, 234, 234);
+}

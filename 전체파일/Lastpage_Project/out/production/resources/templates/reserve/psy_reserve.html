@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" th:href="@{/css/psy_reserve.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+
+
+    <title>심리상담 예약</title>
+
+</head>
+<body>
+<div class="header-wrapper">
+    <!-- 헤더 -->
+    <header>
+        <div class="logo">
+            <a href="/"><th:img src="@{Asset/LastPage로고_투명.png}" alt="로고" /></a>
+        </div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="#">홈</a>
+                    <ul>
+                        <li><a href="#">인사말</a></li>
+                    </ul>
+                </li>
+
+                <li><a th:href="@{/funeralpage/Funeralpage.html}">장례서비스</a></li>
+                <li><a href="#">Ourpage</a></li>
+                <li>
+                    <a href="#">심리상담</a>
+                    <ul>
+                        <li><a th:href="@{/reserve/psy_reserve}">상담예약</a></li>
+                        <li><a href="#">예약조회</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#">추모굿즈</a>
+                    <ul>
+                        <li><a href="#">굿즈소개</a></li>
+                        <li><a href="#">굿즈예약</a></li>
+                        <li><a href="#">예약조회</a></li>
+                    </ul>
+                </li>
+                <li><a th:href="@{/mypage/Mypage}">마이페이지</a></li>
+                <li><a href="#">고객센터</a></li>
+            </ul>
+        </nav>
+        <div class="auth">
+            <a href="#">로그인</a>
+            <a href="#">회원가입</a>
+        </div>
+    </header>
+
+    <div class="wrap">
+        <div class="card">
+            <div class="steps" aria-label="예약 단계">
+                <div class="step-dot active" id="dot1"></div>
+                <div class="step-dot" id="dot2"></div>
+                <div class="step-dot" id="dot3"></div>
+                <div class="step-dot" id="dot4"></div>
+            </div>
+            <h1 class="title">심리상담 예약</h1>
+
+            <!-- STEP 1 : 개인정보 -->
+            <section class="step active" id="step1">
+                <div class="grid">
+                    <div>
+                        <label class="small">예약자명</label>
+                        <div class="field"><input id="name" type="text" placeholder="홍길동" required></div>
+                    </div>
+                    <div>
+                        <label class="small">생년월일</label>
+                        <div class="field"><input id="birth" type="date" max="" required></div>
+                    </div>
+                    <div>
+                        <label class="small">성별</label>
+                        <div class="field">
+                            <select id="gender" required>
+                                <option value="">선택</option>
+                                <option>여</option>
+                                <option>남</option>
+                                <option>선택안함</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="small">휴대폰번호</label>
+                        <div class="field"><input id="phone" type="tel" inputmode="numeric" placeholder="01012345678" required></div>
+                    </div>
+                    <div>
+                        <label class="small">이메일</label>
+                        <div class="field"><input id="email" type="email" placeholder="name@example.com" required></div>
+                    </div>
+                    <div>
+                        <label class="small">집주소</label>
+                        <div class="field"><input id="address" type="text" placeholder="시/구/동, 상세 주소" required></div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="next1" class="btn primary" type="button" disabled>다음</button>
+                </div>
+            </section>
+
+            <!-- STEP 2 : 날짜/시간/상담사/메모 -->
+            <section class="step" id="step2">
+                <div class="grid">
+                    <div>
+                        <label class="small">상담 날짜</label>
+                        <div class="field"><input id="consultDate" type="date" required></div>
+                        <small class="muted">달력에서 날짜를 클릭하세요.</small>
+                    </div>
+                    <div>
+                        <label class="small">상담사</label>
+                        <div class="field">
+                            <!-- 모바일에선 휠 피커 UI로 표시됨 -->
+                            <select id="counselor" required>
+                                <option value="">상담사 선택</option>
+                                <option>손보금 상담사</option>
+                                <option>심예진 상담사</option>
+                                <option>박준형 상담사</option>
+                                <option>손보동 상담사</option>
+                                <option>손금동 상담사</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-1" style="margin-top:10px">
+                    <div>
+                        <label class="small">상담 시간 (1시간)</label>
+                        <div id="timeSlots" class="slots" role="listbox" aria-label="상담 시간 선택"></div>
+                    </div>
+
+                    <div>
+                        <label class="small">메모 (선택)</label>
+                        <div class="field" style="align-items:start">
+                            <textarea id="memo" rows="4" maxlength="300" placeholder="본인의 심리상태를 자세하게 적어주시면 상담시 도움이됩니다."></textarea>
+                        </div>
+                        <div class="count"><span id="memoCount">0</span>/300</div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button class="btn secondary" type="button" id="prev2">이전</button>
+                    <button id="next2" class="btn primary" type="button" disabled>다음</button>
+                </div>
+            </section>
+
+            <!-- STEP 3 : 최종 확인 -->
+            <section class="step" id="step3">
+                <div class="grid-1">
+                    <div class="field" style="justify-content:center">
+                        <strong>입력한 예약 내용을 확인해 주세요.</strong>
+                    </div>
+                    <div class="summary" id="summary"></div>
+                    <label class="field" style="gap:10px">
+                        <input type="checkbox" id="confirmChk" style="margin: 0 0;" />
+                        <span>입력한 내용이 정확합니다.</span>
+                    </label>
+                </div>
+
+                <div class="actions">
+                    <button class="btn secondary" type="button" id="prev3">이전</button>
+                    <button id="next3" class="btn primary" type="button" disabled>다음</button>
+                </div>
+            </section>
+
+            <!-- STEP 4 : 완료 -->
+            <section class="step" id="step4">
+                <div class="grid-1">
+                    <div class="field" style="justify-content:center">
+                        <strong>예약 요청이 완료되었습니다.</strong>
+                    </div>
+                    <div class="summary" id="finalSummary"></div>
+                    <small class="muted">.</small>
+                </div>
+
+                <div class="actions">
+                    <button class="btn secondary" type="button" id="prev4">이전</button>
+                    <button class="btn" type="button" onclick="alert('DB로 예약정보 전송함... ㅠ')">제출하기</button>
+                </div>
+            </section>
+        </div>
+    </div>
+    <footer>
+        대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
+    </footer>
+
+    <script>
+        /* ========== 상태 ========== */
+        const state = {
+          name:"", birth:"", gender:"", phone:"", email:"", address:"",
+          consultDate:"", time:"", counselor:"", memo:""
+        };
+
+        /* ========== 유틸 ========== */
+        const qs = s => document.querySelector(s);
+        const qsa = s => [...document.querySelectorAll(s)];
+        const goto = (n)=>{
+          qsa('.step').forEach((el,i)=> el.classList.toggle('active', i===n-1));
+          qsa('.step-dot').forEach((d,i)=> d.classList.toggle('active', i<=n-1));
+          window.scrollTo({top:0, behavior:'smooth'});
+          if(n===3) renderSummary();
+          if(n===4) renderFinal();
+        };
+
+        /* 오늘 이전 날짜로 생일 max 제한 */
+        (function setDateLimits(){
+          const today = new Date();
+          qs('#birth').max = today.toISOString().slice(0,10);
+          qs('#consultDate').min = today.toISOString().slice(0,10);
+        })();
+
+        /* ========== STEP 1 유효성 ========== */
+        const requireFilled = ()=>{
+          const name = qs('#name').value.trim();
+          const birth = qs('#birth').value;
+          const gender = qs('#gender').value;
+          const phone = qs('#phone').value.replace(/\D/g,'');
+          const email = qs('#email').value.trim();
+          const address = qs('#address').value.trim();
+
+          const validEmail = !!email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+          const validPhone = phone.length >= 10; // 간단 기준(010 포함)
+
+          const all = name && birth && gender && validPhone && validEmail && address;
+          qs('#next1').disabled = !all;
+
+          if(all){
+            Object.assign(state, {name, birth, gender, phone, email, address});
+          }
+        };
+        qsa('#step1 input, #step1 select').forEach(el=> el.addEventListener('input', requireFilled));
+        requireFilled();
+
+        qs('#next1').addEventListener('click', ()=> goto(2));
+
+        /* ========== STEP 2 : 시간 슬롯 생성 & 검증 ========== */
+        const timeWrap = qs('#timeSlots');
+        let selectedBtn = null;
+
+        (function buildSlots(){
+          for(let h=10; h<=18; h++){
+            const from = String(h).padStart(2,'0') + ':00';
+            const to = String(h+1).padStart(2,'0') + ':00';
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'slot';
+            b.textContent = `${from} - ${to}`;
+            b.dataset.value = `${from}-${to}`;
+            b.addEventListener('click', ()=>{
+              if(selectedBtn) selectedBtn.classList.remove('active');
+              b.classList.add('active');
+              selectedBtn = b;
+              state.time = b.dataset.value;
+              validateStep2();
+            });
+            timeWrap.appendChild(b);
+          }
+        })();
+
+        // 메모 글자수
+        const memoEl = qs('#memo');
+        const memoCount = qs('#memoCount');
+        memoEl.addEventListener('input', ()=>{
+          memoCount.textContent = memoEl.value.length;
+          state.memo = memoEl.value;
+        });
+
+        // step2 validation
+        const validateStep2 = ()=>{
+          const date = qs('#consultDate').value;
+          const counselor = qs('#counselor').value;
+          const ok = !!date && !!state.time && !!counselor;
+          qs('#next2').disabled = !ok;
+          if(ok){
+            Object.assign(state, { consultDate: date, counselor });
+          }
+        };
+        qsa('#consultDate, #counselor').forEach(el=> el.addEventListener('input', validateStep2));
+        qs('#prev2').addEventListener('click', ()=> goto(1));
+        qs('#next2').addEventListener('click', ()=> goto(3));
+
+        /* ========== STEP 3 : 요약 & 체크 ========== */
+        function renderSummary(){
+          const s = qs('#summary');
+          s.innerHTML = `
+            <div><strong>예약자명</strong> : ${state.name}</div>
+            <div><strong>생년월일</strong> : ${state.birth}</div>
+            <div><strong>성별</strong> : ${state.gender}</div>
+            <div><strong>휴대폰</strong> : ${state.phone}</div>
+            <div><strong>이메일</strong> : ${state.email}</div>
+            <div><strong>주소</strong> : ${state.address}</div>
+            <hr style="border:none;border-top:1px solid #eee;margin:10px 0">
+            <div><strong>상담 날짜</strong> : ${state.consultDate}</div>
+            <div><strong>상담 시간</strong> : ${state.time}</div>
+            <div><strong>상담사</strong> : ${state.counselor}</div>
+            <div><strong>메모</strong> : ${state.memo ? state.memo.replace(/\n/g,'<br>') : '-'}</div>
+          `;
+        }
+        const chk = qs('#confirmChk');
+        chk.addEventListener('change', ()=> qs('#next3').disabled = !chk.checked);
+        qs('#prev3').addEventListener('click', ()=> goto(2));
+        qs('#next3').addEventListener('click', ()=> goto(4));
+
+        /* ========== STEP 4 : 최종 화면 ========== */
+        function renderFinal(){
+          const f = qs('#finalSummary');
+          f.innerHTML = `
+            <div><strong>${state.name}</strong> 님의 예약 요청이 접수되었습니다.</div>
+            <div class="muted">상담일시: ${state.consultDate} ${state.time}, 상담사: ${state.counselor}</div>
+          `;
+        }
+
+        /* 초기 포커스 편의 */
+        qs('#name').focus();
+
+        /* STEP 4 : 제출하기 버튼 동작 */
+/* STEP 4 : 제출하기 버튼 동작 */
+document.querySelector('.btn[onclick]').addEventListener('click', async () => {
+  const data = { ...state };
+
+  const response = await fetch('/reserve/save1', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (response.ok) {
+    const email = await response.text(); // 서버에서 이메일을 응답으로 받음
+    alert('예약이 성공적으로 저장되었습니다!');
+    window.location.href = `/mypage/Mypage?email=${email}`;
+  } else {
+    alert('저장 중 오류가 발생했습니다.');
+  }
+});
+
+    </script>
+</body>
+</html>
