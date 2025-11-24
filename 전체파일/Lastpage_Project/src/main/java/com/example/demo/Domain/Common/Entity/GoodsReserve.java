@@ -15,14 +15,15 @@ import org.hibernate.annotations.OnDeleteAction;
 @AllArgsConstructor
 @Builder
 public class GoodsReserve {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_seq", referencedColumnName = "user_seq", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Signup user;
-
 
     // === 기존 필드 ===
     private String ownerName;
@@ -33,11 +34,12 @@ public class GoodsReserve {
     private String petType;
     private String petBreed;
     private String petWeight;
+
     @Column(length = 500)
     private String memo;
 
     // === Step 1 추가 ===
-    private String materials;
+    private String materials;   // JSON 문자열
 
     // === Step 2 추가 ===
     private String product;
@@ -47,6 +49,7 @@ public class GoodsReserve {
     private Integer quantity;
     private String engravingText;
     private String engravingFont;
+
     @Column(length = 500)
     private String optionsMemo;
 
@@ -61,4 +64,19 @@ public class GoodsReserve {
     private String visitTime;
     private String trackingInfo;
     private Boolean consent; // 동의 여부
+
+    // === 결제 상태 ===
+    @Column(name = "payment_status", length = 20)
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
+
+    // =============================
+    //  기본값 설정: 저장 전 UNPAID로 자동 설정
+    // =============================
+    @PrePersist
+    public void prePersist() {
+        if (this.paymentStatus == null) {
+            this.paymentStatus = PaymentStatus.UNPAID;
+        }
+    }
 }

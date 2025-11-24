@@ -1,15 +1,9 @@
 package com.example.demo.Domain.Common.Dto;
 
 import com.example.demo.Domain.Common.Entity.GoodsReserve;
-import com.example.demo.Domain.Common.Entity.Signup;
+import com.example.demo.Domain.Common.Entity.PaymentStatus;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.Data;
 
 import java.util.List;
@@ -18,9 +12,9 @@ import java.util.List;
 public class GoodsReserveDto {
 
     private Long id;
-    /** FK로 연결된 회원 UUID */
     private String userSeq;
-    // === 기존 필드 ===
+
+    // Step 1
     private String ownerName;
     private String ownerPhone;
     private String ownerEmail;
@@ -31,10 +25,9 @@ public class GoodsReserveDto {
     private String petWeight;
     private String memo;
 
-    // === Step 1 추가 ===
     private List<String> materials;
 
-    // === Step 2 추가 ===
+    // Step 2
     private String product;
     private String metalColor;
     private String chainLength;
@@ -44,7 +37,7 @@ public class GoodsReserveDto {
     private String engravingFont;
     private String optionsMemo;
 
-    // === Step 3 추가 ===
+    // Step 3
     private String shipMethod;
     private String targetDate;
     private Boolean isExpress;
@@ -54,6 +47,9 @@ public class GoodsReserveDto {
     private String visitDate;
     private String visitTime;
     private String trackingInfo;
+
+    // ★ 결제상태 추가
+    private PaymentStatus paymentStatus;
 
 
     public static GoodsReserveDto fromEntity(GoodsReserve g) {
@@ -75,7 +71,7 @@ public class GoodsReserveDto {
         dto.setPetWeight(g.getPetWeight());
         dto.setMemo(g.getMemo());
 
-        // materials (JSON → List<String>)
+        // materials JSON → List<String>
         try {
             if (g.getMaterials() != null && !g.getMaterials().isEmpty()) {
                 dto.setMaterials(
@@ -107,7 +103,9 @@ public class GoodsReserveDto {
         dto.setVisitTime(g.getVisitTime());
         dto.setTrackingInfo(g.getTrackingInfo());
 
+        // ★ 결제상태 매핑 추가
+        dto.setPaymentStatus(g.getPaymentStatus());
+
         return dto;
     }
-
 }

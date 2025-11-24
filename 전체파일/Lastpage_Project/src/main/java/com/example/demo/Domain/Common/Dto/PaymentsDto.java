@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 public class PaymentsDto {
 
+    private Long reserveId;
+
     /** 주문 고유번호 (예약 or 주문 단위 식별자) */
     private String orderId;
 
@@ -38,6 +40,9 @@ public class PaymentsDto {
      * (프론트엔드에서 따로 지정하지 않아도 기본 성공/실패 경로 자동 설정)
      */
     public void applyDefaultUrls(String baseUrl) {
+        if (this.orderName == null || this.orderName.isBlank()) {
+            this.orderName = "LastPage 상품결제";
+        }
         this.successUrl = baseUrl + "/pay/success?orderId=" + orderId;
         this.failUrl = baseUrl + "/pay/fail?orderId=" + orderId;
     }

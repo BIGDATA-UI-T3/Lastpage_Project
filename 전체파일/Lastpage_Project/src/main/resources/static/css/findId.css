@@ -1,0 +1,103 @@
+/* 페이지 전체 */
+
+
+/* 가운데 정렬 */
+.find-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 140px;
+}
+
+/* 박스 스타일 (로그인 박스와 동일한 톤으로) */
+.find-box {
+margin-bottom:100px;
+    width: 430px;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 35px 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* 제목 */
+.find-title {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+/* 입력 그룹 */
+.find-input-group {
+    margin-bottom: 18px;
+}
+
+.find-input-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #444;
+}
+
+.find-input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+}
+
+.find-input-group input:focus {
+    border-color: #a98874;
+    box-shadow: 0 0 0 2px rgba(169,136,116,0.2);
+}
+
+/* 찾기 버튼 */
+.find-btn {
+    margin-top: 5px;
+    width: 100%;
+    background-color: #a98874;
+    color: white;
+    padding: 13px;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.find-btn:hover {
+    background-color: #937763;
+}
+
+/* 결과문구 */
+.find-result {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.find-result .highlight {
+    color: #775c46;
+    font-weight: bold;
+}
+
+.find-result .error {
+    color: #cc4444;
+}
+
+/* 하단 링크 */
+.find-bottom-links {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.find-bottom-links a {
+    color: #6b5c51;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.find-bottom-links a:hover {
+    text-decoration: underline;
+}

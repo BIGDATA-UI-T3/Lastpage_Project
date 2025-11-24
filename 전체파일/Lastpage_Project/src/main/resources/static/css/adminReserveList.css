@@ -47,7 +47,7 @@
         .btn-edit:hover {
             background: white;
             border: 1px solid #0984e3;
-            color: #0984e3;
+            color: #0984e3 !important;
         }
 
         /* 삭제 버튼 */
@@ -61,5 +61,5 @@
 
             background: white;
             border: 1px solid #d63031;
-            color: #d63031;
+            color: #d63031 !important;
         }
