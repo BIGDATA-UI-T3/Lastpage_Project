@@ -18,7 +18,6 @@ body {
     background-image: var(--banner-url);
     background-size: cover;
     background-position: center;
-    min-height: 48svh;
     display: grid;
     place-items: center;
     position: relative;

@@ -8,6 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
 
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/Ourpage.css}">
 </head>
@@ -17,12 +19,12 @@
     <div id="header-container"></div>
 </div>
 
-<section class="banner" role="img" aria-label="추모 배너">
-    <div class="inner">
-        <h1 class="banner-title">별이 된 아이들을 기억하는 공간</h1>
-        <p class="banner-desc">반려동물과의 마지막 여정을 함께 기억합니다.</p>
+<div class="banner" style="background-image: url('/Asset/ourpage_main.jpg');">
+    <div class="page-title-area" data-aos="fade-up" data-aos-duration="2000">
+        <h1>우리가 함께 만드는 따뜻한 공간</h1>
+        <p>반려동물 가족을 위한 모든 서비스와 정보를 한눈에 확인하세요.</p>
     </div>
-</section>
+</div>
 
 <main class="main-content-wrapper">
     <section class="grid-section">
@@ -121,5 +123,16 @@
     }
 </script>
 <script th:src="@{/js/ourpage.js}"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script>
+    // 페이지 로드 시 애니메이션 초기화
+    AOS.init({
+        once: false, // 스크롤 할 때마다 반복 실행 여부
+        duration: 800,
+        easing: 'ease-out-cubic',
+        threshold: 0.1
+    });
+</script>
 </body>
 </html>

@@ -1,12 +1,3 @@
-/**
- * =======================================================
- * C O M M O N . C S S (최종 수정)
- * 1. 로그인 중복 제거 (데스크톱/모바일 분리 복구)
- * 2. 헤더 Georgia 폰트 적용
- * 3. 드롭다운 3개 배경색 #2C3930 통일
- * =======================================================
- */
-
 /* ================================================== */
 /* [0] 기본 초기화 */
 /* ================================================== */
@@ -110,7 +101,7 @@ a:hover {
 }
 
 /* ================================================== */
-/* [드롭다운 메뉴] 배경색 통일 (#2C3930) */
+/* [드롭다운 메뉴] */
 /* ================================================== */
 
 nav ul li > ul {
@@ -120,7 +111,7 @@ nav ul li > ul {
   left: 50%;
   transform: translateX(-50%);
 
-  /* [중요] 컨테이너 배경색 */
+  /* 컨테이너 배경색 */
   background-color: #2C3930 !important;
 
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
@@ -130,8 +121,6 @@ nav ul li > ul {
   z-index: 10000;
   text-align: center;
   border-radius: 0 0 8px 8px;
-
-  /* 3번째 메뉴가 잘리지 않도록 설정 */
   flex-direction: column !important;
   gap: 0 !important;
   overflow: hidden;
@@ -156,8 +145,6 @@ nav ul li > ul li > a {
   font-size: 14px;
   color: #dcd7c9;
   text-decoration: none !important;
-
-  /* 🌟 [요청] 3개 항목 모두 배경색 강제 적용 */
   background-color: #2C3930 !important;
 }
 
@@ -616,4 +603,85 @@ footer {
 #scrollToTopBtn:hover {
     opacity: 1;
     transform: scale(1.05);
+}
+
+
+
+/* ################## */
+
+/* ================================================== */
+/* [공통 배너 스타일] f_service 기준 통일 */
+/* ================================================== */
+
+/* 1. 배너 컨테이너 (배경 이미지 및 위치 잡기) */
+.banner,
+.banner_yj, /* Goods, Community 등의 기존 클래스 호환 */
+.hello_yj   /* Mypage 기존 클래스 호환 */
+{
+  position: relative;
+  width: 100%;
+  min-height: 100vh; /* 장례서비스와 동일하게 풀스크린 높이 */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  overflow: hidden;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 2. 배경 오버레이 (글씨 가독성을 위한 어두운 막) */
+.banner::after,
+.banner_yj::after,
+.banner-overlay_yj::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* 장례서비스와 동일한 오버레이 색상/투명도 (필요시 조정 가능) */
+  background: linear-gradient(rgba(43, 38, 35, 0.3), rgba(43, 38, 35, 0.5));
+  z-index: 1;
+}
+
+/* 3. 텍스트 컨테이너 (가운데 정렬 및 애니메이션 대상) */
+.banner .inner,
+.banner-text_yj {
+  position: relative;
+  z-index: 2; /* 오버레이보다 위에 위치 */
+  max-width: 1200px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 4. 배너 제목 (H1) - 장례서비스 폰트/크기 적용 */
+.banner h1,
+.banner-title,
+.full-background .page-title-area h1,
+.overlay_yj .page-title-area h1 {
+  font-family: 'Georgia', 'Nanum Myeongjo', serif !important;
+  font-size: 3rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin: 0 0 25px 0 !important;
+  line-height: 1.3 !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* 가독성 강화 */
+}
+
+/* 5. 배너 설명 (P) - 장례서비스 스타일 적용 */
+.banner p,
+.banner-desc,
+.full-background .page-title-area p,
+.overlay_yj .page-title-area p {
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
+  font-size: 1.1rem !important; /* f_service 기준 */
+  color: rgba(255, 255, 255, 0.95) !important;
+  margin: 0 !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
