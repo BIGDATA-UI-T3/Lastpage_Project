@@ -1,9 +1,15 @@
 package com.example.demo.Domain.Common.Dto;
 
+import com.example.demo.Domain.Common.Entity.GoodsReserve;
 import com.example.demo.Domain.Common.Entity.Signup;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.Data;
 
 import java.util.List;
@@ -48,4 +54,60 @@ public class GoodsReserveDto {
     private String visitDate;
     private String visitTime;
     private String trackingInfo;
+
+
+    public static GoodsReserveDto fromEntity(GoodsReserve g) {
+
+        GoodsReserveDto dto = new GoodsReserveDto();
+        ObjectMapper mapper = new ObjectMapper();
+
+        dto.setId(g.getId());
+        dto.setUserSeq(g.getUser().getUserSeq());
+
+        // Step 1
+        dto.setOwnerName(g.getOwnerName());
+        dto.setOwnerPhone(g.getOwnerPhone());
+        dto.setOwnerEmail(g.getOwnerEmail());
+        dto.setOwnerAddr(g.getOwnerAddr());
+        dto.setPetName(g.getPetName());
+        dto.setPetType(g.getPetType());
+        dto.setPetBreed(g.getPetBreed());
+        dto.setPetWeight(g.getPetWeight());
+        dto.setMemo(g.getMemo());
+
+        // materials (JSON → List<String>)
+        try {
+            if (g.getMaterials() != null && !g.getMaterials().isEmpty()) {
+                dto.setMaterials(
+                        mapper.readValue(g.getMaterials(), new TypeReference<>() {})
+                );
+            }
+        } catch (Exception e) {
+            dto.setMaterials(null);
+        }
+
+        // Step 2
+        dto.setProduct(g.getProduct());
+        dto.setMetalColor(g.getMetalColor());
+        dto.setChainLength(g.getChainLength());
+        dto.setRingSize(g.getRingSize());
+        dto.setQuantity(g.getQuantity());
+        dto.setEngravingText(g.getEngravingText());
+        dto.setEngravingFont(g.getEngravingFont());
+        dto.setOptionsMemo(g.getOptionsMemo());
+
+        // Step 3
+        dto.setShipMethod(g.getShipMethod());
+        dto.setTargetDate(g.getTargetDate());
+        dto.setIsExpress(g.getIsExpress());
+        dto.setKitAddr(g.getKitAddr());
+        dto.setKitDate(g.getKitDate());
+        dto.setKitTime(g.getKitTime());
+        dto.setVisitDate(g.getVisitDate());
+        dto.setVisitTime(g.getVisitTime());
+        dto.setTrackingInfo(g.getTrackingInfo());
+
+        return dto;
+    }
+
 }

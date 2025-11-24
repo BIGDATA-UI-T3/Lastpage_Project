@@ -8,13 +8,15 @@
     --border:#ece3d7;
     --shadow:0 12px 32px rgba(0,0,0,.10);
     --radius:22px;
-    --banner-url: url('../Asset/funeralReserve_banner.png');
+
+    /* 장례 예약 배너 이미지 경로 */
+    --banner-url: url('../Asset/Gemini_Generated_Image_tsfdwwtsfdwwtsfd.png');
 }
 
 *{box-sizing:border-box}
 
 body{
-    margin:0;
+
     background:linear-gradient(180deg,#f4efe6,var(--bg));
     color:var(--ink);
 }
@@ -23,19 +25,22 @@ body{
 .full-background {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    min-height: 100vh; /* 넉넉한 배경 길이 */
     background-image: var(--banner-url);
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: fixed; /* 배경 고정 */
     display: flex;
     justify-content: center;
     align-items: flex-start;
 
-    padding-top: 140px;
-    padding-bottom: 40px;
+    padding-top: 140px; /* 헤더 높이 고려 */
+
+    /* [수정 1] 푸터와의 간격을 줄이기 위해 하단 여백 축소 */
+    padding-bottom: 40px; /* 기존 200px -> 80px */
 }
 
+/* 배경 어둡게 처리 (오버레이) */
 .overlay {
     position: absolute;
     inset: 0;
@@ -52,7 +57,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 80px;
+    gap: 80px; /* 문구와 카드 사이 간격 */
     padding: 0 20px;
 }
 
@@ -74,7 +79,7 @@ body{
     margin: 0;
 }
 
-/* --- 카드 스타일 --- */
+/* --- [수정 2] 카드 스타일 (투명도 적용) --- */
 .card{
     width: 100%;
 
@@ -100,7 +105,7 @@ h1.title{ margin:6px 0 18px; color:#666; font-size:24px; text-align:center }
 
 label.small{ font-size:13px; color:#555 }
 .field{
-    display:flex; align-items:center; gap:8px;
+     align-items:center; gap:8px;
     background:#faf9f7; border:1px solid var(--border); border-radius:12px;
     padding:12px 12px;
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8" />
@@ -9,8 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../CSS/common.css">
-    <link rel="stylesheet" href="../CSS/Psypage.css">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/Psypage.css}">
     <title>펫로스 심리상담</title>
         <style>
         </style>
@@ -78,7 +78,9 @@
         <h2 class="section-title">펫로스 전문상담사</h2>
         <div class="counselors">
             <article class="card">
-                <div class="avatar">BG</div>
+                <div class="avatar">
+                    <img src="/Asset/bogeum.jpeg" alt="손보금 상담사">
+                </div>
                 <div>
                     <h3>손보금 상담사</h3>
                     <div class="strengths">애도상담 · 애착/분리불안 · 수면/호흡 이완</div>
@@ -89,7 +91,9 @@
                 </div>
             </article>
             <article class="card">
-                <div class="avatar">JH</div>
+                <div class="avatar">
+                    <img src="/Asset/jun.jpeg" alt="손보금 상담사">
+                </div>
                 <div>
                     <h3>박준형 상담사</h3>
                     <div class="strengths">가족과의 의사소통 · 상실감 수용 · 죄책감 다루기</div>
@@ -100,7 +104,9 @@
                 </div>
             </article>
             <article class="card">
-                <div class="avatar">YJ</div>
+                <div class="avatar">
+                    <img src="/Asset/yejin.jpeg" alt="손보금 상담사">
+                </div>
                 <div>
                     <h3>심예진 상담사</h3>
                     <div class="strengths">우울/무기력 · 일상회복 계획 · 라이프 리추얼</div>
@@ -126,9 +132,11 @@
     </section>
 
 <div id="footer-container"></div>
+<button id="scrollToTopBtn" title="맨 위로 가기">↑</button>
+<script src="/js/psypage.js"></script>
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
-<script src="/js/psypage.js"></script>
+
     <script>
 
     </script>

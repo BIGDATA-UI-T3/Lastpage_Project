@@ -1,9 +1,55 @@
-   body { background-color: #f8f5f0; font-family: "Pretendard", sans-serif; }
-        .payment-container { max-width: 720px; margin: 80px auto; background: #fff; padding: 40px; border-radius: 16px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
-        .payment-method { display: flex; justify-content: space-around; margin-bottom: 25px; }
-        .payment-method button { flex: 1; margin: 0 5px; padding: 12px; border:1.5px solid #ccc; border-radius:10px; background:#f9f9f9; font-weight:600; cursor:pointer; transition:0.3s; }
-        .payment-method button.active { border-color:#73553c; color:#fff; background:#73553c; }
-        .payment-section { display:none; }
-        .payment-section.active { display:block; }
-        .btn-pay { width:100%; margin-top:30px; background-color:#73553c; color:#fff; font-weight:bold; padding:14px; border:none; border-radius:8px; transition:background 0.2s; }
-        .btn-pay:hover { background-color:#5b4330; }
+.payment-container {
+    max-width: 520px;
+    margin: 60px auto;
+    padding: 40px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.payment-info-box {
+    padding: 20px;
+    border-radius: 10px;
+    background: #f7f7f7;
+}
+
+/* 공통 버튼 */
+.btn-pay {
+    width: 100%;
+    height: 64px; /* 네이버페이 기준 높이 */
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0;
+    margin-bottom: 16px;
+
+    transition: 0.15s ease;
+}
+
+/* 버튼 내부 이미지 */
+.btn-pay img {
+    height: 35px;       /* 로고 크기 통일 */
+    width: auto;        /* 비율 유지 */
+    display: block;
+}
+
+/* 카카오페이: 공식 배경 컬러 */
+.kakao-btn {
+    background-color: #FEE900; /* 카카오페이 공식 컬러 (#FEE500) */
+}
+
+/* 네이버페이: 공식 배경 컬러 */
+.naver-btn {
+    background-color: #00DE5A; /* 네이버페이 배경 */
+}
+
+/* Hover 효과 */
+.btn-pay:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}

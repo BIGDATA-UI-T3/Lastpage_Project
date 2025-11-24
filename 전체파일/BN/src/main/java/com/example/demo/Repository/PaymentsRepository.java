@@ -13,11 +13,9 @@ public interface PaymentsRepository extends JpaRepository<Payments, String> {
     /** 주문번호로 조회 */
     Optional<Payments> findByOrderId(String orderId);
 
-    /** 사용자별 결제내역 조회 */
+    /** 사용자별 결제 내역 조회 (최신순) */
+    List<Payments> findByUser_UserSeqOrderByCreatedAtDesc(String userSeq);
 
-
-    /** 특정 상태의 결제 조회 (예: READY, SUCCESS 등) */
+    /** 결제 상태로 조회 (READY, SUCCESS, FAILED 등) */
     List<Payments> findAllByStatus(String status);
-    List<Payments> findAllByUser_UserSeqOrderByCreatedAtDesc(String userSeq);
-
 }

@@ -1,30 +1,23 @@
 package com.example.demo.Domain.Common.Dto;
 
-import com.example.demo.Domain.Common.Entity.Gender;
 import com.example.demo.Domain.Common.Entity.Signup;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.nio.channels.AsynchronousChannelGroup;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SignupDto {
 
-    /**
-     * 내부 고유 식별자 (UUID)
-     */
     private String userSeq;
-
-    /**
-     * 일반 회원가입 공통 정보
-     */
+    private String id;
     private String name;
-    private String id;  // 일반 회원의 로그인 ID
     private String password;
     private String confirm_password;
     private String emailId;
@@ -32,40 +25,50 @@ public class SignupDto {
     private Long year;
     private Long month;
     private Long day;
-    private Gender gender;
+    private String gender;
     private String phone_num;
-    private String sms_auth_number;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
-
-    //  소셜 로그인용 필드
     private String provider;
     private String providerId;
     private String oauthEmail;
     private String profileImage;
+    private String role = "USER";   // 기본 USER
+
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
+
+    private String bio;
+
+    // follow
+    private String username;
 
 
-    public static SignupDto fromEntity(Signup entity) {
-        if (entity == null) return null;
 
-        return SignupDto.builder()
-                .userSeq(entity.getUserSeq())
-                .name(entity.getName())
-                .id(entity.getId())
-                .emailId(entity.getEmailId())
-                .emailDomain(entity.getEmailDomain())
-                .year(entity.getYear())
-                .month(entity.getMonth())
-                .day(entity.getDay())
-                .gender(entity.getGender())
-                .phone_num(entity.getPhone_num())
-                .sms_auth_number(entity.getSms_auth_number())
-                .created_at(entity.getCreated_at())
-                .updated_at(entity.getUpdated_at())
-                .provider(entity.getProvider())
-                .providerId(entity.getProviderId())
-                .oauthEmail(entity.getOauthEmail())
-                .profileImage(entity.getProfileImage())
-                .build();
+    // follow
+
+
+    /** Signup 엔티티 → SignupDto 변환 */
+    public static SignupDto fromEntity(Signup e) {
+        SignupDto dto = new SignupDto();
+        dto.setUserSeq(e.getUserSeq());
+        dto.setId(e.getId());
+        dto.setName(e.getName());
+        dto.setEmailId(e.getEmailId());
+        dto.setEmailDomain(e.getEmailDomain());
+        dto.setYear(e.getYear());
+        dto.setMonth(e.getMonth());
+        dto.setDay(e.getDay());
+        dto.setGender(String.valueOf(e.getGender()));
+        dto.setPhone_num(e.getPhone_num());
+        dto.setProvider(e.getProvider());
+        dto.setProviderId(e.getProviderId());
+        dto.setOauthEmail(e.getOauthEmail());
+        dto.setProfileImage(e.getProfileImage());
+        dto.setRole(e.getRole().name());
+        dto.setCreated_at(e.getCreated_at());
+        dto.setUpdated_at(e.getUpdated_at());
+        dto.setUsername(e.getUsername());
+        return dto;
     }
+
+
 }

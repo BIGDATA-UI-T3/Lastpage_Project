@@ -1,10 +1,28 @@
 // static/js/goods_reserve.js
 document.addEventListener("DOMContentLoaded", () => {
 
+  /* ================================
+   * 0) 관리자 모드 감지
+   * ================================ */
+  const mode = document.body.dataset.mode || "create";              // "admin-edit" | "edit" | "create"
+  const targetUserSeq = document.body.dataset.targetuserseq || null; // 관리자 모드일 때만 세팅됨
+  const loginUserSeq = document.body.dataset.userseq || null;
+
+  const isAdminEdit = mode === "admin-edit";
+  // 관리자 모드일 때는 loginUserSeq != targetUserSeq 가능
+  const effectiveUserSeq = isAdminEdit ? (targetUserSeq || loginUserSeq) : loginUserSeq;
+
+  if (!effectiveUserSeq || effectiveUserSeq === "null" || effectiveUserSeq === "undefined") {
+    alert("우선 로그인을 진행해주세요.");
+    window.location.href = "/signin";
+    return;
+  }
+
   // ------------------------------
   // 1) 상태 객체 & 헬퍼 함수
   // ------------------------------
   const state = {
+    id: "",
     ownerName: "", ownerPhone: "", ownerEmail: "", ownerAddr: "",
     petName: "", petType: "", petBreed: "", petWeight: "",
     materials: [],
@@ -25,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const reserveId = params.get("id");
   if (reserveId) {
     state.id = reserveId;
-    qs("#formTitle").textContent = "굿즈 예약 수정";
+    qs("#formTitle").textContent = isAdminEdit ? "관리자 - 굿즈 예약 수정" : "굿즈 예약 수정";
   }
 
   // ------------------------------
@@ -50,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
   })();
 
   // ------------------------------
-  // 4) 1단계 검증
+  // 4) 1단계 검증 + 품종 핸들러
   // ------------------------------
   const BREEDS = {
     dog: ["말티즈", "푸들", "시바", "리트리버", "포메라니안", "믹스"],
@@ -79,6 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       petBreedSel.disabled = false;
       petBreedText.style.display = "none";
+      petBreedText.value = "";
       petBreedSel.innerHTML =
         '<option value="">품종 선택</option>' +
         (BREEDS[type] || [])
@@ -98,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     validateStep1();
   });
 
+  // 재료 슬롯
   qsa("#materialsBox .slot").forEach(btn => {
     btn.addEventListener("click", () => {
       const v = btn.dataset.mat;
@@ -143,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
       breedOK &&
       Number(pwt) >= 0 &&
       matOK;
+
     qs("#next1").disabled = !ok;
   }
 
@@ -293,30 +314,38 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ------------------------------
-  // 9) 제출 (REST API)
+  // 9) 제출 (REST API) - 관리자/사용자 공용
   // ------------------------------
   qs("#submitBtn").addEventListener("click", async () => {
-    let userSeq = document.body.dataset.userseq || localStorage.getItem("userSeq");
-    if (!userSeq) {
-      alert("로그인 정보가 유효하지 않습니다. 다시 로그인해주세요.");
-      window.location.href = "/signin";
-      return;
-    }
-    state.userSeq = userSeq;
+    const data = { ...state };
 
-    const url = state.id ? `/reserve/goods_reserve/${state.id}` : "/reserve/save2";
-    const method = state.id ? "PUT" : "POST";
+    // 일반모드: 로그인한 본인
+    // 관리자모드: targetUserSeq 기준
+    data.userSeq = effectiveUserSeq;
+
+    const url = data.id
+      ? (isAdminEdit
+          ? `/reserve/admin/reserve/goods_reserve/${data.id}?targetUserSeq=${effectiveUserSeq}`
+          : `/reserve/goods_reserve/${data.id}`)
+      : "/reserve/save2";
+
+    const method = data.id ? "PUT" : "POST";
 
     try {
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(state)
+        body: JSON.stringify(data)
       });
 
       if (res.ok) {
-        alert(state.id ? "예약이 수정되었습니다." : "예약이 등록되었습니다.");
-        window.location.href = `/mypage/Mypage?userSeq=${userSeq}`;
+        if (isAdminEdit) {
+          alert("관리자가 굿즈 예약을 성공적으로 수정했습니다.");
+          window.location.href = "/admin/reserves";
+        } else {
+          alert(data.id ? "예약이 수정되었습니다." : "예약이 등록되었습니다.");
+          window.location.href = `/mypage/Mypage?userSeq=${effectiveUserSeq}`;
+        }
       } else {
         console.error("서버 오류:", await res.text());
         alert("저장 중 오류가 발생했습니다.");
@@ -348,14 +377,34 @@ document.addEventListener("DOMContentLoaded", () => {
     qs("#petName").value = data.petName || "";
     qs("#petType").value = data.petType || "";
     petTypeEl.dispatchEvent(new Event("change"));
-    if (data.petType === "other") qs("#petBreedText").value = data.petBreed || "";
-    else qs("#petBreed").value = data.petBreed || "";
+
+    if (data.petType === "other") {
+      petBreedText.value = data.petBreed || "";
+    } else {
+      petBreedSel.value = data.petBreed || "";
+    }
+
     qs("#petWeight").value = data.petWeight || "";
-    (data.materials || []).forEach(mat => {
-      qs(`#materialsBox .slot[data-mat="${mat}"]`)?.classList.add("active");
+
+    // materials: 서버에서 "ash,hair" 혹은 ["ash","hair"] 형태 가능성 고려
+    let mats = [];
+    if (Array.isArray(data.materials)) {
+      mats = data.materials
+        .flatMap(m => String(m).split(","))
+        .map(s => s.trim())
+        .filter(Boolean);
+    } else if (typeof data.materials === "string") {
+      mats = data.materials.split(",").map(s => s.trim()).filter(Boolean);
+    }
+    state.materials = mats;
+    mats.forEach(mat => {
+      const btn = document.querySelector(`#materialsBox .slot[data-mat="${mat}"]`);
+      if (btn) btn.classList.add("active");
     });
+
     qs("#product").value = data.product || "";
     productEl.dispatchEvent(new Event("change"));
+
     qs("#metal").value = data.metalColor || "";
     qs("#chainLength").value = data.chainLength || "";
     qs("#ringSize").value = data.ringSize || "";
@@ -373,6 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
     qs("#visitTime").value = data.visitTime || "";
     qs("#tracking").value = data.trackingInfo || "";
     qs("#memo").value = data.memo || "";
+
     validateStep1();
     validateStep2();
     validateStep3();

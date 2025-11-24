@@ -8,13 +8,15 @@
     --border:#ece3d7;
     --shadow:0 12px 32px rgba(0,0,0,.10);
     --radius:22px;
-    --banner-url: url('../Asset/ourpageReserve_banner.jpg');
+
+    /* [중요] Ourpage 예약 배경 이미지 (밤하늘 느낌 추천) */
+    --banner-url: url('../Asset/ourpage_bg.png');
 }
 
 *{box-sizing:border-box}
 
 body{
-    margin:0;
+    margin:0; font-family: 'Georgia', serif;
     background:linear-gradient(180deg,#f4efe6,var(--bg));
     color:var(--ink);
 }
@@ -38,7 +40,7 @@ body{
 .overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5); /* 조금 더 어둡게 */
     z-index: 0;
 }
 
@@ -71,7 +73,7 @@ body{
     margin: 0;
 }
 
-/* 카드 스타일 */
+/* 카드 스타일 (투명도 적용) */
 .card{
     width: 100%;
     background: rgba(255, 255, 255, 0.85);
@@ -83,7 +85,7 @@ body{
 
 h1.title{ margin:6px 0 18px; color:#666; font-size:24px; text-align:center }
 
-/* 공통 폼 요소 스타일 */
+/* 공통 폼 요소 스타일 (장례 예약과 동일) */
 .steps{display:flex; gap:8px; justify-content:center; margin-bottom:10px}
 .step-dot{ width:10px; height:10px; border-radius:999px; background:#d7cbbb; opacity:.6 }
 .step-dot.active{ background:var(--accent); opacity:1 }
@@ -94,7 +96,7 @@ h1.title{ margin:6px 0 18px; color:#666; font-size:24px; text-align:center }
 
 label.small{ font-size:13px; color:#555 }
 .field{
-    display:flex; align-items:center; gap:8px;
+    display:grid; align-items:center; gap:8px;
     background:#faf9f7; border:1px solid var(--border); border-radius:12px;
     padding:12px 12px;
 }
