@@ -1,0 +1,148 @@
+ :root{
+    --bg:#f6f1e7;
+    --panel:#ffffff;
+    --ink:#2b2b2b;
+    --muted:#6d6d6d;
+    --brand:#223529;      /* 딥 그린 */
+    --accent:#9a6e4b;     /* 브라운 버튼 */
+    --border:#ece3d7;
+    --shadow:0 12px 32px rgba(0,0,0,.10);
+    --radius:22px;
+    --banner-url:url('/Asset/펫로스증후군2.png'); /* 교체 */
+  }
+  *{box-sizing:border-box}
+  body{
+    color:var(--ink); background:linear-gradient(180deg,#f4efe6, var(--bg));
+  }
+  /* 헤더 */
+ 
+
+  /* 배너 */
+  .banner{
+    background-image: var(--banner-url);
+    background-size:cover; background-position:center;
+    
+    min-height:100svh; display:grid; place-items:center;
+    position:relative; isolation:isolate;
+  }
+  .banner::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(34,53,41,.35), rgba(34,53,41,.55));
+    z-index:-1;
+  }
+  .banner .inner{
+    text-align:center; color:#fff; padding:36px 16px;
+  }
+  .banner h1{ margin:0 0 10px; font-size:clamp(26px, 4vw, 40px); }
+  .banner p{ font-size: 15px;
+                 font-weight: 600;
+                 margin-top: 15px;
+                 color: #ffffff;
+                 text-shadow: 0 3px 8px rgba(0,0,0,0.5);
+                 justify-content: center;
+                 display: flex; }
+
+  /* 공통 레이아웃 */
+  .section{
+    max-width:1000px; margin:36px auto; padding:0 18px;
+  }
+  .panel{
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:26px;
+  }
+  h2.section-title{
+    margin:0 0 14px; font-size:22px; color:#5f5f5f; text-align:center;
+  }
+  .lead{ color:#444; line-height:1.7; text-align:center }
+
+  /* 소개 */
+  .intro p{ margin:0; line-height:1.85; color:#474747 }
+
+  /* 후기 슬라이더 (페이드) */
+  .testimonials{ position:relative; overflow:hidden; }
+  .slide{
+    position:absolute; inset:0; opacity:0; transition:opacity .9s ease;
+    display:grid; place-items:center; padding:28px;
+  }
+  .slide.active{ opacity:1 }
+  .quote{
+    max-width:740px; background:#fffaf4; border:1px solid #f0e2cf;
+    border-radius:18px; padding:22px;
+    box-shadow:0 8px 18px rgba(154,110,75,.12);
+  }
+  .quote p{ margin:0 0 10px; font-size:18px }
+  .quote .meta{ color:var(--muted); font-size:14px }
+  .dots{ display:flex; gap:8px; justify-content:center; margin-top:14px }
+  .dot{
+    width:8px; height:8px; border-radius:999px; background:#d0c4b6; border:0;
+  }
+  .dot.active{ background:var(--accent) }
+
+  /* 상담사 소개 */
+  .counselors{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;
+  }
+  .card{
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:18px; padding:18px; box-shadow:0 8px 22px rgba(0,0,0,.06);
+    display:flex; gap:14px;
+  }
+  .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      border: 2px solid #f2f2f2;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      transition: all 0.2s ease;
+  }
+
+
+  .avatar:hover {
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+      transform: translateY(-2px);
+  }
+
+
+
+  .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  }
+
+  .card h3{ margin:2px 0 6px; font-size:18px }
+  .tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px }
+  .tag{
+    font-size:12px; padding:6px 8px; border-radius:999px;
+    background:#f5efe6; border:1px solid #e7dece; color:#6a573f;
+  }
+  .strengths{ margin-top:6px; color:#555; font-size:14px }
+  .cta{
+    text-align:center; margin-top:22px;
+  }
+  .btn{
+    display:inline-block; padding:14px 22px; border-radius:12px;
+    background:var(--accent); color:#fff; text-decoration:none; font-weight:700;
+    border:1px solid transparent; transition:all .2s ease;
+  }
+  .btn:hover{ background:#fff; color:var(--accent); border-color:var(--accent) }
+
+  /* 페이드-업 등장 애니메이션 */
+  .reveal{ opacity:0; transform:translateY(14px); transition: all .7s ease }
+  .reveal.on{ opacity:1; transform:none }
+
+  /* 반응형 */
+  @media (max-width:900px){
+    .counselors{ grid-template-columns:1fr 1fr }
+  }
+  @media (max-width:560px){
+    .counselors{ grid-template-columns:1fr }
+    .banner{ min-height:40svh }
+  }

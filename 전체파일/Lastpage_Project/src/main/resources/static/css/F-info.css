@@ -1,0 +1,149 @@
+:root {
+    --bg: #f7f3ea;
+    --card: #fff;
+    --border: #e7e1d6;
+    --text: #333;
+    --muted: #888;
+    --brand: #223529;
+    --accent: #A27B5c;
+    --shadow: 0 8px 24px rgba(0, 0, 0, .08);
+    --radius: 18px;
+    --banner-url: url("../Asset/장례안내페이지.png"); 
+}
+
+body {
+    background: linear-gradient(180deg, #faf7f1, #efe9dd);
+    color: var(--text);
+}
+ .banner{
+    background-image: var(--banner-url);
+    background-size:cover; background-position:center;
+    
+    min-height:48svh; display:grid; place-items:center;
+    position:relative; isolation:isolate;
+  }
+  .banner::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(34,53,41,.35), rgba(34,53,41,.55));
+    z-index:-1;
+  }
+  .banner .inner{
+    text-align:center; color:#fff; padding:36px 16px;
+  }
+  .banner h1{ margin:0 0 10px; font-size:clamp(26px, 4vw, 40px); }
+  .banner p{ margin:0; opacity:.95 }
+
+.wrap {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 16px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap: 18px;
+}
+
+#map {
+    width: 100%;
+    height: 520px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    background: #fff;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px 16px 14px;
+}
+
+.card h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+}
+
+.addr {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0;
+}
+
+.chip {
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 999px;
+    background: #f6efe4;
+    border: 1px solid #e8dece;
+    color: #6a573f;
+}
+
+.links a {
+    font-size: 14px;
+    color: #555;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    margin-left: 10px;
+}
+
+.links a:hover {
+    border-bottom-color: #999;
+}
+
+.title {
+    margin: 10px 0 18px;
+    color: #6b6b6b;
+    letter-spacing: -.2px;
+}
+
+
+
+
+/* 서비스 섹션 */
+.section-title{
+  margin: 28px 0 12px; font-size: 22px; color:#6b6b6b; text-align:center;
+}
+.service-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:16px;
+}
+.service-card{
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:16px;
+  display:flex; flex-direction:column; gap:12px;
+}
+.img-ph{
+  width:100%; aspect-ratio:16/9;
+  border:2px dashed #e0d7c8; border-radius:12px; background:#faf7f1;
+  display:grid; place-items:center; color:#a8987c; font-size:14px;
+}
+.service-card h3{ margin:0; font-size:18px; color:#444 }
+.service-card p{ margin:0; color:#555; line-height:1.7; font-size:14px }
+.service-card ul{ margin:6px 0 0 18px; color:#444; line-height:1.8; font-size:14px }
+
+/* 반응형 */
+@media (max-width:980px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    #map {
+        height: 420px;
+    }
+}

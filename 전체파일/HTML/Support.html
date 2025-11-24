@@ -5,57 +5,141 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
    <link rel="stylesheet" href="../CSS/common.css">
     <link rel="stylesheet" href="../HTML/common.html">
-    <link rel="stylesheet" href="../CSS/Support.css">
   <title>고객센터</title>
   <style>
-   
+    :root{
+      --bg:#f6f5f2;
+      --panel:#ffffff;
+      --ink:#2C3930;           
+      --muted:#6c7a72;
+      --brand:#2C3930;     
+      --accent:#A27b5c;     
+      --soft:#ebedea;
+      --border:#e8e3dc;
+      --shadow:0 14px 40px rgba(0,0,0,.12);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Apple SD Gothic Neo,Arial,sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      line-height:1.5;
+    }
+
+    /* 배너 */
+    .banner{
+      position:relative;
+      min-height:44vh;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      text-align:center;
+      overflow:hidden;
+      background:#0f201a;
+      isolation:isolate;
+    }
+    .banner::before{
+      content:"";
+      position:absolute;inset:0;
+      background:url('https://images.unsplash.com/photo-1561037404-61cd46aa615b?q=80&w=2600&auto=format&fit=crop') center/cover no-repeat;
+      filter:grayscale(.1) saturate(.7) brightness(.8);
+      z-index:-2;
+    }
+    .banner::after{
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(180deg, rgba(33,55,47,.72), rgba(33,55,47,.65));
+      z-index:-1;
+    }
+    .banner .inner{max-width:1100px;padding:64px 20px 86px}
+    .headline{font-weight:800;letter-spacing:-.02em;margin:0 0 10px;font-size:clamp(28px,4.5vw,48px)}
+    .sub{opacity:.92;font-size:clamp(14px,1.8vw,18px);margin:0 auto;max-width:800px}
+
+    /* 버튼 */
+    .btn{appearance:none;border:1px solid transparent;background:#A27b5c;color:#fff;border-radius:999px;padding:10px 18px;cursor:pointer;font-weight:700;box-shadow:0 6px 18px rgba(33,55,47,.18);transition:.2s transform,.2s box-shadow}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(33,55,47,.22)}
+    .btn-outline{background:#A27b5c;color:#fff;border-color:#A27b5c;}
+    .btn-ghost{background:transparent;border-color:var(--border);color:var(--ink)}
+
+    /* 레이아웃 */
+    .wrap{max-width:1100px;margin:0 auto;padding:0 16px 80px}
+
+    /* 탭 */
+    .tabbar{display:flex;gap:8px;margin:24px 0 12px;align-items:center}
+    .tab{padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#fff;cursor:pointer;font-weight:700;color:var(--muted)}
+    .tab.active{color:var(--brand);border-color:#c9cfc9;box-shadow:var(--shadow)}
+    
+  
+    .tabbar .ask-btn{
+  margin-left: auto;       
+  padding: 10px 14px;     
+  border-radius: 12px;     
+  height: auto;            
+}
+
+    /* FAQ 아코디언 */
+    .faq-list{display:grid;gap:10px}
+    .item{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+    .q{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer}
+    .q .left{display:flex;align-items:center;gap:10px}
+    .badge{background:var(--soft);color:var(--brand);font-weight:800;border-radius:8px;padding:4px 8px;font-size:12px}
+    .q .caret{transition:transform .2s ease}
+    .a{padding:0 18px 16px 46px;color:#2e3833;display:none}
+    .item.open .a{display:block; border-top: 1px solid gainsboro; background-color: #2C3930; color: #fff;}
+    .item.open .q .caret{transform:rotate(90deg)}
+
+    /* 페이지네이션 */
+    .pager{display:flex;gap:8px;justify-content:center;margin:22px 0 8px}
+    .page-btn{min-width:36px;height:36px;padding:0 12px;border-radius:10px;border:1px solid #A27b5c;background:#fff;cursor:pointer;color:#A27b5c;}
+    .page-btn.active{background:#A27b5c;color:#fff;border-color:transparent}
+
+    /* 퀵 바 */
+    .quickbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:10px 0 22px}
+    .left-actions{display:flex;gap:8px;align-items:center}
+
+    /* QnA 리스트 */
+    .qna-list{display:grid;gap:10px}
+    .post{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+    .post-head{padding:14px 16px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+    .post-title{font-weight:700}
+    .meta{font-size:12px;color:var(--muted)}
+    .post-body{padding:0 16px 16px 16px;display:none}
+    .post.open .post-body{display:block}
+    .tag{background:var(--soft);color:var(--brand);padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700}
+    .chips{display:flex;gap:6px;align-items:center}
+
+    /* 모달 */
+    .modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(18,22,20,.55);padding:20px;z-index:50}
+    .modal.open{display:grid}
+    .sheet{width:min(920px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:18px;box-shadow:var(--shadow)}
+    .sheet-head{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .sheet-body{padding:18px}
+    .grid{display:grid;gap:14px}
+    .row{display:grid;gap:8px}
+    label{font-weight:700}
+    input,select,textarea{width:100%;border:1px solid #dcd8d1;border-radius:12px;padding:12px 12px;background:#fff;font:inherit}
+    textarea{min-height:150px;resize:vertical}
+    .hint{font-size:12px;color:var(--muted)}
+    .field-inline{display:flex;flex-direction:row;align-items:center;gap:0px;flex-wrap:nowrap}
+    .row.field-inline{display:flex;align-items:center;gap:2px}
+    label.field-inline{display:inline-flex;align-items:center;gap:1px;white-space:nowrap}
+    .row.field-inline input[type="checkbox"]{margin-right:0;}
+    .files{display:flex;flex-wrap:wrap;gap:8px}
+    .preview{width:84px;height:84px;border-radius:12px;object-fit:cover;border:1px solid var(--border)}
+
+    .toolbar{display:flex;gap:8px;align-items:center}
+    .danger{background:#8d2f2f}
+
+    @media (max-width:968px){
+      .q{padding:14px}
+      .a{padding:0 14px 14px 42px}
+      .post-head{flex-direction:column;align-items:flex-start;gap:6px}
+      .tabbar{flex-wrap:wrap}
+    }
   </style>
 </head>
 <body>
-  <div class="header-wrapper">
-    <!-- 헤더 -->
-    <header>
-      <div class="logo">
-        <a href="#"><img src="../Asset/LastPage로고_투명.png" alt="로고" /></a>
-      </div>
-      <nav>
-        <ul>
-          <li>
-            <a href="#">홈</a>
-            <ul>
-              <li><a href="#">인사말</a></li>
-            </ul>
-          </li>
-          
-          <li><a href="#">장례서비스</a></li>
-          <li><a href="#">Ourpage</a></li>
-          <li>
-            <a href="#">심리상담</a>
-            <ul>
-              <li><a href="#">상담예약</a></li>
-              <li><a href="#">예약조회</a></li>
-            </ul>
-          </li>
-
-          <li>
-            <a href="#">추모굿즈</a>
-            <ul>
-               <li><a href="#">굿즈소개</a></li>
-              <li><a href="#">굿즈예약</a></li>
-              <li><a href="#">예약조회</a></li>
-            </ul>
-          </li>
-          <li><a href="#">마이페이지</a></li>
-          <li><a href="#">고객센터</a></li>
-        </ul>
-      </nav>
-      <div class="auth">
-        <a href="#">로그인</a>
-        <a href="#">회원가입</a>
-      </div>
-    </header>
-
-
   <!-- 배너 -->
   <section class="banner" aria-labelledby="bannerTitle">
     <div class="inner">
@@ -110,7 +194,7 @@
       <div class="sheet-head">
         <strong>질문하기</strong>
         <div class="toolbar">
-          <button class="btn-ghost" id="btnCloseAsk" >닫기</button>
+          <button class="btn-ghost" id="btnCloseAsk">닫기</button>
         </div>
       </div>
       <div class="sheet-body">
@@ -167,24 +251,22 @@
       </div>
     </div>
   </div>
-<footer>
-      대충 연락처 / GitHub 주소 / 이메일 등 입력 예정/ 푸터 높이는 헤더 배너 반응 테스트용.
-    </footer>
+
   <script>
     // ---------- 데이터 셋업 (FAQ 더미) ----------
     const defaultFaq = [
-      { q:"반려동물 장례란 무엇인가요?", a:"A. 반려동물 장례는 가족과 같은 반려동물의 마지막 시간을 예의를 갖춰 보내는 절차입니다. 종합 상담, 운구, 작별실, 화장, 수골, 추모까지 안내해 드립니다." },
-      { q:"사체는 어떻게 보관해야 하나요?", a:"A. 가능하면 2~3시간 내 상담을 권장하며, 바로 방문이 어려우면 시신이 마르지 않도록 깨끗한 수건으로 감싸고 아이스팩을 복부에 대 주세요." },
-      { q:"개별 화장과 합동 화장의 차이는?", a:"A. 개별 화장은 반려동물 한 개체만 단독으로 진행하고 유골 전량을 돌려드립니다. 합동 화장은 여러 아이가 함께 진행되어 유골 반환이 없습니다." },
-      { q:"유골함/기념품(굿즈) 구매가 가능한가요?", a:"A. 가능합니다. 다양한 사이즈와 소재의 유골함, 모발/발바닥 모양 프레임, 각인 서비스 등을 제공합니다." },
-      { q:"심리상담은 어떻게 진행되나요?", a:"A. 상담사는 슬픔 단계 평가와 애도 과업을 기반으로 1:1 맞춤 세션을 제공합니다. 대면/비대면 모두 가능하며 예약제로 운영됩니다." },
-      { q:"예약/접수는 24시간 되나요?", a:"A. 긴급 접수는 24시간 연락 가능하며, 야간에는 대기 시간이 발생할 수 있습니다." },
-      { q:"주차와 접근성은 어떤가요?", a:"A. 장례식장마다 상이합니다. 예약한 장례식장에 직접문의하기 또는 사이트 내에서 장례식장 정보를 얻을 수 있도록 지도와 함께 링크가 걸려있어 확인 가능합니다." },
-      { q:"유골은 어디에 안치할 수 있나요?", a:"A. 납골당/수목장/가정 안치 등 여러 형태를 안내해 드리며, 법규를 준수합니다." },
-      { q:"비용은 어떻게 산정되나요?", a:"A. 체중, 선택 서비스(개별/합동, 염습 여부, 추모실 사용, 굿즈 등)에 따라 달라집니다. 상세 견적은 상담 시 안내드립니다." },
-      { q:"카드결제/현금영수증 발급되나요?", a:"A. 모두 가능합니다. 현금영수증은 개인/사업자 구분하여 발급합니다." },
-      { q:"유골을 아파트 화단에 뿌려도 되나요?", a:"A. 관할 지자체 규정과 공동주거 공간의 규약을 확인해야 합니다. 수목장을 권장드립니다." },
-      { q:"추모공간 예약은 어떻게 하나요?", a:"A. 모바일 또는 전화로 예약 후 방문해 주시면 됩니다." }
+      { q:"반려동물 장례란 무엇인가요?", a:"장례는 고인의 존엄을 지키며 마지막 시간을 예의를 갖춰 보내는 절차입니다. 종합 상담, 운구, 작별실, 화장, 수골, 추모까지 안내해 드립니다." },
+      { q:"사체는 어떻게 보관해야 하나요?", a:"가능하면 2~3시간 내 상담을 권장하며, 바로 방문이 어려우면 시신이 마르지 않도록 깨끗한 수건으로 감싸고 아이스팩을 복부에 대 주세요." },
+      { q:"개별 화장과 합동 화장의 차이는?", a:"개별 화장은 반려동물 한 개체만 단독으로 진행하고 유골 전량을 돌려드립니다. 합동 화장은 여러 아이가 함께 진행되어 유골 반환이 없습니다." },
+      { q:"유골함/기념품(굿즈) 구매가 가능한가요?", a:"가능합니다. 다양한 사이즈와 소재의 유골함, 모발/발바닥 모양 프레임, 각인 서비스 등을 제공합니다." },
+      { q:"심리상담은 어떻게 진행되나요?", a:"상담사는 슬픔 단계 평가와 애도 과업을 기반으로 1:1 맞춤 세션을 제공합니다. 대면/비대면 모두 가능하며 예약제로 운영됩니다." },
+      { q:"예약/접수는 24시간 되나요?", a:"긴급 접수는 24시간 연락 가능하며, 야간에는 대기 시간이 발생할 수 있습니다." },
+      { q:"주차와 접근성은 어떤가요?", a:"장례식장 내 전용 주차 구역이 있습니다. 엘리베이터/휠체어 접근이 가능합니다." },
+      { q:"유골은 어디에 안치할 수 있나요?", a:"납골당/수목장/가정 안치 등 여러 형태를 안내해 드리며, 법규를 준수합니다." },
+      { q:"비용은 어떻게 산정되나요?", a:"체중, 선택 서비스(개별/합동, 염습 여부, 추모실 사용, 굿즈 등)에 따라 달라집니다. 상세 견적은 상담 시 안내드립니다." },
+      { q:"카드결제/현금영수증 발급되나요?", a:"모두 가능합니다. 현금영수증은 개인/사업자 구분하여 발급합니다." },
+      { q:"유골을 아파트 화단에 뿌려도 되나요?", a:"관할 지자체 규정과 공동주거 공간의 규약을 확인해야 합니다. 수목장을 권장드립니다." },
+      { q:"추모공간 예약은 어떻게 하나요?", a:"모바일 또는 전화로 예약 후 방문해 주시면 됩니다." }
     ];
 
     // ---------- 상태 ----------
@@ -389,7 +471,7 @@
       group.className='field-inline';
       group.innerHTML = `
         <input type="url" placeholder="https:// 예) 참고 링크" value="${values[0]||''}" />
-        <button type="button" class="btn-ghost" >삭제</button>
+        <button type="button" class="btn-ghost">삭제</button>
       `;
       group.querySelector('button').addEventListener('click',()=> group.remove());
       linkBox.appendChild(group);

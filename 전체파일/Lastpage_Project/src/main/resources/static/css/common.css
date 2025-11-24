@@ -1,0 +1,591 @@
+/* 전체*/
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Apple SD Gothic Neo', sans-serif;
+  position: relative;
+  margin: 0;
+  background-color: #f5f0e5;
+}
+
+/* 헤더 배너 */
+
+.header-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 60px;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: #2C3930;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: top 0.3s ease;
+  z-index: 1000;
+}
+
+.logo img {
+  margin-left: 40px;
+  width: 60px;
+  height: 60px;
+  display: block;
+}
+
+nav {
+  margin: 0 auto;
+  margin-bottom: 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 50px;
+  margin-bottom: 0;
+}
+
+nav ul li {
+  position: relative;
+  cursor: pointer;
+}
+
+nav ul li > a {
+  color: #dcd7c9;
+  text-decoration: none;
+  padding: 8px;
+  display: inline-block;
+}
+
+a:hover {
+  color: #fff !important;
+}
+
+/* 배너 드롭다운 */
+nav ul li > ul {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2C3930;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  list-style: none;
+  padding: 10px 0;
+  min-width: 110px;
+  z-index: 12;
+  text-align: center;
+}
+
+nav ul li:hover > ul {
+  display: block;
+}
+
+nav ul li > ul li > a {
+  color: #dcd7c9;
+  text-decoration: none;
+  padding: 8px 15px;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+nav ul li > ul li > a:hover {
+  color: #ffffff;
+}
+
+.auth {
+  margin-right: 20px;
+  display: flex;
+  gap: 2px;
+}
+
+.auth a {
+  color: #dcd7c9;
+  text-decoration: none;
+  padding: 10px 15px;
+}
+
+.auth a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* 햄버거 메뉴 */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  z-index: 2050;
+  margin-left: 20px;
+  position: absolute;
+  left: 20px;
+  top: 48%;
+  transform: translateY(-50%);
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: #dcd7c9;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+/* 사이드 메뉴 */
+.side-menu {
+  position: fixed;
+  top: 100px; /* 헤더 아래 */
+  left: -260px;
+  width: 260px;
+  height: calc(100vh - 100px);
+  background: #2C3930;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transition: 0.3s ease-in-out;
+  z-index: 999;
+}
+
+.side-menu.active {
+  left: 0;
+}
+
+.side-menu ul {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.side-menu ul li a {
+  border-bottom: 0.5px solid #dcd7c9;
+  color: #dcd7c9;
+  text-decoration: none;
+  padding: 10px 0;
+  display: block;
+}
+
+.side-menu ul li ul {
+  display: none;
+  background: #3f4f44;
+}
+
+.side-menu ul li:hover ul {
+  display: block;
+}
+
+/* 반응형 (헤더/네비/로그인) */
+@media (max-width: 968px) {
+  nav,
+  .auth {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* 사이드 배너 */
+#list-example {
+  position: fixed;
+  top: 40%;
+  right: 20px;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 120px;
+  background-color: #2C3930;
+  text-align: center;
+}
+
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: .5rem 1rem;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, .125);
+}
+
+.list-group-item.active {
+  z-index: 2;
+  color: #fff;
+  background-color: #2C3930;
+  border-color: #2C3930;
+}
+
+.list-group-item-action:focus,
+.list-group-item-action:hover {
+  z-index: 2;
+  color: #fff;
+  background-color: #2C3930;
+  border-color: #2C3930;
+}
+
+/* Admin 전용 강조 */
+.admin-highlight {
+  color: #d7263d !important;
+  font-weight: 500 !important;
+  background: #ffffff !important;
+  border-radius: 6px !important;
+  padding: 10px 10px 10px 10px !important;
+  transition: 0.3s ease !important;
+}
+
+.admin-highlight:hover {
+  background: #d7263d !important;
+  color: white !important;
+}
+
+/* ======================================================================= */
+/*  푸터 확장된 CSS (추가 영역)  */
+/* ======================================================================= */
+
+footer {
+  width: 100%;
+  background-color: #2C3930;
+  padding: 40px 20px;
+  color: #dcd7c9;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+.footer-logo img {
+  width: 100px;       /* 추천 크기 */
+  height: auto;       /* 비율 유지 */
+  opacity: 0.95;      /* 자연스럽게 */
+  transition: 0.2s;
+}
+
+.footer-logo img:hover {
+  opacity: 1;         /* 호버 효과 */
+}
+
+/* 퀵 링크 */
+.footer-links {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+.footer-links a {
+  color: #dcd7c9;
+  text-decoration: none;
+  padding: 0 5px;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+}
+
+/* 회사 정보 블록 */
+.footer-company-info {
+  margin-top: 15px;
+  text-align: center;
+  line-height: 1.7;
+  opacity: 0.9;
+}
+
+.footer-company-info a {
+  color: #dcd7c9;
+  text-decoration: none;
+}
+
+.footer-company-info a:hover {
+  color: #ffffff;
+}
+
+.footer-brand {
+  margin-top: 15px;
+  text-align: center;
+  line-height: 1.7;
+  opacity: 0.9;
+  font-weight: 600;
+  font-size: 15px;
+  color: #ffffff;
+}
+
+.footer-contact a,
+.footer-company-info a {
+  color: #dcd7c9;
+  text-decoration: none;
+}
+
+.footer-contact a:hover,
+.footer-company-info a:hover {
+  color: #ffffff;
+}
+
+/* 저작권 */
+.footer-info {
+  text-align: center;
+  margin-top: 20px;
+  opacity: 0.8;
+  font-size: 13px;
+}
+
+/* 로그인 상태 유지 안내 */
+.footer-login-status {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: gray;
+}
+
+/* ================================
+   개발자 소개 모달
+================================ */
+.dev-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  z-index: 3000;
+}
+
+.dev-modal.open {
+  display: grid;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.dev-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+}
+
+/* 모달 카드 */
+.dev-card {
+  position: relative;
+  background: #ffffff;
+  width: min(700px, 90%);
+  border-radius: 18px;
+  padding: 32px;
+  z-index: 11;
+  animation: slideUp 0.35s ease forwards;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.18);
+}
+
+/* 닫기 버튼 */
+.dev-close-btn {
+  position: absolute;
+  right: 20px;
+  top: 16px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: #2C3930;
+}
+
+/* 내부 레이아웃 */
+.dev-content {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: nowrap;
+}
+
+/* 프로필 이미지 */
+.dev-photo img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid #e0ddd8;
+}
+
+.dev-info {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* 텍스트 스타일 */
+.dev-name {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  color: #2C3930;
+}
+
+.dev-role {
+  color: #6c7a72;
+  margin-top: 4px;
+  font-size: 15px;
+}
+
+.dev-desc {
+  margin-top: 16px;
+  line-height: 1.6;
+  color: #4b5651;
+  font-size: 15px;
+}
+
+/* 링크 버튼 */
+.dev-links a {
+  display: inline-block;
+  margin-right: 10px;
+  margin-top: 18px;
+  padding: 9px 14px;
+  background: #2C3930;
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dev-links a:hover {
+  background: #4b5b54;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(40px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* 기본값 */
+.auth-mobile,
+.auth-mobile-menu {
+  display: none;
+}
+
+/* 968px 이하 반응형 (헤더 + 모바일 auth) */
+@media (max-width: 968px) {
+  header {
+    justify-content: center;
+  }
+
+  /* 로고를 헤더 정중앙에 고정 */
+  .logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* 모바일에서는 왼쪽 마진 제거 */
+  .logo img {
+    margin-left: 0;
+  }
+
+  /* 데스크탑용 auth는 숨김 */
+  .auth {
+    display: none;
+  }
+
+
+
+  /* nav는 계속 숨김 (기존 유지) */
+  nav {
+    display: none;
+  }
+
+  /* 모바일용 auth 아이콘 표시 */
+  .auth-mobile {
+    display: flex;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 2000;
+  }
+
+  .auth-mobile svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* 드롭다운 메뉴 */
+  .auth-mobile-menu {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 90px;
+    background: #2C3930;
+    padding: 12px 16px;
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 2100;
+  }
+
+  .auth-mobile-menu a {
+    color: #dcd7c9;
+    text-decoration: none;
+  }
+
+  .auth-mobile-menu a:hover {
+    color: #ffffff;
+  }
+
+  .auth-mobile-menu.open {
+    display: flex;
+  }
+}
+#kakao-talk-channel-chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+/* --- 10. 맨 위로 가기 버튼 --- */
+#scrollToTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 999;
+}
+
+#scrollToTopBtn:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
