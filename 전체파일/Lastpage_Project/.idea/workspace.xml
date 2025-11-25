@@ -4,26 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="984115cd-9e36-4c40-8225-f214d762b5b9" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/doc-chat.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Config/WebConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Domain/Common/Service/OAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Domain/Common/Service/OAuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/Mypage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/Mypage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/Signin.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/Signin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/Signup.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/Signup.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/common.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/common.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/findId.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/findId.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/signin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/signin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/aboutuspage/aboutus.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/aboutuspage/aboutus.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
-    </list>
+    <list default="true" id="984115cd-9e36-4c40-8225-f214d762b5b9" name="Changes" comment="Changes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
