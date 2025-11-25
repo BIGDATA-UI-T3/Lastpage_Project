@@ -337,4 +337,17 @@ padding:12px 0 0 0;
     height: 32px;           /* 버튼 높이에 맞춤 */
 }
 
+/* 마이페이지 제목 강제 크기 고정 (다른 페이지와 동일하게 40px) */
+.banner-title {
+    font-size: 40px !important;
+    font-family: 'Georgia', 'Nanum Myeongjo', serif !important;
+    font-weight: 700 !important;
+}
+
+
+
+/* 스크롤 화살표를 왼쪽으로 이동시켜 중앙에 맞추기 */
+.banner .scroll-indicator {
+    left: calc(50% - 45px) !important;
+}
 

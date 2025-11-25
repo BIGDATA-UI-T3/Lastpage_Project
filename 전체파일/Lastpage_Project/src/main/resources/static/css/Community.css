@@ -78,20 +78,6 @@ body {
     /* 텍스트 오버레이 위로 올라오게 */
 }
 
-/* 텍스트 */
-.banner-text_yj {
-    padding-top: 20px;
-    text-align: center;
-    color: white;
-}
-
-.banner-text_yj h1 {
-    font-weight: 300;
-    font-size: 3rem;
-    margin-bottom: 20px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-}
-
 /* --- 2. 메인 레이아웃 컨테이너 --- */
 .page-container {
     display: flex;
@@ -868,4 +854,11 @@ footer {
 .effect_yj.show {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* 스크롤 화살표를 왼쪽으로 이동시켜 중앙에 맞추기 */
+.banner .scroll-indicator {
+    left: calc(50% - 150px) !important;
+
+    transform: translateX(0) !important;
 }
