@@ -34,8 +34,10 @@ public class SecurityConfig {
         http.userDetailsService(customUserDetailsService);
 
         http.authorizeHttpRequests(auth -> auth
+
                 .requestMatchers("/css/**", "/js/**", "/Asset/**").permitAll()
                 .requestMatchers("/signin", "/loginProc","/api/loginProc" ,"/signup", "/login/**", "/login/oauth2/**").permitAll()
+
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
 

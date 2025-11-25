@@ -5,45 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="984115cd-9e36-4c40-8225-f214d762b5b9" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/common.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/doc-chat.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.14/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.14/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Lastpage_Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Config/WebConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Domain/Common/Service/OAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Domain/Common/Service/OAuthService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/Asset/aboutuspage/aboutus.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/Community.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/Community.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/Goods.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/Goods.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/Mypage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/Mypage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/Ourpage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/Ourpage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/Psypage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/Psypage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/adminDashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/adminDashboard.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/adminQna.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/adminQna.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/adminUserList.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/adminUserList.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/Signin.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/Signin.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/Signup.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/Signup.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/common.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/common.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/f_service.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/f_service.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/findId.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/findId.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/header.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/signin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/signin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/aboutuspage/aboutus.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/aboutuspage/aboutus.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/communitypage/Community.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/communitypage/Community.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/funeralpage/f_service.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/funeralpage/f_service.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/goodspage/Goods.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/goodspage/Goods.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/mainpage/Mainpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/mainpage/Mainpage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/mypage/Mypage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/mypage/Mypage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/ourpage/ourpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/ourpage/ourpage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/psypage/Psypage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/psypage/Psypage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,6 +82,9 @@
     &quot;accountId&quot;: &quot;dc65a3bd-521d-401e-9173-f3e2d730bbee&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar:///opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home/lib/src.zip!/java.base/java/util/LinkedHashMap.java" root0="SKIP_INSPECTION" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -113,36 +95,36 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.DemoApplication.executor": "Run",
-    "Gradle.Download Sources.executor": "Run",
-    "Gradle.Lastpage_Project [:com.example.demo.DemoApplication.main()].executor": "Run",
-    "Gradle.Lastpage_Project 빌드.executor": "Run",
-    "Gradle.소스 다운로드.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "손보금",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/sonbogeum/Desktop/Lastpage_Project/전체파일/Lastpage_Project/src/main/resources/static/js",
-    "project.structure.last.edited": "프로젝트",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "애플리케이션.DemoApplication (1).executor": "Run",
-    "애플리케이션.DemoApplication.executor": "Run"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.DemoApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Lastpage_Project [:com.example.demo.DemoApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Lastpage_Project 빌드.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.소스 다운로드.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;손보금&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/sonbogeum/Desktop/Lastpage_Project/전체파일/Lastpage_Project/src/main/resources/static/js&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;프로젝트&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;애플리케이션.DemoApplication (1).executor&quot;: &quot;Run&quot;,
+    &quot;애플리케이션.DemoApplication.executor&quot;: &quot;Run&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/static/js" />
+      <recent name="$PROJECT_DIR$/src/main/resources/templates" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/example/demo" />
       <recent name="C:\Users\Administrator\Desktop\닭\Lastpage_Project\전체파일\Lastpage_Project\src\main\resources\static" />
       <recent name="C:\Users\Administrator\Desktop\닭\Lastpage_Project\전체파일\Lastpage_Project\src\main\resources\templates\reserve" />
-      <recent name="C:\Users\Administrator\Desktop\닭\Lastpage_Project\전체파일\Lastpage_Project\src\main\resources\templates\communitypage" />
-      <recent name="C:\Users\Administrator\Desktop\닭\Lastpage_Project\전체파일\Lastpage_Project\src\main\resources\templates\post" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.demo.Controller" />

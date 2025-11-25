@@ -635,7 +635,7 @@ footer {
   position: absolute;
   inset: 0;
   /* 장례서비스와 동일한 오버레이 색상/투명도 (필요시 조정 가능) */
-  background: linear-gradient(rgba(43, 38, 35, 0.3), rgba(43, 38, 35, 0.5));
+  background: linear-gradient(rgba(43, 38, 35, 0.4), rgba(43, 38, 35, 0.8));
   z-index: 1;
 }
 

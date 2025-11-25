@@ -29,7 +29,7 @@ main {
 /* 카드 컨테이너 */
 .signup-wrap {
   margin-top:36px;
-  width: min(800px, 92vw);
+  width: min(700px, 92vw);
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
