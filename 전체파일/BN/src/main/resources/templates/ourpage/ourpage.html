@@ -52,10 +52,18 @@
                 <div class="item-content-preview"
                      th:classappend="${item.occupied == false} ? 'empty-slot' : ''">
 
-                    <div th:if="${item.occupied}" class="w-full h-full flex items-end justify-around opacity-70">
-                        <span class="flower-indicator">💮</span>
-                        <div class="urn-preview"></div>
-                        <div class="photo-frame-preview"></div>
+                    <div th:if="${item.occupied}" class="occupied-preview">
+
+                        <div class="name-tag-horizontal">
+                            <span class="flower-icon">💮</span>
+                            <span class="pet-name-horizontal"
+                                  th:text="${#strings.length(item.petName) > 9 ? #strings.substring(item.petName, 0, 9) : item.petName}"></span>
+                        </div>
+
+                        <div class="preview-objects">
+                            <div class="urn-preview"></div>
+                            <div class="photo-frame-preview"></div>
+                        </div>
                     </div>
 
                     <div th:unless="${item.occupied}" class="text-gray-600 font-nanum text-lg">

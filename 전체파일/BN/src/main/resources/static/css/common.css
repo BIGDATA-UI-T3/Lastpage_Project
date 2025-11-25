@@ -614,7 +614,6 @@ footer {
 {
   position: relative;
   width: 100%;
-  min-height: 100vh; /* 장례서비스와 동일하게 풀스크린 높이 */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -625,6 +624,7 @@ footer {
   overflow: hidden;
   margin: 0 !important;
   padding: 0 !important;
+  height: calc(100vh - 80px);
 }
 
 /* 2. 배경 오버레이 (글씨 가독성을 위한 어두운 막) */
