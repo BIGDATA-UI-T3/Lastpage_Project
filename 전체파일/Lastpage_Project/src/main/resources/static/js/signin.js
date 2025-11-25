@@ -123,9 +123,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const googleBtn = document.getElementById("googleLoginBtn");
   if (googleBtn) {
     googleBtn.addEventListener("click", () => {
-   
       const redirectUri = "http://localhost:8090/login/oauth2/code/google";
       window.location.href = `http://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`;
     });
   }
+
+  /** ------------------------------
+   *  아이디 찾기 / 비밀번호 찾기 페이지 이동
+   * ------------------------------ */
+  const findIdLink = document.getElementById("link-find-id");
+  const findPwLink = document.getElementById("link-find-pw");
+
+  if (link-find-id) {
+    link-find-id.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = "/find/id";   // 아이디 찾기 페이지 이동
+    });
+  }
+
+  if (link-find-pw) {
+    link-find-pw.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = "/find/password";  // 비밀번호 찾기 페이지 이동
+    });
+  }
+
 });

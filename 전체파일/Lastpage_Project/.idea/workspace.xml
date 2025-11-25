@@ -4,7 +4,115 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="984115cd-9e36-4c40-8225-f214d762b5b9" name="Changes" comment="" />
+    <list default="true" id="984115cd-9e36-4c40-8225-f214d762b5b9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../HTML/lastpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/../HTML/lastpage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.14/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.14/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.14/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/Lastpage_Project.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Component/PersonComponent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Config/DataSourceConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Config/MybatisConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Controller/ExceptionTestController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Controller/GlobalException/GlobalExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Controller/HomeController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Controller/LoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Controller/MypageController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Controller/ReserveController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Controller/SigninController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Controller/SignupController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/DemoApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Dto/FuneralReserveDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Dto/PsyReserveDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Dto/SignupDto$SignupDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Dto/SignupDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Entity/FuneralReserve$FuneralReserveBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Entity/FuneralReserve.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Entity/Gender.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Entity/PsyReserve$PsyReserveBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Entity/PsyReserve.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Entity/Signup$SignupBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Entity/Signup.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Service/EmailService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Service/FuneralReserveService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Service/OAuthService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Service/PsyReserveService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Domain/Common/Service/SignupService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Repository/FuneralReserveRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Repository/PsyReserveRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/Repository/SignupRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/com/example/demo/ServletInitializer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/mapper/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/LastPage로고_투명.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/Lastpage로고.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/google_login.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/google_login2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/kakao_login.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/kakao_login_large_wide.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/naver_login.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/금동1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/금동2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/메모리얼 스톤.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/메모리얼사진2.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/메모리얼스톤사진1.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/메모리얼스톤사진3.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/보동1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/장례지도이미지1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/장례지도이미지2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/장례지도이미지3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/추모배너이미지1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/추모배너이미지2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/추모배너이미지3.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/추모배너이미지4.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/추모배너이미지5.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/추모배너이미지6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/털보관함사진1.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/털보관함사진2.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/펫로스증후군2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/펫로스증후군사진1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/Asset/프로젝트색깔코드.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/Comm-Post.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/Community.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/F-info.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/Funeral-reserve.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/Funeral_reserve.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/Goods-reserve.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/Goods.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/Lastpage.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/Mainpage.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/Mypage.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/Psypage.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/Signin.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/Signup.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/Support.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/common.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/css/psy_reserve.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/static/google_login/web_neutral_sq_SI@4x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/communitypage/Community.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/funeralpage/Funeralpage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/global_error.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/goodspage/Goods.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/mainpage/Mainpage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/mypage/Mypage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/post/Comm-Post.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/psypage/Psypage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/reserve/Funeral_reserve.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/reserve/Goods-reserve.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/reserve/psy_reserve.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/signin/Signin.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/signup/Signup.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/templates/supportpage/Support.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Domain/Common/Service/OAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Domain/Common/Service/OAuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/signin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/signin.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,6 +122,37 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="untitled" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="untitled" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="untitled" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -32,12 +171,12 @@
     &quot;assignee&quot;: &quot;B735244&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/BIGDATA-UI-T3/Lastpage_Project.git&quot;,
-    &quot;accountId&quot;: &quot;55385188-4681-4de4-8be0-a285b55c30d1&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/BIGDATA-UI-T3/Lastpage_Project.git",
+    "accountId": "dc65a3bd-521d-401e-9173-f3e2d730bbee"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -53,15 +192,17 @@
     "Application.DemoApplication.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "손보금",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Administrator/Desktop/닭/Lastpage_Project/전체파일/Lastpage_Project/src/main/resources/static",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
+    "project.structure.last.edited": "모듈",
+    "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "애플리케이션.DemoApplication.executor": "Run"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -90,26 +231,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="untitled" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="untitled" />
-      <option name="filePath" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.DemoApplication" />
+        <item itemvalue="애플리케이션.DemoApplication" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4015b2bd-3d8a-4edd-914b-43a80c226cb9" name="Changes" comment="" />
       <created>1761117786677</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
