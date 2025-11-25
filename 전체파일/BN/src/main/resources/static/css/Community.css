@@ -855,10 +855,3 @@ footer {
   opacity: 1;
   transform: translateY(0);
 }
-
-/* 스크롤 화살표를 왼쪽으로 이동시켜 중앙에 맞추기 */
-.banner .scroll-indicator {
-    left: calc(50% - 150px) !important;
-
-    transform: translateX(0) !important;
-}

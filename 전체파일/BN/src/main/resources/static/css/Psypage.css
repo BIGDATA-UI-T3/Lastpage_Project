@@ -146,9 +146,3 @@
     .counselors{ grid-template-columns:1fr }
     .banner{ min-height:40svh }
   }
-
-
-  /* 스크롤 화살표를 왼쪽으로 이동시켜 중앙에 맞추기 */
-  .banner .scroll-indicator {
-      left: calc(50% - 45px) !important;
-  }

@@ -2,5 +2,3 @@
 .sticky-top-header {
   top: 100px; /* 공통 헤더의 높이만큼 여백 */
 }
-
-/* --- [3] 기존 Mainpage.css의 불필요한 코드는 모두 제거됨 --- */

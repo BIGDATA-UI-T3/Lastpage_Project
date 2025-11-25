@@ -130,3 +130,59 @@ label.small{ font-size:13px; color:#555 }
 
 /* date input 스타일 */
 input[type="date"]{ color-scheme:light }
+
+
+
+
+/* 기존 슬롯 수정  */
+
+.slots {
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 6px 0;
+}
+
+@media (max-width: 480px) {
+    .slots {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.slot {
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 18px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--panel);
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.slot:hover {
+    background: #f7f3ed;
+    border-color: #d7cbbb;
+}
+
+.slot.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 4px 8px rgba(162, 123, 92, 0.3);
+}
+
+.slot.active:hover {
+    background: #8b6c50;
+    border-color: #8b6c50;
+}

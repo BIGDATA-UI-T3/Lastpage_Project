@@ -573,9 +573,3 @@ label.field-inline{
   }
   .tabbar{flex-wrap:wrap}
 }
-
-
-/* 스크롤 화살표를 왼쪽으로 이동시켜 중앙에 맞추기 */
-.banner .scroll-indicator {
-    left: calc(50% - 40px) !important;
-}

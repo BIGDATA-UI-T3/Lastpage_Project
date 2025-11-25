@@ -10,13 +10,12 @@
     --radius:22px;
 
     /* [중요] Ourpage 예약 배경 이미지 (밤하늘 느낌 추천) */
-    --banner-url: url('../Asset/ourpage_bg.png');
+    --banner-url: url('../Asset/ourpageReserve_banner.jpg');
 }
 
 *{box-sizing:border-box}
 
 body{
-    margin:0; font-family: 'Georgia', serif;
     background:linear-gradient(180deg,#f4efe6,var(--bg));
     color:var(--ink);
 }
