@@ -1,148 +1,270 @@
- :root{
-    --bg:#f6f1e7;
-    --panel:#ffffff;
-    --ink:#2b2b2b;
-    --muted:#6d6d6d;
-    --brand:#223529;      /* 딥 그린 */
-    --accent:#9a6e4b;     /* 브라운 버튼 */
-    --border:#ece3d7;
-    --shadow:0 12px 32px rgba(0,0,0,.10);
-    --radius:22px;
-    --banner-url:url('/Asset/펫로스증후군2.png'); /* 교체 */
-  }
-  *{box-sizing:border-box}
-  body{
-    color:var(--ink); background:linear-gradient(180deg,#f4efe6, var(--bg));
-  }
-  /* 헤더 */
- 
+/* ================================================== */
+/* Psypage.css - 펫로스 상담 페이지 전용 스타일 */
+/* ================================================== */
 
-  /* 배너 */
-  .banner{
-    background-image: var(--banner-url);
-    background-size:cover; background-position:center;
-    
-    min-height:100svh; display:grid; place-items:center;
-    position:relative; isolation:isolate;
-  }
-  .banner::after{
-    content:""; position:absolute; inset:0;
-    background:linear-gradient(180deg, rgba(34,53,41,.35), rgba(34,53,41,.55));
-    z-index:-1;
-  }
-  .banner .inner{
-    text-align:center; color:#fff; padding:36px 16px;
-  }
-  .banner h1{ margin:0 0 10px; font-size:clamp(26px, 4vw, 40px); }
-  .banner p{ font-size: 15px;
-                 font-weight: 600;
-                 margin-top: 15px;
-                 color: #ffffff;
-                 text-shadow: 0 3px 8px rgba(0,0,0,0.5);
-                 justify-content: center;
-                 display: flex; }
+/* common.css 변수 활용 */
+/* --brand-dark: #2C3930; */
+/* --brand-light: #A27B5C; */
+/* --bg-color: #f5f0e5; */
 
-  /* 공통 레이아웃 */
-  .section{
-    max-width:1000px; margin:36px auto; padding:0 18px;
-  }
-  .panel{
-    background:var(--panel); border:1px solid var(--border);
-    border-radius:var(--radius); box-shadow:var(--shadow);
-    padding:26px;
-  }
-  h2.section-title{
-    margin:0 0 14px; font-size:22px; color:#5f5f5f; text-align:center;
-  }
-  .lead{ color:#444; line-height:1.7; text-align:center }
+/* 1. 섹션 공통 */
+section {
+    padding: 100px 0;
+    position: relative;
+}
 
-  /* 소개 */
-  .intro p{ margin:0; line-height:1.85; color:#474747 }
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 
-  /* 후기 슬라이더 (페이드) */
-  .testimonials{ position:relative; overflow:hidden; }
-  .slide{
-    position:absolute; inset:0; opacity:0; transition:opacity .9s ease;
-    display:grid; place-items:center; padding:28px;
-  }
-  .slide.active{ opacity:1 }
-  .quote{
-    max-width:740px; background:#fffaf4; border:1px solid #f0e2cf;
-    border-radius:18px; padding:22px;
-    box-shadow:0 8px 18px rgba(154,110,75,.12);
-  }
-  .quote p{ margin:0 0 10px; font-size:18px }
-  .quote .meta{ color:var(--muted); font-size:14px }
-  .dots{ display:flex; gap:8px; justify-content:center; margin-top:14px }
-  .dot{
-    width:8px; height:8px; border-radius:999px; background:#d0c4b6; border:0;
-  }
-  .dot.active{ background:var(--accent) }
+/* 소제목 (영어) */
+.subtitle {
+    display: block;
+    text-align: center;
+    color: #A27B5C;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
 
-  /* 상담사 소개 */
-  .counselors{
-    display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;
-  }
-  .card{
-    background:var(--panel); border:1px solid var(--border);
-    border-radius:18px; padding:18px; box-shadow:0 8px 22px rgba(0,0,0,.06);
-    display:flex; gap:14px;
-  }
-  .avatar {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      overflow: hidden;
-      background: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-      border: 2px solid #f2f2f2;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-      transition: all 0.2s ease;
-  }
+/* 섹션 제목 */
+.section-title {
+    font-family: 'Georgia', 'Nanum Myeongjo', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    color: #2C3930;
+    margin-bottom: 40px;
+}
 
+/* [추가] 화살표 클릭 안 되게 커서 변경 (모양만 화살표 유지) */
+.scroll-indicator {
+    cursor: default !important;
+}
 
-  .avatar:hover {
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
-      transform: translateY(-2px);
-  }
+/* 2. 인트로 (흰색 배경) */
+.section-intro {
+    background-color: #fff;
+    text-align: center;
+}
 
+.intro-desc {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto;
+    word-break: keep-all;
+}
 
+/* 3. 상담사 소개 (베이지 배경) */
+.section-counselors {
+    background-color: #f5f0e5;
+}
 
-  .avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-  }
+.counselor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
 
-  .card h3{ margin:2px 0 6px; font-size:18px }
-  .tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px }
-  .tag{
-    font-size:12px; padding:6px 8px; border-radius:999px;
-    background:#f5efe6; border:1px solid #e7dece; color:#6a573f;
-  }
-  .strengths{ margin-top:6px; color:#555; font-size:14px }
-  .cta{
-    text-align:center; margin-top:22px;
-  }
-  .btn{
-    display:inline-block; padding:14px 22px; border-radius:12px;
-    background:var(--accent); color:#fff; text-decoration:none; font-weight:700;
-    border:1px solid transparent; transition:all .2s ease;
-  }
-  .btn:hover{ background:#fff; color:var(--accent); border-color:var(--accent) }
+.counselor-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    padding: 40px 20px;
+}
 
-  /* 페이드-업 등장 애니메이션 */
-  .reveal{ opacity:0; transform:translateY(14px); transition: all .7s ease }
-  .reveal.on{ opacity:1; transform:none }
+.counselor-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
 
-  /* 반응형 */
-  @media (max-width:900px){
-    .counselors{ grid-template-columns:1fr 1fr }
-  }
-  @media (max-width:560px){
-    .counselors{ grid-template-columns:1fr }
-    .banner{ min-height:40svh }
-  }
+.avatar-wrapper {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #f5f0e5;
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.counselor-card h3 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #2C3930;
+}
+
+.counselor-card .role {
+    color: #A27B5C;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.counselor-card .tags span {
+    display: inline-block;
+    background-color: #f4efe6;
+    color: #6a573f;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin: 2px;
+}
+
+/* 4. 후기 슬라이더 (베이지 배경) */
+.section-reviews {
+    background-color: #f5f0e5;
+    padding-bottom: 120px;
+}
+
+.testimonials-wrapper {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: 200px;
+}
+
+.testimonials {
+    position: relative;
+    height: 100%;
+}
+
+.slide {
+    position: absolute;
+    top: 0; left: 0; width: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.slide.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.quote {
+    text-align: center;
+    width: 100%;
+}
+
+.quote p {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 20px;
+    word-break: keep-all;
+}
+
+.quote .meta {
+    font-size: 1rem;
+    color: #888;
+    font-weight: 500;
+}
+
+.dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    position: absolute;
+    bottom: -50px;
+    width: 100%;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #d0c4b6;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: #A27B5C;
+}
+
+/* 5. 강점 섹션 (흰색 배경) */
+.section-strengths {
+    background-color: #fff;
+    color: #333;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.section-strengths .section-title {
+    color: #2C3930;
+    margin-bottom: 30px;
+}
+
+.strength-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 40px;
+    display: inline-block;
+    text-align: left;
+    max-width: 700px;
+}
+
+.strength-list li {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 24px;
+    color: #555;
+}
+
+.strength-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #A27B5C;
+    font-weight: bold;
+}
+
+/* 예약하기 버튼 */
+.btn-reserve-cta {
+    display: inline-block;
+    padding: 15px 40px;
+    background-color: #A27B5C;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(162, 123, 92, 0.3);
+}
+
+.btn-reserve-cta:hover {
+    background-color: #2C3930;
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+    .section-title { font-size: 1.8rem; }
+    .counselor-grid { grid-template-columns: 1fr; }
+    .quote p { font-size: 1.2rem; }
+}

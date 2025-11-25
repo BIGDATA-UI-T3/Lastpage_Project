@@ -1,32 +1,36 @@
- // 섹션 페이드업 등장
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
-        }, { threshold: .15 });
-        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+document.addEventListener('DOMContentLoaded', () => {
+    // 후기 슬라이더 로직
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    let idx = 0;
+    let timer;
 
-        // 후기 페이드 슬라이더
-        const slides = [...document.querySelectorAll('.slide')];
-        const dots = [...document.querySelectorAll('.dot')];
-        let idx = 0, timer;
-        const show = (i) => {
-            slides.forEach(s => s.classList.remove('active'));
-            dots.forEach(d => d.classList.remove('active'));
-            slides[i].classList.add('active');
-            dots[i].classList.add('active');
-            idx = i;
-        };
-        const next = () => show((idx + 1) % slides.length);
-        const autoplay = () => { clearInterval(timer); timer = setInterval(next, 3800); };
-        dots.forEach((d, i) => d.addEventListener('click', () => { show(i); autoplay(); }));
-        autoplay();
+    function showSlide(n) {
+        slides.forEach(s => s.classList.remove('active'));
+        dots.forEach(d => d.classList.remove('active'));
 
-        (function () {
-            const header = document.querySelector('header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 200) {
-                    header.style.top = '-120px';
-                } else {
-                    header.style.top = '0';
-                }
-            });
-        })();
+        slides[n].classList.add('active');
+        dots[n].classList.add('active');
+        idx = n;
+    }
+
+    function nextSlide() {
+        showSlide((idx + 1) % slides.length);
+    }
+
+    function startAutoplay() {
+        clearInterval(timer);
+        timer = setInterval(nextSlide, 4000);
+    }
+
+    dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+            showSlide(i);
+            startAutoplay();
+        });
+    });
+
+    if (slides.length > 0) {
+        startAutoplay();
+    }
+});
