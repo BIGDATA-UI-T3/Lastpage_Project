@@ -1,6 +1,5 @@
 /* 1. 전체 화면 섹션 기본 스타일 (배너, 텍스트 섹션용) */
 .full-screen-section {
-    min-height: 100vh; /* 뷰포트 높이 100% (최소 높이) */
     width: 100%;
     display: flex;
     align-items: center; /* 세로 중앙 정렬 */
@@ -20,17 +19,17 @@
     color:#2C3930;
 }
 
-/*.banner::after {
+.banner::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.55));
-    z-index: 1; *//* 배경 이미지 위에, 텍스트(inner) 아래에 위치 *//*
-}*/
+    z-index: 1; *//* 배경 이미지 위에, 텍스트(inner) 아래에 위치 */
+}
 
 .banner .inner {
     padding: 36px 16px;
-    /*position: relative; *//* ::after 위로 올라오도록 *//*
+    position: relative; /* ::after 위로 올라오도록 */
     z-index: 2;*/
     text-align: center;
 }
@@ -39,16 +38,20 @@
     margin: 0 0 10px;
     font-size: clamp(26px, 4vw, 40px);
     font-weight: 700;
+    color: white;
 }
 
 .banner p {
     margin: 0;
     opacity: .95;
     font-size: 1.1rem;
+    color: white;
+    text-align: center;
 }
 
 /* 3. 문구 섹션 (새로 추가) */
 .text-section {
+    height: 100vh;
     background-color: #f5f0e5; /* 기존 body 배경색과 유사하게 */
     text-align: center;
 }

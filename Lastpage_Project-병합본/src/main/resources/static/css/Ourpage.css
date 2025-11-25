@@ -4,9 +4,13 @@
 }
 
 body {
-    font-family: 'Apple SD Gothic Neo', sans-serif;
     background-color: #f5f0e5;
     margin: 0;
+    background-image: url('/Asset/aurora-borealis-6066287_1280.jpg');
+    background-size: cover;
+        background-position: center top;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
 }
 
 .main-content-wrapper {
@@ -16,22 +20,16 @@ body {
 }
 
 .banner {
-    background-image: var(--banner-url);
-    background-size: cover;
-    background-position: center;
-    min-height: 48svh;
-    display: grid;
-    place-items: center;
     position: relative;
-    isolation: isolate;
+    height: calc(100vh - 80px);
 }
 
 .banner::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(34, 53, 41, .35), rgba(34, 53, 41, .55));
     z-index: -1;
+    background: none;
 }
 
 .banner .inner {
@@ -49,7 +47,7 @@ body {
 .banner p { margin: 0; opacity: .95; }
 
 /* --- 추모 공간 CSS --- */
-/*.font-nanum { font-family: 'Nanum Myeongjo', serif; }*/
+.font-nanum { font-family: 'Nanum Myeongjo', serif; }
 
 #overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -66,12 +64,13 @@ body {
 
 .glass-door {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to top right, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.25));
+    background: linear-gradient(to top right, rgba(89, 85, 85, 0.45), rgba(97, 135, 121, 0.25));
     backdrop-filter: blur(2px); border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 0.375rem; transform-origin: left;
     transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
     z-index: 10; display: flex; align-items: center; justify-content: flex-end;
     padding-right: 12px;
+    border: none;
 }
 .grid-item:hover .glass-door { background: rgba(255, 255, 255, 0.6); }
 
@@ -167,8 +166,7 @@ body {
 .reserve-btn {
     margin-top: 1rem; padding: 0.75rem 1.5rem; background-color: #6b7280;
     color: white; border: none; border-radius: 8px; font-weight: 500;
-    cursor: pointer; transition: background-color 0.2s; font-family: 'Georgia', serif;
+    cursor: pointer; transition: background-color 0.2s;
+    /*font-family: 'Georgia', serif;*/
 }
 .reserve-btn:hover { background-color: #4b5563; }
-
-/* 굿즈 관련 CSS 삭제됨 */

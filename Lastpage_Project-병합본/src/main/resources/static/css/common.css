@@ -1,25 +1,34 @@
-/* 전체*/
-*,
-*::before,
-*::after {
+html {
+  overflow-y: scroll; /* 페이지 이동 시 헤더 덜컹거림 방지 */
+}
+
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  font-family: 'Apple SD Gothic Neo', sans-serif;
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   position: relative;
   margin: 0;
   background-color: #f5f0e5;
+  line-height: 1.5;
 }
 
-/* 헤더 배너 */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ================================================== */
+/* [헤더] 디자인 */
+/* ================================================== */
 
 .header-wrapper {
   width: 100%;
   margin: 0 auto;
-  padding-top: 60px;
+  padding-top: 100px; /* 헤더 높이만큼 여백 */
 }
 
 header {
@@ -34,94 +43,153 @@ header {
   justify-content: space-between;
   transition: top 0.3s ease;
   z-index: 1000;
+
+  /* [요청] 헤더 전체 폰트 Georgia 적용 */
+  font-family: 'Georgia', serif !important;
+
+  /* 프레임워크 간섭 방지 */
+  box-shadow: none !important;
+  border: none !important;
+  padding-right: 0 !important;
 }
 
+/* 로고 */
 .logo img {
   margin-left: 40px;
   width: 60px;
   height: 60px;
   display: block;
+  object-fit: contain;
 }
 
+/* 네비게이션 */
 nav {
   margin: 0 auto;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 nav ul {
-  list-style: none;
+  list-style: none !important;
   display: flex;
   gap: 50px;
-  margin-bottom: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  align-items: center;
 }
 
 nav ul li {
   position: relative;
   cursor: pointer;
+  line-height: normal !important;
 }
 
 nav ul li > a {
   color: #dcd7c9;
-  text-decoration: none;
+  text-decoration: none !important;
   padding: 8px;
   display: inline-block;
+  font-size: 16px;
+  font-weight: 400;
+  background: transparent !important;
 }
 
 a:hover {
   color: #fff !important;
 }
 
-/* 배너 드롭다운 */
+/* ================================================== */
+/* [드롭다운 메뉴] */
+/* ================================================== */
+
 nav ul li > ul {
   display: none;
   position: absolute;
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: #2C3930;
+
+  /* 컨테이너 배경색 */
+  background-color: #2C3930 !important;
+
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  list-style: none;
-  padding: 10px 0;
-  min-width: 110px;
-  z-index: 12;
+  list-style: none !important;
+  padding: 10px 0 !important;
+  min-width: 130px;
+  z-index: 10000;
   text-align: center;
+  border-radius: 0 0 8px 8px;
+  flex-direction: column !important;
+  gap: 0 !important;
+  overflow: hidden;
 }
 
 nav ul li:hover > ul {
+  display: flex !important;
+}
+
+nav ul li > ul li {
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
   display: block;
 }
 
 nav ul li > ul li > a {
-  color: #dcd7c9;
-  text-decoration: none;
-  padding: 8px 15px;
-  display: block;
+  display: block !important;
   width: 100%;
   text-align: center;
+  padding: 12px 0 !important;
+  font-size: 14px;
+  color: #dcd7c9;
+  text-decoration: none !important;
+  background-color: #2C3930 !important;
 }
 
 nav ul li > ul li > a:hover {
   color: #ffffff;
+  background-color: #3a4b40 !important; /* 호버 시 살짝 밝게 */
 }
 
+/* ================================================== */
+/* [로그인/회원가입] 중복 해결 (데스크탑용) */
+/* ================================================== */
 .auth {
   margin-right: 20px;
   display: flex;
   gap: 2px;
+  align-items: center;
 }
 
 .auth a {
   color: #dcd7c9;
-  text-decoration: none;
+  text-decoration: none !important;
   padding: 10px 15px;
+  font-size: 14px;
 }
 
 .auth a:hover {
   color: #fff;
-  text-decoration: none;
 }
 
-/* 햄버거 메뉴 */
+.admin-highlight {
+  color: #d7263d !important;
+  font-weight: 500 !important;
+  background: #ffffff !important;
+  border-radius: 6px !important;
+  padding: 10px 10px 10px 10px !important;
+  transition: 0.3s ease !important;
+}
+
+.admin-highlight:hover {
+  background: #d7263d !important;
+  color: white !important;
+}
+
+/* ================================================== */
+/* [모바일 요소 숨김] - 여기가 중요합니다 */
+/* ================================================== */
+
+/* 데스크탑에서는 모바일용 요소들을 무조건 숨김 */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -144,10 +212,21 @@ nav ul li > ul li > a:hover {
   transition: 0.3s;
 }
 
-/* 사이드 메뉴 */
+/* [수정] 모바일 아이콘은 기본적으로 숨김 (중복 방지) */
+.auth-mobile {
+  display: none;
+}
+
+.auth-mobile-menu {
+  display: none;
+}
+
+/* ================================================== */
+/* 사이드 메뉴 (모바일 슬라이드) */
+/* ================================================== */
 .side-menu {
   position: fixed;
-  top: 100px; /* 헤더 아래 */
+  top: 100px;
   left: -260px;
   width: 260px;
   height: calc(100vh - 100px);
@@ -189,14 +268,67 @@ nav ul li > ul li > a:hover {
   display: block;
 }
 
-/* 반응형 (헤더/네비/로그인) */
+/* ================================================== */
+/* [반응형] 968px 이하일 때만 모바일 요소 표시 */
+/* ================================================== */
 @media (max-width: 968px) {
-  nav,
-  .auth {
-    display: none;
+  header {
+    justify-content: center;
   }
 
+  .logo img {
+    margin-left: 0;
+  }
+
+  /* 데스크탑용 nav와 auth는 숨김 */
+  nav, .auth {
+    display: none !important;
+  }
+
+  /* 모바일용 햄버거와 auth 아이콘 표시 */
   .hamburger {
+    display: flex;
+  }
+
+  /* [수정] 여기서만 모바일 아이콘 표시 */
+  .auth-mobile {
+    display: flex;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 2000;
+  }
+
+  .auth-mobile svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .auth-mobile-menu {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 90px;
+    background: #2C3930;
+    padding: 12px 16px;
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 2100;
+  }
+
+  .auth-mobile-menu a {
+    color: #dcd7c9;
+    text-decoration: none;
+  }
+
+  .auth-mobile-menu a:hover {
+    color: #ffffff;
+  }
+
+  .auth-mobile-menu.open {
     display: flex;
   }
 }
@@ -236,25 +368,9 @@ nav ul li > ul li > a:hover {
   border-color: #2C3930;
 }
 
-/* Admin 전용 강조 */
-.admin-highlight {
-  color: #d7263d !important;
-  font-weight: 500 !important;
-  background: #ffffff !important;
-  border-radius: 6px !important;
-  padding: 10px 10px 10px 10px !important;
-  transition: 0.3s ease !important;
-}
-
-.admin-highlight:hover {
-  background: #d7263d !important;
-  color: white !important;
-}
-
-/* ======================================================================= */
-/*  푸터 확장된 CSS (추가 영역)  */
-/* ======================================================================= */
-
+/* ================================================== */
+/* 푸터 (Footer) */
+/* ================================================== */
 footer {
   width: 100%;
   background-color: #2C3930;
@@ -277,17 +393,16 @@ footer {
 }
 
 .footer-logo img {
-  width: 100px;       /* 추천 크기 */
-  height: auto;       /* 비율 유지 */
-  opacity: 0.95;      /* 자연스럽게 */
+  width: 100px;
+  height: auto;
+  opacity: 0.95;
   transition: 0.2s;
 }
 
 .footer-logo img:hover {
-  opacity: 1;         /* 호버 효과 */
+  opacity: 1;
 }
 
-/* 퀵 링크 */
 .footer-links {
   text-align: center;
   margin-bottom: 15px;
@@ -304,7 +419,6 @@ footer {
   color: #ffffff;
 }
 
-/* 회사 정보 블록 */
 .footer-company-info {
   margin-top: 15px;
   text-align: center;
@@ -312,37 +426,15 @@ footer {
   opacity: 0.9;
 }
 
-.footer-company-info a {
+.footer-company-info a, .footer-contact a {
   color: #dcd7c9;
   text-decoration: none;
 }
 
-.footer-company-info a:hover {
+.footer-company-info a:hover, .footer-contact a:hover {
   color: #ffffff;
 }
 
-.footer-brand {
-  margin-top: 15px;
-  text-align: center;
-  line-height: 1.7;
-  opacity: 0.9;
-  font-weight: 600;
-  font-size: 15px;
-  color: #ffffff;
-}
-
-.footer-contact a,
-.footer-company-info a {
-  color: #dcd7c9;
-  text-decoration: none;
-}
-
-.footer-contact a:hover,
-.footer-company-info a:hover {
-  color: #ffffff;
-}
-
-/* 저작권 */
 .footer-info {
   text-align: center;
   margin-top: 20px;
@@ -350,7 +442,6 @@ footer {
   font-size: 13px;
 }
 
-/* 로그인 상태 유지 안내 */
 .footer-login-status {
   text-align: center;
   margin-top: 10px;
@@ -358,9 +449,7 @@ footer {
   color: gray;
 }
 
-/* ================================
-   개발자 소개 모달
-================================ */
+/* 개발자 소개 모달 */
 .dev-modal {
   position: fixed;
   inset: 0;
@@ -381,7 +470,6 @@ footer {
   backdrop-filter: blur(4px);
 }
 
-/* 모달 카드 */
 .dev-card {
   position: relative;
   background: #ffffff;
@@ -393,7 +481,6 @@ footer {
   box-shadow: 0 18px 38px rgba(0, 0, 0, 0.18);
 }
 
-/* 닫기 버튼 */
 .dev-close-btn {
   position: absolute;
   right: 20px;
@@ -405,7 +492,6 @@ footer {
   color: #2C3930;
 }
 
-/* 내부 레이아웃 */
 .dev-content {
   display: flex;
   align-items: center;
@@ -413,7 +499,6 @@ footer {
   flex-wrap: nowrap;
 }
 
-/* 프로필 이미지 */
 .dev-photo img {
   width: 160px;
   height: 160px;
@@ -427,7 +512,6 @@ footer {
   min-width: 250px;
 }
 
-/* 텍스트 스타일 */
 .dev-name {
   margin: 0;
   font-size: 28px;
@@ -448,7 +532,6 @@ footer {
   font-size: 15px;
 }
 
-/* 링크 버튼 */
 .dev-links a {
   display: inline-block;
   margin-right: 10px;
@@ -465,7 +548,16 @@ footer {
   background: #4b5b54;
 }
 
-/* 애니메이션 */
+@media (max-width: 968px) {
+  .dev-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .dev-links {
+    text-align: center;
+  }
+}
+
 @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
@@ -476,86 +568,7 @@ footer {
   100% { transform: translateY(0); opacity: 1; }
 }
 
-/* 기본값 */
-.auth-mobile,
-.auth-mobile-menu {
-  display: none;
-}
-
-/* 968px 이하 반응형 (헤더 + 모바일 auth) */
-@media (max-width: 968px) {
-  header {
-    justify-content: center;
-  }
-
-  /* 로고를 헤더 정중앙에 고정 */
-  .logo {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  /* 모바일에서는 왼쪽 마진 제거 */
-  .logo img {
-    margin-left: 0;
-  }
-
-  /* 데스크탑용 auth는 숨김 */
-  .auth {
-    display: none;
-  }
-
-
-
-  /* nav는 계속 숨김 (기존 유지) */
-  nav {
-    display: none;
-  }
-
-  /* 모바일용 auth 아이콘 표시 */
-  .auth-mobile {
-    display: flex;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    z-index: 2000;
-  }
-
-  .auth-mobile svg {
-    width: 32px;
-    height: 32px;
-  }
-
-  /* 드롭다운 메뉴 */
-  .auth-mobile-menu {
-    display: none;
-    position: absolute;
-    right: 20px;
-    top: 90px;
-    background: #2C3930;
-    padding: 12px 16px;
-    border-radius: 10px;
-    flex-direction: column;
-    gap: 12px;
-    z-index: 2100;
-  }
-
-  .auth-mobile-menu a {
-    color: #dcd7c9;
-    text-decoration: none;
-  }
-
-  .auth-mobile-menu a:hover {
-    color: #ffffff;
-  }
-
-  .auth-mobile-menu.open {
-    display: flex;
-  }
-}
+/* 기타 유틸 */
 #kakao-talk-channel-chat-button {
     position: fixed;
     bottom: 20px;
@@ -563,7 +576,6 @@ footer {
     z-index: 9999;
 }
 
-/* --- 10. 맨 위로 가기 버튼 --- */
 #scrollToTopBtn {
     position: fixed;
     bottom: 30px;
@@ -588,4 +600,170 @@ footer {
 #scrollToTopBtn:hover {
     opacity: 1;
     transform: scale(1.05);
+}
+
+
+/* ================================================== */
+/* [공통 배너 스타일] f_service 기준 통일 */
+/* ================================================== */
+
+/* 1. 배너 컨테이너 (배경 이미지 및 위치 잡기) */
+.banner,
+.banner_yj, /* Goods, Community 등의 기존 클래스 호환 */
+.hello_yj   /* Mypage 기존 클래스 호환 */
+{
+  position: relative;
+  width: 100%;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  overflow: hidden;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: calc(100vh - 80px);
+}
+
+/* 2. 배경 오버레이 (글씨 가독성을 위한 어두운 막) */
+.banner::after,
+.banner_yj::after,
+.banner-overlay_yj::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* 장례서비스와 동일한 오버레이 색상/투명도 (필요시 조정 가능) */
+  background: linear-gradient(rgba(43, 38, 35, 0.3), rgba(43, 38, 35, 0.5));
+  z-index: 1;
+}
+
+/* 3. 텍스트 컨테이너 (가운데 정렬 및 애니메이션 대상) */
+.banner .inner,
+.banner-text_yj {
+  position: relative;
+  z-index: 2; /* 오버레이보다 위에 위치 */
+  max-width: 1200px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 4. 배너 제목 (H1) - 장례서비스 폰트/크기 적용 */
+.banner h1,
+.banner-title,
+.full-background .page-title-area h1,
+.overlay_yj .page-title-area h1 {
+  font-family: 'Georgia', 'Nanum Myeongjo', serif !important;
+  font-size: 3rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin: 0 0 25px 0 !important;
+  line-height: 1.3 !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* 가독성 강화 */
+}
+
+/* 5. 배너 설명 (P) - 장례서비스 스타일 적용 */
+.banner p,
+.banner-desc,
+.full-background .page-title-area p,
+.overlay_yj .page-title-area p {
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
+  font-size: 1.1rem !important; /* f_service 기준 */
+  color: rgba(255, 255, 255, 0.95) !important;
+  margin: 0 !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/*==========*/
+
+/* 📜 공통 스크롤 다운 인디케이터 스타일 (common.css) */
+.scroll-indicator {
+    --indicator-color: #f5f5f5; /* 흰색 */
+    position: absolute;
+    bottom: 75px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--indicator-color);
+    text-align: center;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.scroll-icon {
+    display: block;
+    width: 70px;
+    height: 70px;
+    position: relative;
+    margin-bottom: 0px;
+}
+
+.chevron {
+    position: absolute;
+    width: 55px;
+    height: 18px;
+    opacity: 0;
+    transform: scale(0.3);
+    animation: move-chevron 3s infinite;
+    stroke-width: 2px; /* 얇은 선 */
+    stroke: currentColor;
+    fill: none;
+    transform-origin: center;
+}
+
+.chevron:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+/* 🎬 애니메이션 키프레임 */
+@keyframes move-chevron {
+    0%   { opacity: 0; transform: translateY(-25px) scale(0.3); }
+    30%  { opacity: 1; transform: translateY(0) scale(1); }
+    70%  { opacity: 0; transform: translateY(25px) scale(1); }
+    100% { opacity: 0; transform: translateY(-25px) scale(0.3); }
+}
+
+.banner .scroll-indicator {
+    left: 50vw !important;
+    transform: translateX(calc(-50% - 3px)) !important; /* (Npx 조정 값 유지) */
+    bottom: 20vh !important;
+}
+
+.scroll-indicator .scroll-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin: 0; /* 혹시 모를 마진 초기화 */
+    padding: 0; /* 혹시 모를 패딩 초기화 */
+}
+
+/* 추가적으로, 화살표 SVG에 불필요한 마진이 있다면 제거 */
+.scroll-indicator .scroll-icon .chevron {
+    margin: 0 !important;
+    padding: 0 !important;
+
+    width: 48px !important;
+    height: 48px !important;
+}
+
+.banner .scroll-indicator .chevron path {
+    /* 선의 굵기 조절 (숫자가 클수록 굵어집니다) */
+    stroke-width: 1.5px;
+    stroke-linecap: round;
+    /* 면을 채우지 않도록 설정 (필수) */
+    fill: none;
 }
