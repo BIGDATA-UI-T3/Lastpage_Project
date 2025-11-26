@@ -614,7 +614,7 @@ footer {
 {
   position: relative;
   width: 100%;
-  min-height: 100vh; /* 장례서비스와 동일하게 풀스크린 높이 */
+  min-height: 90svh !important; /* 장례서비스와 동일하게 풀스크린 높이 */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -657,7 +657,7 @@ footer {
 .banner-title,
 .full-background .page-title-area h1,
 .overlay_yj .page-title-area h1 {
-  font-family: 'Georgia', 'Nanum Myeongjo', serif !important;
+  font-family: 'Georgia', 'Noto Sans KR', serif !important;
   font-size: 3rem !important;
   font-weight: 700 !important;
   color: #ffffff !important;
@@ -671,7 +671,8 @@ footer {
 .banner-desc,
 .full-background .page-title-area p,
 .overlay_yj .page-title-area p {
-  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
+  font-family: 'Georgia', 'Noto Sans KR', sans-serif !important;
+  /*font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;*/
   font-size: 1.1rem !important; /* f_service 기준 */
   color: rgba(255, 255, 255, 0.95) !important;
   margin: 0 !important;
@@ -682,88 +683,90 @@ footer {
 
 /*==========*/
 
-/*  공통 스크롤 다운 인디케이터 스타일 (common.css) */
-.scroll-indicator {
-    --indicator-color: #f5f5f5; /* 흰색 */
-    position: absolute;
-    bottom: 75px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--indicator-color);
-    text-align: center;
-    cursor: pointer;
-    z-index: 10;
-    opacity: 0.9;
-    transition: opacity 0.3s;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    font-size: 1.1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+/* 공통 스크롤 다운 인디케이터 스타일 (common.css) */
+  .scroll-indicator {
+      --indicator-color: #f5f5f5;
+      position: absolute;
+      bottom: 80px !important;
+      left: 50% !important;
+      transform: translateX(-50%);
+      color: var(--indicator-color);
+      text-align: center;
+      cursor: pointer;
+      z-index: 10;
+      opacity: 0.9;
+      transition: opacity 0.3s;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      font-size: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
 
-.scroll-icon {
-    display: block;
-    width: 70px;
-    height: 70px;
-    position: relative;
-    margin-bottom: 0px;
-}
+  .scroll-icon {
+      display: block;
+      width: 70px;
+      height: 70px;
+      position: relative;
+      margin-bottom: 0px;
+  }
 
-.chevron {
-    position: absolute;
-    width: 55px;
-    height: 18px;
-    opacity: 0;
-    transform: scale(0.3);
-    animation: move-chevron 3s infinite;
-    stroke-width: 2px; /* 얇은 선 */
-    stroke: currentColor;
-    fill: none;
-    transform-origin: center;
-}
+  .chevron {
+      position: absolute;
+      width: 55px;
+      height: 18px;
+      opacity: 0;
+      transform: scale(0.3);
+      animation: move-chevron 3s infinite;
 
-.chevron:nth-child(2) {
-    animation-delay: 0.4s;
-}
+      stroke: currentColor;
+      fill: none;
+      transform-origin: center;
+  }
 
-/* 🎬 애니메이션 키프레임 */
-@keyframes move-chevron {
-    0%   { opacity: 0; transform: translateY(-25px) scale(0.3); }
-    30%  { opacity: 1; transform: translateY(0) scale(1); }
-    70%  { opacity: 0; transform: translateY(25px) scale(1); }
-    100% { opacity: 0; transform: translateY(-25px) scale(0.3); }
-}
+  .chevron:nth-child(2) {
+      animation-delay: 0.4s;
+  }
 
-.banner .scroll-indicator {
-    left: 50vw !important;
-    transform: translateX(calc(-50% - 3px)) !important; /* (Npx 조정 값 유지) */
-    bottom: 20vh !important;
-}
+  /* 애니메이션 키프레임 */
+  @keyframes move-chevron {
+      0%   { opacity: 0; transform: translateY(-25px) scale(0.3); }
+      30%  { opacity: 1; transform: translateY(0) scale(1); }
+      70%  { opacity: 0; transform: translateY(25px) scale(1); }
+      100% { opacity: 0; transform: translateY(-25px) scale(0.3); }
+  }
 
-.scroll-indicator .scroll-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    margin: 0; /* 혹시 모를 마진 초기화 */
-    padding: 0; /* 혹시 모를 패딩 초기화 */
-}
+  /* ---------------------------------------------------- */
+  /*  수정 구간: .banner 내부에서 중앙 정렬 재설정 */
+  .banner .scroll-indicator {
+      /* left: 50vw !important;  */
+      left: 50% !important; /* left를 50%로 고정 */
+      transform: translateX(-50%) !important;
+      bottom: 10vh !important;
+  }
+  /* ---------------------------------------------------- */
 
-/* 추가적으로, 화살표 SVG에 불필요한 마진이 있다면 제거 */
-.scroll-indicator .scroll-icon .chevron {
-    margin: 0 !important;
-    padding: 0 !important;
+  .scroll-indicator .scroll-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+  }
 
-    width: 48px !important;
-    height: 48px !important;
-}
+  .scroll-indicator .scroll-icon .chevron {
+      margin: 0 !important;
+      padding: 0 !important;
 
-.banner .scroll-indicator .chevron path {
-    /* 선의 굵기 조절 (숫자가 클수록 굵어집니다) */
-    stroke-width: 1.5px;
-    stroke-linecap: round;
-    /* 면을 채우지 않도록 설정 (필수) */
-    fill: none;
-}
+      width: 48px !important;
+      height: 48px !important;
+  }
+
+  .banner .scroll-indicator .chevron path {
+      /* 선의 굵기 조절 (숫자가 클수록 굵어집니다) */
+      stroke-width: 1.5px;
+      stroke-linecap: round;
+      fill: none;
+  }

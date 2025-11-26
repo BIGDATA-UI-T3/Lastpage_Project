@@ -40,6 +40,7 @@
 
 
 .banner-text_yj {
+
     position: absolute;
     bottom: 30%;
     left: 50%;
@@ -101,14 +102,16 @@
 }
 
 .subtitle_yj {
+font-family: 'Georgia', 'Noto Sans KR',  serif;
     width: 800px;
     padding-left: 30px;
     margin:40px auto 20px auto;
     display: flex;
     justify-content: left;
     font-size: 30px;
-    font-weight: 800;
-    color: rgb(64, 31, 31);
+    font-weight: bold;
+   stroke-color:black;
+    color: black;
 }
 
 main>.reserv_yj  {
@@ -346,8 +349,5 @@ padding:12px 0 0 0;
 
 
 
-/* 스크롤 화살표를 왼쪽으로 이동시켜 중앙에 맞추기 */
-.banner .scroll-indicator {
-    left: calc(50% - 45px) !important;
-}
+
 

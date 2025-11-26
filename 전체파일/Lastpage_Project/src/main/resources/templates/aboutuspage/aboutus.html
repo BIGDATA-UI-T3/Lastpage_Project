@@ -46,87 +46,90 @@
 
 <main>
 
-
     <section class="relative w-full text-stone-200">
 
-    <img th:src="@{/Asset/aboutus.jpg}" alt="소개 배경"
-         class="absolute inset-0 w-full h-full object-cover">
+        <img th:src="@{/Asset/aboutus.jpg}" alt="소개 배경"
+             class="absolute inset-0 w-full h-full object-cover">
 
-    <div class="absolute inset-0 w-full h-full bg-brand-dark opacity-80"></div>
+        <div class="absolute inset-0 w-full h-full bg-brand-dark opacity-80"></div>
 
-    <!-- About Us 헤더 영역 -->
-    <div class="relative flex items-center justify-center" style="height: calc(100vh - 80px)">
-        <div class="max-w-3xl mx-auto px-6 text-center aos-init aos-animate" data-aos="fade-up">
-            <h1 class="font-serif text-6xl md:text-8xl" style="font-family: 'Georgia', serif; font-weight: 100;">
-                About Us
-            </h1>
-        </div>
+        <!-- About Us 헤더 영역 -->
+        <div class="relative flex items-center justify-center" style="height: calc(100vh - 80px)">
+            <div class="max-w-3xl mx-auto px-6 text-center"
+                 data-aos="fade-up"
+                 data-aos-duration="2000"
+                 data-aos-easing="ease-out-cubic">
+                <h1 class="font-serif text-6xl md:text-8xl" style="font-family: 'Georgia', serif; font-weight: 100;">
+                    About Us
+                </h1>
+            </div>
 
-        <!-- 스크롤 인디케이터 -->
-        <div class="scroll-indicator" onclick="scrollToMainContent()">
-            <div class="scroll-icon">
-                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="m6 9 6 6 6-6"/>
-                </svg>
-                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="m6 9 6 6 6-6"/>
-                </svg>
+
+            <!-- 스크롤 인디케이터 -->
+            <div class="scroll-indicator" onclick="scrollToMainContent()">
+                <div class="scroll-icon">
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="m6 9 6 6 6-6"/>
+                    </svg>
+                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="m6 9 6 6 6-6"/>
+                    </svg>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- ↑ 여기까지 닫힘 정상 -->
+        <!-- ↑ 여기까지 배너 -->
 
-    <!-- 브랜드 소개 -->
-    <div class="max-w-5xl mx-auto px-6 text-center" data-aos="fade-up" style="margin: 30px 0;">
-        <h2 class="font-serif text-3xl md:text-4xl font-semibold mb-6 text-white">
-            애도 여정의 동반자, LastPage
-        </h2>
-        <p class="text-lg md:text-xl text-stone-300 leading-relaxed">
-            LastPage는 정식 등록 업체입니다.<br>
-            모든 장례지도사는 반려동물 장례지도사 1:1로 배정되며,<br>
-            보호사와 함께 처음부터 끝까지 모든 과정을 함께 합니다.<br>
-            숭고한 이별은 함께 나누며,<br>
-            마음과 정성을 다하여 이별의 슬픔을 위로하는 LastPage가 되겠습니다.
-        </p>
-    </div>
-
-    <!-- 오시는 길 -->
-    <div class="flex items-center justify-center py-16" style="margin: 200px 0 100px;">
-        <div class="max-w-5xl mx-auto px-6 w-full" data-aos="fade-up">
-
-            <h2 class="font-serif text-4xl md:text-5xl font-semibold mb-12 text-white text-center">
-                오시는 길
+        <!-- 브랜드 소개 -->
+        <div class="max-w-5xl mx-auto px-6 text-center" data-aos="fade-up" style="margin: 30px 0;">
+            <h2 class="font-serif text-3xl md:text-4xl font-semibold mb-6 text-white">
+                애도 여정의 동반자, LastPage
             </h2>
+            <p class="text-lg md:text-xl text-stone-300 leading-relaxed">
+                LastPage는 정식 등록 업체입니다.<br>
+                모든 장례지도사는 반려동물 장례지도사 1:1로 배정되며,<br>
+                보호사와 함께 처음부터 끝까지 모든 과정을 함께 합니다.<br>
+                숭고한 이별은 함께 나누며,<br>
+                마음과 정성을 다하여 이별의 슬픔을 위로하는 LastPage가 되겠습니다.
+            </p>
+        </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+        <!-- 오시는 길 -->
+        <div class="flex items-center justify-center py-16" style="margin: 200px 0 100px;">
+            <div class="max-w-5xl mx-auto px-6 w-full" data-aos="fade-up">
 
-                <div>
-                    <img th:src="@{/Asset/aboutus_map.PNG}" alt="오시는 길 지도"
-                         class="w-full h-auto rounded-lg shadow-lg border-2 border-white/50">
-                </div>
+                <h2 class="font-serif text-4xl md:text-5xl font-semibold mb-12 text-white text-center">
+                    오시는 길
+                </h2>
 
-                <div class="text-left">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
 
-                    <div class="mb-8 text-xl text-stone-200">
-                        <p><strong>주소:</strong> 대구 중구 달구벌대로 2095 (반월당역)</p>
-                        <p><strong>대표 전화:</strong> 1577-5474</p>
-                        <p><strong>영업 시간:</strong> 24시간 연중무휴</p>
+                    <div>
+                        <img th:src="@{/Asset/aboutus_map.PNG}" alt="오시는 길 지도"
+                             class="w-full h-auto rounded-lg shadow-lg border-2 border-white/50">
                     </div>
 
-                    <p class="text-lg text-stone-400 mt-4">
-                        반월당역 13번 출구 나와서 바로 앞 반월 <br>
-                        센트럴타워(광개토병원) 10층에 위치하고 있습니다.<br>
-                        13번 출구에서 눈앞에 바로 보이며<br>
-                        단 10걸음이라 찾기 쉽습니다.
-                    </p>
-                </div>
+                    <div class="text-left">
 
-            </div> <!-- grid 끝 -->
+                        <div class="mb-8 text-xl text-stone-200">
+                            <p><strong>주소:</strong> 대구 중구 달구벌대로 2095 (반월당역)</p>
+                            <p><strong>대표 전화:</strong> 1577-5474</p>
+                            <p><strong>영업 시간:</strong> 24시간 연중무휴</p>
+                        </div>
 
-        </div> <!-- max-w 끝 -->
-    </div> <!-- flex 끝 -->
+                        <p class="text-lg text-stone-400 mt-4">
+                            반월당역 13번 출구 나와서 바로 앞 반월 <br>
+                            센트럴타워(광개토병원) 10층에 위치하고 있습니다.<br>
+                            13번 출구에서 눈앞에 바로 보이며<br>
+                            단 10걸음이라 찾기 쉽습니다.
+                        </p>
+                    </div>
 
-</section>
+                </div> <!-- grid 끝 -->
+
+            </div> <!-- max-w 끝 -->
+        </div> <!-- flex 끝 -->
+
+    </section>
 
 </main>
 
@@ -140,13 +143,11 @@
 <script>
 
     AOS.init({
-      once: false, // 스크롤할 때마다 애니메이션 반복
-      duration: 800, // 애니메이션 지속 시간
-      easing: 'ease-out-cubic', // 부드러운 효과
-      threshold: 0.1 // 요소가 10% 보였을 때 애니메이션 시작
+      once: false,
+      duration: 800,
+      easing: 'ease-out-cubic',
+      threshold: 0.1
     });
-
-
 
 </script>
 

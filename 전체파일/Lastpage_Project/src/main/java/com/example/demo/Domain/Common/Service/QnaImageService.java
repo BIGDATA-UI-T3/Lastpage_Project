@@ -14,12 +14,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class QnaImageService {
 
-    // OS 관계없이 항상 동일한 경로 사용 (Mac/Windows/Linux 모두 가능)
+    // QNA 폴더 (정확하게 qna/ 로 저장)
     private final String uploadDir = System.getProperty("user.home") + "/lastpage_uploads/qna/";
 
     public List<String> saveBase64Images(List<String> base64List) {
 
-        // 최종 저장 디렉토리 생성
+        // 폴더 없으면 생성
         File dir = new File(uploadDir);
         if (!dir.exists()) dir.mkdirs();
 
@@ -38,20 +38,20 @@ public class QnaImageService {
                 // 확장자 판별
                 String ext = ".png";
                 if (header.contains("jpeg")) ext = ".jpg";
-                if (header.contains("jpg"))  ext = ".jpg";
+                if (header.contains("jpg")) ext = ".jpg";
 
                 // 파일명 생성
                 String filename = UUID.randomUUID() + ext;
                 File output = new File(dir, filename);
 
-                // Base64 디코딩 후 파일 쓰기
+                // Base64 디코딩 후 저장
                 byte[] decoded = Base64.getDecoder().decode(data);
 
                 try (FileOutputStream fos = new FileOutputStream(output)) {
                     fos.write(decoded);
                 }
 
-                // 웹에서 접근 가능한 URL 반환
+                // QNA URL 반환
                 resultUrls.add("/uploads/qna/" + filename);
 
             } catch (Exception e) {

@@ -23,15 +23,15 @@
 }
 
 .banner_yj>.overlay_yj>.banner-text_yj h1 {
-    font-size: clamp(26px, 4vw, 40px);
+    font-size: 3rem;
     font-weight: 700;
-    text-shadow: 0 3px 8px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     padding-top: 20px;
     display: flex;
     flex-direction: column;
     text-align: center;
     color: white;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: 'Georgia', 'Noto Sans KR',  serif;
 }
 
 .banner_yj>.overlay_yj>.banner-text_yj p {
@@ -45,9 +45,9 @@
     display: column;
     justify-content: center;
     font-size: 45px;
-    font-weight: 700;
+    font-weight:700;
     color: rgb(64, 31, 31);
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: 'Georgia', 'Noto Sans KR', serif;
     align-items: center;
     text-align: center;
 }
