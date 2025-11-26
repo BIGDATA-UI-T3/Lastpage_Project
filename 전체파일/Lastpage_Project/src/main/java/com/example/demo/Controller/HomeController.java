@@ -16,6 +16,10 @@ public class HomeController {
         log.info("GET /....");
         return "mainpage/Mainpage";
     }
+    @GetMapping({ "/index"})
+    public String index() {
+        return "index";
+    }
 
     // 인사말
     @GetMapping("/aboutuspage/aboutus")

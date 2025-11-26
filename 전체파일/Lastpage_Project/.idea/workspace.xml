@@ -5,20 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="984115cd-9e36-4c40-8225-f214d762b5b9" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14/checksums/checksums.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14/checksums/sha1-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14/executionHistory/executionHistory.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14/fileChanges/last-build.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14/fileHashes/fileHashes.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14/fileHashes/fileHashes.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Config/ChatbotConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Controller/ChatController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Controller/SimpleChatController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Controller/SwaggerDemoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Domain/Common/Service/ChatSessionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/support/OpenApiDocumentLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/support/VectorSearchService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/chatbot-global.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/chat-main-launcher.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/doc-chat.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/simple-chat.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/tuned-chat.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/chatbot-fragment.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Controller/HomeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Domain/Common/Service/OAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Domain/Common/Service/OAuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/signin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/signin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/global_error.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/global_error.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/mainpage/Mainpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/mainpage/Mainpage.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,6 +82,7 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -105,6 +117,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.DemoApplication.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
     "Gradle.Download Sources.executor": "Run",
     "Gradle.Lastpage_Project [:com.example.demo.DemoApplication.main()].executor": "Run",
     "Gradle.Lastpage_Project [build].executor": "Run",
@@ -117,7 +130,7 @@
     "git-widget-placeholder": "손보금",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/sonbogeum/Desktop/Lastpage_Project/전체파일/Lastpage_Project/src/main/resources/static/Asset",
+    "last_opened_file_path": "/Users/sonbogeum/Desktop/Lastpage_Project/전체파일/Lastpage_Project/src/main/resources/templates",
     "project.structure.last.edited": "프로젝트",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -129,13 +142,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/static/Asset" />
-      <recent name="$PROJECT_DIR$/src/main/resources/static/js" />
       <recent name="$PROJECT_DIR$/src/main/resources/templates" />
+      <recent name="$PROJECT_DIR$/src/main/resources/static/css" />
+      <recent name="$PROJECT_DIR$/src/main/resources/static/js" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/example/demo/Controller" />
       <recent name="$PROJECT_DIR$/src/main/java/com/example/demo" />
-      <recent name="C:\Users\Administrator\Desktop\닭\Lastpage_Project\전체파일\Lastpage_Project\src\main\resources\static" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/templates/fragments" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.demo.Domain.Common.Service" />
+      <recent name="com.example.demo.Config" />
       <recent name="com.example.demo.Controller" />
     </key>
   </component>
@@ -201,17 +219,6 @@
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="com.example.untitled" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="com.example.untitled" />
-      <option name="filePath" />
       <method v="2" />
     </configuration>
     <recent_temporary>

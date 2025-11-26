@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)   // ★ 반드시 추가!
+@EnableMethodSecurity(prePostEnabled = true)   //  반드시 추가!
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -33,16 +33,31 @@ public class SecurityConfig {
 
         http.userDetailsService(customUserDetailsService);
 
+        // =========================================================================
+        // 챗봇 API 및 문서 경로 추가 (JSON 오류 방지)
+        // =========================================================================
         http.authorizeHttpRequests(auth -> auth
 
+                // 기존 정적 리소스 및 로그인 경로
                 .requestMatchers("/css/**", "/js/**", "/Asset/**").permitAll()
                 .requestMatchers("/signin", "/loginProc","/api/loginProc" ,"/signup", "/login/**", "/login/oauth2/**").permitAll()
+
+                // -----------------------------------------------------------------
+                // ★ 챗봇/OpenAPI 경로 추가: JSON 응답이 HTML로 바뀌는 것을 방지
+                // -----------------------------------------------------------------
+                .requestMatchers(
+                        "/api/v1/chat",          // 고급 챗봇
+                        "/api/v1/simple-chat",   // 단순 챗봇
+                        "/v3/api-docs",          // OpenAPI 문서 JSON
+                        "/swagger-ui/**"         // Swagger UI 리소스
+                ).permitAll()
 
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
 
-
         );
+        // =========================================================================
+
 
         http.formLogin(form -> form.disable());
 

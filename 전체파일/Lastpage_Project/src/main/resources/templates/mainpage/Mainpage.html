@@ -6,11 +6,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- SWIPER CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
     <link rel="stylesheet" th:href="@{/css/common.css}">
-<!--    <link rel="stylesheet" th:href="@{/css/Mainpage.css}">-->
+    <link rel="stylesheet" th:href="@{/css/chatbot-global.css}">
+
     <title>LastPage</title>
 
     <script>
@@ -33,6 +34,14 @@
             }
           }
         }
+
+        // 메인 콘텐츠로 스크롤 이동 함수 (기존 HTML에 있었으므로 유지)
+        function scrollToMainContent() {
+             const mainSection = document.querySelector('.scroll-indicator').closest('section').nextElementSibling;
+             if (mainSection) {
+                 mainSection.scrollIntoView({ behavior: 'smooth' });
+             }
+        }
     </script>
 </head>
 <body class="bg-brand-bg text-brand-dark">
@@ -42,11 +51,8 @@
 </div>
 
 <main>
-
     <section class="relative w-full bg-neutral-800" style="height: calc(100vh - 80px)">
         <img th:src="@{/Asset/main1.png}" alt="추모 배너" class="absolute inset-0 w-full h-full object-cover opacity-60">
-<!--    </section>-->
-
 
         <div class="absolute inset-0 flex items-center justify-center z-10">
             <h1 class="font-serif text-6xl md:text-7xl font-semibold text-white tracking-widest drop-shadow-lg"
@@ -58,14 +64,14 @@
         </div>
 
         <div class="scroll-indicator" onclick="scrollToMainContent()">
-                <div class="scroll-icon">
-                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="m6 9 6 6 6-6"/>
-                    </svg>
-                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="m6 9 6 6 6-6"/>
-                    </svg>
-                </div>
+            <div class="scroll-icon">
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="m6 9 6 6 6-6"/>
+                </svg>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="m6 9 6 6 6-6"/>
+                </svg>
+            </div>
         </div>
 
     </section>
@@ -222,11 +228,23 @@
 </main>
 
 <div id="footer-container"></div>
-<!-- 9. 맨 위로 가기 버튼 -->
+
+<div th:replace="~{fragments/chatbot-fragment :: chatbot-launcher-area}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: advanced-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: simple-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: doc-panel}"></div>
+
 <button id="scrollToTopBtn" title="맨 위로 가기">↑</button>
+
 <script src="/js/mainpage.js" th:src="@{/js/mainpage.js}"></script>
 <script src="/js/header.js" th:src="@{/js/header.js}"></script>
 <script src="/js/footer.js" th:src="@{/js/footer.js}"></script>
+
+<script src="/js/chat-main-launcher.js" th:src="@{/js/chat-main-launcher.js}"></script>
+<script src="/js/doc-chat.js" th:src="@{/js/doc-chat.js}"></script>
+<script src="/js/simple-chat.js" th:src="@{/js/simple-chat.js}"></script>
+<script src="/js/tuned-chat.js" th:src="@{/js/tuned-chat.js}"></script>
+
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <script>
