@@ -1,0 +1,102 @@
+/* 슬라이더 */
+#slider{
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  padding: 20px 0;
+}
+   
+
+    /* 1) #slider 영역 고정 높이 & overflow 유지 */
+    #slider .slides{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  
+}
+
+#slider .slides img{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  animation: fade 12s linear infinite;
+  will-change: opacity;
+     
+  pointer-events: none;          
+}
+
+
+#slider .slides img:nth-child(1){ animation-delay: 0s; }
+#slider .slides img:nth-child(2){ animation-delay: 4s; }
+#slider .slides img:nth-child(3){ animation-delay: 8s; }
+
+
+@keyframes fade{
+  0%   { opacity: 0; }
+  6%   { opacity: 1; }  /* 짧게 페이드 인 */
+  30%  { opacity: 1; }  /* 머무름 */
+  36%  { opacity: 0; }  /* 페이드 아웃 */
+  100% { opacity: 0; }
+}
+
+    .service-section {
+      padding: 100px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+     
+    }
+
+    .service-section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #2C3930;
+    }
+
+    .service-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .service-card img {
+      width: 75%;
+      height: 450px;
+      margin-bottom: 20px;
+    }
+
+    .service-card h3 {
+      margin-bottom: 10px;
+      color: #3f4f44;
+    }
+
+    .service-card p {
+      font-size: 16px;
+      color: #555;
+    }
+
+    .service-card a.btn {
+      margin-top: 15px;
+       background-color: #A27b5c;
+      color: #fff;
+      border: 1px solid #A27b5c;
+    }
+
+    .service-card a.btn:hover{
+      background-color: #fff;
+      color: #A27b5c;
+      border: 1px solid #A27b5c;
+    }
+    .btn-outline-dark{
+        --bs-btn-color: #A27b5c  !important;
+        --bs-btn-border-color: #A27b5c  !important;
+        --bs-btn-hover-bg: #A27b5c !important;
+        --bs-btn-active-bg: #A27b5c  !important;
+    }
+
+   

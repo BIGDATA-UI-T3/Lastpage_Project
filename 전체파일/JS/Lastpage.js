@@ -1,0 +1,187 @@
+document.addEventListener('DOMContentLoaded', () => {
+            const gridContainer = document.querySelector('.grid');
+            const overlay = document.getElementById('overlay');
+            let activeClone = null;
+            let originalItem = null;
+            let isAnimating = false;
+
+            const totalItems = 12; // 3x4 그리드
+            const itemData = [
+                { name: '초코', message: '우리 집 귀염둥이, 별이 되어 반짝여줘.', date: '2010.05.01 ~ 2024.03.15', isOccupied: true, photoSrc: 'https://placehold.co/300x400/d2b48c/ffffff?text=CHOCO' },
+                { name: '나비', message: '따뜻한 햇살 같던 너를 기억해.', date: '2018.07.20 ~ 2023.12.10', isOccupied: true, photoSrc: null },
+                { name: '해피', message: '너와 함께한 모든 날이 행복했어.', date: '2012.01.11 ~ 2024.01.02', isOccupied: true, photoSrc: 'https://placehold.co/300x400/a9a9a9/ffffff?text=HAPPY' },
+                { isOccupied: false },
+                { name: '코코', message: '세상에서 가장 용감했던 작은 천사', date: '2020.02.02 ~ 2024.04.01', isOccupied: true, photoSrc: null },
+                { isOccupied: false },
+                { isOccupied: false },
+                { name: '루이', message: '장난꾸러기 왕자님, 그곳에선 아프지마.', date: '2015.06.10 ~ 2024.05.20', isOccupied: true, photoSrc: 'https://placehold.co/300x400/778899/ffffff?text=LOUIE' },
+                { isOccupied: false },
+                { isOccupied: false },
+                { name: '보리', message: '보리보리쌀! 너의 노래가 그리워.', date: '2019.11.01 ~ 2024.06.30', isOccupied: true, photoSrc: null },
+                { isOccupied: false },
+            ];
+
+            function expandItem(item) {
+                if (isAnimating) return;
+                isAnimating = true;
+
+                originalItem = item;
+                const rect = item.getBoundingClientRect();
+                
+                activeClone = item.cloneNode(true);
+                activeClone.classList.add('expanded-clone');
+                document.body.appendChild(activeClone);
+
+                activeClone.style.position = 'fixed';
+                activeClone.style.left = `${rect.left}px`;
+                activeClone.style.top = `${rect.top}px`;
+                activeClone.style.width = `${rect.width}px`;
+                activeClone.style.height = `${rect.height}px`;
+                activeClone.style.transform = 'none';
+
+                originalItem.classList.add('is-expanding');
+                overlay.classList.add('active');
+
+                requestAnimationFrame(() => {
+                    const centerX = window.innerWidth / 2;
+                    const centerY = window.innerHeight / 2;
+                    
+                    activeClone.style.left = `${centerX}px`;
+                    activeClone.style.top = `${centerY}px`;
+                    activeClone.style.width = `min(60vw, 750px)`;
+                    activeClone.style.height = `auto`;
+                    activeClone.style.transform = `translate(-50%, -50%)`;
+                });
+                
+                setTimeout(() => { isAnimating = false; }, 600);
+
+                activeClone.querySelector('.close-btn').onclick = (e) => {
+                    e.stopPropagation();
+                    collapseItem();
+                };
+
+                // 1) 사진 업로드 오류 해결: 복제된 요소에 이벤트 리스너를 다시 연결합니다.
+                const photoInput = activeClone.querySelector('.photo-input');
+                if (photoInput) {
+                    photoInput.addEventListener('change', (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                                const img = activeClone.querySelector('.photo-img');
+                                const label = activeClone.querySelector('.photo-upload-label');
+                                img.src = event.target.result;
+                                img.classList.remove('hidden');
+                                label.classList.add('hidden');
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                }
+            }
+
+            function collapseItem() {
+                if (isAnimating || !activeClone) return;
+                isAnimating = true;
+
+                const rect = originalItem.getBoundingClientRect();
+                
+                activeClone.querySelector('.expanded-content').style.opacity = 0;
+                activeClone.querySelector('.item-content-preview').style.opacity = 1;
+                activeClone.querySelector('.glass-door').style.transform = 'rotateY(0deg)';
+
+                setTimeout(() => {
+                    activeClone.style.left = `${rect.left}px`;
+                    activeClone.style.top = `${rect.top}px`;
+                    activeClone.style.width = `${rect.width}px`;
+                    activeClone.style.height = `${rect.height}px`;
+                    activeClone.style.transform = 'none';
+                }, 50);
+
+                overlay.classList.remove('active');
+
+                setTimeout(() => {
+                    if(activeClone) activeClone.remove();
+                    if(originalItem) originalItem.classList.remove('is-expanding');
+                    activeClone = null;
+                    originalItem = null;
+                    isAnimating = false;
+                }, 650);
+            }
+
+            for (let i = 0; i < totalItems; i++) {
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                const data = itemData[i % itemData.length] || { isOccupied: false };
+                
+                const glassDoor = document.createElement('div');
+                glassDoor.className = 'glass-door';
+                glassDoor.innerHTML = `<div class="door-handle"></div>`;
+
+                const itemContentPreview = document.createElement('div');
+                itemContentPreview.className = 'item-content-preview';
+
+                const expandedContent = document.createElement('div');
+                expandedContent.className = 'expanded-content';
+                
+                const closeBtn = document.createElement('div');
+                closeBtn.className = 'close-btn';
+                closeBtn.innerHTML = '&times;';
+
+                if (data.isOccupied) {
+                    item.appendChild(Object.assign(document.createElement('span'), { className: 'flower-indicator', textContent: '💮' }));
+                    itemContentPreview.innerHTML = `<div class="w-full h-full flex items-end justify-around opacity-70"><div class="urn-preview"></div><div class="photo-frame-preview"></div></div>`;
+                    expandedContent.innerHTML = `
+                        <div class="top-details">
+                            <h2 class="text-3xl font-bold mb-2 font-nanum flex items-center justify-center gap-2">
+                                <span>${data.name}</span>
+                                <span class="text-2xl" style="line-height: 1;">💮</span>
+                            </h2>
+                            <p class="text-gray-600 mb-2 text-base">"${data.message}"</p>
+                            <p class="text-sm text-gray-500">${data.date}</p>
+                        </div>
+                        <div class="scene-container">
+                            <div class="scene-background">
+                                <div class="urn"></div>
+                                <div class="photo-frame">
+                                    <div class="photo-display">
+                                        <img class="photo-img ${data.photoSrc ? '' : 'hidden'}" src="${data.photoSrc || ''}" alt="${data.name}의 사진">
+                                        <label class="photo-upload-label ${data.photoSrc ? 'hidden' : 'flex'}">
+                                            <input type="file" accept="image/*" class="hidden photo-input">
+                                            <span>🖼️</span>
+                                            <span>대표 사진 설정하기</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="goods-selector">
+                                <div class="goods-item" title="털실 굿즈"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-7.5 16.5M12 22a10 10 0 0 0 7.5-16.5M2 12h20M12 2a14 14 0 0 0-4 2.5M12 22a14 14 0 0 1 4-2.5M12 2a14 14 0 0 1 4 2.5M12 22a14 14 0 0 0-4-2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                                <div class="goods-item" title="반지 굿즈"><svg viewBox="0 0 24 24"><path d="M12 21a9 9 0 0 0-9-9 9 9 0 0 0 9-9 9 9 0 0 0 9 9 9 9 0 0 0-9 9zM10.5 8.5l3 3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                                <div class="goods-item" title="목걸이 굿즈"><svg viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7V9a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h1M12 22a7 7 0 0 1-7-7V9a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="16" r="3"></circle></svg></div>
+                            </div>
+                        </div>`;
+                } else {
+                    itemContentPreview.classList.add('empty-slot');
+                    itemContentPreview.innerHTML = `<div class="text-gray-600 font-nanum text-lg">빈 자리</div>`;
+                    expandedContent.innerHTML = `<div class="flex flex-col items-center justify-center h-full">
+                        <h2 class="text-3xl font-bold mb-4 font-nanum">빈 자리</h2>
+                        <p class="text-gray-600 text-center">이 자리는 현재 비어있습니다.<br>새로운 안식을 기다립니다.</p>
+                        <button class="reserve-btn">예약하기</button>
+                        </div>`;
+                }
+                expandedContent.prepend(closeBtn);
+                item.append(glassDoor, itemContentPreview, expandedContent);
+                gridContainer.appendChild(item);
+
+                item.addEventListener('click', () => {
+                    if (activeClone || isAnimating) return;
+                    expandItem(item);
+                });
+            }
+
+            overlay.addEventListener('click', () => {
+                if (activeClone) {
+                    collapseItem();
+                }
+            });
+        });

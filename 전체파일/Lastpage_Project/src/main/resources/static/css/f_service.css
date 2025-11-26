@@ -1,0 +1,242 @@
+/* 1. 전체 화면 섹션 기본 스타일 (배너, 텍스트 섹션용) */
+.full-screen-section {
+    min-height: 100vh; /* 뷰포트 높이 100% (최소 높이) */
+    width: 100%;
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    position: relative;
+    padding: 80px 20px; /* 위아래 패딩 (헤더/푸터 영역 감안) */
+    box-sizing: border-box;
+    overflow: hidden;
+    scroll-snap-align: start;
+}
+
+/* 2. 배너 섹션 (기존 .banner 스타일 수정) */
+.banner {
+    padding: 0; /* 배너는 패딩 없이 꽉 채움 */
+    background-size: cover;
+    background-position: center;
+    color:#2C3930;
+}
+
+/*.banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.55));
+    z-index: 1; *//* 배경 이미지 위에, 텍스트(inner) 아래에 위치 *//*
+}*/
+
+.banner .inner {
+    padding: 36px 16px;
+    /*position: relative; *//* ::after 위로 올라오도록 *//*
+    z-index: 2;*/
+    text-align: center;
+}
+
+.banner h1 {
+    margin: 0 0 10px;
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 700;
+}
+
+.banner p {
+    margin: 0;
+    opacity: .95;
+    font-size: 1.1rem;
+}
+
+/* 3. 문구 섹션 (새로 추가) */
+.text-section {
+    background-color: #f5f0e5; /* 기존 body 배경색과 유사하게 */
+    text-align: center;
+}
+.text-section .wrap {
+    max-width: 900px; /* 이 섹션의 .wrap은 텍스트용 */
+    margin: 0 auto;
+}
+.text-section .section-title {
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 700;
+    color: #2C3930;
+    margin-bottom: 16px;
+}
+.text-section .section-description {
+    font-size: clamp(16px, 2vw, 19px);
+    color: #5c5c5c;
+    line-height: 1.7;
+}
+
+/* 4. 지도 섹션 (기존 .wrap, .grid 스타일 복원) */
+.map-section {
+    /* 풀스크린이 아님! */
+    background-color: #FFFFFF; /* 흰색 배경 */
+    padding-top: 60px;
+    padding-bottom: 60px;
+    width: 100%;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+}
+
+/* 기존 file 29의 .wrap 스타일 복원 */
+.map-section .wrap {
+    max-width: 1200px;
+    margin: 0 auto; /* 50px auto -> 0 auto (섹션 자체에 패딩이 있으므로) */
+    padding: 0 20px;
+}
+
+/* 기존 file 29의 .title 스타일 복원 */
+.map-section .title {
+    margin: 10px 0 28px;
+    color: #2C3930;
+    font-size: clamp(24px, 3vw, 30px);
+    font-weight: 700;
+    text-align: center;
+}
+
+/* 기존 file 29의 .page-description 스타일 복원 */
+.map-section .page-description {
+    font-size: 1.05rem;
+    color: #5c5c5c;
+    text-align: center;
+    margin: -10px 0 32px;
+    line-height: 1.6;
+}
+
+/* 기존 file 29의 .search-box 스타일 복원 */
+.map-section .search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #dcd7c9;
+    box-shadow: 0 4px 12px rgba(0,0,0, .06);
+    /* 검색창 중앙 정렬을 위해 추가 */
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.map-section .search-box input {
+    flex-grow: 1; border: none; padding: 14px 18px; font-size: 1rem; outline: none;
+}
+.map-section .search-box button {
+    border: none; background-color: #2C3930; color: white; padding: 0 24px;
+    font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s;
+}
+.map-section .search-box button:hover { background-color: #a2725c; }
+
+
+/* 기존 file 29의 .grid 스타일 복원 */
+.map-section .grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 24px;
+    height: 650px; /* 원래 고정 높이 */
+    min-height: 500px;
+}
+
+/* --- 이하 스타일은 기존 file 29와 동일 --- */
+
+#map {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .1);
+    background: #eee;
+    border: 2px solid #fff;
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow-y: auto;
+    height: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 16px;
+    border: 1px solid #dcd7c9;
+}
+.list-container::-webkit-scrollbar { width: 8px; }
+.list-container::-webkit-scrollbar-thumb { background-color: #a2725c; border-radius: 4px; }
+.list-container::-webkit-scrollbar-track { background-color: rgba(214, 203, 185, 0.3); }
+
+.place-card {
+    background: #fff;
+    border: 1px solid #e0d8cc;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0, .06);
+    padding: 20px 20px 16px;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border-left: 5px solid transparent;
+}
+.place-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0, .1); }
+.place-card.active { border-left-color: #a2725c; box-shadow: 0 8px 24px rgba(162, 123, 92, 0.25); transform: translateY(-2px); }
+.place-card h3 { margin: 0 0 6px; font-size: 1.15rem; font-weight: 600; color: #2C3930; }
+.place-card .addr { font-size: 0.9rem; color: #555; margin-bottom: 8px; }
+.place-card .phone { font-size: 0.9rem; color: #a2725c; font-weight: 500; margin-bottom: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.chip { font-size: 0.75rem; padding: 5px 10px; border-radius: 999px; background: #f5f0e5; border: 1px solid #e0d8cc; color: #6a573f; font-weight: 500; }
+.links { margin-top: 12px; text-align: right; }
+.links a { font-size: 0.9rem; font-weight: 500; color: #555; text-decoration: none; border-bottom: 1px solid #ccc; padding-bottom: 2px; transition: all 0.2s; }
+.links a:hover { color: #a2725c; border-bottom-color: #a2725c; }
+
+/* 4. 반응형 */
+@media (max-width:980px) {
+    /* .wrap { margin: 30px auto; } -> .map-section .wrap으로 대체 */
+
+    .map-section .grid {
+        grid-template-columns: 1fr;
+        height: auto;
+        max-height: none;
+        gap: 20px;
+    }
+
+    #map {
+        height: 420px;
+        min-height: auto;
+    }
+
+    .list-container {
+        height: 500px;
+        min-height: auto;
+    }
+}
+
+
+
+.links {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    margin-top: 12px;
+}
+
+/* [추가] 예약하기 버튼 스타일 */
+.links a.btn-reserve {
+    background-color: #A27B5C; /* 테마 악센트 색상 */
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border-bottom: none; /* 기존 링크 밑줄 제거 */
+    font-weight: 500;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    text-decoration: none; /* 밑줄 제거 */
+}
+.links a.btn-reserve:hover {
+    background-color: #2C3930; /* 테마 메인 색상 */
+    color: #fff;
+    border-bottom: none;
+}
+
+
+/* 스크롤 화살표를 왼쪽으로 이동시켜 중앙에 맞추기 */
+.banner .scroll-indicator {
+    left: calc(50% - 50px) !important;
+}

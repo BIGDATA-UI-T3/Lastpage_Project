@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디 찾기</title>
+    <link rel="stylesheet" href="/css/findId.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500" />
+</head>
+
+<body>
+<div class="header-wrapper">
+    <div id="header-container"></div>
+</div>
+
+<main>
+    <div class="find-wrapper">
+        <div class="find-box">
+            <h2 class="find-title">아이디 찾기</h2>
+
+            <!-- 이름 -->
+            <div class="find-input-group">
+                <label>이름</label>
+                <input type="text" id="name" placeholder="이름을 입력하세요">
+            </div>
+
+            <!-- 이메일: emailId + emailDomain -->
+            <div class="find-input-group">
+                <label>이메일</label>
+
+                <div class="email-row">
+                    <input type="text" id="emailId" placeholder="이메일 아이디">
+                    <span>@</span>
+                    <input type="text" id="emailDomain" placeholder="도메인 예: gmail.com">
+                </div>
+            </div>
+
+            <button class="find-btn" onclick="findId()">아이디 찾기</button>
+
+            <p id="result" class="find-result"></p>
+
+            <div class="find-bottom-links">
+                <a href="/signin">← 로그인으로 돌아가기</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="footer-container"></div>
+
+<script src="/js/findId.js"></script>
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
+</body>
+</html>
