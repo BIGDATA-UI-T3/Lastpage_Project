@@ -609,9 +609,6 @@ public class ReserveController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
-
     /* =========================================================
      * Ourpage (추모 공간) 예약
      * ========================================================= */

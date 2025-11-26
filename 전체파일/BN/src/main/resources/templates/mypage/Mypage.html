@@ -195,11 +195,21 @@
 
                 <!-- 예약 관리 + 버튼 영역 -->
                 <div class="reserv-top_yj">
-
                     <span class="reserv-title_yj">예약 관리</span>
-
                     <div class="reserv-actions_yj">
                         <div class="btn-group_yj">
+
+                            <a th:if="${item.paymentStatus.name() == 'UNPAID'}"
+                               th:href="@{'/pay?reserveId=' + ${item.id}}"
+                               class="btn btn-sm btn-outline-success payments">
+                                결제하기
+                            </a>
+
+                            <span th:if="${item.paymentStatus.name() == 'PAID'}"
+                                  class="badge bg-success payment-badge">
+    결제 완료
+</span>
+
 
                             <!-- 예약 변경 -->
                             <a th:href="@{'/reserve/goods_reserve?id=' + ${item.id}}"
@@ -216,6 +226,7 @@
 
                         </div>
                     </div>
+
                 </div>
 
                 <!-- 상세 정보 -->
@@ -267,7 +278,6 @@
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
 <script th:src="@{/js/common.js}"></script>
-
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <script>
@@ -278,6 +288,7 @@
         easing: 'ease-out-cubic',
         threshold: 0.1
     });
+
 </script>
 
 </body>

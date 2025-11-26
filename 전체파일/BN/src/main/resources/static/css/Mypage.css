@@ -20,7 +20,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(75%) hue-rotate(-15deg) saturate(115%);
+    filter: brightness(65%) hue-rotate(-15deg) saturate(115%) ;
 }
 
 .banner-overlay_yj::after {
@@ -38,13 +38,22 @@
     );
 }
 
+
 .banner-text_yj {
+
     position: absolute;
     bottom: 30%;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
     color: #fff;
+}
+
+.mypage-title_yj {
+    font-size: 60px;
+
+    margin: 0;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
 
 .greeting_yj span{
@@ -89,19 +98,20 @@
 /* 예약내역 헤더 */
 .material-symbols-outlined {
     color: rgb(157, 88, 3);
-    font-size: 40px !important;
+    font-size: 50px !important;
 }
 
 .subtitle_yj {
+font-family: 'Georgia', 'Noto Sans KR',  serif;
     width: 800px;
     padding-left: 30px;
-    margin: 20px auto;
+    margin:40px auto 20px auto;
     display: flex;
     justify-content: left;
-    font-size: 35px;
-    font-weight: 900;
-    color: rgb(64, 31, 31);
-    font-family: 'Georgia', 'Nanum Myeongjo', serif;
+    font-size: 30px;
+    font-weight: bold;
+   stroke-color:black;
+    color: black;
 }
 
 main>.reserv_yj  {
@@ -135,8 +145,8 @@ main>.service_yj{
 
 .reserv_yj>.reserv-header_yj>.reserv-left_yj>p {
     color: black;
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 28px;
+    font-weight: 800;
     margin-left: 10px;
 }
 
@@ -318,9 +328,26 @@ border-top:3px solid rgba(64, 31, 31, 0.1);
 padding:12px 0 0 0;
 }
 
+.payment-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;        /* 버튼과 유사한 크기 */
+    font-weight: 200;       /* 약간 두껍게 */
+    border-radius: 4px;     /* 버튼 대비 조금 더 둥글게 */
+    color: white;
+    background-color: #28a745 !important;  /* bootstrap bg-success 색상 유지 */
+    height: 32px;           /* 버튼 높이에 맞춤 */
+}
+
 /* 마이페이지 제목 강제 크기 고정 (다른 페이지와 동일하게 40px) */
 .banner-title {
     font-size: 40px !important;
     font-family: 'Georgia', 'Nanum Myeongjo', serif !important;
     font-weight: 700 !important;
 }
+
+
+
+
+

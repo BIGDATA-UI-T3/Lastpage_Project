@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'war'
     id 'org.springframework.boot' version '3.5.5'
     id 'io.spring.dependency-management' version '1.1.7'
 }
@@ -72,9 +71,7 @@ dependencies {
     //Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    //Redis
-//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-//    implementation 'org.springframework.session:spring-session-data-redis'
+    
 
 
 
@@ -84,9 +81,9 @@ dependencies {
 bootJar {
     enabled = true
 }
-jar {
-    enabled = false
-}
+//jar {
+//    enabled = false
+//}
 
 tasks.named('test') {
     useJUnitPlatform()

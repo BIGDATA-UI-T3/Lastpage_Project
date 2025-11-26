@@ -2,6 +2,7 @@ package com.example.demo.Domain.Common.Service;
 
 import com.example.demo.Domain.Common.Dto.GoodsReserveDto;
 import com.example.demo.Domain.Common.Entity.GoodsReserve;
+import com.example.demo.Domain.Common.Entity.PaymentStatus;
 import com.example.demo.Domain.Common.Entity.Signup;
 import com.example.demo.Repository.GoodsReserveRepository;
 import com.example.demo.Repository.SignupRepository;
@@ -197,6 +198,30 @@ public class GoodsReserveService {
                 .stream().map(this::toDto).toList();
     }
 
+    @Transactional(readOnly = true)
+    public GoodsReserve findEntityById(Long id) {
+        return goodsReserveRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("굿즈 예약을 찾을 수 없습니다. ID=" + id));
+    }
+
+    @Transactional
+    public void markPaid(Long reserveId) {
+        GoodsReserve reserve = goodsReserveRepository.findById(reserveId)
+                .orElseThrow(() -> new IllegalArgumentException("예약을 찾을 수 없습니다."));
+
+        reserve.setPaymentStatus(PaymentStatus.PAID);
+    }
+    @Transactional
+    public void updateStatus(Long reserveId, String status) {
+        GoodsReserve reserve = goodsReserveRepository.findById(reserveId)
+                .orElseThrow(() -> new IllegalArgumentException("예약 정보를 찾을 수 없습니다."));
+
+        reserve.setPaymentStatus(PaymentStatus.valueOf(status));   // status = "PAID"
+        goodsReserveRepository.save(reserve);
+    }
+
+
+
     /* =========================================================
      * DTO 변환
      * ========================================================= */
@@ -238,7 +263,9 @@ public class GoodsReserveService {
         dto.setVisitDate(entity.getVisitDate());
         dto.setVisitTime(entity.getVisitTime());
         dto.setTrackingInfo(entity.getTrackingInfo());
+        dto.setPaymentStatus(entity.getPaymentStatus());
 
         return dto;
     }
+
 }

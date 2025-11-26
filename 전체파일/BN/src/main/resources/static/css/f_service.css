@@ -226,3 +226,10 @@
     color: #fff;
     border-bottom: none;
 }
+
+
+/* 스크롤 화살표를 왼쪽으로 이동시켜 중앙에 맞추기 */
+.banner .scroll-indicator {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+}

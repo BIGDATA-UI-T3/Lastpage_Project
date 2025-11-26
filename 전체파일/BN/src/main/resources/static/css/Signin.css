@@ -25,7 +25,7 @@ body {
 }
 
 .card {
-  width:min(720px, 92vw);
+  width:min(550px, 92vw);
   background:var(--card);
   border:1px solid var(--border);
   border-radius:var(--radius);
@@ -120,8 +120,9 @@ body {
   border-bottom:1px solid transparent;
 }
 .links a:hover {
-  border-bottom-color:#999;
-  color:#666;
+
+  color:#666 !important;
+  font-weight:150;
 }
 
 .social-login {

@@ -118,4 +118,22 @@ document.addEventListener("DOMContentLoaded", async () => {
       alert(`${welcomeName}님 환영합니다!`);
     }, 300);
   }
+
+  /** ------------------------------
+   * 로그아웃 확인 모달 처리
+   * ------------------------------ */
+  document.addEventListener("click", (e) => {
+    const target = e.target;
+
+    // 로그아웃 링크 클릭인지 감지
+    if (target.classList.contains("signup-link") && target.textContent.includes("로그아웃")) {
+      e.preventDefault(); // 바로 이동 막기
+
+      const confirmed = confirm("정말 로그아웃 하시겠습니까?");
+      if (confirmed) {
+        window.location.href = "/logout";  // 서버 로그아웃 진행
+      }
+    }
+  });
+
 });

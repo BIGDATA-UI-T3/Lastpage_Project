@@ -20,6 +20,11 @@ public class Payments {
     @Column(name = "payment_id", length = 36, nullable = false, updatable = false, unique = true)
     private String paymentId;
 
+    /** goods_reserve 기본키 */
+    @Column(name = "reserve_id")
+    private Long reserveId;
+
+
     /** 주문번호 (PG사 통신용) */
     @Column(name = "order_id", nullable = false)
     private String orderId;

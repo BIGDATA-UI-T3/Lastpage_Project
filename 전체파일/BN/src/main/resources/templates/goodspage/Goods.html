@@ -5,17 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- 공통영역 -->
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <!-- <link rel="stylesheet" href="./common.html"> -->
-
+    <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+    <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/Goods.css}">
 
@@ -27,33 +24,53 @@
     <div id="header-container"></div>
 </div>
 
-    <!-- 메인 -->
-    <main>
-        <!-- 배너 -->
-        <div class="banner" style="background-image: url('/Asset/9.jpg.webp');">
-            <div class="inner" data-aos="fade-up" data-aos-duration="2000" data-aos-easing="ease-out-cubic">
-                <h1>그리움이 머무는 작은 공간</h1>
-                <p>작은 물건에 담긴 마음이 당신에게 큰 위로가 되길 바라며</p>
-            </div>
+<!-- ==============================
+          ▷ 배너 영역
+================================= -->
+<div class="banner_yj">
+    <div class="overlay_yj">
 
-            <div class="scroll-indicator" onclick="scrollToMainContent()">
-                <div class="scroll-icon">
-                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="m6 9 6 6 6-6"/>
-                    </svg>
-                    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="m6 9 6 6 6-6"/>
-                    </svg>
-                </div>
-            </div>
+        <!-- 🎯 AOS 애니메이션 추가 -->
+        <div class="banner-text_yj"
+             data-aos="fade-up"
+             data-aos-duration="2000"
+             data-aos-easing="ease-out-cubic">
+            <h1>그리움이 머무는 작은 공간</h1>
+            <p>작은 물건에 담긴 마음이 당신에게 큰 위로가 되길 바라며</p>
         </div>
 
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-icon">
+            <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="m6 9 6 6 6-6"/>
+            </svg>
+            <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="m6 9 6 6 6-6"/>
+            </svg>
+        </div>
+    </div>
+</div>
+
+<!-- ==============================
+          ▷ 메인 콘텐츠
+================================= -->
+<main>
+    <section style="background: white; padding: 80px 0 110px">
+
         <!-- 타이틀 -->
-        <h1 class="goods-title_yj effect_yj">굿즈소개</h1>
+        <div class="goods-title_yj effect_yj">
+            <p class="goods">GOODS</p>
+            <h1>굿즈소개</h1>
+        </div>
 
         <!-- 컨텐츠 -->
         <div class="contentbox-wrapper_yj effect_yj">
-            <a class="contentbox_yj" href="#">
+
+            <!-- 1 -->
+            <a class="contentbox_yj" href="">
                 <img src="../Asset/메모리얼사진2.webp" alt="">
                 <div class="contentbox-text_yj">
                     <h4>메모리얼 스톤</h4>
@@ -61,6 +78,8 @@
                         수 있는 형태로 제작됩니다.”</p>
                 </div>
             </a>
+
+            <!-- 2 -->
             <a class="contentbox_yj" href="#">
                 <img src="../Asset/털보관함사진1.webp" alt="">
                 <div class="contentbox-text_yj">
@@ -68,21 +87,30 @@
                     <p>“반려동물의 소중한 체모를 간직하여 언제든 따뜻한 기억을 떠올릴 수 있는 추억보관함입니다. 작은 흔적 하나에도 담긴 사랑을 오래도록 곁에 두세요.”</p>
                 </div>
             </a>
+
+            <!-- 3 -->
             <a class="contentbox_yj" href="#">
                 <img src="../Asset/메모리얼스톤사진3.webp" alt="">
                 <div class="contentbox-text_yj">
-                    <h4>유골함(임시)</h4>
+                    <h4>유골함</h4>
                     <p>“소중한 반려동물의 유골을 안전하고 편안하게 곁에 둘 수 있는 유골함입니다. 차분하고 따뜻한 디자인으로, 언제나 평온한 마음으로 추억을 되새길 수 있도록
                         도와드립니다.”</p>
                 </div>
             </a>
         </div>
+    </section>
 
-        <!-- 리뷰 -->
-        <!-- 이미지 추후 고객 리뷰 이미지 적용? -->
+    <!-- ==============================
+              ▷ 리뷰 영역
+    ================================= -->
+    <section style="padding: 80px 0">
+
         <h1 class="goods-title_yj effect_yj">Review</h1>
+
         <div class="reviewbox-wrapper_yj">
-            <div class="reviewbox_yj effect_yj" href="#">
+
+            <!-- 1 -->
+            <div class="reviewbox_yj effect_yj">
                 <img src="../Asset/메모리얼사진2.webp" alt="">
                 <div class="reviewbox-text_yj">
                     <h4>메모리얼 스톤</h4>
@@ -95,7 +123,9 @@
                     <a href="">더보기</a>
                 </div>
             </div>
-            <div class="reviewbox_yj effect_yj" href="#">
+
+            <!-- 2 -->
+            <div class="reviewbox_yj effect_yj">
                 <img src="../Asset/털보관함사진1.webp" alt="">
                 <div class="reviewbox-text_yj">
                     <h4>메모리얼 스톤</h4>
@@ -108,7 +138,9 @@
                     <a href="">더보기</a>
                 </div>
             </div>
-            <div class="reviewbox_yj effect_yj" href="#">
+
+            <!-- 3 -->
+            <div class="reviewbox_yj effect_yj">
                 <img src="../Asset/메모리얼스톤사진3.webp" alt="">
                 <div class="reviewbox-text_yj">
                     <h4>메모리얼 스톤</h4>
@@ -125,26 +157,26 @@
 
         <!-- 예약 바로가기 -->
         <a class="goods-reserv_yj effect_yj" href="/reserve/goods_reserve">
-            <div class="reserv-text_yj">예약 바로가기</div>
+            <div class="reserv-text_yj">굿즈 예약하기&rarr;</div>
         </a>
+    </section>
+</main>
 
-
-    </main>
-
-    <!-- 푸터 -->
+<!-- 푸터 -->
 <div id="footer-container"></div>
 <button id="scrollToTopBtn" title="맨 위로 가기">↑</button>
+
 <script src="/js/goods.js"></script>
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
 <script th:src="@{/js/common.js}"></script>
 
+<!-- AOS 스크립트 -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <script>
-    // 페이지 로드 시 애니메이션 초기화
     AOS.init({
-        once: false, // 스크롤 할 때마다 반복 실행 여부
+        once: false,
         duration: 800,
         easing: 'ease-out-cubic',
         threshold: 0.1
@@ -152,5 +184,4 @@
 </script>
 
 </body>
-
 </html>

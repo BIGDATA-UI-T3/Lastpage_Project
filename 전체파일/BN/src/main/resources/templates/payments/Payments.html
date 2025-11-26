@@ -29,8 +29,9 @@
             <span id="amountText" th:text="'₩ ' + ${amount}"></span>
         </p>
 
-        <!-- 금액은 서버에서 내려줌 -->
-        <input type="hidden" id="paymentAmount" th:value="${amount}">
+        <!-- 결제 기본 정보 (서버에서 내려오는 값) -->
+        <input type="hidden" id="reserveId" th:value="${reserveId}">
+        <input type="hidden" id="amount" th:value="${amount}">
 
         <div class="form-check mt-4">
             <input class="form-check-input" type="checkbox" id="confirmCheck">
@@ -39,7 +40,6 @@
             </label>
         </div>
     </div>
-
 
     <!-- =====================
          결제 수단 선택
@@ -69,7 +69,6 @@
 <!-- 헤더 / 푸터 -->
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
-
 
 </body>
 </html>

@@ -24,7 +24,6 @@
     <!-- SWIPER CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 </head>
@@ -35,7 +34,7 @@
 </div>
 
 <!-- 배너 -->
-<div class="banner_yj swiper banner">
+<div class="banner_yj swiper" >
     <div class="swiper-wrapper">
         <!-- 각 슬라이드에 배경 이미지 적용 -->
         <div class="swiper-slide slide1"></div>
@@ -45,13 +44,16 @@
     </div>
 
     <!-- 텍스트 오버레이 (슬라이드 위 고정) -->
-    <div class="overlay_yj" style="position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; z-index: 5;">
-        <div class="page-title-area" data-aos="fade-up" data-aos-duration="2000" data-aos-easing="ease-out-cubic">
-            <h1>반려동물과 함께한 모든 순간, 이곳에서 나눠요</h1>
+    <div class="overlay_yj">
+        <div class="banner-text_yj"
+             data-aos="fade-up"
+             data-aos-duration="2000"
+             data-aos-easing="ease-out-cubic">
+            <h1>반려동물과 함께한 모든 순간,<wbr> 이곳에서 나눠요</h1>
             <p>따뜻한 위로부터 유용한 정보까지, 서로의 경험을 나누며 함께 성장하는 커뮤니티입니다.</p>
         </div>
 
-        <div class="scroll-indicator" onclick="scrollToMainContent()">
+        <div class="scroll-indicator">
             <div class="scroll-icon">
                 <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="m6 9 6 6 6-6"/>
@@ -61,6 +63,7 @@
                 </svg>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -73,14 +76,14 @@
 
             <!-- 프로필 이미지 -->
             <img
-                    src="/Asset/default-avatar.png"
+                    src="/Asset/default-avatar.svg"
                     alt="User Avatar"
                     class="avatar"
                     id="sidebar-profile-avatar"
             >
 
             <!-- 사용자 이름 -->
-            <h3 id="profile-name">Guest</h3>
+            <h3 id="profile-name" class="my-profile-name">Guest</h3>
 
             <!-- @아이디 -->
             <p id="profile-userid" class="user-id"></p>
@@ -99,7 +102,7 @@
             </div>
 
             <!-- 소개글 -->
-            <p id="profile-bio" class="profile-bio">로그인 후 커뮤니티 서비스를 이용해보세요</p>
+            <div id="profile-bio" class="profile-bio">로그인 후 커뮤니티 서비스를 이용해보세요</div>
 
             <!-- 로그인 전/후 버튼 컨테이너 -->
             <div id="profile-btn-area">
@@ -130,99 +133,99 @@
                 <button class="write-post-btn" id="write-btn">내 추억 기록하기</button>
             </div>
             <div class="post-feed">
-<!--                <article class="feed-post-card">-->
-<!--                    <div class="post-header">-->
-<!--                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=50"-->
-<!--                             class="author-avatar" alt="뽀삐언니 아바타">-->
-<!--                        <span class="author-name">뽀삐언니</span>-->
-<!--                    </div>-->
-<!--                    <div class="post-image-wrapper"><img-->
-<!--                            src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=600"-->
-<!--                            alt="골든 리트리버"></div>-->
-<!--                    <div class="post-actions">-->
-<!--                        <svg class="like-btn" fill="currentColor" viewBox="0 0 24 24">-->
-<!--                            <path-->
-<!--                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">-->
-<!--                            </path>-->
-<!--                        </svg>-->
-<!--                        <svg class="comment-btn" fill="currentColor" viewBox="0 0 24 24">-->
-<!--                            <path-->
-<!--                                    d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z">-->
-<!--                            </path>-->
-<!--                        </svg>-->
-<!--                        <svg class="share-btn" fill="currentColor" viewBox="0 0 24 24">-->
-<!--                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>-->
-<!--                        </svg>-->
-<!--                        <svg class="bookmark" fill="none" stroke="currentColor" stroke-width="2"-->
-<!--                             viewBox="0 0 24 24">-->
-<!--                            <path class="bookmark-icon-outline" stroke-linecap="round" stroke-linejoin="round"-->
-<!--                                  d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"></path>-->
-<!--                            <path class="bookmark-icon-filled" stroke-linecap="round" stroke-linejoin="round"-->
-<!--                                  d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"></path>-->
-<!--                        </svg>-->
-<!--                    </div>-->
-<!--                    <div class="post-details">-->
-<!--                        <div class="like-count">좋아요 1,023개</div>-->
-<!--                        <div class="post-caption"><span class="author-name">뽀삐언니</span>하늘에서는 마음껏 뛰어놀아, 우리 뽀삐. 항상-->
-<!--                            사랑해!</div>-->
-<!--                    </div>-->
-<!--                </article>-->
+                <!--                <article class="feed-post-card">-->
+                <!--                    <div class="post-header">-->
+                <!--                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=50"-->
+                <!--                             class="author-avatar" alt="뽀삐언니 아바타">-->
+                <!--                        <span class="author-name">뽀삐언니</span>-->
+                <!--                    </div>-->
+                <!--                    <div class="post-image-wrapper"><img-->
+                <!--                            src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=600"-->
+                <!--                            alt="골든 리트리버"></div>-->
+                <!--                    <div class="post-actions">-->
+                <!--                        <svg class="like-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path-->
+                <!--                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">-->
+                <!--                            </path>-->
+                <!--                        </svg>-->
+                <!--                        <svg class="comment-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path-->
+                <!--                                    d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z">-->
+                <!--                            </path>-->
+                <!--                        </svg>-->
+                <!--                        <svg class="share-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>-->
+                <!--                        </svg>-->
+                <!--                        <svg class="bookmark" fill="none" stroke="currentColor" stroke-width="2"-->
+                <!--                             viewBox="0 0 24 24">-->
+                <!--                            <path class="bookmark-icon-outline" stroke-linecap="round" stroke-linejoin="round"-->
+                <!--                                  d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"></path>-->
+                <!--                            <path class="bookmark-icon-filled" stroke-linecap="round" stroke-linejoin="round"-->
+                <!--                                  d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"></path>-->
+                <!--                        </svg>-->
+                <!--                    </div>-->
+                <!--                    <div class="post-details">-->
+                <!--                        <div class="like-count">좋아요 1,023개</div>-->
+                <!--                        <div class="post-caption"><span class="author-name">뽀삐언니</span>하늘에서는 마음껏 뛰어놀아, 우리 뽀삐. 항상-->
+                <!--                            사랑해!</div>-->
+                <!--                    </div>-->
+                <!--                </article>-->
 
-<!--                <article class="feed-post-card">-->
-<!--                    <div class="post-header">-->
-<!--                        <img src="https://images.unsplash.com/photo-1615789591457-74a63395c990?q=80&w=50"-->
-<!--                             class="author-avatar" alt="나비집사 아바타">-->
-<!--                        <span class="author-name">나비집사</span>-->
-<!--                    </div>-->
-<!--                    <div class="post-image-wrapper"><img-->
-<!--                            src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=600"-->
-<!--                            alt="창가의 고양이"></div>-->
-<!--                    <div class="post-actions">-->
-<!--                        <svg class="like-btn" fill="currentColor" viewBox="0 0 24 24">-->
-<!--                            <path-->
-<!--                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">-->
-<!--                            </path>-->
-<!--                        </svg>-->
-<!--                        <svg class="comment-btn" fill="currentColor" viewBox="0 0 24 24">-->
-<!--                            <path-->
-<!--                                    d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z">-->
-<!--                            </path>-->
-<!--                        </svg>-->
-<!--                    </div>-->
-<!--                    <div class="post-details">-->
-<!--                        <div class="like-count">좋아요 856개</div>-->
-<!--                        <div class="post-caption"><span class="author-name">나비집사</span>창가에서 햇볕 쬐는 걸 좋아하던 우리 나비. 그곳은-->
-<!--                            항상 따뜻했으면 좋겠다.</div>-->
-<!--                    </div>-->
-<!--                </article>-->
+                <!--                <article class="feed-post-card">-->
+                <!--                    <div class="post-header">-->
+                <!--                        <img src="https://images.unsplash.com/photo-1615789591457-74a63395c990?q=80&w=50"-->
+                <!--                             class="author-avatar" alt="나비집사 아바타">-->
+                <!--                        <span class="author-name">나비집사</span>-->
+                <!--                    </div>-->
+                <!--                    <div class="post-image-wrapper"><img-->
+                <!--                            src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=600"-->
+                <!--                            alt="창가의 고양이"></div>-->
+                <!--                    <div class="post-actions">-->
+                <!--                        <svg class="like-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path-->
+                <!--                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">-->
+                <!--                            </path>-->
+                <!--                        </svg>-->
+                <!--                        <svg class="comment-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path-->
+                <!--                                    d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z">-->
+                <!--                            </path>-->
+                <!--                        </svg>-->
+                <!--                    </div>-->
+                <!--                    <div class="post-details">-->
+                <!--                        <div class="like-count">좋아요 856개</div>-->
+                <!--                        <div class="post-caption"><span class="author-name">나비집사</span>창가에서 햇볕 쬐는 걸 좋아하던 우리 나비. 그곳은-->
+                <!--                            항상 따뜻했으면 좋겠다.</div>-->
+                <!--                    </div>-->
+                <!--                </article>-->
 
-<!--                <article class="feed-post-card">-->
-<!--                    <div class="post-header">-->
-<!--                        <img src="https://images.unsplash.com/photo-1541364983171-a8ba01e95cfc?q=80&w=50"-->
-<!--                             class="author-avatar" alt="앵두보호자 아바타">-->
-<!--                        <span class="author-name">앵두보호자</span>-->
-<!--                    </div>-->
-<!--                    <div class="post-image-wrapper"><img-->
-<!--                            src="https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=600" alt="비글 강아지">-->
-<!--                    </div>-->
-<!--                    <div class="post-actions">-->
-<!--                        <svg class="like-btn" fill="currentColor" viewBox="0 0 24 24">-->
-<!--                            <path-->
-<!--                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">-->
-<!--                            </path>-->
-<!--                        </svg>-->
-<!--                        <svg class="comment-btn" fill="currentColor" viewBox="0 0 24 24">-->
-<!--                            <path-->
-<!--                                    d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z">-->
-<!--                            </path>-->
-<!--                        </svg>-->
-<!--                    </div>-->
-<!--                    <div class="post-details">-->
-<!--                        <div class="like-count">좋아요 912개</div>-->
-<!--                        <div class="post-caption"><span class="author-name">앵두보호자</span>처음 만난 날, 너의 눈빛을 잊을 수 없어. 고맙고-->
-<!--                            미안해, 앵두야.</div>-->
-<!--                    </div>-->
-<!--                </article>-->
+                <!--                <article class="feed-post-card">-->
+                <!--                    <div class="post-header">-->
+                <!--                        <img src="https://images.unsplash.com/photo-1541364983171-a8ba01e95cfc?q=80&w=50"-->
+                <!--                             class="author-avatar" alt="앵두보호자 아바타">-->
+                <!--                        <span class="author-name">앵두보호자</span>-->
+                <!--                    </div>-->
+                <!--                    <div class="post-image-wrapper"><img-->
+                <!--                            src="https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=600" alt="비글 강아지">-->
+                <!--                    </div>-->
+                <!--                    <div class="post-actions">-->
+                <!--                        <svg class="like-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path-->
+                <!--                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">-->
+                <!--                            </path>-->
+                <!--                        </svg>-->
+                <!--                        <svg class="comment-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path-->
+                <!--                                    d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z">-->
+                <!--                            </path>-->
+                <!--                        </svg>-->
+                <!--                    </div>-->
+                <!--                    <div class="post-details">-->
+                <!--                        <div class="like-count">좋아요 912개</div>-->
+                <!--                        <div class="post-caption"><span class="author-name">앵두보호자</span>처음 만난 날, 너의 눈빛을 잊을 수 없어. 고맙고-->
+                <!--                            미안해, 앵두야.</div>-->
+                <!--                    </div>-->
+                <!--                </article>-->
             </div>
         </div>
 
@@ -235,7 +238,7 @@
                 </div>
                 <div class="profile-page-header">
                     <!-- 프로필 이미지 -->
-                    <img src="/Asset/default-avatar.png"
+                    <img src="/Asset/default-avatar.svg"
                          alt="User Avatar"
                          class="profile-page-avatar"
                          id="my-profile-avatar">
@@ -250,7 +253,7 @@
                             <div class="stat-item">팔로워 <span class="count" id="my-follower-count">152</span></div>
                             <div class="stat-item">팔로잉 <span class="count" id="my-following-count">88</span></div>
                         </div>
-                            <!-- 이름 & 소개글 -->
+                        <!-- 이름 & 소개글 -->
                         <div class="profile-page-bio">
                             <h3 id="my-profile-name">사용자 이름</h3>
                             <p id="my-profile-bio">별이 된 나의 작은 친구들을 기억하며, 따뜻한 위로를 나누고 싶어요.</p>
@@ -320,7 +323,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <textarea id="content" name="content" rows="8" placeholder="반려동물과의 소중한 이야기를 들려주세요...(사진 첨부 필수, 파일 크기 50MB이하)"></textarea>
+                        <textarea id="content" name="content" rows="8" maxlength="50" placeholder="반려동물과의 소중한 이야기를 들려주세요...(사진 첨부 필수, 파일 크기 50MB이하)"></textarea>
+                        <div id="content-count" class="text-count">0 / 50</div>
                     </div>
                     <div class="form-group">
                         <label for="image" class="file-label">📸 사진 첨부하기</label>
@@ -384,7 +388,6 @@
 <script th:src="@{/js/footer.js}"></script>
 <script th:src="@{/js/common.js}"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
 <script>
     // 페이지 로드 시 애니메이션 초기화
     AOS.init({
@@ -398,3 +401,4 @@
 </body>
 
 </html>
+

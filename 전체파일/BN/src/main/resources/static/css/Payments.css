@@ -1,22 +1,47 @@
+/* =============================
+   결제 컨테이너
+   ============================= */
 .payment-container {
     max-width: 520px;
-    margin: 60px auto;
-    padding: 40px;
-    border-radius: 12px;
+    margin: 80px auto;
+    padding: 40px 36px;
+    border-radius: 14px;
     background: #ffffff;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    animation: fadeIn 0.3s ease;
 }
 
+/* 등장 애니메이션 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================
+   주문 정보 박스
+   ============================= */
 .payment-info-box {
-    padding: 20px;
-    border-radius: 10px;
+    padding: 24px;
+    border-radius: 12px;
     background: #f7f7f7;
+    border: 1px solid #e5e5e5;
+    font-size: 15px;
+    line-height: 1.5;
 }
 
-/* 공통 버튼 */
+/* 금액 텍스트 */
+#amountText {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2C3930;
+}
+
+/* =============================
+   공통 결제 버튼
+   ============================= */
 .btn-pay {
     width: 100%;
-    height: 64px; /* 네이버페이 기준 높이 */
+    height: 64px;              /* 네이버페이 기준 */
     border-radius: 12px;
     border: none;
     cursor: pointer;
@@ -26,30 +51,71 @@
     align-items: center;
 
     padding: 0;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 
-    transition: 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    user-select: none;
 }
 
-/* 버튼 내부 이미지 */
+/* 버튼 내부 이미지 통일 */
 .btn-pay img {
-    height: 35px;       /* 로고 크기 통일 */
-    width: auto;        /* 비율 유지 */
+    height: 36px;
+    width: auto;
     display: block;
 }
 
-/* 카카오페이: 공식 배경 컬러 */
+/* =============================
+   버튼 색상
+   ============================= */
+/* 카카오페이 색상 */
 .kakao-btn {
-    background-color: #FEE900; /* 카카오페이 공식 컬러 (#FEE500) */
+    background-color: #FEE500;
 }
 
-/* 네이버페이: 공식 배경 컬러 */
+/* 네이버페이 색상 */
 .naver-btn {
-    background-color: #00DE5A; /* 네이버페이 배경 */
+    background-color: #00DE5A;
 }
 
-/* Hover 효과 */
+/* =============================
+   버튼 상태
+   ============================= */
+/* hover */
 .btn-pay:hover {
     transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* active (눌렀을 때) */
+.btn-pay:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* disabled 상태 */
+.btn-pay:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* =============================
+   반응형
+   ============================= */
+@media (max-width: 480px) {
+
+    .payment-container {
+        margin: 40px auto;
+        padding: 32px 24px;
+    }
+
+    .btn-pay img {
+        height: 30px;
+    }
+
+    .payment-info-box {
+        padding: 20px;
+        font-size: 14px;
+    }
 }

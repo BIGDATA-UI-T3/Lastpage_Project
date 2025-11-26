@@ -1,6 +1,9 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Domain.Common.Entity.GoodsReserve;
 import com.example.demo.Domain.Common.Entity.Payments;
+import com.example.demo.Domain.Common.Service.GoodsReserveService;
+import com.example.demo.Repository.GoodsReserveRepository;
 import com.example.demo.Repository.PaymentsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +18,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class PaymentsViewController {
 
     private final PaymentsRepository paymentsRepository;
+    private final GoodsReserveService goodsReserveService;
     @GetMapping("/pay")
-    public String paymentPage(Model model) {
-        // 필요시 결제 금액, 주문번호 등을 model에 담아서 전송 가능
+    public String paymentPage(@RequestParam Long reserveId, Model model) {
+        // 1) 예약 조회
+        GoodsReserve reserve = goodsReserveService.findEntityById(reserveId);
+
+        // 2) 금액은 35000 고정
         model.addAttribute("amount", 35000);
+
+        // 3) orderId 생성
+        String orderId = "GOODS_" + reserveId + "_" + System.currentTimeMillis();
+        model.addAttribute("orderId", orderId);
+
+        // 4) reserveId도 넘기기
+        model.addAttribute("reserveId", reserveId);
+
         return "payments/Payments";
+
     }
 
     @GetMapping("/pay/success")

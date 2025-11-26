@@ -1,75 +1,83 @@
-.gradle
+#########################################
+# 🔥 Gradle / Build / JDK
+#########################################
+.gradle/
 build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-.kotlin
+out/
+target/
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
-*.iws
+!gradle/wrapper/gradle-wrapper.jar
+
+#########################################
+# 🔥 IntelliJ IDEA (전부 무시)
+#########################################
+.idea/
 *.iml
 *.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
+*.iws
 
-### Eclipse ###
+#########################################
+# 🔥 Eclipse
+#########################################
 .apt_generated
 .classpath
 .factorypath
 .project
-.settings
-.springBeans
+.settings/
 .sts4-cache
 bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
 
-### NetBeans ###
+#########################################
+# 🔥 NetBeans
+#########################################
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
+#########################################
+# 🔥 VS Code
+#########################################
 .vscode/
 
-### Mac OS ###
+#########################################
+# 🔥 Mac OS
+#########################################
 .DS_Store
 
-# 🔒 Google / API 인증 키 관련 파일
+#########################################
+# 🔥 Local Config / Environment Keys (API KEY, SECRET)
+#########################################
+.env
+.env.*
 *.json
 *.p12
 *.pem
 *.key
 
-# 🔒 Google Cloud / Firebase 서비스 계정 키
+# Google / Firebase
 service-account.json
 firebase-adminsdk-*.json
 google-credentials.json
 google-oauth-client-secret.json
 
-# 🔒 환경 변수 파일
-.env
-.env.*
+#########################################
+# 🔥 Spring Properties / Config
+#########################################
 application-*.yml
 application-*.yaml
 application-*.properties
 
-# 🔒 IntelliJ 환경 변수 저장소 (혹시 IDE에서 API 키를 저장했을 때)
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-
-# 🔒 빌드 결과물 / 로컬 설정
-build/
-out/
-target/
-
+# config 폴더 내 설정 제외
 **/config/*.yml
+**/config/*.yaml
 **/config/*.properties
+
+#########################################
+# 🔥 기타
+#########################################
+.kotlin/
+
+# 소스코드 제외 지정
 **/OAuthService.java

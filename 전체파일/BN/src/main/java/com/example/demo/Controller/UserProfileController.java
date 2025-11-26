@@ -7,6 +7,7 @@ import com.example.demo.Repository.FollowRepository;
 import com.example.demo.Repository.SignupRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
 public class UserProfileController {
+
+    //  필드 추가
+    @Value("${file.upload.root}")
+    private String rootPath;
+
+    //  profile 이미지는 ourpage/ 경로에 저장한다고 가정
+    @Value("${file.upload.post}")
+    private String profileImagePath;
 
     private final FollowRepository followRepository;
     private final SignupRepository signupRepository;
@@ -133,15 +142,26 @@ public class UserProfileController {
 
         // ---------- 프로필 이미지 업로드 ----------
         if (image != null && !image.isEmpty()) {
-            String uploadDir = System.getProperty("user.home") + "/lastpage_uploads/post/";
+
+            // 🛠️ 수정: 하드코딩 대신 주입받은 rootPath + profileImagePath 사용
+            String uploadDir = rootPath + profileImagePath;
+
             File dir = new File(uploadDir);
             if (!dir.exists()) dir.mkdirs();
 
-            String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
+            //  수정: 한글 파일명 방지 및 이미지 URL 경로 수정
+            String originalFilename = image.getOriginalFilename();
+            String extension = "";
+            if (originalFilename != null && originalFilename.contains(".")) {
+                extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            }
+            String fileName = UUID.randomUUID().toString() + extension; // UUID + 확장자만 사용
+
             File filePath = new File(uploadDir, fileName);
             image.transferTo(filePath);
 
-            String imageUrl = "/uploads/" + fileName;
+            //  수정: URL에 슬래시(/) 추가 및 post 대신 ourpage 경로 사용
+            String imageUrl = "/uploads/post/" + fileName;
             user.setProfileImage(imageUrl);
         }
 

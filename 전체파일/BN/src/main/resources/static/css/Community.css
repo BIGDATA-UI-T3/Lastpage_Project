@@ -30,8 +30,8 @@ body {
 /* 배너(수정 후) */
 .banner_yj {
     position: relative;
-    width: 100%;
-    height: 100svh;
+        width: 100%;
+        height:90svh;
 }
 
 .banner_yj .swiper-wrapper,
@@ -48,11 +48,11 @@ body {
 
 /* 슬라이드별 이미지 */
 .banner_yj .slide1 {
-    background-image: url(../Asset/catdog.jpg);
+    background-image: url(../Asset/daisydog.jpg);
 }
 
 .banner_yj .slide2 {
-    background-image: url(../Asset/daisydog.jpg);
+    background-image: url(../Asset/catdog.jpg);
 }
 
 .banner_yj .slide3 {
@@ -78,6 +78,22 @@ body {
     /* 텍스트 오버레이 위로 올라오게 */
 }
 
+/* 텍스트 */
+.banner-text_yj {
+    padding-top: 20px;
+    text-align: center;
+    color: white;
+    word-break: keep-all; /* 단어 중간 줄바꿈 방지 */
+}
+
+.banner-text_yj h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-family: 'Georgia', 'Noto Sans KR', Times, serif;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
 /* --- 2. 메인 레이아웃 컨테이너 --- */
 .page-container {
     display: flex;
@@ -85,6 +101,14 @@ body {
     margin: 40px 80px;
     gap: 30px;
     padding: 0 20px;
+}
+
+/* 반응형 */
+@media (max-width: 1500px) {
+    .page-container {
+        gap: 30px;
+        margin: 40px;
+    }
 }
 
 /* --- 3. 좌측 고정 프로필 바 --- */
@@ -105,7 +129,14 @@ body {
     border: 1px solid var(--border-color);
 }
 
-/* 커뮤니티 메인 왼쪽 프로필 */
+/* 반응형 */
+@media (max-width: 1500px) {
+    .profile-card {
+    margin-top: 105px;
+    }
+}
+
+/* 프로필 사진 */
 .profile-card .avatar {
     width: 90px;
     height: 90px;
@@ -120,7 +151,6 @@ body {
     margin: 0 0 5px 0;
     font-size: 1.3em;
     color: #2C3930;
-    font-family: 'Nanum Myeongjo', serif;
 }
 
 .profile-card .user-id {
@@ -152,13 +182,17 @@ body {
     color: #95a5a6;
 }
 
+.my-profile-name {
+    font-weight: bolder;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
 .profile-bio {
     font-size: 0.9em;
     color: #555;
     line-height: 1.6;
     text-align: left;
     margin-bottom: 20px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .my-posts-btn {
@@ -167,12 +201,12 @@ body {
     /*background-color: #f0f0f0;*/
     background-color: #a49684;
     color: white;
-    font-weight: bold;
+    font-weight: bolder;
     border: 1px solid #ddd;
     padding: 12px;
     border-radius: 8px;
     font-size: 0.9em;
-    font-weight: 500;
+    font-weight: bold;
     cursor: pointer;
     transition: all 0.2s;
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -228,11 +262,17 @@ body {
     border: none;
     padding: 12px 22px;
     border-radius: 8px;
-    font-size: 0.95em;
-    font-weight: 500;
+    font-size: 0.95rem;
+    font-weight: bolder;
     cursor: pointer;
     transition: background-color 0.2s;
     font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+/* 반응형 */
+@media (max-width: 1500px) {
+    .write-post-btn {
+    }
 }
 
 .write-post-btn:hover {
@@ -249,13 +289,27 @@ body {
     padding: 20px 0;
 }
 
+/* 반응형: 화면 작아지면 1개만 */
+@media (max-width: 1500px) {
+    .post-feed {
+        grid-template-columns: 1fr;
+    }
+      .feed-post-card {
+        max-width: 500px;
+        min-width: 400px;
+   }
+}
+
 .feed-post-card {
     background-color: var(--card-bg);
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 1px solid var(--border-color);
-    max-height: 450px;
-    height: 450px;
+    max-height: 500px;
+    min-height: 450px;
+    max-width: 400px;
+    min-width: 300px;
+    margin: 0 auto;
 }
 
 .post-header {
@@ -276,7 +330,6 @@ body {
 .post-header .author-name {
     font-weight: bold;
     font-size: 0.95em;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .post-image-wrapper img {
@@ -325,7 +378,6 @@ body {
     font-weight: bold;
     font-size: 0.9em;
     margin-bottom: 8px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 /* 팔로우 버튼 */
@@ -363,13 +415,11 @@ body {
 .post-caption {
     font-size: 0.95em;
     line-height: 1.6;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .post-caption .author-name {
     font-weight: bold;
     margin-right: 5px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 /* --- 6/7/8. 글쓰기/내글보기 공통 스타일 --- */
@@ -383,7 +433,6 @@ body {
 }
 
 .view-header h2 {
-    font-family: 'Nanum Myeongjo', serif;
     font-weight: 700;
     font-size: 1.8em;
     color: #2C3930;
@@ -397,6 +446,7 @@ body {
     cursor: pointer;
     font-size: 0.9em;
     transition: all 0.2s;
+    font-weight: bold;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
@@ -454,6 +504,13 @@ body {
     gap: 15px;
 }
 
+.text-count {
+    font-size: 13px;
+    text-align: right;
+    margin-top: 4px;
+    color: #666;
+}
+
 /* ===== 댓글 모달 ===== */
 .comment-modal {
     position: fixed;
@@ -505,7 +562,6 @@ body {
 .comment-modal-header h3 {
     margin: 0;
     font-size: 18px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .comment-modal-close {
@@ -547,18 +603,15 @@ body {
 
 .comment-writer {
     font-weight: 600;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .comment-date {
     font-size: 12px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .comment-content {
     white-space: pre-wrap;
     line-height: 1.4;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .comment-delete-btn {
@@ -569,7 +622,6 @@ body {
     font-size: 12px;
     cursor: pointer;
     padding: 0;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 /* 댓글 작성 영역 */
@@ -577,7 +629,6 @@ body {
     display: flex;
     gap: 8px;
     margin-top: 4px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 #comment-input {
@@ -804,7 +855,6 @@ footer {
     display: flex;
     gap: 30px;
     margin-bottom: 20px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .profile-page-stats .stat-item {
@@ -814,13 +864,11 @@ footer {
 .profile-page-bio h3 {
     font-size: 1.1em;
     margin-bottom: 5px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .profile-page-bio p {
     font-size: 0.9em;
     line-height: 1.5;
-    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .grid-item {

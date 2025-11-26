@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // ==========================
       const sidebarAvatar = document.getElementById("sidebar-profile-avatar");
       if (sidebarAvatar) {
-          sidebarAvatar.src = data.profileImage || "/Asset/default-avatar.png";
+          sidebarAvatar.src = data.profileImage || "/Asset/default-avatar.svg";
       }
 
 
@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // ==========================
       const myProfileAvatar = document.getElementById("my-profile-avatar");
       if (myProfileAvatar) {
-          myProfileAvatar.src = data.profileImage || "/Asset/default-avatar.png";
+          myProfileAvatar.src = data.profileImage || "/Asset/default-avatar.svg";
       }
 
       // 이름 / 소개글
@@ -230,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
     article.innerHTML = `
       <div class="post-header" style="display:flex; justify-content:space-between; align-items:center;">
         <div style="display:flex; align-items:center;">
-          <img src="${post.writer.profileImage || '/Asset/default-avatar.png'}"
+          <img src="${post.writer.profileImage || '/Asset/default-avatar.svg'}"
                class="author-avatar">
           <span class="author-name">${writerName}</span>
         </div>
@@ -384,8 +384,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // ---------- 글 등록 + 수정 ----------
-  postForm?.addEventListener("submit", async (e) => {
+    // ---------- 글 등록 + 수정 ----------
+    postForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     if (!window.isLogin) {
@@ -415,6 +415,11 @@ document.addEventListener("DOMContentLoaded", function () {
       if (image) {
         formData.append("image", image);
       }
+    }
+
+    if (content.length > 50) {
+        alert("글자 수는 최대 50자까지 입력할 수 있습니다.");
+        return;
     }
 
     try {
@@ -464,6 +469,16 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("서버 오류: " + err.message);
     }
   });
+
+    // === 글자수 카운터(전역에서 한 번만 등록) ===
+    const textarea = document.getElementById("content");
+    const counter = document.getElementById("content-count");
+
+    if (textarea && counter) {
+      textarea.addEventListener("input", () => {
+        counter.textContent = `${textarea.value.length} / 50`;
+      });
+    }
 
   // ---------- 카테고리 버튼 클릭 (전체/장례/굿즈/상담/기타) ----------
   document.addEventListener("click", (e) => {

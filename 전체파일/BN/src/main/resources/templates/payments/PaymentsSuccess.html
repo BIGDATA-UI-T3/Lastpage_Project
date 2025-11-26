@@ -4,40 +4,56 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>결제 완료 | LastPage</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/paymentsSuccess.css}">
-
 </head>
+
 <body>
+
+<!-- 헤더 -->
 <div class="header-wrapper">
     <div id="header-container"></div>
 </div>
+
 <main>
-<!-- 본문 -->
-<div class="success-container">
-    <div class="success-icon"></div>
-    <div class="success-title">결제가 완료되었습니다.</div>
-    <div class="success-text">감사합니다. 결제가 성공적으로 처리되었습니다.</div>
+    <div class="success-container">
 
-    <hr class="my-4">
+        <!-- 성공 아이콘 -->
+        <div class="success-icon"></div>
 
-    <h5 class="mb-3">주문 정보</h5>
-    <p><strong>주문번호:</strong> <span th:text="${orderId}">ORDER1234</span></p>
-    <p><strong>결제금액:</strong> <span th:text="'₩ ' + ${amount}">₩10</span></p>
-    <p><strong>결제수단:</strong> <span th:text="${method}">KAKAO</span></p>
+        <div class="success-title">결제가 완료되었습니다.</div>
+        <div class="success-text">감사합니다. 결제가 성공적으로 처리되었습니다.</div>
 
-    <div class="btn-area mt-4">
-        <a href="/" class="btn-custom btn-main">홈으로 가기</a>
-        <a href="/mypage/Mypage" class="btn-custom btn-mypage">마이페이지로 이동</a>
+        <hr class="my-4" />
+
+        <!-- 주문 정보 -->
+        <h5 class="mb-3">주문 정보</h5>
+
+        <p><strong>주문번호:</strong> <span th:text="${orderId}">ORDER1234</span></p>
+        <p><strong>결제금액:</strong> <span th:text="'₩ ' + ${amount}">₩35000</span></p>
+        <p><strong>결제수단:</strong> <span th:text="${method}">KAKAO</span></p>
+
+        <!-- 버튼 영역 -->
+        <div class="btn-area mt-4">
+            <a href="/" class="btn-custom btn-main">홈으로 가기</a>
+            <a th:href="@{/mypage/Mypage}" class="btn-custom btn-mypage">
+                마이페이지로 이동
+            </a>
+        </div>
     </div>
-</div>
 </main>
+
+<!-- 푸터 -->
 <footer>
     <div id="footer-container"></div>
 </footer>
-<script src="/js/paymentsSuccess.js" th:src="@{/js/paymentsSuccess.js}"></script>
-<script src="/js/header.js" th:src="@{/js/header.js}"></script>
-<script src="/js/footer.js" th:src="@{/js/footer.js}"></script>
+
+<!-- JS -->
+<script th:src="@{/js/paymentsSuccess.js}"></script>
+<script th:src="@{/js/header.js}"></script>
+<script th:src="@{/js/footer.js}"></script>
+
 </body>
 </html>

@@ -33,7 +33,7 @@ section {
 
 /* 섹션 제목 */
 .section-title {
-    font-family: 'Georgia', 'Nanum Myeongjo', serif;
+    font-family: 'Georgia', 'Noto Sans KR', serif;
     font-size: 2.5rem;
     font-weight: 700;
     text-align: center;
@@ -103,7 +103,7 @@ section {
 }
 
 .counselor-card h3 {
-    font-family: 'Nanum Myeongjo', serif;
+    font-family: '', serif;
     font-size: 1.4rem;
     font-weight: 700;
     margin-bottom: 5px;

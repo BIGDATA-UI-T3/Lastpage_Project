@@ -6,19 +6,13 @@
     <title>추모 굿즈 간편예약</title>
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!--AOS-->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">-->
 
     <!-- CSS: 공통 먼저, 페이지 전용 나중 -->
     <link rel="stylesheet" th:href="@{/css/common.css}">
@@ -37,7 +31,7 @@ th:data-id="${reserve!=null?reserve.id:''}">
 <main class="full-background">
     <div class="overlay"></div>
     <div class="content-wrapper">
-        <div class="page-title-area" data-aos="fade-up" data-aos-duration="2000" data-aos-easing="ease-out-cubic">
+        <div class="page-title-area">
             <h1>사랑을 형태로 남기는 맞춤 제작</h1>
             <p>유골·모발·발자국 등 소중한 흔적으로 주얼리/액자/레진 오브제를 제작합니다</p>
         </div>
@@ -382,17 +376,6 @@ th:data-id="${reserve!=null?reserve.id:''}">
 <script src="/js/footer.js"></script>
 <script src = "/js/goodsReserve.js"></script>
 
-<!--AOS-->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    // 페이지 로드 시 애니메이션 초기화
-    AOS.init({
-        once: false, // 스크롤 할 때마다 반복 실행 여부
-        duration: 800,
-        easing: 'ease-out-cubic',
-        threshold: 0.1
-    });
-</script>
 
 </body>
 </html>

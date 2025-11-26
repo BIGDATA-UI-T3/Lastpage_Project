@@ -8,34 +8,38 @@
     --border:#ece3d7;
     --shadow:0 12px 32px rgba(0,0,0,.10);
     --radius:22px;
-    --banner-url: url('../Asset/goodsReserve_banner.png');
+
+    /* 굿즈 예약 배너 이미지 경로 */
+    --banner-url: url('../Asset/Gemini_Generated_Image_jirnjrjirnjrjirn.png'); /* 경로에 맞게 수정 */
 }
 
 *{box-sizing:border-box}
 
 body{
-    margin:0;
+
     background:linear-gradient(180deg,#f4efe6,var(--bg));
     color:var(--ink);
 }
 
-/* --- 통합 배경 스타일 --- */
-.full-background {
+/* --- [장례 페이지와 동일] 통합 배경 스타일 --- */
+.full-background { /* 굿즈 HTML에서 main 태그에 이 클래스를 적용해야 합니다. */
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    min-height: 100vh; 
     background-image: var(--banner-url);
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: fixed; 
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-
-    padding-top: 140px;
-    padding-bottom: 40px;
+    align-items: flex-start; /* 콘텐츠를 상단에 배치 */
+    
+    padding-top: 140px; 
+    /* 장례 예약과 동일하게 간격 최소화 */
+    padding-bottom: 40px; 
 }
 
+/* 배경 어둡게 처리 (오버레이) */
 .overlay {
     position: absolute;
     inset: 0;
@@ -43,7 +47,7 @@ body{
     z-index: 0;
 }
 
-/* 콘텐츠 래퍼 */
+/* 콘텐츠 래퍼 (굿즈 페이지 타이틀과 카드 감싸는 역할) */
 .content-wrapper {
     position: relative;
     z-index: 1;
@@ -52,7 +56,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 160px;
+    gap: 80px; 
     padding: 0 20px;
 }
 
@@ -73,15 +77,22 @@ body{
     font-weight: 400;
     margin: 0;
 }
+/* 굿즈 페이지 타이틀 영역 (장례 페이지와 동일) */
+/* 만약 굿즈 페이지에 별도의 타이틀 영역이 있다면 이 부분을 추가하세요. */
+/* 현재는 HTML 구조를 모르므로 페이지 타이틀 영역은 잠시 생략하고 카드 스타일만 수정합니다. */
 
-/* --- 카드 스타일 --- */
+
+/* [수정] 카드 스타일 (투명도 적용) */
 .card{
-    width: 100%;
-    background: rgba(255, 255, 255, 0.85);
+    width:min(880px, 92vw);
+    /* [수정] 카드 투명도 적용 (0.75) */
+    background: rgba(255, 255, 255, 0.75);
     border:1px solid var(--border);
     border-radius:var(--radius);
     box-shadow:var(--shadow);
     padding:24px;
+    /* 굿즈 페이지의 .wrap 클래스 대신 .full-background에 의해 중앙 정렬되므로 margin-top/bottom은 제거 */
+    margin: 0; 
 }
 
 h1.title{ margin:6px 0 18px; color:#666; font-size:24px; text-align:center }
@@ -98,7 +109,7 @@ h1.title{ margin:6px 0 18px; color:#666; font-size:24px; text-align:center }
 
 label.small{ font-size:13px; color:#555 }
 .field{
-    display:flex; align-items:center; gap:8px;
+    align-items:center; gap:8px;
     background:#faf9f7; border:1px solid var(--border); border-radius:12px;
     padding:12px 12px;
 }
@@ -106,6 +117,20 @@ label.small{ font-size:13px; color:#555 }
     width:100%; border:0; outline:none; background:transparent; font-size:15px; color:var(--ink);
 }
 .muted{ color:var(--muted) }
+
+/* 슬롯/세그먼트 */
+.seg{display:flex; gap:8px; margin:6px 0}
+.seg-btn{
+    flex:1; height:36px; border:1px solid #e4d7c8; background:#fffaf4; color:#444; cursor:pointer;
+}
+.seg-btn.is-active{ background:#222; color:#fff; border-color:#222 }
+.slots{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+@media (max-width:480px){ .slots{ grid-template-columns:repeat(3,1fr); } }
+.slot{
+    height:36px; border:1px solid #e4d7c8; background:#fff; color:#333; border-radius:10px; cursor:pointer;
+}
+.slot.active{ background:#222; color:#fff; border-color:#222 }
+.slot.is-disabled{ background:#f2f2f2; color:#b7b7b7; pointer-events:none }
 
 /* 버튼 */
 .actions{ display:flex; gap:8px; justify-content:space-between; margin-top:14px }
@@ -128,61 +153,5 @@ label.small{ font-size:13px; color:#555 }
 .summary{ border-top:1px dashed #e3d7c6; margin-top:10px; padding-top:12px; line-height:1.8 }
 .count{ font-size:12px; color:#8c7a68; text-align:right }
 
-/* date input 스타일 */
-input[type="date"]{ color-scheme:light }
-
-
-
-
-/* 기존 슬롯 수정  */
-
-.slots {
-    width: 100%;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    padding: 6px 0;
-}
-
-@media (max-width: 480px) {
-    .slots {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-.slot {
-    height: 36px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 18px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    background: var(--panel);
-    color: var(--ink);
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    user-select: none;
-}
-
-.slot:hover {
-    background: #f7f3ed;
-    border-color: #d7cbbb;
-}
-
-.slot.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-    font-weight: 700;
-    box-shadow: 0 4px 8px rgba(162, 123, 92, 0.3);
-}
-
-.slot.active:hover {
-    background: #8b6c50;
-    border-color: #8b6c50;
-}
+/* 작은 안내 */
+.note{ display:block; color:#8b7d6c; font-size:12px; margin-top:4px }

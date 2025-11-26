@@ -1,5 +1,11 @@
+@view-transition {
+    navigation: auto;
+}
+
 html {
   overflow-y: scroll; /* 페이지 이동 시 헤더 덜컹거림 방지 */
+  background-color: #f5f0e5;
+  height: 100%;
 }
 
 *, *::before, *::after {
@@ -9,7 +15,7 @@ html {
 }
 
 body {
-  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   position: relative;
   margin: 0;
   background-color: #f5f0e5;
@@ -614,6 +620,7 @@ footer {
 {
   position: relative;
   width: 100%;
+  min-height: 92svh !important; /* 장례서비스와 동일하게 풀스크린 높이 */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -624,7 +631,6 @@ footer {
   overflow: hidden;
   margin: 0 !important;
   padding: 0 !important;
-  height: calc(100vh - 80px);
 }
 
 /* 2. 배경 오버레이 (글씨 가독성을 위한 어두운 막) */
@@ -635,7 +641,7 @@ footer {
   position: absolute;
   inset: 0;
   /* 장례서비스와 동일한 오버레이 색상/투명도 (필요시 조정 가능) */
-  background: linear-gradient(rgba(43, 38, 35, 0.3), rgba(43, 38, 35, 0.5));
+  background: linear-gradient(rgba(43, 38, 35, 0.4), rgba(43, 38, 35, 0.8));
   z-index: 1;
 }
 
@@ -656,8 +662,9 @@ footer {
 .banner h1,
 .banner-title,
 .full-background .page-title-area h1,
-.overlay_yj .page-title-area h1 {
-  font-family: 'Georgia', 'Nanum Myeongjo', serif !important;
+.overlay_yj .page-title-area h1,
+.banner_yj .banner-text_yj h1 {
+  font-family: 'Georgia', serif !important;
   font-size: 3rem !important;
   font-weight: 700 !important;
   color: #ffffff !important;
@@ -671,7 +678,8 @@ footer {
 .banner-desc,
 .full-background .page-title-area p,
 .overlay_yj .page-title-area p {
-  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
+  font-family: 'Georgia', sans-serif !important;
+  /*font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;*/
   font-size: 1.1rem !important; /* f_service 기준 */
   color: rgba(255, 255, 255, 0.95) !important;
   margin: 0 !important;
@@ -683,85 +691,93 @@ footer {
 /*==========*/
 
 /* 공통 스크롤 다운 인디케이터 스타일 (common.css) */
-.scroll-indicator {
-    --indicator-color: #f5f5f5;
-    position: absolute;
-    bottom: 75px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--indicator-color);
-    text-align: center;
-    cursor: pointer;
-    z-index: 10;
-    opacity: 0.9;
-    transition: opacity 0.3s;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    font-size: 1.1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+  .scroll-indicator {
+      --indicator-color: #f5f5f5;
+      position: absolute;
+      bottom: 80px !important;
+      left: 50% !important;
+      transform: translateX(-50%);
+      color: var(--indicator-color);
+      text-align: center;
+      cursor: pointer;
+      z-index: 10;
+      opacity: 0.9;
+      transition: opacity 0.3s;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      font-size: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-.scroll-icon {
-    display: block;
-    width: 70px;
-    height: 70px;
-    position: relative;
-    margin-bottom: 0px;
-}
+      cursor: default;
+  }
 
-.chevron {
-    position: absolute;
-    width: 55px;
-    height: 18px;
-    opacity: 0;
-    transform: scale(0.3);
-    animation: move-chevron 3s infinite;
-    stroke-width: 2px; /* 얇은 선 */
-    stroke: currentColor;
-    fill: none;
-    transform-origin: center;
-}
+  .scroll-icon {
+      display: block;
+      width: 70px;
+      height: 70px;
+      position: relative;
+      margin-bottom: 0px;
+  }
 
-.chevron:nth-child(2) {
-    animation-delay: 0.4s;
-}
+  .chevron {
+      position: absolute;
+      width: 55px;
+      height: 18px;
+      opacity: 0;
+      transform: scale(0.3);
+      animation: move-chevron 3s infinite;
 
-/* 애니메이션 키프레임 */
-@keyframes move-chevron {
-    0%   { opacity: 0; transform: translateY(-25px) scale(0.3); }
-    30%  { opacity: 1; transform: translateY(0) scale(1); }
-    70%  { opacity: 0; transform: translateY(25px) scale(1); }
-    100% { opacity: 0; transform: translateY(-25px) scale(0.3); }
-}
+      stroke: currentColor;
+      fill: none;
+      transform-origin: center;
+  }
 
-.banner .scroll-indicator {
-    left: 50vw !important;
-    transform: translateX(calc(-50% - 3px)) !important; /* (Npx 조정 값 유지) */
-    bottom: 10vh !important;
-}
+  .chevron:nth-child(2) {
+      animation-delay: 0.4s;
+  }
 
-.scroll-indicator .scroll-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
+  /* 애니메이션 키프레임 */
+  @keyframes move-chevron {
+      0%   { opacity: 0; transform: translateY(-25px) scale(0.3); }
+      30%  { opacity: 1; transform: translateY(0) scale(1); }
+      70%  { opacity: 0; transform: translateY(25px) scale(1); }
+      100% { opacity: 0; transform: translateY(-25px) scale(0.3); }
+  }
 
-.scroll-indicator .scroll-icon .chevron {
-    margin: 0 !important;
-    padding: 0 !important;
+  /* ---------------------------------------------------- */
+  /*  수정 구간: .banner 내부에서 중앙 정렬 재설정 */
+  .banner .scroll-indicator {
+      /* left: 50vw !important;  */
+      left: 50% !important; /* left를 50%로 고정 */
+      transform: translateX(-50%) !important;
+      bottom: 10vh !important;
 
-    width: 48px !important;
-    height: 48px !important;
-}
+      cursor: default;
+  }
+  /* ---------------------------------------------------- */
 
-.banner .scroll-indicator .chevron path {
-    /* 선의 굵기 조절 (숫자가 클수록 굵어집니다) */
-    stroke-width: 1.5px;
-    stroke-linecap: round;
-    fill: none;
-}
+  .scroll-indicator .scroll-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+  }
+
+  .scroll-indicator .scroll-icon .chevron {
+      margin: 0 !important;
+      padding: 0 !important;
+
+      width: 48px !important;
+      height: 48px !important;
+  }
+
+  .banner .scroll-indicator .chevron path {
+      /* 선의 굵기 조절 (숫자가 클수록 굵어집니다) */
+      stroke-width: 1.5px;
+      stroke-linecap: round;
+      fill: none;
+  }

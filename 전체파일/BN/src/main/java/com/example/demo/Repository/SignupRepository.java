@@ -53,4 +53,17 @@ public interface SignupRepository extends JpaRepository<Signup, String> {
 
     // 전체 회원 수
     long count();
+
+    Optional<Signup> findByNameAndEmailIdAndEmailDomainAndProviderIsNull(
+            String name,
+            String emailId,
+            String emailDomain
+    );
+
+    Optional<Signup> findByIdAndEmailIdAndEmailDomainAndProviderIsNull(
+            String id,
+            String emailId,
+            String emailDomain
+    );
+
 }

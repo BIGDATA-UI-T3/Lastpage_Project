@@ -8,8 +8,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 12345678    # 원하는 값
       MYSQL_DATABASE: lastpage       # DB 이름
-#      MYSQL_USER: lastpage
-#      MYSQL_PASSWORD: 12345678
+    #      MYSQL_USER: lastpage
+    #      MYSQL_PASSWORD: 12345678
     ports:
       - "3307:3306"                    # 로컬에서 DB 접속용
     volumes:
@@ -36,16 +36,16 @@ services:
       dockerfile: Dockerfile
     container_name: lastpage-app
     depends_on:
-        db:
-          condition: service_healthy
-        redis:
-          condition: service_started
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
     ports:
       - "8090:8090"
     environment:
       SPRING_PROFILES_ACTIVE: docker
       # DB 접속 정보 (Spring에서 ${...} 로 사용 가능)
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/lastpage?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      SPRING_DATASOURCE_URL: jdbc:mysql://lastpage-mysql:3306/lastpage?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 12345678
 
