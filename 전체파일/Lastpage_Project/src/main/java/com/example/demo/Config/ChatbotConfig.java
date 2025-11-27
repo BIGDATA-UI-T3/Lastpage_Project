@@ -34,9 +34,9 @@ public class ChatbotConfig {
         OpenAPI openAPI = new OpenAPI();              // OpenAPI 객체 생성
 
         openAPI.setInfo(new Info()                    // API 문서 정보 설정
-                .title("홈쇼핑 API")                 // API 제목
+                .title("Lastpage API")                 // API 제목
                 .version("v1.0")                      // API 버전
-                .description("Spring AI 챗봇과 연동된 홈쇼핑 데모 API") // API 설명
+                .description("Lastpage Demo API") // API 설명
         );
 
         return Optional.of(openAPI);                  // Optional로 감싸서 반환

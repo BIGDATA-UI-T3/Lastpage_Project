@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
     kakaoBtn.addEventListener("click", () => {
       const clientId = "233ccd88088955e848e47e0354526371";
       const redirectUri = "http://localhost:8090/login/oauth2/code/kakao";
-      window.location.href = `http://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+      window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
     });
   }
 
@@ -116,15 +116,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const clientId = "JpAxufwm7yy8tFcT2Rmz";
       const redirectUri = "http://localhost:8090/login/oauth2/code/naver";
       const state = Math.random().toString(36).substring(2, 15);
-      window.location.href = `http://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
+      window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
     });
   }
 
   const googleBtn = document.getElementById("googleLoginBtn");
   if (googleBtn) {
     googleBtn.addEventListener("click", () => {
+
       const redirectUri = "http://localhost:8090/login/oauth2/code/google";
-      window.location.href = `http://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`;
+      window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email profile`;
     });
   }
 

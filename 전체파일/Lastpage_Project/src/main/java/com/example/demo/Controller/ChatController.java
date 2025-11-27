@@ -80,7 +80,7 @@ public class ChatController {
     */
     public ChatController(ChatModel chatModel, ChatSessionService sessionService,
                           VectorSearchService vectorSearchService,
-                          @Value("${chatbot.api-base-url:http://localhost:8080}") String apiBaseUrl) {
+                          @Value("${chatbot.api-base-url:http://13.125.240.137:8080}") String apiBaseUrl) {
         this.chatModel = chatModel; // 모델 보관
         this.sessionService = sessionService; // 세션 서비스 보관
         this.vectorSearchService = vectorSearchService; // 검색 서비스 보관
