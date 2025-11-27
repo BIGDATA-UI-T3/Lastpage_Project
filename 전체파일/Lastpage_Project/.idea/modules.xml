@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Lastpage_Project.untitled.iml" filepath="$PROJECT_DIR$/.idea/modules/Lastpage_Project.untitled.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Lastpage_Project.untitled.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Lastpage_Project.untitled.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Lastpage_Project.untitled.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Lastpage_Project.untitled.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.example.untitled.iml" filepath="$PROJECT_DIR$/.idea/modules/com.example.untitled.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.example.untitled.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.example.untitled.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.example.untitled.test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.example.untitled.test.iml" />

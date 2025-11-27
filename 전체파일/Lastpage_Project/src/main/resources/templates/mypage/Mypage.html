@@ -18,9 +18,10 @@
 
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/Mypage.css}">
-
+    <link rel="stylesheet" th:href="@{/css/chatbot-global.css}">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet"/>
+
 
     <title>마이페이지</title>
 </head>
@@ -273,10 +274,18 @@
     </main>
 
 <div id="footer-container"></div>
+<div th:replace="~{fragments/chatbot-fragment :: chatbot-launcher-area}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: advanced-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: simple-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: doc-panel}"></div>
 <button id="scrollToTopBtn" title="맨 위로 가기">↑</button>
 <script src="/js/mypage.js"></script>
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
+<script src="/js/chat-main-launcher.js" th:src="@{/js/chat-main-launcher.js}"></script>
+<script src="/js/doc-chat.js" th:src="@{/js/doc-chat.js}"></script>
+<script src="/js/simple-chat.js" th:src="@{/js/simple-chat.js}"></script>
+<script src="/js/tuned-chat.js" th:src="@{/js/tuned-chat.js}"></script>
 <script th:src="@{/js/common.js}"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 

@@ -1,5 +1,11 @@
+@view-transition {
+    navigation: auto;
+}
+
 html {
   overflow-y: scroll; /* 페이지 이동 시 헤더 덜컹거림 방지 */
+  background-color: #f5f0e5;
+  height: 100%;
 }
 
 *, *::before, *::after {

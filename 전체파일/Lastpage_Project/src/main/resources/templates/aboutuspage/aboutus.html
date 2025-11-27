@@ -8,6 +8,7 @@
           rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/chatbot-global.css}">
     <title>About Us - LastPage</title>
     <script>
         tailwind.config = {
@@ -134,10 +135,18 @@
 </main>
 
 <div id="footer-container"></div>
+<div th:replace="~{fragments/chatbot-fragment :: chatbot-launcher-area}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: advanced-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: simple-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: doc-panel}"></div>
 <button id="scrollToTopBtn" title="맨 위로 가기">↑</button>
 
 <script th:src="@{/js/header.js}"></script>
 <script th:src="@{/js/footer.js}"></script>
+<script src="/js/chat-main-launcher.js" th:src="@{/js/chat-main-launcher.js}"></script>
+<script src="/js/doc-chat.js" th:src="@{/js/doc-chat.js}"></script>
+<script src="/js/simple-chat.js" th:src="@{/js/simple-chat.js}"></script>
+<script src="/js/tuned-chat.js" th:src="@{/js/tuned-chat.js}"></script>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>

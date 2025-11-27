@@ -12,7 +12,7 @@
           rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/adminDashboard.css}">
-
+    <link rel="stylesheet" th:href="@{/css/chatbot-global.css}">
 
 
 </head>
@@ -193,7 +193,15 @@
 
 </div>
 <div id="footer-container"></div>
+<div th:replace="~{fragments/chatbot-fragment :: chatbot-launcher-area}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: advanced-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: simple-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: doc-panel}"></div>
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
+<script src="/js/chat-main-launcher.js" th:src="@{/js/chat-main-launcher.js}"></script>
+<script src="/js/doc-chat.js" th:src="@{/js/doc-chat.js}"></script>
+<script src="/js/simple-chat.js" th:src="@{/js/simple-chat.js}"></script>
+<script src="/js/tuned-chat.js" th:src="@{/js/tuned-chat.js}"></script>
 </body>
 </html>

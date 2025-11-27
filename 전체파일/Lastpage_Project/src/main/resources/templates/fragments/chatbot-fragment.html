@@ -9,15 +9,15 @@
     </button>
 
     <div class="chat-selection-panel" id="chatSelectionPanel">
-        <button class="chat-selection-item" id="chatLauncher">고급 챗봇 (히스토리)</button>
-        <button class="chat-selection-item" id="simpleChatLauncher">단순 챗봇 (기본)</button>
+        <button class="chat-selection-item" id="chatLauncher">관리자 챗봇</button>
+        <button class="chat-selection-item" id="simpleChatLauncher">단순 챗봇</button>
         <button class="chat-selection-item" id="docChatLauncher">API 문서 조회</button>
     </div>
 </div>
 
 <div class="chat-panel" id="chatPanel" th:fragment="advanced-panel">
-    <div class="chat-header" style="background: #7c3aed;">
-        <div class="chat-header-title">AI 챗봇 (고급)</div>
+    <div class="chat-header" style="background: #2C3930;">
+        <div class="chat-header-title">AI 챗봇(API)</div>
         <button class="chat-close" id="chatClose" aria-label="대화창 닫기">&times;</button>
     </div>
     <div class="chat-quick-select" id="chatQuickSelect"></div>
@@ -35,8 +35,8 @@
 </div>
 
 <div class="chat-panel" id="simpleChatPanel" th:fragment="simple-panel">
-    <div class="chat-header" style="background: #ec4899;">
-        <div class="chat-header-title">AI 챗봇 (단순)</div>
+    <div class="chat-header" style="background: #2C3930;">
+        <div class="chat-header-title">AI 챗봇 </div>
         <button class="chat-close" id="simpleChatClose" aria-label="대화창 닫기">&times;</button>
     </div>
     <div class="chat-body">
@@ -52,7 +52,7 @@
 </div>
 
 <div class="chat-panel" id="docChatPanel" th:fragment="doc-panel">
-    <div class="chat-header" style="background: #0ea5e9;">
+    <div class="chat-header" style="background: #2C3930;">
         <div class="chat-header-title">API 문서 조회</div>
         <button class="chat-close" id="docChatClose" aria-label="대화창 닫기">&times;</button>
     </div>
