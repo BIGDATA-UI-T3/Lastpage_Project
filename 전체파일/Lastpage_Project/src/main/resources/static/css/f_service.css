@@ -20,14 +20,6 @@
     color:#2C3930;
 }
 
-/*.banner::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.55));
-    z-index: 1; *//* 배경 이미지 위에, 텍스트(inner) 아래에 위치 *//*
-}*/
-
 .banner .inner {
     padding: 36px 16px;
     /*position: relative; *//* ::after 위로 올라오도록 *//*
@@ -238,5 +230,6 @@
 
 /* 스크롤 화살표를 왼쪽으로 이동시켜 중앙에 맞추기 */
 .banner .scroll-indicator {
-    left: calc(50% - 50px) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
 }

@@ -15,7 +15,7 @@ html {
 }
 
 body {
-  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   position: relative;
   margin: 0;
   background-color: #f5f0e5;
@@ -620,7 +620,7 @@ footer {
 {
   position: relative;
   width: 100%;
-  min-height: 90svh !important; /* 장례서비스와 동일하게 풀스크린 높이 */
+  min-height: 92svh !important; /* 장례서비스와 동일하게 풀스크린 높이 */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -662,8 +662,9 @@ footer {
 .banner h1,
 .banner-title,
 .full-background .page-title-area h1,
-.overlay_yj .page-title-area h1 {
-  font-family: 'Georgia', 'Noto Sans KR', serif !important;
+.overlay_yj .page-title-area h1,
+.banner_yj .banner-text_yj h1 {
+  font-family: 'Georgia', serif !important;
   font-size: 3rem !important;
   font-weight: 700 !important;
   color: #ffffff !important;
@@ -677,7 +678,7 @@ footer {
 .banner-desc,
 .full-background .page-title-area p,
 .overlay_yj .page-title-area p {
-  font-family: 'Georgia', 'Noto Sans KR', sans-serif !important;
+  font-family: 'Georgia', sans-serif !important;
   /*font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;*/
   font-size: 1.1rem !important; /* f_service 기준 */
   color: rgba(255, 255, 255, 0.95) !important;
@@ -707,6 +708,8 @@ footer {
       display: flex;
       flex-direction: column;
       align-items: center;
+
+      cursor: default;
   }
 
   .scroll-icon {
@@ -749,6 +752,8 @@ footer {
       left: 50% !important; /* left를 50%로 고정 */
       transform: translateX(-50%) !important;
       bottom: 10vh !important;
+
+      cursor: default;
   }
   /* ---------------------------------------------------- */
 
