@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (kakaoBtn) {
     kakaoBtn.addEventListener("click", () => {
       const clientId = "233ccd88088955e848e47e0354526371";
-      const redirectUri = "http://localhost:8090/login/oauth2/code/kakao";
+//      const redirectUri = "http://localhost:8090/login/oauth2/code/kakao";
        const redirectUri = "http://54.116.21.71:8090/login/oauth2/code/kakao";
       window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
     });
