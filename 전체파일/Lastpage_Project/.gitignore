@@ -49,8 +49,7 @@ bin/
 #########################################
 # 🔥 Local Config / Environment Keys (API KEY, SECRET)
 #########################################
-.env
-.env.*
+
 *.json
 *.p12
 *.pem
