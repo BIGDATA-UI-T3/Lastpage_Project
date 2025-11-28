@@ -79,4 +79,4 @@ application-*.properties
 .kotlin/
 
 # 소스코드 제외 지정
-**/OAuthService.java
+
