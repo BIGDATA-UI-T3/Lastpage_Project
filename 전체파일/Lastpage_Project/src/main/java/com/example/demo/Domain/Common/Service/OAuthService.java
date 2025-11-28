@@ -46,7 +46,7 @@ public class OAuthService {
         params.add("grant_type", "authorization_code");
         params.add("client_id", kakao_client_id);
         params.add("client_secret", kakao_client_secret);
-        params.add("redirect_uri", "http://13.125.240.137/login/oauth2/code/kakao");
+        params.add("redirect_uri", "http://54.116.21.71/login/oauth2/code/kakao");
         params.add("code", code);
 
         ResponseEntity<Map> tokenResponse = restTemplate.postForEntity(tokenUrl, params, Map.class);
@@ -149,7 +149,7 @@ public class OAuthService {
         params.add("grant_type", "authorization_code");
         params.add("client_id", "");
         params.add("client_secret", "");
-        params.add("redirect_uri", "http://13.125.240.137:8090/login/oauth2/code/google");
+        params.add("redirect_uri", "http://54.116.21.71:8090/login/oauth2/code/google");
         params.add("code", code);
 
         ResponseEntity<Map> tokenResponse = restTemplate.postForEntity(tokenUrl, params, Map.class);
