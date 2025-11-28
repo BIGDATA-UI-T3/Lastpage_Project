@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="984115cd-9e36-4c40-8225-f214d762b5b9" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Domain/Common/Service/OAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Domain/Common/Service/OAuthService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +135,7 @@
       <recent name="com.example.demo.Controller" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Lastpage_Project [bootJar]">
+  <component name="RunManager" selected="애플리케이션.DemoApplication (3)">
     <configuration name="DemoApplication (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.demo.DemoApplication" />
       <module name="com.example.untitled.main" />
