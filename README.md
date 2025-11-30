@@ -1,3 +1,18 @@
+<p align="center">
+  <img src="https://github.com/BIGDAT-UI-T3/Lastpage_Project/blob/main/images/banner.png" width="100%" />
+</p>
+
+<h1 align="center" style="font-weight:700; font-size:42px;">
+  LASTPAGE
+</h1>
+
+<p align="center" style="font-size:18px;">
+  반려동물 장례 · 심리상담 · 추모굿즈 통합 플랫폼
+</p>
+
+---
+
+
 # 🐾 LastPage Project  
 > 반려동물의 마지막 길을 따뜻하게 동행하는 올인원 플랫폼  
 
