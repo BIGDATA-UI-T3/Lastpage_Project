@@ -1,10 +1,11 @@
+<h1 align="center">🐾 LastPage Project</h1>
+<p align="center">
+  반려동물의 마지막 길을 <strong>가장 따뜻하게</strong> 동행하는<br/>
+  올인원 케어 플랫폼
+</p>
+
 ---
 
-
-# 🐾 LastPage Project  
-> 반려동물의 마지막 길을 따뜻하게 동행하는 올인원 플랫폼  
-
----
 
 ## 프로젝트 소개
 
