@@ -57,35 +57,212 @@
 ##  7. 프로젝트 구조
 
 ```plaintext
-LastPage-Project/
- ┣ 📁 src
- ┃ ┣ 📂 main
- ┃ ┃ ┣ 📂 java/com/example/demo
- ┃ ┃ ┃ ┣ 📂 Controller
- ┃ ┃ ┃ ┃ ┣ 
- ┃ ┃ ┃ ┃ ┗       
- ┃ ┃ ┃ ┣ 📂 Domain
- ┃ ┃ ┃ ┃ ┗ 📂 Common
- ┃ ┃ ┃ ┃ ┃ ┣ 📂 Entity
- ┃ ┃ ┃ ┃ ┃ ┃ 
- ┃ ┃ ┃ ┃ ┃ ┣ 📂 Dto
- ┃ ┃ ┃ ┃ ┃ ┣ 📂 Service
- ┃ ┃ ┃ ┃ ┃ ┗ 📂 Repository
- ┃ ┃ ┗ 📂 resources
- ┃ ┃ ┃ ┣ 📂 templates
- ┃ ┃ ┃ ┃ ┣ mypage/
- ┃ ┃ ┃ ┃ ┣ pay/
- ┃ ┃ ┃ ┗ 📂 static
- ┃ ┃ ┃ ┃ ┣ 📂 css
- ┃ ┃ ┃ ┃ ┃ 
- ┃ ┃ ┃ ┃ ┃ 
- ┃ ┃ ┃ ┃ ┣ 📂 js
- ┃ ┃ ┃ ┃ ┃
- ┃ ┃ ┃ ┃ ┗ 📂 img / Asset
- ┃ ┃ ┃ ┃ ┃ 
- ┣ 📄 build.gradle
- ┣ 📄 docker-compose.yml
- ┣ 📄 application.yml
- ┣ 📄 README.md
- ┗ 📄 LICENSE
+Lastpage_Project/
+├── build.gradle
+├── settings.gradle
+├── Dockerfile
+├── docker-compose.yml
+├── .env
+├── .gitignore
+├── uploads/
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/example/demo/
+│       │       ├── Config/
+│       │       │   ├── ChatbotConfig
+│       │       │   ├── DataSourceConfig
+│       │       │   ├── MybatisConfig
+│       │       │   ├── SecurityConfig
+│       │       │   └── WebConfig
+│       │       │
+│       │       ├── Controller/
+│       │       │   ├── GlobalException/
+│       │       │   │   └── GlobalExceptionHandler
+│       │       │   ├── AdminDashboardController
+│       │       │   ├── AdminEditInfoController
+│       │       │   ├── AdminQnaController
+│       │       │   ├── AdminReserveController
+│       │       │   ├── AdminUserController
+│       │       │   ├── ChatController
+│       │       │   ├── CommunityCommentController
+│       │       │   ├── CommunityPageController
+│       │       │   ├── CommunityPostController
+│       │       │   ├── EditInfoController
+│       │       │   ├── ExceptionTestController
+│       │       │   ├── FindController
+│       │       │   ├── FindViewController
+│       │       │   ├── FooterController
+│       │       │   ├── FuneralServiceController
+│       │       │   ├── GoodsServiceController
+│       │       │   ├── HeaderController
+│       │       │   ├── LoginController
+│       │       │   ├── MypageController
+│       │       │   ├── PaymentsController
+│       │       │   ├── PaymentsViewController
+│       │       │   ├── PsyServiceController
+│       │       │   ├── QnaImageController
+│       │       │   ├── ReserveController
+│       │       │   ├── SigninController
+│       │       │   ├── SignupController
+│       │       │   ├── SimpleChatController
+│       │       │   ├── SupportController
+│       │       │   ├── SwaggerDemoController
+│       │       │   └── UserProfileController
+│       │       │
+│       │       ├── Domain/
+│       │       │   ├── Common/
+│       │       │   │   ├── Dto/
+│       │       │   │   ├── Entity/
+│       │       │   │   └── Service/
+│       │       │   │       ├── Admin/
+│       │       │   │       │   ├── AuthService
+│       │       │   │       │   ├── ChatSessionService
+│       │       │   │       │   ├── CommentService
+│       │       │   │       │   ├── CustomUserDetailsService
+│       │       │   │       │   ├── EditInfoService
+│       │       │   │       │   ├── EmailService
+│       │       │   │       │   ├── FindService
+│       │       │   │       │   ├── FollowService
+│       │       │   │       │   ├── FuneralReserveService
+│       │       │   │       │   ├── GoodsReserveService
+│       │       │   │       │   ├── OAuthService
+│       │       │   │       │   ├── OurpageReserveService
+│       │       │   │       │   ├── PaymentsService
+│       │       │   │       │   ├── PostService
+│       │       │   │       │   ├── PsyReserveService
+│       │       │   │       │   ├── QnaImageService
+│       │       │   │       │   ├── QnaService
+│       │       │   │       │   └── SignupService
+│       │       │   │
+│       │       │   └── Repository/
+│       │       │       └── (JPA Repository Interfaces)
+│       │       │
+│       │       ├── support/
+│       │       │   ├── OpenApiDocumentLoader
+│       │       │   ├── VectorSearchService
+│       │       │   └── ServletInitializer
+│       │       │
+│       │       └── DemoApplication.java
+│       │
+│       ├── resources/
+│       │   ├── mapper/
+│       │   ├── static/
+│       │   │   ├── Asset/
+│       │   │   ├── css/
+│       │   │   │   ├── adminDashboard.css
+│       │   │   │   ├── adminQna.css
+│       │   │   │   ├── adminReserveList.css
+│       │   │   │   ├── adminUserList.css
+│       │   │   │   ├── chatbot-global.css
+│       │   │   │   ├── common.css
+│       │   │   │   ├── Community.css
+│       │   │   │   ├── EditInfo.css
+│       │   │   │   ├── f_service.css
+│       │   │   │   ├── findId.css
+│       │   │   │   ├── findPassword.css
+│       │   │   │   ├── Funeral_reserve.css
+│       │   │   │   ├── Goods.css
+│       │   │   │   ├── Goods_reserve.css
+│       │   │   │   ├── index.css
+│       │   │   │   ├── Lastpage.css
+│       │   │   │   ├── Mainpage.css
+│       │   │   │   ├── Mypage.css
+│       │   │   │   ├── Ourpage.css
+│       │   │   │   ├── Ourpage_reserve.css
+│       │   │   │   ├── Payments.css
+│       │   │   │   ├── paymentsSuccess.css
+│       │   │   │   ├── psy_reserve.css
+│       │   │   │   ├── Psypage.css
+│       │   │   │   ├── Signin.css
+│       │   │   │   ├── Signup.css
+│       │   │   │   └── Support.css
+│       │   │   └── js/
+│       │       │   ├── adminQna.js
+│       │       │   ├── adminReserveList.js
+│       │       │   ├── adminUserList.js
+│       │       │   ├── chat-main-launcher.js
+│       │       │   ├── common.js
+│       │       │   ├── community.js
+│       │       │   ├── doc-chat.js
+│       │       │   ├── editInfo.js
+│       │       │   ├── f_service.js
+│       │       │   ├── findId.js
+│       │       │   ├── findPassword.js
+│       │       │   ├── footer.js
+│       │       │   ├── funeralReserve.js
+│       │       │   ├── goods.js
+│       │       │   ├── goodsReserve.js
+│       │       │   ├── header.js
+│       │       │   ├── mainpage.js
+│       │       │   ├── mypage.js
+│       │       │   ├── ourpage.js
+│       │       │   ├── ourpageReserve.js
+│       │       │   ├── payments.js
+│       │       │   ├── paymentsSuccess.js
+│       │       │   ├── psyReserve.js
+│       │       │   ├── signin.js
+│       │       │   ├── signup.js
+│       │       │   ├── simple-chat.js
+│       │       │   ├── support.js
+│       │       │   └── tuned-chat.js
+│       │
+│       │   ├── templates/
+│       │   │   ├── aboutuspage/
+│       │   │   │   └── aboutus.html
+│       │   │   ├── admin/
+│       │   │   │   ├── AdminDashboard.html
+│       │   │   │   ├── AdminQna.html
+│       │   │   │   ├── AdminReserveList.html
+│       │   │   │   └── AdminUserList.html
+│       │   │   ├── communitypage/
+│       │   │   │   └── Community.html
+│       │   │   ├── fragments/
+│       │   │   │   └── chatbot-fragment.html
+│       │   │   ├── funeralpage/
+│       │   │   │   ├── f_service.html
+│       │   │   │   └── Funeralpage.html
+│       │   │   ├── goodspage/
+│       │   │   │   └── Goods.html
+│       │   │   ├── mainpage/
+│       │   │   │   └── Mainpage.html
+│       │   │   ├── mypage/
+│       │   │   │   ├── EditInfo.html
+│       │   │   │   └── Mypage.html
+│       │   │   ├── ourpage/
+│       │   │   │   └── ourpage.html
+│       │   │   ├── payments/
+│       │   │   │   ├── Payments.html
+│       │   │   │   ├── PaymentsCancel.html
+│       │   │   │   ├── PaymentsFailure.html
+│       │   │   │   └── PaymentsSuccess.html
+│       │   │   ├── post/
+│       │   │   │   └── Comm-Post.html
+│       │   │   ├── psy/
+│       │   │   │   └── Psypage.html
+│       │   │   ├── reserve/
+│       │   │   │   ├── Funeral_reserve.html
+│       │   │   │   ├── Goods_reserve.html
+│       │   │   │   ├── Ourpage_reserve.html
+│       │   │   │   └── psy_reserve.html
+│       │   │   ├── signin/
+│       │   │   │   ├── FindId.html
+│       │   │   │   ├── FindPassword.html
+│       │   │   │   └── Signin.html
+│       │   │   ├── signup/
+│       │   │   │   └── Signup.html
+│       │   │   └── support/
+│       │   │       ├── Support.html
+│       │   │       ├── footer.html
+│       │   │       ├── global_error.html
+│       │   │       ├── header.html
+│       │   │       └── index.html
+│       │
+│       │   ├── application.properties
+│       │   └── application-docker.properties
+│       │
+│       └── webapp/
+│
+└── gradlew / gradlew.bat
+
 
