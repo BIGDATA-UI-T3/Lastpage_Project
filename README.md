@@ -42,15 +42,26 @@
 ---
 
 ## 6. 기술 스택
+Backend
+<p align="left"> <img src="https://img.shields.io/badge/Spring%20Boot-3.0+-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"/> <img src="https://img.shields.io/badge/Java-17%2F21-007396?style=for-the-badge&logo=openjdk&logoColor=white"/> <img src="https://img.shields.io/badge/JPA-Hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white"/> <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/> <img src="https://img.shields.io/badge/Gradle-Build-02303A?style=for-the-badge&logo=gradle&logoColor=white"/> </p>
 
-| 구분 | 기술 |
-|------|------|
-| **Backend** | Spring Boot 3.x, JPA, MySQL, Gradle |
-| **Frontend** | Thymeleaf, HTML5, CSS3 (Bootstrap 5), JavaScript |
-| **Auth** | Kakao, Naver, Google OAuth 2.0 |
-| **Infra** | Docker Compose, Redis, Kafka (Event Handling) |
-| **Tooling** | IntelliJ IDEA, GitHub, Postman |
-| **Security** | BCryptPasswordEncoder, Session 인증, HTTPS 적용 예정 |
+Frontend
+<p align="left"> <img src="https://img.shields.io/badge/Thymeleaf-Template-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white"/> <img src="https://img.shields.io/badge/HTML5-Web-E34F26?style=for-the-badge&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/CSS3-Style-1572B6?style=for-the-badge&logo=css3&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"/> <img src="https://img.shields.io/badge/Bootstrap-5-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white"/> </p>
+
+Authentication & OAuth
+<p align="left"> <img src="https://img.shields.io/badge/Kakao%20OAuth-FFCD00?style=for-the-badge&logo=kakao&logoColor=black"/> <img src="https://img.shields.io/badge/Naver%20OAuth-03C75A?style=for-the-badge&logo=naver&logoColor=white"/> <img src="https://img.shields.io/badge/Google%20OAuth-4285F4?style=for-the-badge&logo=google&logoColor=white"/> </p>
+
+Infra
+<p align="left"> <img src="https://img.shields.io/badge/Docker-Container-2496ED?style=for-the-badge&logo=docker&logoColor=white"/> <img src="https://img.shields.io/badge/Docker%20Compose-Orchestration-1D63ED?style=for-the-badge&logo=docker&logoColor=white"/> <img src="https://img.shields.io/badge/Redis-Cache-DC382D?style=for-the-badge&logo=redis&logoColor=white"/> <img src="https://img.shields.io/badge/Apache%20Kafka-Event%20Stream-231F20?style=for-the-badge&logo=apachekafka&logoColor=white"/> </p>
+
+CI/CD & Deployment
+<p align="left"> <img src="https://img.shields.io/badge/Jenkins-CI%2FCD-D24939?style=for-the-badge&logo=jenkins&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white"/> <img src="https://img.shields.io/badge/Webhook-Auto%20Deploy-000000?style=for-the-badge&logo=github&logoColor=white"/> <img src="https://img.shields.io/badge/Docker%20Image-Build%20%26%20Deploy-2496ED?style=for-the-badge&logo=docker&logoColor=white"/> </p>
+
+Security
+<p align="left"> <img src="https://img.shields.io/badge/BCrypt-Password%20Hashing-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white"/> <img src="https://img.shields.io/badge/Session%20Auth-Server%20Side-2C3E50?style=for-the-badge"/> </p>
+
+Tools
+<p align="left"> <img src="https://img.shields.io/badge/IntelliJ%20IDEA-Ultimate-000000?style=for-the-badge&logo=intellijidea&logoColor=white"/> <img src="https://img.shields.io/badge/Postman-API%20Testing-FF6C37?style=for-the-badge&logo=postman&logoColor=white"/> <img src="https://img.shields.io/badge/Git-Version%20Control-F05032?style=for-the-badge&logo=git&logoColor=white"/> </p>
 
 ---
 
