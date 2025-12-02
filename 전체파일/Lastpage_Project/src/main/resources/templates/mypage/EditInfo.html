@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원정보 수정</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/EditInfo.css}">
+</head>
+
+<body>
+<div class="header-wrapper">
+    <div id="header-container"></div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <h2>회원정보 수정</h2>
+    <hr/>
+
+    <!-- ★ userType + userSeq + oauthEmail 전달 (관리자용 포함) -->
+    <form id="editForm"
+          th:data-usertype="${userType}"
+          th:data-userseq="${targetUserSeq}"
+          th:data-oauthemail="${user?.oauthEmail}"
+          th:data-targetlogintype="${loginType}">
+
+
+    <div class="mb-3">
+        <label class="form-label">이름</label>
+        <input type="text" id="name" class="form-control" placeholder="홍길동"
+               th:value="${user?.name}">
+        <div class="muted small">소셜 로그인 사용자는 이름 수정이 불가합니다.</div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">이메일</label>
+        <div class="d-flex gap-2">
+            <input type="text" id="emailId" class="form-control" placeholder="example" style="flex:1"
+                   th:value="${user?.emailId}">
+            <span class="align-self-center">@</span>
+            <input type="text" id="emailDomain" class="form-control" placeholder="gmail.com" style="flex:1"
+                   th:value="${user?.emailDomain}">
+        </div>
+        <div class="muted small">소셜 로그인 사용자는 이메일 수정이 불가합니다.</div>
+    </div>
+
+    <!-- ★ 비밀번호 영역 (관리자 모드에서는 JS에서 자동 비활성화/숨김됨) -->
+    <div class="mb-3">
+        <label class="form-label">비밀번호</label>
+        <input type="password" id="password" class="form-control" placeholder="비밀번호 변경 시 입력">
+        <div id="pwStrengthBar" style="height:6px;border-radius:3px;margin-top:5px;"></div>
+        <div id="pwStrengthText" style="font-size:12px;font-weight:bold;margin-top:3px;"></div>
+        <div class="muted small">소셜 로그인 사용자는 비밀번호 수정이 불가합니다.</div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">비밀번호 확인</label>
+        <input type="password" id="password-confirm" class="form-control" placeholder="비밀번호 확인">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">휴대폰 번호</label>
+        <input type="tel" id="phone" class="form-control" placeholder="010-1234-5678"
+               th:value="${user?.phone_num}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">생년월일</label>
+        <input type="date" id="birth" class="form-control"
+               th:value="${user?.year != null ? user.year + '-' + #numbers.formatInteger(user.month,2) + '-' + #numbers.formatInteger(user.day,2) : ''}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">성별</label>
+        <select id="gender" class="form-select" th:value="${user?.gender}">
+            <option value="">선택</option>
+            <option value="M">남성</option>
+            <option value="F">여성</option>
+            <option value="N">선택안함</option>
+        </select>
+    </div>
+
+    <!-- 저장 버튼 -->
+    <button type="button" class="btn-save" id="saveBtn">저장하기</button>
+
+    <hr/>
+
+    <!-- ★ 관리자 모드에서는 JS에서 자동으로 숨김 -->
+    <button type="button" class="btn-delete" id="deleteBtn">회원탈퇴하기</button>
+    </form>
+</div>
+
+<div id="footer-container"></div>
+
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
+<script src="/js/editInfo.js"></script>
+
+</body>
+</html>

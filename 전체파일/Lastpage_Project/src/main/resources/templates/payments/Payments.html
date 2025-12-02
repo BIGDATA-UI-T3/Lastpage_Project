@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 페이지 | LastPage</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/Payments.css}">
+</head>
+
+<body>
+<div class="header-wrapper">
+    <div id="header-container"></div>
+</div>
+
+<div class="payment-container">
+    <h3 class="text-center mb-4">결제하기</h3>
+
+    <!-- =====================
+         결제 정보
+         ===================== -->
+    <div class="payment-info-box">
+
+        <h5 class="mb-3">주문 정보</h5>
+
+        <p><strong>결제 금액:</strong>
+            <span id="amountText" th:text="'₩ ' + ${amount}"></span>
+        </p>
+
+        <!-- 결제 기본 정보 (서버에서 내려오는 값) -->
+        <input type="hidden" id="reserveId" th:value="${reserveId}">
+        <input type="hidden" id="amount" th:value="${amount}">
+
+        <div class="form-check mt-4">
+            <input class="form-check-input" type="checkbox" id="confirmCheck">
+            <label class="form-check-label" for="confirmCheck">
+                위 결제 내용을 확인했습니다.
+            </label>
+        </div>
+    </div>
+
+    <!-- =====================
+         결제 수단 선택
+         ===================== -->
+    <div class="method-area mt-5">
+        <h5 class="mb-3">결제수단 선택</h5>
+
+        <button id="kakaoPayBtn" class="btn-pay kakao-btn">
+            <img th:src="@{/Asset/payment_icon_yellow_large.png}" alt="카카오페이">
+        </button>
+
+        <button id="naverPayBtn" class="btn-pay naver-btn">
+            <img th:src="@{/Asset/btn_npaygr.svg}" alt="네이버페이">
+        </button>
+    </div>
+
+</div>
+
+<div id="footer-container"></div>
+
+<!-- 네이버 페이 포인트결제 SDK -->
+<script src="https://nsp.pay.naver.com/sdk/js/naverpay.min.js"></script>
+
+<!-- 결제 JS -->
+<script th:src="@{/js/payments.js}"></script>
+
+<!-- 헤더 / 푸터 -->
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Community</title>
+    <link rel="stylesheet" th:href="@{/css/Community.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/chatbot-global.css}">
+    <!--  google icon  -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <!--  bootstrap  -->
+    <link crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SWIPER CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="header-wrapper">
+    <div id="header-container"></div>
+</div>
+
+<!-- 배너 -->
+<div class="banner_yj swiper" >
+    <div class="swiper-wrapper">
+        <!-- 각 슬라이드에 배경 이미지 적용 -->
+        <div class="swiper-slide slide1"></div>
+        <div class="swiper-slide slide2"></div>
+        <div class="swiper-slide slide3"></div>
+        <div class="swiper-slide slide4"></div>
+    </div>
+
+    <!-- 텍스트 오버레이 (슬라이드 위 고정) -->
+    <div class="overlay_yj">
+        <div class="banner-text_yj"
+             data-aos="fade-up"
+             data-aos-duration="2000"
+             data-aos-easing="ease-out-cubic">
+            <h1>반려동물과 함께한 모든 순간,<wbr> 이곳에서 나눠요</h1>
+            <p>따뜻한 위로부터 유용한 정보까지, 서로의 경험을 나누며 함께 성장하는 커뮤니티입니다.</p>
+        </div>
+
+        <div class="scroll-indicator" onclick="scrollToMainContent()">
+            <div class="scroll-icon">
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="m6 9 6 6 6-6"/>
+                </svg>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="m6 9 6 6 6-6"/>
+                </svg>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 메인 레이아웃 -->
+<div class="page-container">
+    <!-- 좌측 프로필 -->
+    <aside class="profile-sidebar">
+
+        <div class="profile-card" id="profile-card">
+
+            <!-- 프로필 이미지 -->
+            <img
+                    src="/Asset/default-avatar.svg"
+                    alt="User Avatar"
+                    class="avatar"
+                    id="sidebar-profile-avatar"
+            >
+
+            <!-- 사용자 이름 -->
+            <h3 id="profile-name" class="my-profile-name">Guest</h3>
+
+            <!-- @아이디 -->
+            <p id="profile-userid" class="user-id"></p>
+
+            <!-- 통계 영역 (로그인 전 숨김) -->
+            <div class="profile-stats" id="profile-stats" style="display:none;">
+                <div class="stat-item"><span class="count" id="post-count">0</span>
+                    <span class="label">내 글</span>
+                </div>
+                <div class="stat-item"><span class="count" id="follower-count">0</span>
+                    <span class="label">팔로워</span>
+                </div>
+                <div class="stat-item"><span class="count" id="following-count">0</span>
+                    <span class="label">팔로잉</span>
+                </div>
+            </div>
+
+            <!-- 소개글 -->
+            <div id="profile-bio" class="profile-bio">로그인 후 커뮤니티 서비스를 이용해보세요</div>
+
+            <!-- 로그인 전/후 버튼 컨테이너 -->
+            <div id="profile-btn-area">
+                <!-- 로그인 전 보여야 하는 버튼 -->
+                <button class="my-posts-btn" id="signin-btn" style="margin-bottom: 5px;">로그인</button>
+                <button class="my-posts-btn" id="signup-btn">회원가입</button>
+
+                <!-- 로그인 후 보여야 하는 버튼 -->
+                <button class="my-posts-btn" id="my-posts-view-btn" style="display:none;">내가 쓴 글 보기</button>
+            </div>
+
+        </div>
+    </aside>
+
+
+    <!-- 메인 콘텐츠 -->
+    <main class="main-content">
+        <!-- 전체 피드 컨테이너 -->
+        <div id="feed-container">
+            <div class="main-actions">
+                <div class="category-filter">
+                    <button data-category="ALL" class="category-btn active">전체</button>
+                    <button data-category="FUNERAL" class="category-btn">장례</button>
+                    <button data-category="GOODS" class="category-btn">굿즈</button>
+                    <button data-category="COUNSELING" class="category-btn">상담</button>
+                    <button data-category="ETC" class="category-btn">기타</button>
+                </div>
+                <button class="write-post-btn" id="write-btn">내 추억 기록하기</button>
+            </div>
+            <div class="post-feed">
+                <!--                <article class="feed-post-card">-->
+                <!--                    <div class="post-header">-->
+                <!--                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=50"-->
+                <!--                             class="author-avatar" alt="뽀삐언니 아바타">-->
+                <!--                        <span class="author-name">뽀삐언니</span>-->
+                <!--                    </div>-->
+                <!--                    <div class="post-image-wrapper"><img-->
+                <!--                            src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=600"-->
+                <!--                            alt="골든 리트리버"></div>-->
+                <!--                    <div class="post-actions">-->
+                <!--                        <svg class="like-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path-->
+                <!--                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">-->
+                <!--                            </path>-->
+                <!--                        </svg>-->
+                <!--                        <svg class="comment-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path-->
+                <!--                                    d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z">-->
+                <!--                            </path>-->
+                <!--                        </svg>-->
+                <!--                        <svg class="share-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>-->
+                <!--                        </svg>-->
+                <!--                        <svg class="bookmark" fill="none" stroke="currentColor" stroke-width="2"-->
+                <!--                             viewBox="0 0 24 24">-->
+                <!--                            <path class="bookmark-icon-outline" stroke-linecap="round" stroke-linejoin="round"-->
+                <!--                                  d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"></path>-->
+                <!--                            <path class="bookmark-icon-filled" stroke-linecap="round" stroke-linejoin="round"-->
+                <!--                                  d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"></path>-->
+                <!--                        </svg>-->
+                <!--                    </div>-->
+                <!--                    <div class="post-details">-->
+                <!--                        <div class="like-count">좋아요 1,023개</div>-->
+                <!--                        <div class="post-caption"><span class="author-name">뽀삐언니</span>하늘에서는 마음껏 뛰어놀아, 우리 뽀삐. 항상-->
+                <!--                            사랑해!</div>-->
+                <!--                    </div>-->
+                <!--                </article>-->
+
+                <!--                <article class="feed-post-card">-->
+                <!--                    <div class="post-header">-->
+                <!--                        <img src="https://images.unsplash.com/photo-1615789591457-74a63395c990?q=80&w=50"-->
+                <!--                             class="author-avatar" alt="나비집사 아바타">-->
+                <!--                        <span class="author-name">나비집사</span>-->
+                <!--                    </div>-->
+                <!--                    <div class="post-image-wrapper"><img-->
+                <!--                            src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=600"-->
+                <!--                            alt="창가의 고양이"></div>-->
+                <!--                    <div class="post-actions">-->
+                <!--                        <svg class="like-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path-->
+                <!--                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">-->
+                <!--                            </path>-->
+                <!--                        </svg>-->
+                <!--                        <svg class="comment-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path-->
+                <!--                                    d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z">-->
+                <!--                            </path>-->
+                <!--                        </svg>-->
+                <!--                    </div>-->
+                <!--                    <div class="post-details">-->
+                <!--                        <div class="like-count">좋아요 856개</div>-->
+                <!--                        <div class="post-caption"><span class="author-name">나비집사</span>창가에서 햇볕 쬐는 걸 좋아하던 우리 나비. 그곳은-->
+                <!--                            항상 따뜻했으면 좋겠다.</div>-->
+                <!--                    </div>-->
+                <!--                </article>-->
+
+                <!--                <article class="feed-post-card">-->
+                <!--                    <div class="post-header">-->
+                <!--                        <img src="https://images.unsplash.com/photo-1541364983171-a8ba01e95cfc?q=80&w=50"-->
+                <!--                             class="author-avatar" alt="앵두보호자 아바타">-->
+                <!--                        <span class="author-name">앵두보호자</span>-->
+                <!--                    </div>-->
+                <!--                    <div class="post-image-wrapper"><img-->
+                <!--                            src="https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=600" alt="비글 강아지">-->
+                <!--                    </div>-->
+                <!--                    <div class="post-actions">-->
+                <!--                        <svg class="like-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path-->
+                <!--                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">-->
+                <!--                            </path>-->
+                <!--                        </svg>-->
+                <!--                        <svg class="comment-btn" fill="currentColor" viewBox="0 0 24 24">-->
+                <!--                            <path-->
+                <!--                                    d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z">-->
+                <!--                            </path>-->
+                <!--                        </svg>-->
+                <!--                    </div>-->
+                <!--                    <div class="post-details">-->
+                <!--                        <div class="like-count">좋아요 912개</div>-->
+                <!--                        <div class="post-caption"><span class="author-name">앵두보호자</span>처음 만난 날, 너의 눈빛을 잊을 수 없어. 고맙고-->
+                <!--                            미안해, 앵두야.</div>-->
+                <!--                    </div>-->
+                <!--                </article>-->
+            </div>
+        </div>
+
+        <!-- 내가 쓴 글 컨테이너 -->
+        <div id="my-posts-container" style="display: none;">
+            <div class="profile-page-wrapper">
+                <div class="view-header">
+                    <h2>내 프로필</h2>
+                    <button class="back-to-feed-btn" id="profile-back-btn">피드로 돌아가기</button>
+                </div>
+                <div class="profile-page-header">
+                    <!-- 프로필 이미지 -->
+                    <img src="/Asset/default-avatar.svg"
+                         alt="User Avatar"
+                         class="profile-page-avatar"
+                         id="my-profile-avatar">
+                    <div class="profile-page-info">
+                        <div class="info-top">
+                            <!-- @아이디 -->
+                            <span class="profile-page-id" id="my-profile-userid">@userId</span>
+                            <button class="profile-edit-btn" id="profile-edit-btn">프로필 편집</button>
+                        </div>
+                        <div class="profile-page-stats">
+                            <div class="stat-item">게시물 <span class="count" id="my-post-count">12</span></div>
+                            <div class="stat-item">팔로워 <span class="count" id="my-follower-count">152</span></div>
+                            <div class="stat-item">팔로잉 <span class="count" id="my-following-count">88</span></div>
+                        </div>
+                        <!-- 이름 & 소개글 -->
+                        <div class="profile-page-bio">
+                            <h3 id="my-profile-name">사용자 이름</h3>
+                            <p id="my-profile-bio">별이 된 나의 작은 친구들을 기억하며, 따뜻한 위로를 나누고 싶어요.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-grid-container">
+                    <div class="grid-item"><img
+                            src="https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?q=80&w=400"
+                            alt="My Post 1"></div>
+                    <div class="grid-item"><img
+                            src="https://images.unsplash.com/photo-1560807707-8cc77767d783?q=80&w=400"
+                            alt="My Post 2"></div>
+                    <div class="grid-item"><img
+                            src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?q=80&w=400"
+                            alt="My Post 3"></div>
+                    <div class="grid-item"><img
+                            src="https://images.unsplash.com/photo-1548681528-6a5c45b66b42?q=80&w=400"
+                            alt="My Post 4"></div>
+                    <div class="grid-item"><img
+                            src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?q=80&w=400"
+                            alt="My Post 5"></div>
+                    <div class="grid-item"><img
+                            src="https://images.unsplash.com/photo-1588943211346-0908a1fb0b01?q=80&w=400"
+                            alt="My Post 6"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 프로필 수정 모달 -->
+        <div class="profile-edit-modal-overlay"></div>
+        <div id="profile-edit-modal" class="profile-edit-modal">
+            <div class="profile-edit-header">
+                <h3>프로필 편집</h3>
+                <button class="profile-edit-close">&times;</button>
+            </div>
+
+            <div class="profile-edit-body">
+                <label>이름</label>
+                <input type="text" id="edit-name" placeholder="이름 입력">
+
+                <label>프로필 사진</label>
+                <input type="file" id="edit-profile-image" accept="image/*">
+
+                <label>소개글</label>
+                <textarea id="edit-bio" maxlength="100" placeholder="나를 소개하는 글을 남겨보세요"></textarea>
+            </div>
+
+            <button id="profile-edit-save-btn" class="profile-edit-save-btn">저장하기</button>
+        </div>
+
+        <!-- 글쓰기 폼 컨테이너 -->
+        <div id="write-container" style="display: none;">
+            <div class="write-form-container">
+                <div class="view-header">
+                    <h2>내 추억 기록하기</h2>
+                    <button class="back-to-feed-btn" id="write-form-back-btn">피드로 돌아가기</button>
+                </div>
+                <form id="post-form" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>카테고리 선택</label>
+                        <select id="post-category" name="category" required>
+                            <option value="FUNERAL">장례</option>
+                            <option value="GOODS">굿즈</option>
+                            <option value="COUNSELING">상담</option>
+                            <option value="ETC">기타</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="content" name="content" rows="8" maxlength="50" placeholder="반려동물과의 소중한 이야기를 들려주세요...(사진 첨부 필수, 파일 크기 50MB이하)"></textarea>
+                        <div id="content-count" class="text-count">0 / 50</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="image" class="file-label">📸 사진 첨부하기</label>
+                        <input type="file" id="image" name="image" accept="image/*">
+                        <div id="file-name-display" style="margin-top:6px; color:#555; font-size:14px;"></div>
+                    </div>
+                    <button type="submit" class="submit-btn">작성 완료</button>
+                    <!-- 삭제 버튼 추가 (처음엔 숨김) -->
+                    <button type="button" id="delete-post-btn" class="delete-btn" style="display:none;">
+                        포스트 삭제
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 댓글 모달 -->
+        <div id="comment-modal" class="comment-modal">
+            <div class="comment-modal-overlay"></div>
+            <div class="comment-modal-content">
+                <div class="comment-modal-header">
+                    <h3>댓글</h3>
+                    <button type="button" class="comment-modal-close">&times;</button>
+                </div>
+
+                <div class="comment-list-wrapper">
+                    <p class="no-comment-message" style="display:none;">
+                        아직 댓글이 없어요! 첫 댓글을 남겨보세요!
+                    </p>
+                    <ul class="comment-list">
+                        <!-- JS로 채움 -->
+                    </ul>
+                </div>
+
+                <div class="comment-form-wrapper">
+            <textarea id="comment-input" maxlength="200"
+                      placeholder="댓글을 입력해주세요 (최대 200자)"></textarea>
+                    <button id="comment-submit-btn" type="button">댓글 등록</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- 8. 푸터 -->
+
+    <div id="footer-container"></div>
+
+<div th:replace="~{fragments/chatbot-fragment :: chatbot-launcher-area}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: advanced-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: simple-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: doc-panel}"></div>
+
+<!-- 9. 맨 위로 가기 버튼 -->
+<button id="scrollToTopBtn" title="맨 위로 가기">↑</button>
+
+<script th:inline="javascript">
+    window.isLogin = [[${session.loginUser != null}]];
+    window.currentUser = [[${session.loginUser != null ? session.loginUser.name : 'null'}]];
+</script>
+
+
+<script th:src="@{/js/community.js}"></script>
+<script th:src="@{/js/header.js}"></script>
+<script th:src="@{/js/footer.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script src="/js/chat-main-launcher.js" th:src="@{/js/chat-main-launcher.js}"></script>
+<script src="/js/doc-chat.js" th:src="@{/js/doc-chat.js}"></script>
+<script src="/js/simple-chat.js" th:src="@{/js/simple-chat.js}"></script>
+<script src="/js/tuned-chat.js" th:src="@{/js/tuned-chat.js}"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // 페이지 로드 시 애니메이션 초기화
+    AOS.init({
+        once: false, // 스크롤 할 때마다 반복 실행 여부
+        duration: 800,
+        easing: 'ease-out-cubic',
+        threshold: 0.1
+    });
+</script>
+
+</body>
+
+</html>
+

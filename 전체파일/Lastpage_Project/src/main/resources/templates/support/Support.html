@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/Support.css">
+    <link rel="stylesheet" href="/css/chatbot-global.css">
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <title>고객센터</title>
+</head>
+
+<body
+        th:data-userseq="${
+           session.loginUser != null ? session.loginUser.userSeq :
+           session.socialUser != null ? session.socialUser.userSeq :
+           ''
+      }"
+        th:data-adminmode="${isAdmin != null ? isAdmin : false}"
+        th:data-qnaid="${qnaId != null ? qnaId : ''}"
+>
+<div class="header-wrapper">
+    <div id="header-container"></div>
+</div>
+
+
+<!-- 탭 + QnA/FAQ -->
+<section class="banner" role="img" aria-label="고객센터 배너" style="background-image: url('/Asset/장례지도이미지1.jpg');">
+    <div class="inner" data-aos="fade-up" data-aos-duration="2000" data-aos-easing="ease-out-cubic">
+        <h1>고객센터</h1>
+        <p>소중한 가족과의 마지막 페이지를 함께 채워드립니다.</p>
+    </div>
+
+    <div class="scroll-indicator">
+        <div class="scroll-icon">
+            <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="m6 9 6 6 6-6"/>
+            </svg>
+            <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="m6 9 6 6 6-6"/>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<main class="wrap">
+    <!-- 배너 -->
+
+
+    <div class="tabbar" role="tablist" aria-label="콘텐츠 전환">
+        <button class="tab active" id="tab-faq" role="tab" aria-selected="true">FAQ</button>
+        <button class="tab" id="tab-qna" role="tab" aria-selected="false">QnA</button>
+        <button class="btn ask-btn" id="btnAsk">질문하기</button>
+    </div>
+
+    <!-- FAQ SECTION -->
+    <section id="faqSection" aria-labelledby="faqTitle">
+        <h2 id="faqTitle" class="sr-only" style="position:absolute;left:-9999px">자주하는 질문</h2>
+        <div id="faqList" class="faq-list"></div>
+        <div class="pager" id="faqPager"></div>
+    </section>
+
+    <!-- QnA SECTION -->
+    <section id="qnaSection" hidden aria-labelledby="qnaTitle">
+        <h2 id="qnaTitle" class="sr-only" style="position:absolute;left:-9999px">QnA</h2>
+
+        <div class="quickbar">
+            <div class="chips">
+                <span class="tag">전체</span>
+                <select id="qnaFilter" title="분류 필터">
+                    <option value="ALL">전체</option>
+                    <option>장례서비스</option>
+                    <option>심리상담서비스</option>
+                    <option>굿즈서비스</option>
+                    <option>커뮤니티서비스</option>
+                    <option>추모공간서비스</option>
+                </select>
+            </div>
+            <div class="chips">
+                <input id="qnaSearch" placeholder="제목/내용 검색" style="max-width:260px">
+                <button class="btn-ghost" id="btnQnaRefresh">새로고침</button>
+            </div>
+        </div>
+
+        <!-- QnA 목록 -->
+        <div id="qnaList" class="qna-list"></div>
+
+        <!-- ★ QnA 상세 표시 영역 -->
+        <div id="qnaDetailContainer"></div>
+
+    </section>
+</main>
+
+<!-- 질문 작성 모달 -->
+<div class="modal" id="askModal" aria-hidden="true" aria-label="질문 작성">
+    <div class="sheet">
+        <div class="sheet-head">
+            <strong>질문하기</strong>
+            <div class="toolbar">
+                <button class="btn-ghost" id="btnCloseAsk">닫기</button>
+            </div>
+        </div>
+
+        <div class="sheet-body">
+            <form id="askForm" class="grid">
+
+                <div class="row">
+                    <label for="title">제목 <span class="hint">(필수)</span></label>
+                    <input id="title" required maxlength="100" placeholder="예) 개별 화장 진행 절차가 궁금합니다" />
+                </div>
+
+                <div class="row field-inline">
+                    <div style="flex:1">
+                        <label for="category">분류</label>
+                        <select id="category" required>
+                            <option value="장례서비스">장례서비스</option>
+                            <option value="심리상담서비스">심리상담서비스</option>
+                            <option value="굿즈서비스">굿즈서비스</option>
+                            <option value="커뮤니티서비스">커뮤니티서비스</option>
+                            <option value="추모공간서비스">추모공간서비스</option>
+                        </select>
+                    </div>
+
+                    <div style="flex:1">
+                        <label for="nickname">작성자 (닉네임)</label>
+                        <input id="nickname" placeholder="예) 해피엄마" />
+                    </div>
+
+                    <div style="flex:1">
+                        <label for="writerPass">수정/삭제 비밀번호 <span class="hint">(필수, 4~12자)</span></label>
+                        <input id="writerPass" type="password" minlength="4" maxlength="12" required />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label for="content">내용</label>
+                    <textarea id="content" required placeholder="자세한 상황이나 궁금한 점을 적어주세요."></textarea>
+                </div>
+
+                <div class="row">
+                    <label>사진 첨부 <span class="hint">(최대 3장, 장당 2MB 이하)</span></label>
+                    <input id="photos" type="file" accept="image/*" multiple />
+                    <div id="previews" class="files"></div>
+                </div>
+
+                <div class="row">
+                    <label>링크 첨부</label>
+                    <div id="linkBox" class="grid"></div>
+                    <div class="toolbar">
+                        <button type="button" class="btn-ghost" id="btnAddLink">링크 추가</button>
+                    </div>
+                </div>
+
+                <div class="row field-inline">
+                    <label class="field-inline">
+                        <input type="checkbox" id="secret"> 비공개로 등록
+                    </label>
+                </div>
+
+                <div class="row field-inline" style="justify-content:flex-end">
+                    <button class="btn btn-outline" type="reset">초기화</button>
+                    <button class="btn" type="submit" id="btnSubmit">등록하기</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="footer-container"></div>
+<div th:replace="~{fragments/chatbot-fragment :: chatbot-launcher-area}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: advanced-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: simple-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: doc-panel}"></div>
+<button id="scrollToTopBtn" title="맨 위로 가기">↑</button>
+
+<script src="/js/support.js"></script>
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/chat-main-launcher.js"></script>
+<script src="/js/doc-chat.js"></script>
+<script src="/js/simple-chat.js"></script>
+<script src="/js/tuned-chat.js"></script>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script>
+    // 페이지 로드 시 애니메이션 초기화
+    AOS.init({
+        once: false, // 스크롤 할 때마다 반복 실행 여부
+        duration: 800,
+        easing: 'ease-out-cubic',
+        threshold: 0.1
+    });
+</script>
+</main>
+</body>
+</html>
+
+
+

@@ -1,0 +1,82 @@
+#########################################
+# 🔥 Gradle / Build / JDK
+#########################################
+.gradle/
+build/
+out/
+target/
+
+!gradle/wrapper/gradle-wrapper.jar
+
+#########################################
+# 🔥 IntelliJ IDEA (전부 무시)
+#########################################
+.idea/
+*.iml
+*.ipr
+*.iws
+
+#########################################
+# 🔥 Eclipse
+#########################################
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.sts4-cache
+bin/
+
+#########################################
+# 🔥 NetBeans
+#########################################
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+#########################################
+# 🔥 VS Code
+#########################################
+.vscode/
+
+#########################################
+# 🔥 Mac OS
+#########################################
+.DS_Store
+
+#########################################
+# 🔥 Local Config / Environment Keys (API KEY, SECRET)
+#########################################
+
+*.json
+*.p12
+*.pem
+*.key
+
+# Google / Firebase
+service-account.json
+firebase-adminsdk-*.json
+google-credentials.json
+google-oauth-client-secret.json
+
+#########################################
+# 🔥 Spring Properties / Config
+#########################################
+application-*.yml
+application-*.yaml
+application-*.properties
+
+# config 폴더 내 설정 제외
+**/config/*.yml
+**/config/*.yaml
+**/config/*.properties
+
+#########################################
+# 🔥 기타
+#########################################
+.kotlin/
+
+# 소스코드 제외 지정
+

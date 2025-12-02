@@ -1,0 +1,783 @@
+@view-transition {
+    navigation: auto;
+}
+
+html {
+  overflow-y: scroll; /* 페이지 이동 시 헤더 덜컹거림 방지 */
+  background-color: #f5f0e5;
+  height: 100%;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  position: relative;
+  margin: 0;
+  background-color: #f5f0e5;
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ================================================== */
+/* [헤더] 디자인 */
+/* ================================================== */
+
+.header-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 100px; /* 헤더 높이만큼 여백 */
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: #2C3930;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: top 0.3s ease;
+  z-index: 1000;
+
+  /* [요청] 헤더 전체 폰트 Georgia 적용 */
+  font-family: 'Georgia', serif !important;
+
+  /* 프레임워크 간섭 방지 */
+  box-shadow: none !important;
+  border: none !important;
+  padding-right: 0 !important;
+}
+
+/* 로고 */
+.logo img {
+  margin-left: 40px;
+  width: 60px;
+  height: 60px;
+  display: block;
+  object-fit: contain;
+}
+
+/* 네비게이션 */
+nav {
+  margin: 0 auto;
+  margin-bottom: 0 !important;
+}
+
+nav ul {
+  list-style: none !important;
+  display: flex;
+  gap: 50px;
+  margin: 0 !important;
+  padding: 0 !important;
+  align-items: center;
+}
+
+nav ul li {
+  position: relative;
+  cursor: pointer;
+  line-height: normal !important;
+}
+
+nav ul li > a {
+  color: #dcd7c9;
+  text-decoration: none !important;
+  padding: 8px;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 400;
+  background: transparent !important;
+}
+
+a:hover {
+  color: #fff !important;
+}
+
+/* ================================================== */
+/* [드롭다운 메뉴] */
+/* ================================================== */
+
+nav ul li > ul {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  /* 컨테이너 배경색 */
+  background-color: #2C3930 !important;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  list-style: none !important;
+  padding: 10px 0 !important;
+  min-width: 130px;
+  z-index: 10000;
+  text-align: center;
+  border-radius: 0 0 8px 8px;
+  flex-direction: column !important;
+  gap: 0 !important;
+  overflow: hidden;
+}
+
+nav ul li:hover > ul {
+  display: flex !important;
+}
+
+nav ul li > ul li {
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block;
+}
+
+nav ul li > ul li > a {
+  display: block !important;
+  width: 100%;
+  text-align: center;
+  padding: 12px 0 !important;
+  font-size: 14px;
+  color: #dcd7c9;
+  text-decoration: none !important;
+  background-color: #2C3930 !important;
+}
+
+nav ul li > ul li > a:hover {
+  color: #ffffff;
+  background-color: #3a4b40 !important; /* 호버 시 살짝 밝게 */
+}
+
+/* ================================================== */
+/* [로그인/회원가입] 중복 해결 (데스크탑용) */
+/* ================================================== */
+.auth {
+  margin-right: 20px;
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.auth a {
+  color: #dcd7c9;
+  text-decoration: none !important;
+  padding: 10px 15px;
+  font-size: 14px;
+}
+
+.auth a:hover {
+  color: #fff;
+}
+
+.admin-highlight {
+  color: #d7263d !important;
+  font-weight: 500 !important;
+  background: #ffffff !important;
+  border-radius: 6px !important;
+  padding: 10px 10px 10px 10px !important;
+  transition: 0.3s ease !important;
+}
+
+.admin-highlight:hover {
+  background: #d7263d !important;
+  color: white !important;
+}
+
+/* ================================================== */
+/* [모바일 요소 숨김] - 여기가 중요합니다 */
+/* ================================================== */
+
+/* 데스크탑에서는 모바일용 요소들을 무조건 숨김 */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  z-index: 2050;
+  margin-left: 20px;
+  position: absolute;
+  left: 20px;
+  top: 48%;
+  transform: translateY(-50%);
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: #dcd7c9;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+/* [수정] 모바일 아이콘은 기본적으로 숨김 (중복 방지) */
+.auth-mobile {
+  display: none;
+}
+
+.auth-mobile-menu {
+  display: none;
+}
+
+/* ================================================== */
+/* 사이드 메뉴 (모바일 슬라이드) */
+/* ================================================== */
+.side-menu {
+  position: fixed;
+  top: 100px;
+  left: -260px;
+  width: 260px;
+  height: calc(100vh - 100px);
+  background: #2C3930;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transition: 0.3s ease-in-out;
+  z-index: 999;
+}
+
+.side-menu.active {
+  left: 0;
+}
+
+.side-menu ul {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.side-menu ul li a {
+  border-bottom: 0.5px solid #dcd7c9;
+  color: #dcd7c9;
+  text-decoration: none;
+  padding: 10px 0;
+  display: block;
+}
+
+.side-menu ul li ul {
+  display: none;
+  background: #3f4f44;
+}
+
+.side-menu ul li:hover ul {
+  display: block;
+}
+
+/* ================================================== */
+/* [반응형] 968px 이하일 때만 모바일 요소 표시 */
+/* ================================================== */
+@media (max-width: 968px) {
+  header {
+    justify-content: center;
+  }
+
+  .logo img {
+    margin-left: 0;
+  }
+
+  /* 데스크탑용 nav와 auth는 숨김 */
+  nav, .auth {
+    display: none !important;
+  }
+
+  /* 모바일용 햄버거와 auth 아이콘 표시 */
+  .hamburger {
+    display: flex;
+  }
+
+  /* [수정] 여기서만 모바일 아이콘 표시 */
+  .auth-mobile {
+    display: flex;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 2000;
+  }
+
+  .auth-mobile svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .auth-mobile-menu {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 90px;
+    background: #2C3930;
+    padding: 12px 16px;
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 2100;
+  }
+
+  .auth-mobile-menu a {
+    color: #dcd7c9;
+    text-decoration: none;
+  }
+
+  .auth-mobile-menu a:hover {
+    color: #ffffff;
+  }
+
+  .auth-mobile-menu.open {
+    display: flex;
+  }
+}
+
+/* 사이드 배너 */
+#list-example {
+  position: fixed;
+  top: 40%;
+  right: 20px;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 120px;
+  background-color: #2C3930;
+  text-align: center;
+}
+
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: .5rem 1rem;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, .125);
+}
+
+.list-group-item.active {
+  z-index: 2;
+  color: #fff;
+  background-color: #2C3930;
+  border-color: #2C3930;
+}
+
+.list-group-item-action:focus,
+.list-group-item-action:hover {
+  z-index: 2;
+  color: #fff;
+  background-color: #2C3930;
+  border-color: #2C3930;
+}
+
+/* ================================================== */
+/* 푸터 (Footer) */
+/* ================================================== */
+footer {
+  width: 100%;
+  background-color: #2C3930;
+  padding: 40px 20px;
+  color: #dcd7c9;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+.footer-logo img {
+  width: 100px;
+  height: auto;
+  opacity: 0.95;
+  transition: 0.2s;
+}
+
+.footer-logo img:hover {
+  opacity: 1;
+}
+
+.footer-links {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+.footer-links a {
+  color: #dcd7c9;
+  text-decoration: none;
+  padding: 0 5px;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+}
+
+.footer-company-info {
+  margin-top: 15px;
+  text-align: center;
+  line-height: 1.7;
+  opacity: 0.9;
+}
+
+.footer-company-info a, .footer-contact a {
+  color: #dcd7c9;
+  text-decoration: none;
+}
+
+.footer-company-info a:hover, .footer-contact a:hover {
+  color: #ffffff;
+}
+
+.footer-info {
+  text-align: center;
+  margin-top: 20px;
+  opacity: 0.8;
+  font-size: 13px;
+}
+
+.footer-login-status {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: gray;
+}
+
+/* 개발자 소개 모달 */
+.dev-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  z-index: 3000;
+}
+
+.dev-modal.open {
+  display: grid;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.dev-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+}
+
+.dev-card {
+  position: relative;
+  background: #ffffff;
+  width: min(700px, 90%);
+  border-radius: 18px;
+  padding: 32px;
+  z-index: 11;
+  animation: slideUp 0.35s ease forwards;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.18);
+}
+
+.dev-close-btn {
+  position: absolute;
+  right: 20px;
+  top: 16px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: #2C3930;
+}
+
+.dev-content {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: nowrap;
+}
+
+.dev-photo img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid #e0ddd8;
+}
+
+.dev-info {
+  flex: 1;
+  min-width: 250px;
+}
+
+.dev-name {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  color: #2C3930;
+}
+
+.dev-role {
+  color: #6c7a72;
+  margin-top: 4px;
+  font-size: 15px;
+}
+
+.dev-desc {
+  margin-top: 16px;
+  line-height: 1.6;
+  color: #4b5651;
+  font-size: 15px;
+}
+
+.dev-links a {
+  display: inline-block;
+  margin-right: 10px;
+  margin-top: 18px;
+  padding: 9px 14px;
+  background: #2C3930;
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dev-links a:hover {
+  background: #4b5b54;
+}
+
+@media (max-width: 968px) {
+  .dev-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .dev-links {
+    text-align: center;
+  }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(40px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* 기타 유틸 */
+#kakao-talk-channel-chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+#scrollToTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 999;
+}
+
+#scrollToTopBtn:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+
+/* ================================================== */
+/* [공통 배너 스타일] f_service 기준 통일 */
+/* ================================================== */
+
+/* 1. 배너 컨테이너 (배경 이미지 및 위치 잡기) */
+.banner,
+.banner_yj, /* Goods, Community 등의 기존 클래스 호환 */
+.hello_yj   /* Mypage 기존 클래스 호환 */
+{
+  position: relative;
+  width: 100%;
+  min-height: 92svh !important; /* 장례서비스와 동일하게 풀스크린 높이 */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  overflow: hidden;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 2. 배경 오버레이 (글씨 가독성을 위한 어두운 막) */
+.banner::after,
+.banner_yj::after,
+.banner-overlay_yj::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* 장례서비스와 동일한 오버레이 색상/투명도 (필요시 조정 가능) */
+  background: linear-gradient(rgba(43, 38, 35, 0.4), rgba(43, 38, 35, 0.8));
+  z-index: 1;
+}
+
+/* 3. 텍스트 컨테이너 (가운데 정렬 및 애니메이션 대상) */
+.banner .inner,
+.banner-text_yj {
+  position: relative;
+  z-index: 2; /* 오버레이보다 위에 위치 */
+  max-width: 1200px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 4. 배너 제목 (H1) - 장례서비스 폰트/크기 적용 */
+.banner h1,
+.banner-title,
+.full-background .page-title-area h1,
+.overlay_yj .page-title-area h1,
+.banner_yj .banner-text_yj h1 {
+  font-family: 'Georgia', serif !important;
+  font-size: 3rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin: 0 0 25px 0 !important;
+  line-height: 1.3 !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* 가독성 강화 */
+}
+
+/* 5. 배너 설명 (P) - 장례서비스 스타일 적용 */
+.banner p,
+.banner-desc,
+.full-background .page-title-area p,
+.overlay_yj .page-title-area p {
+  font-family: 'Georgia', sans-serif !important;
+  /*font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;*/
+  font-size: 1.1rem !important; /* f_service 기준 */
+  color: rgba(255, 255, 255, 0.95) !important;
+  margin: 0 !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/*==========*/
+
+/* 공통 스크롤 다운 인디케이터 스타일 (common.css) */
+  .scroll-indicator {
+      --indicator-color: #f5f5f5;
+      position: absolute;
+      bottom: 80px !important;
+      left: 50% !important;
+      transform: translateX(-50%);
+      color: var(--indicator-color);
+      text-align: center;
+      cursor: pointer;
+      z-index: 10;
+      opacity: 0.9;
+      transition: opacity 0.3s;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      font-size: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      cursor: default;
+  }
+
+  .scroll-icon {
+      display: block;
+      width: 70px;
+      height: 70px;
+      position: relative;
+      margin-bottom: 0px;
+  }
+
+  .chevron {
+      position: absolute;
+      width: 55px;
+      height: 18px;
+      opacity: 0;
+      transform: scale(0.3);
+      animation: move-chevron 3s infinite;
+
+      stroke: currentColor;
+      fill: none;
+      transform-origin: center;
+  }
+
+  .chevron:nth-child(2) {
+      animation-delay: 0.4s;
+  }
+
+  /* 애니메이션 키프레임 */
+  @keyframes move-chevron {
+      0%   { opacity: 0; transform: translateY(-25px) scale(0.3); }
+      30%  { opacity: 1; transform: translateY(0) scale(1); }
+      70%  { opacity: 0; transform: translateY(25px) scale(1); }
+      100% { opacity: 0; transform: translateY(-25px) scale(0.3); }
+  }
+
+  /* ---------------------------------------------------- */
+  /*  수정 구간: .banner 내부에서 중앙 정렬 재설정 */
+  .banner .scroll-indicator {
+      /* left: 50vw !important;  */
+      left: 50% !important; /* left를 50%로 고정 */
+      transform: translateX(-50%) !important;
+      bottom: 10vh !important;
+
+      cursor: default;
+  }
+  /* ---------------------------------------------------- */
+
+  .scroll-indicator .scroll-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+  }
+
+  .scroll-indicator .scroll-icon .chevron {
+      margin: 0 !important;
+      padding: 0 !important;
+
+      width: 48px !important;
+      height: 48px !important;
+  }
+
+  .banner .scroll-indicator .chevron path {
+      /* 선의 굵기 조절 (숫자가 클수록 굵어집니다) */
+      stroke-width: 1.5px;
+      stroke-linecap: round;
+      fill: none;
+  }

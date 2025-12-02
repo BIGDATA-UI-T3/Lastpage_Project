@@ -1,0 +1,120 @@
+plugins {
+    id 'java'
+    // Spring Boot 버전을 최신 안정화 버전인 3.3.x (또는 그 이상)으로 수정합니다.
+    id 'org.springframework.boot' version '3.3.0'
+
+    // 종속성 관리 플러그인 버전도 최신 안정화 버전으로 수정합니다.
+    id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'Demo project for Spring Boot'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+//	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:11.0.10'
+
+
+    //JSTL
+    implementation 'jakarta.servlet:jakarta.servlet-api' //스프링부트 3.0 이상
+  //  implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' //스프링부트 3.0 이상
+ //   implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
+    // https://mvnrepository.com/artifact/jakarta.el/jakarta.el-api
+    implementation 'jakarta.el:jakarta.el-api:6.0.1' //JSP EL PARSE
+
+    //Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //DB Connection
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    runtimeOnly 'com.mysql:mysql-connector-j:8.3.0'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2
+    implementation 'org.apache.commons:commons-dbcp2:2.13.0'
+
+    //JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //Mybatis
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.5'
+
+    //Thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    //Jakarta
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    //Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // ----------------------------
+// springdoc-openapi-starter-webmvc-ui: Swagger UI 및 OpenAPI 문서 자동화
+// ----------------------------
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+    //--------------------------------------------------
+// AI CLIENT
+//--------------------------------------------------
+// ----------------------------
+// spring-ai-ollama-spring-boot-starter: Spring AI Ollama 통합 지원
+// ----------------------------
+    implementation 'org.springframework.ai:spring-ai-ollama-spring-boot-starter:1.0.0-M4'
+    // ----------------------------
+// apache commons-text: 텍스트 처리 유틸리티
+// ----------------------------
+    implementation 'org.apache.commons:commons-text:1.11.0'
+// ----------------------------
+// swagger-parser: OpenAPI 스펙 파싱
+// ----------------------------
+    implementation 'io.swagger.parser.v3:swagger-parser-v3:2.1.23'
+// ----------------------------
+// jaxb-runtime: XML 바인딩 런타임
+// ----------------------------
+    implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.5'
+// ----------------------------
+// jaxb-api: XML 바인딩 API
+// ----------------------------
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
+    
+
+
+
+
+}
+
+bootJar {
+    enabled = true
+}
+//jar {
+//    enabled = false
+//}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

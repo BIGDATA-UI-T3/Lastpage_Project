@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div class="chat-launcher-container" th:fragment="chatbot-launcher-area">
+
+    <button class="chat-launcher chat-launcher-main" id="mainChatLauncher" type="button" aria-label="챗봇 메뉴 열기">
+        AI
+    </button>
+
+    <div class="chat-selection-panel" id="chatSelectionPanel">
+        <button class="chat-selection-item" id="chatLauncher">관리자 챗봇</button>
+        <button class="chat-selection-item" id="simpleChatLauncher">단순 챗봇</button>
+        <button class="chat-selection-item" id="docChatLauncher">API 문서 조회</button>
+    </div>
+</div>
+
+<div class="chat-panel" id="chatPanel" th:fragment="advanced-panel">
+    <div class="chat-header" style="background: #2C3930;">
+        <div class="chat-header-title">AI 챗봇(API)</div>
+        <button class="chat-close" id="chatClose" aria-label="대화창 닫기">&times;</button>
+    </div>
+    <div class="chat-quick-select" id="chatQuickSelect"></div>
+    <div class="chat-body">
+        <div class="chat-message bot">
+            <span class="bot-badge">AI 상담</span>
+            안녕하세요! 고급 AI 챗봇입니다. API 관련 문의를 도와드립니다. 예: "회원 관리 API"
+        </div>
+    </div>
+    <div class="chat-suggestions" id="chatSuggestions"></div>
+    <div class="chat-input-area">
+        <input class="chat-input" type="text" placeholder="메시지를 입력하세요">
+        <button class="chat-send" type="button">전송</button>
+    </div>
+</div>
+
+<div class="chat-panel" id="simpleChatPanel" th:fragment="simple-panel">
+    <div class="chat-header" style="background: #2C3930;">
+        <div class="chat-header-title">AI 챗봇 </div>
+        <button class="chat-close" id="simpleChatClose" aria-label="대화창 닫기">&times;</button>
+    </div>
+    <div class="chat-body">
+        <div class="chat-message bot">
+            <span class="bot-badge">AI 상담</span>
+            안녕하세요! 단순 AI 챗봇입니다. 무엇이든 물어보세요! 😊
+        </div>
+    </div>
+    <div class="chat-input-area">
+        <input class="chat-input" id="simpleChatInput" type="text" placeholder="메시지를 입력하세요">
+        <button class="chat-send" id="simpleChatSend" type="button">전송</button>
+    </div>
+</div>
+
+<div class="chat-panel" id="docChatPanel" th:fragment="doc-panel">
+    <div class="chat-header" style="background: #2C3930;">
+        <div class="chat-header-title">API 문서 조회</div>
+        <button class="chat-close" id="docChatClose" aria-label="대화창 닫기">&times;</button>
+    </div>
+    <div class="chat-quick-select" id="docSummaryBar">
+        <select id="docSummarySelect" aria-label="Swagger Summary 선택">
+            <option value="">요약 항목을 불러오는 중...</option>
+        </select>
+    </div>
+    <div class="chat-body" id="docChatBody">
+        <div class="chat-message bot">
+            <span class="bot-badge">AI 상담</span>
+            OpenAPI 문서를 불러옵니다. 잠시만 기다려주세요...
+        </div>
+    </div>
+    <div class="chat-suggestions" id="docChatSuggestions"></div>
+    <div class="chat-input-area">
+        <input class="chat-input" id="docChatInput" type="text" placeholder="예: paths, tags, servers">
+        <button class="chat-send" id="docChatSend" type="button">조회</button>
+    </div>
+</div>
+</body>
+</html>

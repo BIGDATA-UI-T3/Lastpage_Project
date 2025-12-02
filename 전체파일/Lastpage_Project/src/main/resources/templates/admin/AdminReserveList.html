@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>예약 관리</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/adminDashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/adminReserveList.css}">
+    <link rel="stylesheet" th:href="@{/css/chatbot-global.css}">
+    <style>
+    </style>
+
+</head>
+
+<body>
+<div class="header-wrapper">
+    <div id="header-container"></div>
+</div>
+
+<div class="admin-header">관리자 페이지 - 예약 관리</div>
+
+<div class="admin-layout">
+
+    <!-- 사이드바 -->
+    <div class="sidebar">
+        <a href="/admin/dashboard"> 대시보드</a>
+        <a href="/admin/users"> 회원 관리</a>
+        <a href="/admin/reserves"> 예약 관리</a>
+        <a href="/admin/qna"> QnA 관리</a>
+    </div>
+
+    <!-- 메인 -->
+    <div class="main-content">
+
+        <h2 class="admin-title">예약 관리</h2>
+
+        <!-- 장례 예약 -->
+        <div class="reserve-type-title">장례 예약</div>
+        <table class="reserve-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>예약자</th>
+                <th>펫 이름</th>
+                <th>장례 날짜</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="f : ${funeralList}">
+                <td th:text="${f.id}"></td>
+                <td th:text="${f.ownerName}"></td>
+                <td th:text="${f.petName}"></td>
+                <td th:text="${f.funeralDate}"></td>
+                <td class="action-buttons">
+
+                    <!-- 관리자: 예약 수정 (GET 이동) -->
+                    <a th:href="@{|/reserve/admin/reserve/funeral_reserve?id=${f.id}&targetUserSeq=${f.userSeq}|}"
+                       class="btn-edit">수정
+                    </a>
+                </td>
+
+                <td class="action-buttons">
+                    <!-- 관리자: 예약 삭제 (fetch 요청) -->
+                    <a href="#"
+                       class="btn-delete admin-delete-funeral"
+                       th:attr="data-id=${f.id}">삭제
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 굿즈 예약 -->
+        <div class="reserve-type-title">굿즈 예약</div>
+        <table class="reserve-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>예약자</th>
+                <th>펫 이름</th>
+                <th>상품명</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="g : ${goodsList}">
+                <td th:text="${g.id}"></td>
+                <td th:text="${g.ownerName}"></td>
+                <td th:text="${g.petName}"></td>
+                <td th:text="${g.product}"></td>
+                <td class="action-buttons">
+                    <a th:href="@{|/reserve/admin/reserve/goods_reserve?id=${g.id}&targetUserSeq=${g.userSeq}|}"
+                       class="btn-edit">수정</a>
+                </td>
+
+                <td class="action-buttons">
+                    <a href="#"
+                       class="btn-delete admin-delete-goods"
+                       th:attr="data-id=${g.id}">삭제
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 심리상담 예약 -->
+        <div class="reserve-type-title">심리상담 예약</div>
+        <table class="reserve-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>예약자</th>
+                <th>상담사</th>
+                <th>날짜</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${psyList}">
+                <td th:text="${p.id}"></td>
+                <td th:text="${p.name}"></td>
+                <td th:text="${p.counselor}"></td>
+                <td th:text="${p.consultDate}"></td>
+                <td class="action-buttons">
+                    <a th:href="@{|/reserve/admin/reserve/psy_reserve?id=${p.id}&targetUserSeq=${p.userSeq}|}"
+                       class="btn-edit">수정</a>
+                </td>
+                <td class="action-buttons">
+                    <a href="#"
+                       class="btn-delete admin-delete-psy"
+                       th:attr="data-id=${p.id}">삭제
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<div id="footer-container"></div>
+<div th:replace="~{fragments/chatbot-fragment :: chatbot-launcher-area}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: advanced-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: simple-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: doc-panel}"></div>
+<script src ="/js/adminReserveList.js"></script>
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
+<script src="/js/chat-main-launcher.js" th:src="@{/js/chat-main-launcher.js}"></script>
+<script src="/js/doc-chat.js" th:src="@{/js/doc-chat.js}"></script>
+<script src="/js/simple-chat.js" th:src="@{/js/simple-chat.js}"></script>
+<script src="/js/tuned-chat.js" th:src="@{/js/tuned-chat.js}"></script>
+</body>
+</html>

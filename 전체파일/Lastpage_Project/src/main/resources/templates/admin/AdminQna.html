@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QnA 관리</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/adminQna.css}">
+    <link rel="stylesheet" th:href="@{/css/adminDashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/chatbot-global.css}">
+</head>
+
+<body>
+<div class="header-wrapper">
+    <div id="header-container"></div>
+</div>
+
+<div class="admin-header">
+    관리자 페이지 - QnA 관리
+</div>
+
+<div class="admin-layout">
+
+    <!-- 사이드바 -->
+    <div class="sidebar">
+        <a href="/admin/dashboard"> 대시보드</a>
+        <a href="/admin/users"> 회원 관리</a>
+        <a href="/admin/reserves"> 예약 관리</a>
+        <a href="/admin/qna"> QnA 관리</a>
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="main-content">
+        <h2 style="margin-bottom: 20px;">전체 문의 목록</h2>
+
+        <!-- 요약 카드 -->
+        <div class="summary-row">
+            <div class="summary-card">
+                <div class="summary-title">전체 문의</div>
+                <div class="summary-number" th:text="${#lists.size(qnaList)}">0</div>
+                <div class="summary-sub">등록된 전체 QnA 개수</div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-title">미답변</div>
+                <div class="summary-number"
+                     th:text="${qnaList.?[adminAnswer == null or adminAnswer.isEmpty()]?.size()}">0</div>
+                <div class="summary-sub">관리자가 아직 답변하지 않은 문의</div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-title">답변완료</div>
+                <div class="summary-number"
+                     th:text="${qnaList.?[adminAnswer != null and !adminAnswer.isEmpty()]?.size()}">0</div>
+                <div class="summary-sub">답변이 등록된 문의</div>
+            </div>
+        </div>
+
+        <!-- QnA 테이블 -->
+        <table>
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>카테고리</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>등록일</th>
+                <th>상태</th>
+                <th>답변</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+
+            <!--  JS가 목록을 렌더링할 tbody (유일한 tbody) -->
+            <tbody id="qnaTableBody"></tbody>
+
+            <!-- ★★★ 데이터 없음 표시 영역 (tbody 밖이지만 테이블 안쪽에 존재) -->
+            <tbody>
+            <tr id="noResult" style="display:none;">
+                <td colspan="9" class="empty-row">
+                    등록된 문의가 없습니다.
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+<div id="footer-container"></div>
+<div th:replace="~{fragments/chatbot-fragment :: chatbot-launcher-area}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: advanced-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: simple-panel}"></div>
+<div th:replace="~{fragments/chatbot-fragment :: doc-panel}"></div>
+<script src="/js/adminQna.js"></script>
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
+<script src="/js/chat-main-launcher.js" th:src="@{/js/chat-main-launcher.js}"></script>
+<script src="/js/doc-chat.js" th:src="@{/js/doc-chat.js}"></script>
+<script src="/js/simple-chat.js" th:src="@{/js/simple-chat.js}"></script>
+<script src="/js/tuned-chat.js" th:src="@{/js/tuned-chat.js}"></script>
+
+</body>
+</html>

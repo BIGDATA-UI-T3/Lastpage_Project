@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: lastpage-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}    # .env 파일에서 불러옴
+      MYSQL_DATABASE: lastpage       # DB 이름
+    ports:
+      - "3307:3306"                    # 로컬에서 DB 접속용
+    volumes:
+      - db_data:/var/lib/mysql
+    command: [
+      "--character-set-server=utf8mb4",
+      "--collation-server=utf8mb4_unicode_ci"
+    ]
+    healthcheck:
+      # 비밀번호를 추가하여 헬스 체크가 통과되도록 수정합니다.
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
+      interval: 3s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: lastpage-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lastpage-app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    ports:
+      - "8090:8090"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://lastpage-mysql:3306/lastpage?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345678 # .env 파일에서 불러옴
+      SPRING_DATA_REDIS_HOST: lastpage-redis
+      SPRING_DATA_REDIS_PORT: 6379
+
+volumes:
+  db_data:
+  redis_data:
